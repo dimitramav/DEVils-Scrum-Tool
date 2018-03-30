@@ -4,7 +4,7 @@
 
 ### Functional Requirements
 
-| User Story Title | User Story Description | User Type | Story Specifications | Priority | 
+#f03c15 | User Story Title | User Story Description | User Type | Story Specifications | Priority | 
 | -----------------|------------------------|-----------|----------------------|----------|
 | Monday           |                        |           |                      |          |
 
