@@ -2,7 +2,7 @@
 
 ## Users
 
-..* aaaa 
+.* aaaa 
 
 ## Project Backlog
 
