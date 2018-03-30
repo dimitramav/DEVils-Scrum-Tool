@@ -1,14 +1,14 @@
 # DEVils-Scrum-Tool
 
-#Project Backlog
+## Project Backlog
 
-##Functional Requirements
+### Functional Requirements
 
 | User Story Title | User Story Description | User Type | Story Specifications | Priority | 
 | -----------------|------------------------|-----------|----------------------|----------|
 | Monday           |                        |           |                      |          |
 
-##Non-Functional Requirements
+### Non-Functional Requirements
 
 | User Story Title | User Story Description | User Type | Story Specifications | Priority | 
 | -----------------|------------------------|-----------|----------------------|----------|
