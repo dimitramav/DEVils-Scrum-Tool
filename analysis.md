@@ -4,7 +4,7 @@
 
 1. Product Owner
 2. Scrum master
-⋅⋅* Developer
+- Developer
 4. Customer
 
 There is also one administrator selected 
