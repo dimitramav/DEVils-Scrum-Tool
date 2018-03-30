@@ -2,13 +2,10 @@
 
 ## Users
 
-1. Product Owner
-2. Scrum master
+- Product Owner/Customer
+- Scrum master
 - Developer
-4. Customer
-
-There is also one administrator selected 
-
+- Administrator
 
 ## Project Backlog
 
