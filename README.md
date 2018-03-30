@@ -1,1 +1,0 @@
-# DEVils-Scrum-Tool
