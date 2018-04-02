@@ -35,6 +35,8 @@
 | 18 | Create a backlog                                         | Product owner can create a backlog                                                           | Product Owner / Customer                        |                                                                                                                                                                                                                                   | High     |                             |
 | 19 | Transfer user stories from Backlog to the current Sprint | Product owner should be able to transfer user stories from backlog when creates a new sprint | Product Owner / Customer                        | A dropdown list that displays the backlog's user stories. If a user selects one or several adds them to the new sprint page.                                                                                                      | High     |                             |
 | 20 | Analyze user stories to tasks                            | Team members can break a user story into several tasks                                       | All users                                       | If a user clicks on a user story on the sprint's to-do list can add a new list with the several tasks that need to be done to complete the user story.                                                                            | High     |                             |                                                                                                         
+=======
+
 ### Non-Functional Requirements
 
 | User Story Title | User Story Description | User Type | Story Specifications | Priority | 
