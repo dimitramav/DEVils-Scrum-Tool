@@ -6,9 +6,6 @@
 - Scrum master
 - Developer
 - Administrator
-- Not defined user
-
-
 
 ## Project Backlog
 
