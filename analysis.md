@@ -36,3 +36,7 @@
 | 22 | Add issues on a task                                     | Developer               | Developer links an issue to a task                                                                                        | If a task has a specific issue, a developer can add it by clicking an edit button. It is displayed with a tooltip on the involved task.                                                                                                                                                                                                                                                                                                                                                                                                                                       | Medium   |
                                                                                                     
 ### Non-Functional Requirements
+
+### Wireframes
+
+ ![Navigation Flow](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Navigation%20flow-1.png)
