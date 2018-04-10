@@ -37,6 +37,7 @@
                                                                                                     
 ### Non-Functional Requirements
 
-### Wireframes
+#### Wireframes
+##### Navigation flow
 
  ![Navigation Flow](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Navigation%20flow-1.png)
