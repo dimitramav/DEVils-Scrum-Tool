@@ -37,6 +37,10 @@
                                                                                                     
 ### Non-Functional Requirements
 
+| # | Category                    | Title                 | Description                                                                                                                       |
+|---|-----------------------------|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| 1 | Security                    | Password Requirements | The length should be between 8 and 32 characters. Password must contain at least one upper-case alphabetic character, one lower-case alphabetic character, one special character, and one digit. |
+
 ### Scrum Tool Wireframes
 ___
 ##### Navigation flow
