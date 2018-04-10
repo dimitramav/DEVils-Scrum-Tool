@@ -50,3 +50,6 @@ ___
 ##### Navigation flow
 
  ![Navigation Flow](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Navigation%20flow-1.png)
+ 
+##### Index Page
+ ![Index Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Index.png)
