@@ -49,10 +49,16 @@
 ___
 ##### Navigation flow
 
- ![Navigation Flow](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Navigation%20flow-1.png)
+ ![Navigation Flow](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Navigation%20flow.png)
  
 ##### Index Page
- ![Index Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Index.png)
+ ![Index Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Index%20Page.png)
  
  ##### Sign Up Page
- ![Signup Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Sign%20up%20page.png)
+ ![Signup Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Sign%20up%20page.png)
+ 
+  ##### Sign Ip Page
+ ![Signip Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Sign%20In%20Page.png)
+ 
+ ##### Forgot Password Page
+ ![Forgot Password Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Forgot%20Password%20page.png)
