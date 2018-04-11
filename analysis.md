@@ -53,3 +53,6 @@ ___
  
 ##### Index Page
  ![Index Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Index.png)
+ 
+ ##### Sign Up Page
+ ![Signup Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Sign%20up%20page.png)
