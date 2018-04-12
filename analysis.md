@@ -43,7 +43,7 @@
 | 2 | Security                    | Password Encryption   | Passwords must be hashed using bcrypt function and a secure random salt before saving them to the database. This operation should be performed on the server side to prevent Dictionary and Brute Force Attack.  |
 | 3 | Security                    | SSL Encryption        | Use SSL encryption to send sensitive data through the network like credit card numbers. Also, use an SSL certificate to make our customers trust us as a company.                                                |
 | 4 | Security                    | Prevent SQL Injections | Validate user input data and shield the application from SQL injections. This can be achieved by thorough testing through the application development process to ensure that the system is safe from this kind of attacks. |
-
+| 5 | Usability                   | Usability Heuristics   | User interface design must conform to Nielsen's usability heuristics. The user interface should be tested early in the design process to avoid common mistakes.                                                            |
 
 ### Scrum Tool Wireframes
 ___
