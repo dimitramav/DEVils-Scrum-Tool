@@ -46,6 +46,7 @@
 | 5 | Usability                   | Usability Heuristics   | User interface design must conform to Nielsen's usability heuristics. The user interface should be tested early in the design process to avoid common mistakes.                                                            |
 | 6 | Usability                   | Consistency and System Standards | The user interface must be consistent.  1. The layout should be the same across the application.  2. The navigation bar must be in the same place. 3. Use the same wording and visualization for the same functions.       |
 | 7 | Usability                   | Error Prevention                 | The user should be warned on the following situations: 1. When he/she is about to delete something. (e.g. A task from the todo list on the sprint page.) 2. The primary action should be emphasized. (e.g. Submit button in a form) |
+| 8 | Usability                   | Minimalistic Design              | The user interface should follow minimalistic design: 1. The interface should be easy to get used to. 2. Lots of text should be avoided.                                                                                            |
 
 
 
