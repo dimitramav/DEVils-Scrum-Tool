@@ -50,6 +50,8 @@
 | 9 | Maintainability             | Modularity                       | The code should be build modularly, such that independent parts accomplish independent tasks. This could be accomplished through the use of functions, interfaces and classes.                                                                                                                                                                         |
 | 10 | Maintainability             | Design Patterns                  | Use of design patterns to solve common code modelling problems. (e.g. MVC pattern on back end and front end.)                                                                                                                                                                                                                                          |
 | 11 | Maintainability             | High Cohesion - Low Coupling     | - High cohesion means that we should bind the related code together as close as possible. - The low coupling means that we should organize our code through interfaces and make our classes be as independent as possible.                                                                                                                             |
+| 12 | Mobility                    | Operational System in different Devices and Platforms | The system should be operational in a wide range of devices and platforms, such as different screen sizes (Responsive) and web browsers.                                                                                                                                                                                                               |
+
 
 
 
