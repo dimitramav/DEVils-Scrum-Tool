@@ -44,6 +44,8 @@
 | 3 | Security                    | SSL Encryption        | Use SSL encryption to send sensitive data through the network like credit card numbers. Also, use an SSL certificate to make our customers trust us as a company.                                                |
 | 4 | Security                    | Prevent SQL Injections | Validate user input data and shield the application from SQL injections. This can be achieved by thorough testing through the application development process to ensure that the system is safe from this kind of attacks. |
 | 5 | Usability                   | Usability Heuristics   | User interface design must conform to Nielsen's usability heuristics. The user interface should be tested early in the design process to avoid common mistakes.                                                            |
+| 6 | Usability                   | Consistency and System Standards | The user interface must be consistent.  1. The layout should be the same across the application.  2. The navigation bar must be in the same place. 3. Use the same wording and visualization for the same functions.       |
+
 
 ### Scrum Tool Wireframes
 ___
