@@ -48,6 +48,7 @@
 | 7 | Usability                   | Error Prevention                 | The user should be warned on the following situations: 1. When he/she is about to delete something. (e.g. A task from the todo list on the sprint page.) 2. The primary action should be emphasized. (e.g. Submit button in a form) 3. When he/she completes a form. (e.g. Warn him/her if the password does not match the requirements before submit)|
 | 8 | Usability                   | Minimalistic Design              | The user interface should follow minimalistic design: 1. The interface should be easy to get used to. 2. Lots of text should be avoided.                                                                                            |
 | 9 | Maintainability             | Modularity                       | The code should be build modularly, such that independent parts accomplish independent tasks. This could be accomplished through the use of functions, interfaces and classes.                                                                                                                                                                         |
+| 10 | Maintainability             | Design Patterns                  | Use of design patterns to solve common code modelling problems. (e.g. MVC pattern on back end and front end.)                                                                                                                                                                                                                                          |
 
 
 
