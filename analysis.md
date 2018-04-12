@@ -49,6 +49,7 @@
 | 8 | Usability                   | Minimalistic Design              | The user interface should follow minimalistic design: 1. The interface should be easy to get used to. 2. Lots of text should be avoided.                                                                                            |
 | 9 | Maintainability             | Modularity                       | The code should be build modularly, such that independent parts accomplish independent tasks. This could be accomplished through the use of functions, interfaces and classes.                                                                                                                                                                         |
 | 10 | Maintainability             | Design Patterns                  | Use of design patterns to solve common code modelling problems. (e.g. MVC pattern on back end and front end.)                                                                                                                                                                                                                                          |
+| 11 | Maintainability             | High Cohesion - Low Coupling     | - High cohesion means that we should bind the related code together as close as possible. - The low coupling means that we should organize our code through interfaces and make our classes be as independent as possible.                                                                                                                             |
 
 
 
