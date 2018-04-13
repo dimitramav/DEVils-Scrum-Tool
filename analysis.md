@@ -7,7 +7,7 @@
 - Developer
 - Administrator
 
-## Project Backlog
+## Requirements
 
 ### Functional Requirements
 | #  | User Story Title                                         | User Type               | User Story Description                                                                                                    | Story Specifications                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Priority |
@@ -52,29 +52,31 @@
 | 11 | Maintainability             | High Cohesion - Low Coupling     | - High cohesion means that we should bind the related code together as close as possible. - The low coupling means that we should organize our code through interfaces and make our classes be as independent as possible.                                                                                                                             |
 | 12 | Mobility                    | Operational System in different Devices and Platforms | The system should be operational in a wide range of devices and platforms, such as different screen sizes (Responsive) and web browsers.                                                                                                                                                                                                               |
 | 13 | Extensibility               | Follow RESTful Architecture                           | Make a RESTful API which could be used in a future extension of our platform to a mobile application (Android, ios) without many changes.                                                                                                                                                                                                              |
+## Database
+
+![Database_schema](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Database/Database_schema.png)
 
 
-
-### Scrum Tool Wireframes
+## Scrum Tool Wireframes
 ___
-##### Navigation flow
+#### Navigation flow
 
  ![Navigation Flow](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Navigation%20flow.png)
  
-##### Index Page
+#### Index Page
  ![Index Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Index%20Page.png)
  
- ##### Sign Up Page
+ #### Sign Up Page
  ![Signup Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Sign%20up%20page.png)
  
-  ##### Sign Ip Page
+  #### Sign Ip Page
  ![Signip Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Sign%20In%20Page.png)
  
- ##### Forgot Password Page
+ #### Forgot Password Page
  ![Forgot Password Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Forgot%20Password%20page.png)
 
-##### Profile Page
+#### Profile Page
  ![Profile Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Profile%20Page.png)
  
- ##### Edit Profile Page
+ #### Edit Profile Page
  ![Edit Profile Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Edit%20Profile.png)
