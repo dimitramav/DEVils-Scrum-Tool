@@ -57,10 +57,6 @@
 | 16 | Scalability                 | AJAX Calls                                            | Use AJAX-based asynchronous models for server invocations for partial page refresh.                                                                                                                                                                                                                                                                    |
 | 17 | Mobility                    | Operational System in different Devices and Platforms | The system should be operational in a wide range of devices and platforms, such as different screen sizes (Responsive) and web browsers.                                                                                                                                                                                                               |
 | 18 | Extensibility               | Follow RESTful Architecture                           | Make a RESTful API which could be used in a future extension of our platform to a mobile application (Android, ios) without many changes.                                                                                                                                                                                                              |
-## Database
-
-![Database_schema](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Database/Database_schema.png)
-
 
 ## Scrum Tool Wireframes
 ___
@@ -85,3 +81,6 @@ ___
  
  #### Edit Profile Page
  ![Edit Profile Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Edit%20Profile.png)
+
+## Database
+![Database_schema](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Database/Database_schema.png)
