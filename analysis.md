@@ -59,7 +59,6 @@
 | 18 | Extensibility               | Follow RESTful Architecture                           | Make a RESTful API which could be used in a future extension of our platform to a mobile application (Android, ios) without many changes.                                                                                                                                                                                                              |
 
 ## Scrum Tool Wireframes
-___
 #### Navigation flow
 
  ![Navigation Flow](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Navigation%20flow.png)
