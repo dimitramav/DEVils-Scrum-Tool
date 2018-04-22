@@ -81,7 +81,7 @@
  ![Profile Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Profile%20Page.png)
  
  #### Edit Profile Page
- ![Edit Profile Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Edit%20Profile.png)
+ ![Edit Profile Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Edit%20Profile%20Page.png)
 
 ## Database
 ![Database_schema](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Database/Database_schema.png)
