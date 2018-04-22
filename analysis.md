@@ -96,6 +96,8 @@
  ![Create New Sprint](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Project%20Page%20-%20Create%20new%20sprint.png)
   #### Sprint Page Overview
  ![Sprint Page Overview](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Sprint%20Page%20Overview.png)
+  #### Previous Sprints' Page
+ ![Previous Sprints' Page](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Project%20Page%20-%20Previous%20Sprints.png)
 
 ## Database
 ![Database_schema](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Database/Database_schema.png)
