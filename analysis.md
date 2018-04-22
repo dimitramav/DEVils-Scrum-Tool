@@ -87,4 +87,4 @@
 ![Database_schema](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Database/Database_schema.png)
 
 ## UML
-![UML schema] (https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/UML/UMLphoto.jpg)
+![UML schema](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/UML/UMLphoto.jpg)
