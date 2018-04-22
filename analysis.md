@@ -76,12 +76,26 @@
  
  #### Forgot Password Page
  ![Forgot Password Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Forgot%20Password%20page.png)
+ 
+ #### User Homepage
+ ![User Homepage](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/User%20Homepage.png)
 
 #### Profile Page
  ![Profile Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Profile%20Page.png)
  
  #### Edit Profile Page
  ![Edit Profile Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Edit%20Profile%20Page.png)
+ 
+  #### Project Page - Overview
+ ![Project Page - Overview](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Project%20Page%20-%20Overview.png)
+ 
+  #### Project Page - Finished Sprint
+ ![Project Page - Finished Sprint](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Project%20Page%20-%20Finished%20sprint.png)
+ 
+  #### Create New Sprint
+ ![Create New Sprint](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Project%20Page%20-%20Create%20new%20sprint.png)
+  #### Sprint Page Overview
+ ![Sprint Page Overview](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Sprint%20Page%20Overview.png)
 
 ## Database
 ![Database_schema](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Database/Database_schema.png)
