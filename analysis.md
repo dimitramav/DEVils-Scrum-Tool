@@ -93,7 +93,7 @@
  ![Project Page - Finished Sprint](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Project%20Page%20-%20Finished%20sprint.png)
  
    #### Product Backlog
- ![Product Backlog](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Project%20Page%20-%20Backlog%20more.png)
+ ![Product Backlog](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Project%20Page%20-%20Backlog.png)
  
   #### Create New Sprint
  ![Create New Sprint](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Project%20Page%20-%20Create%20new%20sprint.png)
