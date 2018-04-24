@@ -63,7 +63,7 @@
 ## Scrum Tool Wireframes
 #### Navigation flow
 
- ![Navigation Flow](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Navigation%20-%20Flow.png)
+ ![Navigation Flow](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Navigation%20Flow.png)
  
 #### Index Page
  ![Index Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Index%20Page.png)
