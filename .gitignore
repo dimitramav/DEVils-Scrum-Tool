@@ -26,3 +26,6 @@ hs_err_pid*
 .idea
 *.iml
 build
+gradle/
+gradlew
+gradlew.bat
