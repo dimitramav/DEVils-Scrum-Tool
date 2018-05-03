@@ -1,0 +1,55 @@
+plugins {
+    id 'java'                               //for java-only project
+    //id 'groovy'                           //for mixed java/groovy project
+    id 'war'                                //for genarating war files
+    id 'org.akhikhl.gretty' version '2.0.0' //web app development plugin
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+//project.group = ...
+//project.version = ...
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.7'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://maven.restlet.org/"
+    }
+}
+
+dependencies {
+    //compile "org.codehaus.groovy:groovy-all:2.4.10"          //for groovy development
+    compile "javax.servlet:javax.servlet-api:3.1.0"            //the Java servlet libraries
+    compile "org.restlet.jee:org.restlet:2.3.12"               //for writing RESTful APIs
+    compile "com.google.code.gson:gson:2.8.2"                  //json library
+    compile "org.apache.commons:commons-pool2:2.4.3"           //object pool
+    compile "org.apache.commons:commons-dbcp2:2.1.1"           //db connection pool
+    compile "org.springframework:spring-jdbc:5.0.2.RELEASE"    //spring JDBC template utility
+    compile "org.restlet.jse:org.restlet.ext.json:2.1.7"
+    compile group: 'org.restlet.jee', name: 'org.restlet.ext.json', version: '2.1.2'
+    compile 'org.json:json:20160212'
+
+
+
+    providedRuntime "javax.servlet:javax.servlet-api:3.1.0"    //provided by the servlet container at runtime
+
+    runtime "org.restlet.jee:org.restlet.ext.servlet:2.3.12"   //Servlet adapter for Restlet framework
+
+    runtime 'mysql:mysql-connector-java:5.1.16'                //the MySQL JDBC driver
+
+    gretty 'mysql:mysql-connector-java:5.1.16'                 //make sure it is also available to the grety plugin
+}
+
+gretty {
+    //scanInterval = 0 //disable hot deployment
+    httpEnabled = true
+    httpsEnabled = false
+    httpPort = 8765
+    contextPath = 'app'
+    //servletContainer = 'tomcat8' //use the default (jetty)
+}
