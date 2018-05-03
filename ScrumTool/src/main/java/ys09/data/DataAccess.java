@@ -5,6 +5,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import ys09.model.Project;
+import ys09.model.User;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -61,6 +63,15 @@ public class DataAccess {
         //TODO: Support limits
         // Creates the id
         return jdbcTemplate.query("select * from Project", new ProjectRowMapper());
+    }
+
+    // Insert User
+    public void insertUser(User user) {
+      // Generate Random Salt and Bcrypt
+      String pw_hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+      // Insert into table with jdbc template
+      // Avoid SQL injections
+      
     }
 
     /*public List<Project> getProjectsAlt(long ownerId) {

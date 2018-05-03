@@ -31,6 +31,7 @@ dependencies {
     compile "org.apache.commons:commons-dbcp2:2.1.1"           //db connection pool
     compile "org.springframework:spring-jdbc:5.0.2.RELEASE"    //spring JDBC template utility
     compile "org.restlet.jse:org.restlet.ext.json:2.1.7"
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.0.2.RELEASE'
     compile group: 'org.restlet.jee', name: 'org.restlet.ext.json', version: '2.1.2'
     compile 'org.json:json:20160212'
 
