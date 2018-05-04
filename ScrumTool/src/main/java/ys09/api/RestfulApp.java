@@ -26,6 +26,9 @@ public class RestfulApp extends Application {
 		// Get Unauthorized, access only to admin
 		router.attach("/users", UsersResource.class);
 
+		// POST
+		// router.attach("/signin", SignInResource.class);
+
 		return router;
 	}
 

@@ -98,8 +98,16 @@ public class User {
       return isAdmin;
     }
 
+    public void setIsAdmin(int isAdmin) {
+      this.isAdmin = isAdmin;
+    }
+
     public int getNumOfProjects() {
       return numProjects;
+    }
+
+    public void setNumOfProjects(int numProjects) {
+      this.numProjects = numProjects;
     }
 
 }

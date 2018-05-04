@@ -71,12 +71,16 @@ public class DataAccess {
       // Generate Random Salt and Bcrypt
       String pw_hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
       user.setPassword(pw_hash);
+      user.setIsAdmin(0);
+      user.setNumOfProjects(0);
       // Insert into table with jdbc template
       // Avoid SQL injections
       jdbcTemplate = new JdbcTemplate(dataSource);
-      jdbcTemplate.update("INSERT INTO User (mail, firstname, lastname, password) VALUES (?,?,?)",new Object[]{
-        user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword()});
+      jdbcTemplate.update("INSERT INTO User (mail, firstname, lastname, password, isAdmin, numProjects) VALUES (?,?,?,?,?,?)",new Object[]{
+        user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword(), user.getIsAdmin(), user.getNumOfProjects()});
     }
+
+    // Check User Email and Password
 
     /*public List<Project> getProjectsAlt(long ownerId) {
 
