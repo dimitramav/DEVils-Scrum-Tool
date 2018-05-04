@@ -32,6 +32,16 @@ public class User {
 
     private int numProjects;
 
+    // Constructor for Sign Up
+    public User(int idUser, String username,String mail, String firstname, String lastname, String password) {
+      this.idUser = idUser;
+      this.username = username;
+      this.mail = mail;
+      this.firstname = firstname;
+      this.lastname = lastname;
+      this.password = password;
+    }
+
     public int getId() {
       return idUser;
     }
@@ -54,6 +64,10 @@ public class User {
 
     public String getPassword() {
       return password;
+    }
+
+    public void setPassword(String password) {
+      this.password = password;
     }
 
     public String getCountry() {
