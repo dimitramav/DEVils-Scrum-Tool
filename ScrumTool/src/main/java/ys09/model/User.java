@@ -32,6 +32,9 @@ public class User {
 
     private int numProjects;
 
+    // Default Constructor
+    public User() { }
+
     // Constructor for Sign Up
     public User(int idUser, String username,String mail, String firstname, String lastname, String password) {
       this.idUser = idUser;
@@ -110,4 +113,51 @@ public class User {
       this.numProjects = numProjects;
     }
 
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public void setNumProjects(int numProjects) {
+        this.numProjects = numProjects;
+    }
 }

@@ -1,11 +1,13 @@
 package ys09.data;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import ys09.model.Project;
 import ys09.model.User;
+import ys09.model.SignIn;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 
@@ -13,6 +15,7 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class DataAccess {
@@ -78,6 +81,28 @@ public class DataAccess {
       jdbcTemplate = new JdbcTemplate(dataSource);
       jdbcTemplate.update("INSERT INTO User (mail, firstname, lastname, password, isAdmin, numProjects) VALUES (?,?,?,?,?,?)",new Object[]{
         user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword(), user.getIsAdmin(), user.getNumOfProjects()});
+    }
+
+    public String checkSignIn(SignIn signin) {
+      // Query to find if user exists
+      jdbcTemplate = new JdbcTemplate(dataSource);
+      String query = "SELECT * FROM User WHERE mail = ?";
+      String mail = signin.getEmail();
+      try {
+          User user = jdbcTemplate.queryForObject(query, new Object[]{mail}, new UserRowMapper());
+
+          if (BCrypt.checkpw(signin.getPassword(), user.getPassword())){
+              System.out.println("It matches");
+              return "OK";
+          }
+          else {
+              System.out.println("It does not match");
+              return "Wrong Password";
+          }
+      }
+      catch (EmptyResultDataAccessException e) {
+          return "Not Exists";
+      }
     }
 
     // Check User Email and Password

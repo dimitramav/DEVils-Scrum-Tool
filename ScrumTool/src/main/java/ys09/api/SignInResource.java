@@ -11,6 +11,8 @@ import ys09.model.SignIn;
 import ys09.conf.Configuration;
 import ys09.data.DataAccess;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 // Endpoints for user entity
 public class SignInResource extends ServerResource {
@@ -28,15 +30,27 @@ public class SignInResource extends ServerResource {
           Gson gson = new Gson();
           SignIn signin = gson.fromJson(str, SignIn.class);
           // Check if email and password match
+          String response = dataAccess.checkSignIn(signin);
 
+          Map<String, String> map = new HashMap<>();
 
-          return null;
+          if (response.equals("OK")) {
+              map.put("Message", "OK");
+          }
+          else if(response.equals("Wrong Password")) {
+              map.put("Message", "Wrong Password");
+          }
+          else if(response.equals("Not Exists")) {
+              map.put("Message", "User does not exists.");
+          }
+          // Return proper message with JSON
+          return new JsonMapRepresentation(map);
       }
 
       catch(IOException e) {
-
+        Map <String, String> map1 = new HashMap<>();
+        map1.put("Message", "System Exception");
+        return new JsonMapRepresentation(map1);
       }
-      // Maybe sent a response message ?
-      return null;
   }
 }
