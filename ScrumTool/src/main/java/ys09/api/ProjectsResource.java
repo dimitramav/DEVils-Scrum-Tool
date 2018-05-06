@@ -21,6 +21,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
+import org.restlet.Message;
+import org.restlet.Context;
+import org.restlet.data.Form;
+import org.restlet.util.Series;
+
 
 public class ProjectsResource extends ServerResource {
 
@@ -32,14 +38,22 @@ public class ProjectsResource extends ServerResource {
         List<Project> projects = dataAccess.getProjects();
         // New map string (which is the json name) and objects
         Map<String, Object> map = new HashMap<>();
+        // Access the headers of the request !
+        Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
+        String token = requestHeaders.getFirstValue("Authorization");
+        System.out.println(token);
+        // TO DO:  Check if the token is ok !
+
         //map.put("start", xxx);
         //map.put("count", xxx);
         //map.put("total", xxx);
         // all the projects with a string
         map.put("results", projects);
-
+        // Set the response headers
         return new JsonMapRepresentation(map);
     }
+
+
 
 
     // Post Representation

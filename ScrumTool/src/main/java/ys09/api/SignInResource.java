@@ -1,9 +1,14 @@
 package ys09.api;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.crypto.MacProvider;
+import java.security.Key;
 
 
 import org.restlet.representation.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+import ys09.auth.CustomAuth;
 import ys09.data.DataAccess;
 import ys09.model.Project;
 import com.google.gson.Gson;
@@ -34,8 +39,13 @@ public class SignInResource extends ServerResource {
 
           Map<String, String> map = new HashMap<>();
 
+          
+
           if (response.equals("OK")) {
-              map.put("Message", "OK");
+              // Create a JJWT
+              CustomAuth customAuth = new CustomAuth();
+              String token = customAuth.createToken(signin.getEmail());
+              map.put("token", token);
           }
           else if(response.equals("Wrong Password")) {
               map.put("Message", "Wrong Password");

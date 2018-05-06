@@ -93,6 +93,8 @@ public class DataAccess {
 
           if (BCrypt.checkpw(signin.getPassword(), user.getPassword())){
               System.out.println("It matches");
+              // If it matches return JWT token !
+              // Save the token to a dictionary (user,token)
               return "OK";
           }
           else {
