@@ -1,8 +1,10 @@
 package ys09.api;
 
+import org.restlet.data.Status;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+import ys09.auth.CustomAuth;
 import ys09.conf.Configuration;
 import ys09.data.DataAccess;
 import ys09.data.Limits;
@@ -27,6 +29,8 @@ import org.restlet.Context;
 import org.restlet.data.Form;
 import org.restlet.util.Series;
 
+import static org.restlet.data.Status.CLIENT_ERROR_UNAUTHORIZED;
+
 
 public class ProjectsResource extends ServerResource {
 
@@ -35,22 +39,35 @@ public class ProjectsResource extends ServerResource {
     @Override
     protected Representation get() throws ResourceException {
 
-        List<Project> projects = dataAccess.getProjects();
         // New map string (which is the json name) and objects
         Map<String, Object> map = new HashMap<>();
+        Map<String, String> map1 = new HashMap<>();
+
         // Access the headers of the request !
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
         String token = requestHeaders.getFirstValue("Authorization");
-        System.out.println(token);
         // TO DO:  Check if the token is ok !
-
+        CustomAuth customAuth = new CustomAuth();
+        boolean b = customAuth.checkAuthToken(token);
+        System.out.println(b);
+        System.out.println("test");
+        if(customAuth.checkAuthToken(token)) {
+            // Get Projects only for the current user
+            // Show them in the index page
+            List<Project> projects = dataAccess.getProjects();
+            map.put("results", projects);
+            // Set the response headers
+            return new JsonMapRepresentation(map);
+        }
+        else {
+            map1.put("error", "Client Error Unauthorized");
+            return new JsonMapRepresentation(map1);
+        }
         //map.put("start", xxx);
         //map.put("count", xxx);
         //map.put("total", xxx);
         // all the projects with a string
-        map.put("results", projects);
-        // Set the response headers
-        return new JsonMapRepresentation(map);
+
     }
 
 
