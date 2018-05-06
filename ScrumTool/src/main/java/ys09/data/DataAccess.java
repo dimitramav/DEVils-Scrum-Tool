@@ -69,6 +69,24 @@ public class DataAccess {
         return jdbcTemplate.query("select * from Project", new ProjectRowMapper());
     }
 
+    // Check if User exists into the database
+    public boolean userExists(User user) {
+        // Query to find if user exists
+        jdbcTemplate = new JdbcTemplate(dataSource);
+        String query = "SELECT * FROM User WHERE mail = ?";
+        String mail = user.getEmail();
+
+        try {
+            User exist = jdbcTemplate.queryForObject(query, new Object[]{mail}, new UserRowMapper());
+            // Exists
+            return true;
+        }
+        catch (EmptyResultDataAccessException e) {
+            // Does not exists
+            return false;
+        }
+    }
+
     // Insert User
     public void insertUser(User user) {
       // Generate Random Salt and Bcrypt
