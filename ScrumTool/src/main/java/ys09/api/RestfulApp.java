@@ -9,7 +9,6 @@ import org.restlet.routing.Router;
  * The Restlet App, mapping URL patterns to ServerSideResources.
  */
 public class RestfulApp extends Application {
-
 	@Override
 	public synchronized Restlet createInboundRoot() {
 
@@ -28,6 +27,8 @@ public class RestfulApp extends Application {
 
 		// POST
 		router.attach("/signin", SignInResource.class);
+
+		router.attach("/exists", UserExistsResource.class);
 
 		return router;
 	}

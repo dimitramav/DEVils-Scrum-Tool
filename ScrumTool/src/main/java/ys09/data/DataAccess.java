@@ -70,11 +70,10 @@ public class DataAccess {
     }
 
     // Check if User exists into the database
-    public boolean userExists(User user) {
+    public boolean userExists(String mail) {
         // Query to find if user exists
         jdbcTemplate = new JdbcTemplate(dataSource);
         String query = "SELECT * FROM User WHERE mail = ?";
-        String mail = user.getEmail();
 
         try {
             User exist = jdbcTemplate.queryForObject(query, new Object[]{mail}, new UserRowMapper());

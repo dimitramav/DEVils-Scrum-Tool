@@ -39,8 +39,6 @@ public class SignInResource extends ServerResource {
 
           Map<String, String> map = new HashMap<>();
 
-          
-
           if (response.equals("OK")) {
               // Create a JJWT
               CustomAuth customAuth = new CustomAuth();

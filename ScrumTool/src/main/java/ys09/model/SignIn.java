@@ -1,8 +1,8 @@
 package ys09.model;
 
 public class SignIn {
-    String mail;
-    String password;
+    private String mail;
+    private String password;
 
     public String getEmail() {
         return mail;

@@ -4,6 +4,7 @@ package ys09.api;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+import ys09.auth.CustomAuth;
 import ys09.data.DataAccess;
 import ys09.model.Project;
 import com.google.gson.Gson;
@@ -32,16 +33,15 @@ public class UsersResource extends ServerResource {
           User user = gson.fromJson(str, User.class);
 
           // Check if this user exists in the database
-          if(dataAccess.userExists(user)) {
-              map.put("result", "User Exists");
-              return new JsonMapRepresentation(map);
-          }
-          else {
-              // Insert the User to the database
-              dataAccess.insertUser(user);
-              map.put("result","OK");
-              return new JsonMapRepresentation(map);
-          }
+
+          // Insert the User to the database
+          dataAccess.insertUser(user);
+          // Return token for auth
+          CustomAuth customAuth = new CustomAuth();
+          String token = customAuth.createToken(user.getEmail());
+          map.put("auth-token", token);
+          return new JsonMapRepresentation(map);
+
       }
 
       catch(IOException e) {
