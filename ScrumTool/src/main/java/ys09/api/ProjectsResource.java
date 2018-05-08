@@ -46,11 +46,16 @@ public class ProjectsResource extends ServerResource {
         // Access the headers of the request !
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
         String token = requestHeaders.getFirstValue("Authorization");
-        // TO DO:  Check if the token is ok !
+
+        if (token == null) {
+            map1.put("error", "Client Error Unauthorized");
+            return new JsonMapRepresentation(map1);
+        }
+
         CustomAuth customAuth = new CustomAuth();
         boolean b = customAuth.checkAuthToken(token);
         System.out.println(b);
-        System.out.println("test");
+
         if(customAuth.checkAuthToken(token)) {
             // Get Projects only for the current user
             // Show them in the index page
