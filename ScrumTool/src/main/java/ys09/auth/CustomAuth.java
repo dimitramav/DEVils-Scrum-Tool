@@ -27,7 +27,7 @@ public class CustomAuth {
 
   // Checks if auth token is valid
   public boolean checkAuthToken(String token) {
-  // Where to Store the key ???
+  // TODO: Where to Store the key ??? Dimitra
       try {
           Jwts.parser().setSigningKey("scrummm").parseClaimsJws(token);
           return true;
