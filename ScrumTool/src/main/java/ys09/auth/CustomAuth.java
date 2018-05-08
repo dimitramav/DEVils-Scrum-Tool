@@ -1,6 +1,7 @@
 package ys09.auth;
 
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.impl.crypto.MacProvider;
@@ -34,8 +35,16 @@ public class CustomAuth {
           //OK, we can trust this JWT
 
       } catch (SignatureException e) {
-          return false;
+
+        // Signature Exception
+        // It has not been signed by our API
+        return false;
           //don't trust the JWT!
+      }
+      catch( MalformedJwtException e1) {
+        // Parser Exception
+        // It's not in token format with the double dots
+        return false;
       }
   }
 

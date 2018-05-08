@@ -26,7 +26,7 @@ public class UserExistsResource extends ServerResource{
             Gson gson = new Gson();
             Email email = gson.fromJson(str, Email.class);
             // Check if email and password match
-            Boolean response = dataAccess.userExists(email.getMail());
+            boolean response = dataAccess.userExists(email.getMail());
 
             Map<String, Integer> map = new HashMap<>();
             if(response) {
