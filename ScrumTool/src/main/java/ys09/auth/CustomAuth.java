@@ -5,6 +5,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.impl.crypto.MacProvider;
+import ys09.conf.Configuration;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -16,11 +17,11 @@ public class CustomAuth {
     // Creates an auth token
     // TODO: Add more parameters
   public String createToken(String mail) {
-
-      // Store the Key Somewhere safe
+      // the key would be read from our application configuration.
+      Configuration config = Configuration.getInstance();
       String compactJws =  Jwts.builder()
               .setSubject(mail)
-              .signWith(SignatureAlgorithm.HS512, "scrummm")
+              .signWith(SignatureAlgorithm.HS512, config.getKey())
               .compact();
 
       return compactJws;
@@ -30,7 +31,8 @@ public class CustomAuth {
   public boolean checkAuthToken(String token) {
   // TODO: Where to Store the key ??? Dimitra
       try {
-          Jwts.parser().setSigningKey("scrummm").parseClaimsJws(token);
+          Configuration config = Configuration.getInstance();
+          Jwts.parser().setSigningKey(config.getKey()).parseClaimsJws(token);
           return true;
           //OK, we can trust this JWT
 

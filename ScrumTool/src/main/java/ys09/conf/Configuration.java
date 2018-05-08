@@ -4,11 +4,16 @@ import ys09.data.DataAccess;
 
 import java.util.Properties;
 import java.util.Set;
+import java.security.Key;
+import io.jsonwebtoken.impl.crypto.MacProvider;
+
 
 public class Configuration {
 
     public static final String[] CONFIG_KEYS = new String[]{"x", "y"};
     private static final Configuration self = new Configuration();
+
+    private static final Key key = MacProvider.generateKey();  //secret key for authentication
 
     private DataAccess dataAccess = new DataAccess();
     private String contextPath = null;
@@ -56,4 +61,6 @@ public class Configuration {
     }
 
     public DataAccess getDataAccess() { return dataAccess; }
+
+    public Key getKey() {return key;}
 }
