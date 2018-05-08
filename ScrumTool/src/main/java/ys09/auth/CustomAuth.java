@@ -34,7 +34,7 @@ public class CustomAuth {
           //OK, we can trust this JWT
 
       } catch (SignatureException e) {
-        return false;
+          return false;
           //don't trust the JWT!
       }
   }
