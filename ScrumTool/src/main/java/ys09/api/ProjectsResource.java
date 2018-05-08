@@ -53,8 +53,6 @@ public class ProjectsResource extends ServerResource {
         }
 
         CustomAuth customAuth = new CustomAuth();
-        boolean b = customAuth.checkAuthToken(token);
-        System.out.println(b);
 
         if(customAuth.checkAuthToken(token)) {
             // Get Projects only for the current user
