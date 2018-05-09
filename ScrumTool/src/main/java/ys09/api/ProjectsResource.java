@@ -45,7 +45,7 @@ public class ProjectsResource extends ServerResource {
 
         // Access the headers of the request !
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
-        String token = requestHeaders.getFirstValue("Authorization");
+        String token = requestHeaders.getFirstValue("auth");
 
         if (token == null) {
             mapError.put("error", "Client Error Unauthorized");

@@ -8,6 +8,7 @@ import org.restlet.service.CorsService;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -23,9 +24,18 @@ public class RestfulApp extends Application {
 
 		// Add a CORS filter to allow cross-domain requests
 		CorsFilter corsFilter = new CorsFilter(getContext(), router);
-		corsFilter.setAllowedOrigins(new HashSet<String>(Arrays.asList("*")));
-		corsFilter.setAllowedHeaders(new HashSet<String>(Arrays.asList("*")));
+		Set s2 = new HashSet<>();
+		s2.add("http://localhost:8080");
+		corsFilter.setAllowedOrigins(s2);
+		Set s = new HashSet<>();
+		s.add("auth");
+		corsFilter.setAllowedHeaders(s);
+		Set s1 = new HashSet<>();
+		//corsFilter.setExposedHeaders(new HashSet<String>(Arrays.asList("*")));
 		corsFilter.setAllowedCredentials(true);
+		// Magic
+		corsFilter.setSkippingResourceForCorsOptions(true);
+
 		// Setup up resource routing
 		// ...
 
