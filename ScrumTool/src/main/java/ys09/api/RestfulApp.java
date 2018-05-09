@@ -21,10 +21,11 @@ public class RestfulApp extends Application {
 		// Map the URI to a java endpoint
 		router.attach("/projects", ProjectsResource.class);
 
+		// Sprints
+
 		// POST
 		// Get Unauthorized, access only to admin
 		router.attach("/users", UsersResource.class);
-
 		// POST
 		router.attach("/signin", SignInResource.class);
 		// POST
