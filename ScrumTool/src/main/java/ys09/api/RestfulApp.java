@@ -2,17 +2,34 @@ package ys09.api;
 
 import org.restlet.Application;
 import org.restlet.Restlet;
+import org.restlet.engine.application.CorsFilter;
 import org.restlet.routing.Router;
+import org.restlet.service.CorsService;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 
 /**
  * The Restlet App, mapping URL patterns to ServerSideResources.
  */
 public class RestfulApp extends Application {
+
 	@Override
 	public synchronized Restlet createInboundRoot() {
 
-		Router router = new Router(getContext());
+		// Create a Restlet router that defines routes
+		final Router router = new Router(getContext());
+
+		// Add a CORS filter to allow cross-domain requests
+		CorsFilter corsFilter = new CorsFilter(getContext(), router);
+		corsFilter.setAllowedOrigins(new HashSet<String>(Arrays.asList("*")));
+		corsFilter.setAllowedHeaders(new HashSet<String>(Arrays.asList("*")));
+		corsFilter.setAllowedCredentials(true);
+		// Setup up resource routing
+		// ...
+
+		  // Important!
 
 		//GET
 		router.attach("/config", ConfigResource.class);
@@ -31,7 +48,7 @@ public class RestfulApp extends Application {
 		// POST
 		router.attach("/exists", UserExistsResource.class);
 
-		return router;
+		return corsFilter;
 	}
 
 }
