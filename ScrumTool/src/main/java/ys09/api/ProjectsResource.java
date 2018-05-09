@@ -41,15 +41,15 @@ public class ProjectsResource extends ServerResource {
 
         // New map string (which is the json name) and objects
         Map<String, Object> map = new HashMap<>();
-        Map<String, String> map1 = new HashMap<>();
+        Map<String, String> mapError = new HashMap<>();
 
         // Access the headers of the request !
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
         String token = requestHeaders.getFirstValue("Authorization");
 
         if (token == null) {
-            map1.put("error", "Client Error Unauthorized");
-            return new JsonMapRepresentation(map1);
+            mapError.put("error", "Client Error Unauthorized");
+            return new JsonMapRepresentation(mapError);
         }
 
         CustomAuth customAuth = new CustomAuth();
@@ -63,8 +63,8 @@ public class ProjectsResource extends ServerResource {
             return new JsonMapRepresentation(map);
         }
         else {
-            map1.put("error", "Client Error Unauthorized");
-            return new JsonMapRepresentation(map1);
+            mapError.put("error", "Client Error Unauthorized");
+            return new JsonMapRepresentation(mapError);
         }
         //map.put("start", xxx);
         //map.put("count", xxx);
@@ -93,9 +93,9 @@ public class ProjectsResource extends ServerResource {
             dataAccess.insertProject(project);
             // Insert the Project to the database
 
-            Map<String, Object> map1 = new HashMap<>();
-            map1.put("results", project);
-            return new JsonMapRepresentation(map1);
+            Map<String, Object> mapError = new HashMap<>();
+            mapError.put("results", project);
+            return new JsonMapRepresentation(mapError);
         }
 
         catch(IOException e) {
