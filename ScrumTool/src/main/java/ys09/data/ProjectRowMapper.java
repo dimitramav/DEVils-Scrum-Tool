@@ -5,16 +5,18 @@ import ys09.model.Project;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
+
 
 class ProjectRowMapper implements RowMapper<Project>  {
 
 	@Override
     public Project mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-        long id = rs.getLong("idProject");
+        int id = rs.getInt("idProject");
         String title = rs.getString("title");
-        int isDone = rs.getInt("isDone");
-        String deadlineDate = rs.getString("deadlineDate");
+        boolean isDone = rs.getBoolean("isDone");
+        Date deadlineDate = rs.getDate("deadlineDate");
 
         return new Project(id, title, isDone, deadlineDate);
     }
