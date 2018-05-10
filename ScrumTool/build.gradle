@@ -15,6 +15,18 @@ task wrapper(type: Wrapper) {
     gradleVersion = '4.7'
 }
 
+//build frontend after backend build
+task frontend_build(type: Exec) {
+    workingDir 'frontend'
+    commandLine "npm", "install"
+}
+build.finalizedBy(frontend_build)
+
+//run frontend
+task frontend_run(type: Exec) {
+    workingDir 'frontend'
+    commandLine "npm", "run", "dev"
+}
 repositories {
     mavenCentral()
     maven {
