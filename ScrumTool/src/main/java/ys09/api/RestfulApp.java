@@ -25,7 +25,7 @@ public class RestfulApp extends Application {
 		// Add a CORS filter to allow cross-domain requests
 		CorsFilter corsFilter = new CorsFilter(getContext(), router);
 		Set s2 = new HashSet<>();
-		s2.add("http://localhost:8080");
+		s2.add("*");
 		corsFilter.setAllowedOrigins(s2);
 		Set s = new HashSet<>();
 		s.add("auth");
