@@ -23,7 +23,7 @@ task frontend_build(type: Exec) {
 build.finalizedBy(frontend_build)
 
 //run frontend
-task frontend_run(type: Exec) {
+task frontendRun(type: Exec) {
     workingDir 'frontend'
     commandLine "npm", "run", "dev"
 }
