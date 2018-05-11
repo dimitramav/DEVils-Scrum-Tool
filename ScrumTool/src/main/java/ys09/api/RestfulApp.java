@@ -46,8 +46,15 @@ public class RestfulApp extends Application {
 
 		//GET
 		// Map the URI to a java endpoint
-		router.attach("/projects", ProjectsResource.class);
+		//router.attach("/projects", ProjectsResource.class);
 
+		// Also put limits
+		router.attach("/users/{userId}/projects", ProjectsResource.class);
+
+		router.attach("/users/{userId}/projects/{projectId}", SingleProjectResource.class);
+
+		// Post Project for a User
+		//router.attach("/users/{userId}", InsertProjectResource.class);
 		// Sprints
 
 		// POST

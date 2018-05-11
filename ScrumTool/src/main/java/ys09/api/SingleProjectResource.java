@@ -32,7 +32,7 @@ import org.restlet.util.Series;
 import static org.restlet.data.Status.CLIENT_ERROR_UNAUTHORIZED;
 
 
-public class ProjectsResource extends ServerResource {
+public class SingleProjectResource extends ServerResource {
 
     private final DataAccess dataAccess = Configuration.getInstance().getDataAccess();
 
@@ -43,9 +43,14 @@ public class ProjectsResource extends ServerResource {
         Map<String, Object> map = new HashMap<>();
         Map<String, String> mapError = new HashMap<>();
 
-        // Get UserId
+        //get param from request
         String userId = getRequestAttributes().get("userId").toString();
+        String projectId = getRequestAttributes().get("projectId").toString();
         int user = Integer.parseInt(userId);
+
+        // Get project of the requested user
+
+        //call DAO with parameter
 
         /*
         // Access the headers of the request !
@@ -78,8 +83,8 @@ public class ProjectsResource extends ServerResource {
         // all the projects with a string
 
         // For expirimentation
-        List<Project> projects = dataAccess.getUserProjects(user);
-        map.put("results", projects);
+        //List<Project> projects = dataAccess.getUserProjects(user);
+        //map.put("results", projects);
         // Set the response headers
         return new JsonMapRepresentation(map);
 
@@ -103,7 +108,7 @@ public class ProjectsResource extends ServerResource {
             // Now Create from String the JAVA object
             Gson gson = new Gson();
             Project project = gson.fromJson(str, Project.class);
-            
+
             // Insert the Project to the database
             dataAccess.insertProject(project);
 

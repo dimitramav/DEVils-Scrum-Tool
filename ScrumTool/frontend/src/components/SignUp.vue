@@ -17,7 +17,7 @@ export default {
   methods: {
     // Fetches posts when the component is created.
     callRestService () {
-      axios.get(`http://localhost:8765/app/api/projects`, { headers: { auth: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsYWxhQGdtYWlsLmNvbSJ9.s-cqurwwavJEr8KE5vinX6TroN-1GXwWvI0YZTRtCRk4FT6fB3uSiZ08nwZEY3bKBFbC4eWhupzTUkxjfLNBYA' } })
+      axios.get(`http://localhost:8765/app/api/projects`, { headers: { auth: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsYWxhQGdtYWlsLmNvbSJ9.ImcCRgFYkZTQviXCUSKdrsVSJmxXBfBWioMRAoN8HprdvIxsJDZWnML46E9wbqrlpnfBp4t0jHvrEO5PS2Fkdw' } })
         .then(response => {
           // JSON responses are automatically parsed.
           this.response = response.data
