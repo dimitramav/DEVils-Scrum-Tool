@@ -8,6 +8,8 @@ import ys09.auth.CustomAuth;
 import ys09.data.DataAccess;
 import ys09.model.Project;
 import com.google.gson.Gson;
+import ys09.model.SignIn;
+import ys09.model.SignInResponse;
 import ys09.model.User;
 import ys09.conf.Configuration;
 import ys09.data.DataAccess;
@@ -35,11 +37,13 @@ public class UsersResource extends ServerResource {
           // Check if this user exists in the database
 
           // Insert the User to the database
-          dataAccess.insertUser(user);
+          // Return the auto generated id
+          int key = dataAccess.insertUser(user);
           // Return token for auth
           CustomAuth customAuth = new CustomAuth();
           String token = customAuth.createToken(user.getEmail());
-          map.put("auth-token", token);
+          SignInResponse response = new SignInResponse(key, token);
+          map.put("results", response);
           return new JsonMapRepresentation(map);
 
       }

@@ -5,6 +5,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import ys09.model.Project;
 import ys09.model.User;
 import ys09.model.SignIn;
@@ -138,18 +139,33 @@ public class DataAccess {
 
 
     // Insert User
-    public void insertUser(User user) {
+    public int insertUser(User user) {
       // Generate Random Salt and Bcrypt
-      String pw_hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-      user.setPassword(pw_hash);
-      user.setIsAdmin(0);
-      user.setNumOfProjects(0);
-      // Insert into table with jdbc template
-      // Avoid SQL injections
-      jdbcTemplate = new JdbcTemplate(dataSource);
-      jdbcTemplate.update("INSERT INTO User (mail, firstname, lastname, password, isAdmin, numProjects)" +
-                      "VALUES (?,?,?,?,?,?)", new Object[] { user.getEmail(), user.getFirstName(),
-                      user.getLastName(), user.getPassword(), user.getIsAdmin(), user.getNumOfProjects() });
+        String pw_hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+        user.setPassword(pw_hash);
+        user.setIsAdmin(0);
+        user.setNumOfProjects(0);
+        // Insert into table with jdbc template
+        // Avoid SQL injections
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate = new JdbcTemplate(dataSource);
+
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement statement = con.prepareStatement("INSERT INTO User(mail, firstname, lastname, password, isAdmin, numProjects) VALUES (?, ?, ?, ?, ?, ?) ", Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, user.getEmail());
+                statement.setString(2, user.getFirstName());
+                statement.setString(3, user.getLastName());
+                statement.setString(4, user.getPassword());
+                statement.setInt(5, user.getIsAdmin());
+                statement.setInt(6, user.getNumOfProjects());
+                return statement;
+            }
+        }, keyHolder);
+        // Return the new generated id for user
+        return keyHolder.getKey().intValue();
     }
 
 

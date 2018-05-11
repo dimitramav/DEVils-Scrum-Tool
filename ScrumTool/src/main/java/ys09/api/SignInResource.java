@@ -44,6 +44,7 @@ public class SignInResource extends ServerResource {
               // Create a JJWT
               CustomAuth customAuth = new CustomAuth();
               String token = customAuth.createToken(signin.getEmail());
+              // TODO: Return id
               map.put("auth-token", token);
           }
           else if(response.equals("Wrong Password")) {
