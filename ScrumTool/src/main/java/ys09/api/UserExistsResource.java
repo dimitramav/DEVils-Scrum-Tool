@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class UserExistsResource extends ServerResource{
     private final DataAccess dataAccess = Configuration.getInstance().getDataAccess();
     // Post for Sign Up
@@ -19,7 +20,7 @@ public class UserExistsResource extends ServerResource{
     protected Representation post(Representation entity) throws ResourceException {
         // Representation object contains the body of the request
         // Handle the exception for the getText
-        try{
+        try {
             // Get the whole json body representation
             String str = entity.getText();
             // Now Create from String the JAVA object
@@ -39,7 +40,7 @@ public class UserExistsResource extends ServerResource{
             }
         }
 
-        catch(IOException e) {
+        catch (IOException e) {
             Map <String, String> map1 = new HashMap<>();
             map1.put("Message", "System Exception");
             return new JsonMapRepresentation(map1);

@@ -43,6 +43,7 @@ public class ProjectsResource extends ServerResource {
         Map<String, Object> map = new HashMap<>();
         Map<String, String> mapError = new HashMap<>();
 
+        /*
         // Access the headers of the request !
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
         String token = requestHeaders.getFirstValue("auth");
@@ -66,10 +67,17 @@ public class ProjectsResource extends ServerResource {
             mapError.put("error", "Client Error Unauthorized");
             return new JsonMapRepresentation(mapError);
         }
+        */
         //map.put("start", xxx);
         //map.put("count", xxx);
         //map.put("total", xxx);
         // all the projects with a string
+
+        // For expirimentation
+        List<Project> projects = dataAccess.getUserProjects(2);
+        map.put("results", projects);
+        // Set the response headers
+        return new JsonMapRepresentation(map);
 
     }
 
@@ -77,21 +85,23 @@ public class ProjectsResource extends ServerResource {
 
 
     // Post Representation
-    /*@Override
+    @Override
     protected Representation post(Representation entity) throws ResourceException {
 
         //Foo targetObject = new Gson().fromJson(entity, Project.class);
         System.out.println(entity);
-        try{
+        try {
+            // Get the json representation from the frontend
             String str = entity.getText();
-            System.out.println(str);
+            //System.out.println(str);
             Map<String, Object> map = new HashMap<>();
             map.put("results", entity);
             // Now Create from String the JAVA object
             Gson gson = new Gson();
             Project project = gson.fromJson(str, Project.class);
-            dataAccess.insertProject(project);
+            
             // Insert the Project to the database
+            dataAccess.insertProject(project);
 
             Map<String, Object> mapError = new HashMap<>();
             mapError.put("results", project);
@@ -99,9 +109,9 @@ public class ProjectsResource extends ServerResource {
         }
 
         catch(IOException e) {
-
+            Map<String, String> mapError = new HashMap<>();
+            mapError.put("result", "System Exception");
+            return new JsonMapRepresentation(mapError);
         }
-        return null;
-
-    }*/
+    }
 }

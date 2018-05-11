@@ -25,7 +25,7 @@ public class UsersResource extends ServerResource {
       // Representation object contains the body of the request
       // Handle the exception for the getText
       Map map = new HashMap<String, String>();
-      try{
+      try {
           // Get the whole json body representation
           String str = entity.getText();
           // Now Create from String the JAVA object
