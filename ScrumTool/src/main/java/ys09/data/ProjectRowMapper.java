@@ -20,4 +20,21 @@ class ProjectRowMapper implements RowMapper<Project>  {
 
         return new Project(id, title, isDone, deadlineDate);
     }
+
+    /*
+    public List<Project> mapProjects(ResultSet rs) throws SQLException {
+
+    	List<Project> projects = new ArrayList<>();
+
+        while(rs.next()) {
+            Project project = new Project(
+                rs.getInt("idProject"),
+                rs.getString("title"),
+                rs.getBoolean("isDone"),
+                rs.getDate("deadlineDate")
+            );
+            projects.add(project);
+        }
+        return projects;
+    }*/
 }
