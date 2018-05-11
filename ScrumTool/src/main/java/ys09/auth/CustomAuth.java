@@ -11,45 +11,49 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class CustomAuth {
 
     // Creates an auth token
     // TODO: Add more parameters
-  public String createToken(String mail) {
-      // the key would be read from our application configuration.
-      Configuration config = Configuration.getInstance();
-      String compactJws =  Jwts.builder()
-              .setSubject(mail)
-              .signWith(SignatureAlgorithm.HS512, config.getKey())
-              .compact();
 
-      return compactJws;
-  }
+    public String createToken(String mail) {
+        // the key would be read from our application configuration.
+        AuthScope scope = new AuthScope();
+        System.out.println(scope.final_scope);
+        Configuration config = Configuration.getInstance();
+        String compactJws =  Jwts.builder()
+                .setSubject(mail)
+                .signWith(SignatureAlgorithm.HS512, config.getKey())
+                .compact();
 
-  // Checks if auth token is valid
-  public boolean checkAuthToken(String token) {
-  // TODO: Where to Store the key ??? Dimitra
-      try {
-          Configuration config = Configuration.getInstance();
-          Jwts.parser().setSigningKey(config.getKey()).parseClaimsJws(token);
-          return true;
-          //OK, we can trust this JWT
+        return compactJws;
+    }
 
-      } catch (SignatureException e) {
+    // Checks if auth token is valid
+    public boolean checkAuthToken(String token) {
+        try {
+            Configuration config = Configuration.getInstance();
+            Jwts.parser().setSigningKey(config.getKey()).parseClaimsJws(token);
+            return true;
+            //OK, we can trust this JWT
 
-        // Signature Exception
-        // It has not been signed by our API
-        return false;
-          //don't trust the JWT!
-      }
-      catch( MalformedJwtException e1) {
-        // Parser Exception
-        // It's not in token format with the double dots
-        return false;
-      }
-  }
+        } catch (SignatureException e) {
 
-  // Extracts the data from the Auth Token
-    
+            // Signature Exception
+            // It has not been signed by our API
+            return false;
+            //don't trust the JWT!
+        }
+        catch( MalformedJwtException e1) {
+            // Parser Exception
+            // It's not in token format with the double dots
+            return false;
+        }
+    }
+
+    // Extracts the data from the Auth Token
+
 }

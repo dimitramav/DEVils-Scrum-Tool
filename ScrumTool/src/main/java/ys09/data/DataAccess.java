@@ -147,8 +147,8 @@ public class DataAccess {
       // Insert into table with jdbc template
       // Avoid SQL injections
       jdbcTemplate = new JdbcTemplate(dataSource);
-      jdbcTemplate.update("INSERT INTO User (username, mail, firstname, lastname, password, isAdmin, numProjects)" + 
-                      "VALUES (?,?,?,?,?,?,?)", new Object[] { user.getUsername(), user.getEmail(), user.getFirstName(), 
+      jdbcTemplate.update("INSERT INTO User (mail, firstname, lastname, password, isAdmin, numProjects)" +
+                      "VALUES (?,?,?,?,?,?)", new Object[] { user.getEmail(), user.getFirstName(),
                       user.getLastName(), user.getPassword(), user.getIsAdmin(), user.getNumOfProjects() });
     }
 
