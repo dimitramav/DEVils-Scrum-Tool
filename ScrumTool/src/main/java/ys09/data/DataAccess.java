@@ -170,7 +170,7 @@ public class DataAccess {
 
 
 
-    public String checkSignIn(SignIn signin) {
+    public int checkSignIn(SignIn signin) {
       // Query to find if user exists
       jdbcTemplate = new JdbcTemplate(dataSource);
       String query = "SELECT * FROM User WHERE mail = ?";
@@ -182,17 +182,14 @@ public class DataAccess {
               System.out.println("It matches");
               // If it matches return JWT token !
               // Save the token to a dictionary (user,token)
-              return "OK";
+              return user.getId();
           }
           else {
               System.out.println("It does not match");
-              return "Wrong Password";
+              return 0;
           }
       }
-      catch (EmptyResultDataAccessException e) { return "Not Exists"; }
+      catch (EmptyResultDataAccessException e) { return 0; }
     }
-
-    // Check User Email and Password
-
 
 }

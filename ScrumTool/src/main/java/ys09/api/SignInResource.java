@@ -15,6 +15,8 @@ import com.google.gson.Gson;
 import ys09.model.SignIn;
 import ys09.conf.Configuration;
 import ys09.data.DataAccess;
+import ys09.model.SignInResponse;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,22 +38,20 @@ public class SignInResource extends ServerResource {
           Gson gson = new Gson();
           SignIn signin = gson.fromJson(str, SignIn.class);
           // Check if email and password match
-          String response = dataAccess.checkSignIn(signin);
+          int key = dataAccess.checkSignIn(signin);
 
-          Map<String, String> map = new HashMap<>();
+          Map<String, Object> map = new HashMap<>();
 
-          if (response.equals("OK")) {
+          if (key != 0) {
               // Create a JJWT
               CustomAuth customAuth = new CustomAuth();
               String token = customAuth.createToken(signin.getEmail());
-              // TODO: Return id
-              map.put("auth-token", token);
+              SignInResponse response = new SignInResponse(key, token);
+              map.put("results", response);
+              return new JsonMapRepresentation(map);
           }
-          else if(response.equals("Wrong Password")) {
-              map.put("Message", "Wrong Password");
-          }
-          else if(response.equals("Not Exists")) {
-              map.put("Message", "User does not exists.");
+          else {
+              map.put("Message", "Wrong Email or Password");
           }
           // Return proper message with JSON
           return new JsonMapRepresentation(map);
