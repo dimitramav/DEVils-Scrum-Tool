@@ -47,9 +47,9 @@ public class ProjectsResource extends ServerResource {
         String userId = getRequestAttributes().get("userId").toString();
         int user = Integer.parseInt(userId);
 
-        /*
+
         // Access the headers of the request !
-        Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
+        /*Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
         String token = requestHeaders.getFirstValue("auth");
 
         if (token == null) {
@@ -62,7 +62,7 @@ public class ProjectsResource extends ServerResource {
         if(customAuth.checkAuthToken(token)) {
             // Get Projects only for the current user
             // Show them in the index page
-            List<Project> projects = dataAccess.getProjects();
+            List<Project> projects = dataAccess.getUserProjects(2);
             map.put("results", projects);
             // Set the response headers
             return new JsonMapRepresentation(map);
@@ -71,22 +71,22 @@ public class ProjectsResource extends ServerResource {
             mapError.put("error", "Client Error Unauthorized");
             return new JsonMapRepresentation(mapError);
         }
-        */
+
         //map.put("start", xxx);
         //map.put("count", xxx);
         //map.put("total", xxx);
         // all the projects with a string
 
-        // For expirimentation
+        // Set the response headers
+        //return new JsonMapRepresentation(map);*/
         List<Project> projects = dataAccess.getUserProjects(user);
         map.put("results", projects);
-        // Set the response headers
         return new JsonMapRepresentation(map);
-
     }
+}
 
 
-
+/*
 
     // Post Representation
     @Override
@@ -119,3 +119,4 @@ public class ProjectsResource extends ServerResource {
         }
     }
 }
+*/
