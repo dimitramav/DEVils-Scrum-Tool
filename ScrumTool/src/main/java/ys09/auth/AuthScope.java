@@ -10,33 +10,49 @@ public class AuthScope {
 
     Map<String, ArrayList> projects_per_developer = new HashMap<String,ArrayList>();
     Map<String, ArrayList> projects_per_owner = new HashMap<String,ArrayList>();
+    Map<String, ArrayList> projects_per_master = new HashMap<String,ArrayList>();
     List<Map<String, ArrayList>> final_scope = new ArrayList<Map<String, ArrayList>>();
 
-    public AuthScope(){
+    public AuthScope(List<Integer> devProjectsID,List<Integer> ownerProjectsID ,List<Integer> scrumProjectsID){
         //connect a developer with his projects : "developer":[1,2,4]
-        ArrayList<Integer> developer_list = new ArrayList<Integer>();
-        developer_list.add(1);
-        developer_list.add(2);
-        projects_per_developer.put("developer",developer_list);
+
+        projects_per_developer.put("developer",(ArrayList) devProjectsID);
         final_scope.add(projects_per_developer);
 
-        ArrayList<Integer> owner_list = new ArrayList<Integer>();
-        owner_list.add(3);
-        owner_list.add(4);
-        projects_per_owner.put("owner",owner_list);
+        //connect an owner with his projects : "product_owner":[1,2,4]
+        projects_per_owner.put("product_owner", (ArrayList) ownerProjectsID);
 
         final_scope.add(projects_per_owner);
 
+        //connect a scrum master with his projects : "srum_master":[1,2,4]
+        projects_per_master.put("scrum_master", (ArrayList) scrumProjectsID);
+
+        final_scope.add(projects_per_master);
+
     }
 
-    public AuthScope add_as_owner(int project_id)
+    public AuthScope add_authorized_project(int id, String role)
     {
+        for (Map<String,ArrayList> projectsByRole: final_scope)
+        {
+            for (Map.Entry<String,ArrayList> entry: projectsByRole.entrySet())
+            {
+                if(entry.getKey()=="developer")
+                {
+                    entry.getValue().add(id);
+                }
+                else if(entry.getKey()=="product_owner")
+                {
+                    entry.getValue().add(id);
+                }
+                else if(entry.getKey()=="scrum_master")
+                {
+                    entry.getValue().add(id);
+                }
+            }
+        }
         return this;
     }
 
-    public AuthScope add_as_developer(int project_id)
-    {
-        return this;
-    }
 
 }

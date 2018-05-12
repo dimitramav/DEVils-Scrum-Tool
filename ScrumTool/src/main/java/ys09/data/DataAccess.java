@@ -192,6 +192,18 @@ public class DataAccess {
             }
     }
 
+    public List<Integer> createAuthProjectList (int id, String role)
+    {
+        List<Project> projectsByRole = getUserProjectsRole(id,role);
+        List<Integer> projectsByRoleID = new ArrayList<Integer>();
+        for (Project project: projectsByRole)
+        {
+            projectsByRoleID.add(project.getId());   //make list with the ids' of projects in which
+            //the current user is owner
+        }
+        return projectsByRoleID;
+    }
+
 
 
 }

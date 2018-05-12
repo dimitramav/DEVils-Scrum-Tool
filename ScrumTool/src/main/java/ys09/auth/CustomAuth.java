@@ -21,8 +21,6 @@ public class CustomAuth {
 
     public String createToken(String mail) {
         // the key would be read from our application configuration.
-        AuthScope scope = new AuthScope();
-        System.out.println(scope.final_scope);
         Configuration config = Configuration.getInstance();
         String compactJws =  Jwts.builder()
                 .setSubject(mail)

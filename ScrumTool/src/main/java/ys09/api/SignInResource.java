@@ -8,6 +8,7 @@ import java.security.Key;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+import ys09.auth.AuthScope;
 import ys09.auth.CustomAuth;
 import ys09.data.DataAccess;
 import ys09.model.Project;
@@ -18,7 +19,9 @@ import ys09.data.DataAccess;
 import ys09.model.SignInResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -38,14 +41,20 @@ public class SignInResource extends ServerResource {
           Gson gson = new Gson();
           SignIn signin = gson.fromJson(str, SignIn.class);
           // Check if email and password match
-          int key = dataAccess.checkSignIn(signin);
-
+          //int key = dataAccess.checkSignIn(signin); //TODO: error Yolanda
+          int  key=1;
           Map<String, Object> map = new HashMap<>();
 
           if (key != 0) {
               // Create a JJWT
               CustomAuth customAuth = new CustomAuth();
               String token = customAuth.createToken(signin.getEmail());
+              //Create object for authorization rights
+              List<Integer> projectAsDev = dataAccess.createAuthProjectList(signin.getId(),"developer");
+              List <Integer> projectAsOwner = dataAccess.createAuthProjectList(signin.getId(),"product_owner");
+              List <Integer> projectAsScrum = dataAccess.createAuthProjectList(signin.getId(),"scrum_master");
+              AuthScope AuthorizedProjects= new AuthScope(projectAsDev,projectAsOwner,projectAsScrum);
+
               SignInResponse response = new SignInResponse(key, token);
               map.put("results", response);
               return new JsonMapRepresentation(map);

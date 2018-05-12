@@ -4,6 +4,7 @@ package ys09.api;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+import ys09.auth.AuthScope;
 import ys09.auth.CustomAuth;
 import ys09.data.DataAccess;
 import ys09.model.Project;
@@ -39,22 +40,12 @@ public class UsersResource extends ServerResource {
           // Insert the User to the database
           dataAccess.insertUser(user);
           // Return token for auth
-          //owner projects
-          List<Project> projectsAsOwner = dataAccess.getUserProjectsRole(user.getId(),"product_owner");
-          List<Integer> projectsAsOwnerID = new ArrayList<Integer>();
-          for (Project project: projectsAsOwner)
-          {
-              projectsAsOwnerID.add(project.getId());   //make list with the ids' of projects in which
-                                                            //the current user is owner
-          }
-          //dev projects
-          List<Project> projectsAsDev = dataAccess.getUserProjectsRole(user.getId(),"developer");
-          List<Integer> projectsAsDevID = new ArrayList<Integer>();
-          for (Project project: projectsAsDev)
-          {
-              projectsAsDevID.add(project.getId());
-          }
-          //TODO : scrum projects
+          List<Integer> list = new ArrayList<Integer>();
+          list.add(0);
+          list.add(1);
+          list.add(2);
+          AuthScope AuthorizedProjects= new AuthScope(list,list,list);
+          AuthorizedProjects.add_authorized_project(1,"scrum_master");
           CustomAuth customAuth = new CustomAuth();
           String token = customAuth.createToken(user.getEmail());
           map.put("auth-token", token);
