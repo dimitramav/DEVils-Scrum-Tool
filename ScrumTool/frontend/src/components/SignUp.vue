@@ -51,7 +51,7 @@
       <br>
       <b-button size="lg" type="submit" variant="primary"> Sign up</b-button>
       <br><br><br>
-      <b-button variant="link">Already a member? Sign in</b-button>
+      <b-button variant="link" v-on:click="gotoSignIn">Already a member? Sign in</b-button>
     </b-form>
   </b-container>
 </template>
@@ -76,6 +76,7 @@ export default {
       // evt.preventDefault();
       // alert(JSON.stringify(this.form));
       // axios.get(`http://localhost:8765/app/api/projects`, { headers: { auth: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsYWxhQGdtYWlsLmNvbSJ9.s-cqurwwavJEr8KE5vinX6TroN-1GXwWvI0YZTRtCRk4FT6fB3uSiZ08nwZEY3bKBFbC4eWhupzTUkxjfLNBYA' } })
+      const self = this;
       axios.post('http://localhost:8765/app/api/users', {
         mail: this.form.email,
         firstname: this.form.firstname,
@@ -84,10 +85,18 @@ export default {
       })
         .then(function (response) {
           console.log(response);
+          if (response.data.results) {
+            sessionStorage.setItem('auth_token', response.data.results.auth_token);
+            sessionStorage.setItem('userId', response.data.results.userId);
+            self.$router.push({path: '/home'})
+          }
         })
         .catch(function (error) {
           console.log(error);
         })
+    },
+    gotoSignIn () {
+      this.$router.push({path: '/signin'});
     },
   }
 }

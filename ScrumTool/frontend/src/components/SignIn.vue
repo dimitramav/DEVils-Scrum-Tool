@@ -2,6 +2,8 @@
   <b-container>
 
       <b-form @submit="onSubmit" id="form_login">
+        <b-alert show variant="warning" v-if="wrongLogin===true">Wrong email or password</b-alert>
+
         <b-form-group id="mail_group">
           <b-form-input id="mail"
                         type="email"
@@ -22,9 +24,10 @@
         </b-form-group>
         <b-button variant="link">Forgot your password?</b-button>
         <br><br>
-        <b-button size="lg" type="submit" variant="primary"> Log in</b-button>
+        <b-button size="lg" type="submit" variant="primary"> Sign in</b-button>
         <br><br><br>
-        <b-button variant="link">Not a member? Sign up</b-button>
+        <b-button variant="link" v-on:click="gotoSignUp">Not a member? Sign up</b-button>
+
 
       </b-form>
   </b-container>
@@ -38,31 +41,42 @@ export default {
         mail: '',
         password: '',
       },
+      wrongLogin: false,
     }
   },
   methods: {
     onSubmit () {
       // evt.preventDefault();
       // alert(JSON.stringify(this.form));
-
+      const self = this;
       axios.post('http://localhost:8765/app/api/signin', {
         mail: this.form.mail,
         password: this.form.password
       })
         .then(function (response) {
           console.log(response);
-          var object = JSON.parse(response.data);
-          //console.log(response.data.authtoken);
+          if (response.data.results) {
+            sessionStorage.setItem('auth_token', response.data.results.auth_token);
+            sessionStorage.setItem('userId', response.data.results.userId);
+            self.$router.push({path: '/home'})
+          }
+          else if (response.data.Message) {
+            if (response.data.Message === "Wrong Email or Password") {
+              console.log("wrong email or password");
+              self.wrongLogin = true;
+              self.form.password = '';
+            }
+          }
 
-          sessionStorage.setItem('token', response.data.authtoken);
-          var data = sessionStorage.getItem('token');
-          console.log(data);
-          //this.$router.push({path: '/'}) // It's works!!
+
         })
         .catch(function (error) {
           console.log(error);
         });
 
+    },
+    gotoSignUp () {
+      this.$router.push({path: '/signup'});
     },
   }
 }
