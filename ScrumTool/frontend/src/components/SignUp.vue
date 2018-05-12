@@ -1,8 +1,59 @@
+<!--<template>-->
+<!--<div>-->
+<!--<button class=”Search__button” @click="callRestService()">CALL Spring Boot REST backend service</button>-->
+<!--<p>{{response}}</p>-->
+<!--</div>-->
+<!--</template>-->
+
 <template>
-<div>
-  <button class=”Search__button” @click="callRestService()">CALL Spring Boot REST backend service</button>
-  <p>{{response}}</p>
-</div>
+  <b-container>
+    <b-form @submit="onSubmit" id="form_signup">
+      <b-form-group id="email"
+                    label="Email address"
+                    label-for="email"
+                    description="We'll never share your email with anyone else.">
+        <b-form-input id="email"
+                      type="email"
+                      v-model="form.email"
+                      required>
+        </b-form-input>
+      </b-form-group>
+      <b-form-group id="firstname"
+                    label="First Name"
+                    label-for="firstname">
+        <b-form-input id="firstname"
+                      type="text"
+                      v-model="form.firstname"
+                      required>
+        </b-form-input>
+      </b-form-group>
+      <b-form-group id="lastname"
+                    label="Last Name"
+                    label-for="lastname">
+        <b-form-input id="lastname"
+                      type="text"
+                      v-model="form.lastname"
+                      required>
+        </b-form-input>
+      </b-form-group>
+
+      <b-form-group id="password"
+                    label="Password"
+                    label-for="password">
+        <b-form-input id="password"
+                      label="Password"
+                      label-for="password"
+                      type="password"
+                      v-model="form.password"
+                      required>
+        </b-form-input>
+      </b-form-group>
+      <br>
+      <b-button size="lg" type="submit" variant="primary"> Sign up</b-button>
+      <br><br><br>
+      <b-button variant="link">Already a member? Sign in</b-button>
+    </b-form>
+  </b-container>
 </template>
 
 <script>import axios from 'axios'
@@ -10,23 +61,46 @@ export default {
   name: 'SignUp',
   data () {
     return {
+      form: {
+        email: '',
+        firstName: '',
+        lastName: '',
+        password: '',
+      },
       response: [],
       errors: []
     }
   },
   methods: {
-    // Fetches posts when the component is created.
-    callRestService () {
-      axios.get(`http://localhost:8765/app/api/projects`, { headers: { auth: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsYWxhQGdtYWlsLmNvbSJ9.ImcCRgFYkZTQviXCUSKdrsVSJmxXBfBWioMRAoN8HprdvIxsJDZWnML46E9wbqrlpnfBp4t0jHvrEO5PS2Fkdw' } })
-        .then(response => {
-          // JSON responses are automatically parsed.
-          this.response = response.data
-          console.log(response.data)
+    onSubmit (evt) {
+      // evt.preventDefault();
+      // alert(JSON.stringify(this.form));
+      // axios.get(`http://localhost:8765/app/api/projects`, { headers: { auth: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsYWxhQGdtYWlsLmNvbSJ9.s-cqurwwavJEr8KE5vinX6TroN-1GXwWvI0YZTRtCRk4FT6fB3uSiZ08nwZEY3bKBFbC4eWhupzTUkxjfLNBYA' } })
+      axios.post('http://localhost:8765/app/api/users', {
+        mail: this.form.email,
+        firstname: this.form.firstname,
+        lastname: this.form.lastname,
+        password: this.form.password
+      })
+        .then(function (response) {
+          console.log(response);
         })
-        .catch(e => {
-          this.errors.push(e)
+        .catch(function (error) {
+          console.log(error);
         })
-    }
+    },
   }
 }
 </script>
+
+<style scoped>
+  #form_signup {
+    display: table-cell;
+    text-align: center;
+    vertical-align: central;
+  }
+</style>
+
+
+
+
