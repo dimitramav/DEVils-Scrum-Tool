@@ -8,14 +8,14 @@ import ys09.auth.CustomAuth;
 import ys09.data.DataAccess;
 import ys09.model.Project;
 import com.google.gson.Gson;
-import ys09.model.SignIn;
-import ys09.model.SignInResponse;
 import ys09.model.User;
 import ys09.conf.Configuration;
 import ys09.data.DataAccess;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 // Endpoints for user entity
 public class UsersResource extends ServerResource {
@@ -37,13 +37,27 @@ public class UsersResource extends ServerResource {
           // Check if this user exists in the database
 
           // Insert the User to the database
-          // Return the auto generated id
-          int key = dataAccess.insertUser(user);
+          dataAccess.insertUser(user);
           // Return token for auth
+          //owner projects
+          List<Project> projectsAsOwner = dataAccess.getUserProjectsRole(user.getId(),"product_owner");
+          List<Integer> projectsAsOwnerID = new ArrayList<Integer>();
+          for (Project project: projectsAsOwner)
+          {
+              projectsAsOwnerID.add(project.getId());   //make list with the ids' of projects in which
+                                                            //the current user is owner
+          }
+          //dev projects
+          List<Project> projectsAsDev = dataAccess.getUserProjectsRole(user.getId(),"developer");
+          List<Integer> projectsAsDevID = new ArrayList<Integer>();
+          for (Project project: projectsAsDev)
+          {
+              projectsAsDevID.add(project.getId());
+          }
+          //TODO : scrum projects
           CustomAuth customAuth = new CustomAuth();
           String token = customAuth.createToken(user.getEmail());
-          SignInResponse response = new SignInResponse(key, token);
-          map.put("results", response);
+          map.put("auth-token", token);
           return new JsonMapRepresentation(map);
 
       }
