@@ -14,7 +14,7 @@
                     description="We'll never share your email with anyone else.">
         <b-form-input id="email"
                       type="email"
-                      v-model="form.email"
+                      v-model="form.email" @change="checkEmail"
                       required>
         </b-form-input>
       </b-form-group>
@@ -98,6 +98,24 @@ export default {
     gotoSignIn () {
       this.$router.push({path: '/signin'});
     },
+    checkEmail() {
+      const self = this;
+      console.log("email = " + this.form.email);
+    //   axios.post('http://localhost:8765/app/api/exists', {
+    //     mail: this.form.email,
+    //   })
+    //     .then(function (response) {
+    //       console.log(response);
+    //       // if (response.data.results) {
+    //       //   sessionStorage.setItem('auth_token', response.data.results.auth_token);
+    //       //   sessionStorage.setItem('userId', response.data.results.userId);
+    //       //   self.$router.push({path: '/home'})
+    //       // }
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error);
+    //     })
+    // },
   }
 }
 </script>
