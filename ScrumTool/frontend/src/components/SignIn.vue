@@ -1,6 +1,8 @@
 <template>
-  <b-container>
-
+  <b-container style="padding-top:100px;">
+      <b-row>
+      <b-col></b-col>
+      <b-col>
       <b-form @submit="onSubmit" id="form_login">
         <b-alert show variant="warning" v-if="wrongLogin===true">Wrong email or password</b-alert>
 
@@ -28,9 +30,10 @@
         <b-button size="lg" type="submit" variant="primary"> Sign in</b-button>
         <br><br><br>
         <b-button variant="link" v-on:click="gotoSignUp">Not a member? Sign up</b-button>
-
-
       </b-form>
+      </b-col>
+      <b-col></b-col>
+      </b-row>
   </b-container>
 </template>
 

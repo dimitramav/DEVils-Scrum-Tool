@@ -41,8 +41,8 @@ public class SignInResource extends ServerResource {
           Gson gson = new Gson();
           SignIn signin = gson.fromJson(str, SignIn.class);
           // Check if email and password match
-          //int key = dataAccess.checkSignIn(signin); //TODO: error Yolanda
-          int  key=1;
+          int key = dataAccess.checkSignIn(signin); //TODO: error Yolanda
+          //int  key=1;
           Map<String, Object> map = new HashMap<>();
 
           if (key != 0) {

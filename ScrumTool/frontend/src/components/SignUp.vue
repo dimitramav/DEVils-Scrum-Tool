@@ -6,7 +6,10 @@
 <!--</template>-->
 
 <template>
-  <b-container>
+  <b-container style="padding-top:100px;">
+    <b-row>
+    <b-col></b-col>
+    <b-col class="w-100">
     <b-form @submit="onSubmit" id="form_signup">
       <b-form-group id="email"
                     label="Email address"
@@ -53,13 +56,16 @@
       <br><br><br>
       <b-button variant="link" v-on:click="gotoSignIn">Already a member? Sign in</b-button>
     </b-form>
+    </b-col>
+    <b-col></b-col>
+    </b-row>
   </b-container>
 </template>
 
 <script>import axios from 'axios'
 export default {
   name: 'SignUp',
-  data () {
+  data() {
     return {
       form: {
         email: '',
@@ -72,7 +78,7 @@ export default {
     }
   },
   methods: {
-    onSubmit (evt) {
+    onSubmit(evt) {
       // evt.preventDefault();
       // alert(JSON.stringify(this.form));
       // axios.get(`http://localhost:8765/app/api/projects`, { headers: { auth: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsYWxhQGdtYWlsLmNvbSJ9.s-cqurwwavJEr8KE5vinX6TroN-1GXwWvI0YZTRtCRk4FT6fB3uSiZ08nwZEY3bKBFbC4eWhupzTUkxjfLNBYA' } })
@@ -95,27 +101,28 @@ export default {
           console.log(error);
         })
     },
-    gotoSignIn () {
+    gotoSignIn() {
       this.$router.push({path: '/signin'});
     },
     checkEmail() {
       const self = this;
       console.log("email = " + this.form.email);
-    //   axios.post('http://localhost:8765/app/api/exists', {
-    //     mail: this.form.email,
-    //   })
-    //     .then(function (response) {
-    //       console.log(response);
-    //       // if (response.data.results) {
-    //       //   sessionStorage.setItem('auth_token', response.data.results.auth_token);
-    //       //   sessionStorage.setItem('userId', response.data.results.userId);
-    //       //   self.$router.push({path: '/home'})
-    //       // }
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //     })
-    // },
+      //   axios.post('http://localhost:8765/app/api/exists', {
+      //     mail: this.form.email,
+      //   })
+      //     .then(function (response) {
+      //       console.log(response);
+      //       // if (response.data.results) {
+      //       //   sessionStorage.setItem('auth_token', response.data.results.auth_token);
+      //       //   sessionStorage.setItem('userId', response.data.results.userId);
+      //       //   self.$router.push({path: '/home'})
+      //       // }
+      //     })
+      //     .catch(function (error) {
+      //       console.log(error);
+      //     })
+      // },
+    }
   }
 }
 </script>
