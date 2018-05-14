@@ -6,7 +6,10 @@
 <!--</template>-->
 
 <template>
-  <b-container>
+  <b-container style="padding-top:100px;">
+    <b-row>
+    <b-col></b-col>
+    <b-col class="w-100">
     <b-form @submit="onSubmit" id="form_signup">
       <b-form-group id="emailForm"
                     label="Email address"
@@ -61,13 +64,16 @@
       <br><br><br>
       <b-button variant="link" v-on:click="gotoSignIn">Already a member? Sign in</b-button>
     </b-form>
+    </b-col>
+    <b-col></b-col>
+    </b-row>
   </b-container>
 </template>
 
 <script>import axios from 'axios'
 export default {
   name: 'SignUp',
-  data () {
+  data() {
     return {
       form: {
         email: '',
@@ -104,7 +110,7 @@ export default {
           console.log(error);
         })
     },
-    gotoSignIn () {
+    gotoSignIn() {
       this.$router.push({path: '/signin'});
     },
     checkEmail() {
