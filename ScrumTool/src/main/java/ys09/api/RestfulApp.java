@@ -49,7 +49,7 @@ public class RestfulApp extends Application {
 		//router.attach("/projects", ProjectsResource.class);
 
 		// Also put limits
-		router.attach("/users/{userId}/projects", ProjectsResource.class);
+		//router.attach("/users/{userId}/projects", ProjectsResource.class);
 
 		router.attach("/users/{userId}/projects/{projectId}", SingleProjectResource.class);
 
@@ -64,6 +64,9 @@ public class RestfulApp extends Application {
 		router.attach("/signin", SignInResource.class);
 		// POST
 		router.attach("/exists", UserExistsResource.class);
+		// GET
+		// Pagination for projects
+        router.attach("/projects/{userId}/limit={limit}&offset={offset}", ProjectsResource.class);
 
 		return corsFilter;
 	}

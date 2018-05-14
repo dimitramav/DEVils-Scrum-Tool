@@ -45,8 +45,9 @@ public class ProjectsResource extends ServerResource {
 
         // Get UserId
         String userId = getRequestAttributes().get("userId").toString();
+        String limit = getRequestAttributes().get("limit").toString();
+        String offset = getRequestAttributes().get("offset").toString();
         int user = Integer.parseInt(userId);
-
 
         // Access the headers of the request !
         /*Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
