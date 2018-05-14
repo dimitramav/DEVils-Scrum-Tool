@@ -10,6 +10,7 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import ys09.auth.AuthScope;
 import ys09.auth.CustomAuth;
+import ys09.auth.ProjectsPerUser;
 import ys09.data.DataAccess;
 import ys09.model.Project;
 import com.google.gson.Gson;
@@ -49,11 +50,11 @@ public class SignInResource extends ServerResource {
               CustomAuth customAuth = new CustomAuth();
               String token = customAuth.createToken(signin.getEmail());
               //Create object for authorization rights
-              List<Integer> projectAsDev = dataAccess.createAuthProjectList(signin.getId(),"developer");
-              List <Integer> projectAsOwner = dataAccess.createAuthProjectList(signin.getId(),"product_owner");
-              List <Integer> projectAsScrum = dataAccess.createAuthProjectList(signin.getId(),"scrum_master");
+              List<Integer> projectAsDev = dataAccess.createAuthProjectList(key,"developer");
+              List <Integer> projectAsOwner = dataAccess.createAuthProjectList(key,"product_owner");
+              List <Integer> projectAsScrum = dataAccess.createAuthProjectList(key,"scrum_master");
               AuthScope AuthorizedProjects= new AuthScope(projectAsDev,projectAsOwner,projectAsScrum);
-
+              ProjectsPerUser.add_user_permissions(key,AuthorizedProjects);
               SignInResponse response = new SignInResponse(key, token);
               map.put("results", response);
               return new JsonMapRepresentation(map);
