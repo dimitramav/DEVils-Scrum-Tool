@@ -8,16 +8,24 @@
 <template>
   <b-container>
     <b-form @submit="onSubmit" id="form_signup">
-      <b-form-group id="email"
+      <b-form-group id="emailForm"
                     label="Email address"
                     label-for="email"
                     description="We'll never share your email with anyone else.">
-        <b-form-input id="email"
+        <b-form-input id="emailInput"
                       type="email"
                       v-model="form.email"
-                      required>
+                      @change="checkEmail"
+                      :state="rightEmail"
+                      autocomplete="off" required> <!--autocomplete has a bug and v-model does not syncronize it-->
         </b-form-input>
+
       </b-form-group>
+      <b-popover target="emailInput"
+                 content="Email is already in use"
+                 triggers=""
+                 :show.sync="wrongEmail">
+      </b-popover>
       <b-form-group id="firstname"
                     label="First Name"
                     label-for="firstname">
@@ -49,7 +57,7 @@
         </b-form-input>
       </b-form-group>
       <br>
-      <b-button size="lg" type="submit" variant="primary"> Sign up</b-button>
+      <b-button size="lg" type="submit" variant="primary" :disabled="wrongEmail===true" > Sign up</b-button>
       <br><br><br>
       <b-button variant="link" v-on:click="gotoSignIn">Already a member? Sign in</b-button>
     </b-form>
@@ -67,12 +75,14 @@ export default {
         lastName: '',
         password: '',
       },
+      wrongEmail: null,
+      rightEmail: null, //we need this because vue directives throw errors in ! commands
       response: [],
       errors: []
     }
   },
   methods: {
-    onSubmit (evt) {
+    onSubmit () {
       // evt.preventDefault();
       // alert(JSON.stringify(this.form));
       // axios.get(`http://localhost:8765/app/api/projects`, { headers: { auth: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsYWxhQGdtYWlsLmNvbSJ9.s-cqurwwavJEr8KE5vinX6TroN-1GXwWvI0YZTRtCRk4FT6fB3uSiZ08nwZEY3bKBFbC4eWhupzTUkxjfLNBYA' } })
@@ -84,7 +94,6 @@ export default {
         password: this.form.password
       })
         .then(function (response) {
-          console.log(response);
           if (response.data.results) {
             sessionStorage.setItem('auth_token', response.data.results.auth_token);
             sessionStorage.setItem('userId', response.data.results.userId);
@@ -98,6 +107,19 @@ export default {
     gotoSignIn () {
       this.$router.push({path: '/signin'});
     },
+    checkEmail() {
+      const self = this;
+      axios.post('http://localhost:8765/app/api/exists', {
+        mail: this.form.email,
+      })
+        .then(function (response) {
+          self.wrongEmail=(response.data.exists===1);
+          self.rightEmail=!self.wrongEmail;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
   }
 }
 </script>
@@ -108,6 +130,15 @@ export default {
     text-align: center;
     vertical-align: central;
   }
+  /*!* tooltip background color *!*/
+  /*.blue-tip .tooltip-inner {*/
+    /*background-color: #44f !important;*/
+    /*color: #fff !important;*/
+  /*}*/
+  /*!* arrrow color *!*/
+  /*.blue-tip .tooltip-inner::before {*/
+    /*border-top-color: #44f !important;*/
+  /*}*/
 </style>
 
 

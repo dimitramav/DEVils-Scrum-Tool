@@ -8,8 +8,9 @@
           <b-form-input id="mail"
                         type="email"
                         v-model="form.mail"
-                        required
-                        placeholder="Enter email">
+                        autocomplete="off"
+                        placeholder="Enter email"
+                        required>
           </b-form-input>
         </b-form-group>
 
@@ -22,7 +23,7 @@
                         placeholder="Enter password">
           </b-form-input>
         </b-form-group>
-        <b-button variant="link">Forgot your password?</b-button>
+        <b-button size = "sm" variant="link">Forgot your password?</b-button>
         <br><br>
         <b-button size="lg" type="submit" variant="primary"> Sign in</b-button>
         <br><br><br>
@@ -33,7 +34,7 @@
   </b-container>
 </template>
 
-<script> import axios from 'axios'
+<script>import axios from 'axios'
 export default {
   data () {
     return {
