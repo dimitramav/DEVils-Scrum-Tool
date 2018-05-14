@@ -110,7 +110,8 @@
 
 ### RESTful Endpoints
 
-| HTTP method | URI Path | Description                                              | Response                                                                                                     | Parameters |
-|-------------|----------|----------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|------------|
-| POST        | /signin  |                                                          |                                                                                                              |            |
-| GET         | /exists  | Retrieves information for user existence in the database | json object: "results": {"exists": boolean} Exists is 0 if user does not exists. Exists is 1 if user exists. |            |
+| HTTP method | URI Path       | Description                                              | Response                                                                                                                                                | Parameters                       |
+|-------------|----------------|----------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------|
+| POST        | app/api/signin | Signs the user in if the credentials match.              | Success json object:    "results": {         "userId": int,         "auth_token": String   } Error json object: "results": "Wrong username or password" | mail password                    |
+| GET         | app/api/exists | Retrieves information for user existence in the database | json object: "results": {"exists": boolean} Exists is 0 if user does not exists. Exists is 1 if user exists.                                            | mail                             |
+| POST        | app/api/users  | Creates new user                                         | Success json object:    "results": {         "userId": int,         "auth_token": String   } Error json object: "result": "System Exception"            | mail firstname lastname password |
