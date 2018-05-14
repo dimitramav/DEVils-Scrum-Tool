@@ -14,7 +14,7 @@
       <b-form-group id="emailForm"
                     label="Email address"
                     label-for="email"
-                    :invalid-feedback="wrongEmail===true ? 'Email is already in use' : ''"
+                    :invalid-feedback="rightEmail===false ? 'Email is already in use' : ''"
                     description="We'll never share your email with anyone else.">
         <b-form-input id="emailInput"
                       type="email"
@@ -56,7 +56,7 @@
         </b-form-input>
       </b-form-group>
       <br>
-      <b-button size="lg" type="submit" variant="primary" :disabled="wrongEmail===true" > Sign up</b-button>
+      <b-button size="lg" type="submit" variant="primary" :disabled="rightEmail===false" > Sign up</b-button>
       <br><br><br>
       <b-button variant="link" v-on:click="gotoSignIn">Already a member? Sign in</b-button>
     </b-form>
@@ -77,17 +77,13 @@ export default {
         lastName: '',
         password: '',
       },
-      wrongEmail: null,
-      rightEmail: null, //we need this because vue directives throw errors in ! commands
+      rightEmail: null,
       response: [],
       errors: []
     }
   },
   methods: {
     onSubmit () {
-      // evt.preventDefault();
-      // alert(JSON.stringify(this.form));
-      // axios.get(`http://localhost:8765/app/api/projects`, { headers: { auth: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsYWxhQGdtYWlsLmNvbSJ9.s-cqurwwavJEr8KE5vinX6TroN-1GXwWvI0YZTRtCRk4FT6fB3uSiZ08nwZEY3bKBFbC4eWhupzTUkxjfLNBYA' } })
       const self = this;
       axios.post('http://localhost:8765/app/api/users', {
         mail: this.form.email,
@@ -115,8 +111,7 @@ export default {
         mail: this.form.email,
       })
         .then(function (response) {
-          self.wrongEmail=(response.data.exists===1);
-          self.rightEmail=!self.wrongEmail;
+          self.rightEmail=(response.data.exists===0);
         })
         .catch(function (error) {
           console.log(error);
