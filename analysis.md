@@ -107,3 +107,10 @@
 
 ## UML
 ![UML schema](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/UML/UMLphoto.jpg)
+
+### RESTful Endpoints
+
+| HTTP method | URI Path | Description                                              | Response                                                                                                     | Parameters |
+|-------------|----------|----------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|------------|
+| POST        | /signin  |                                                          |                                                                                                              |            |
+| GET         | /exists  | Retrieves information for user existence in the database | json object: "results": {"exists": boolean} Exists is 0 if user does not exists. Exists is 1 if user exists. |            |
