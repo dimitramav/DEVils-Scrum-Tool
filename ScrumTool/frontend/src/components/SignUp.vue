@@ -14,6 +14,7 @@
       <b-form-group id="emailForm"
                     label="Email address"
                     label-for="email"
+                    :invalid-feedback="wrongEmail===true ? 'Email is already in use' : ''"
                     description="We'll never share your email with anyone else.">
         <b-form-input id="emailInput"
                       type="email"
@@ -24,11 +25,6 @@
         </b-form-input>
 
       </b-form-group>
-      <b-popover target="emailInput"
-                 content="Email is already in use"
-                 triggers=""
-                 :show.sync="wrongEmail">
-      </b-popover>
       <b-form-group id="firstname"
                     label="First Name"
                     label-for="firstname">
@@ -136,15 +132,6 @@ export default {
     text-align: center;
     vertical-align: central;
   }
-  /*!* tooltip background color *!*/
-  /*.blue-tip .tooltip-inner {*/
-    /*background-color: #44f !important;*/
-    /*color: #fff !important;*/
-  /*}*/
-  /*!* arrrow color *!*/
-  /*.blue-tip .tooltip-inner::before {*/
-    /*border-top-color: #44f !important;*/
-  /*}*/
 </style>
 
 
