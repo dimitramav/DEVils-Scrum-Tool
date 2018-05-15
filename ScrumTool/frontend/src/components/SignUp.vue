@@ -1,6 +1,6 @@
 <template>
 
-  <b-container style="padding-top:100px;">
+  <b-container>
     <b-row>
     <b-col></b-col>
     <b-col class="w-100">
@@ -8,8 +8,8 @@
         <!--<b-img src="../assets/vassardevil.png"/>-->
 
         <!--<b-card :src="require('https://lorempixel.com/300/150/')"></b-card>-->
-        <b-img src="https://i2.wp.com/beebom.com/wp-content/uploads/2016/01/Reverse-Image-Search-Engines-Apps-And-Its-Uses-2016.jpg"></b-img>
-
+        <b-img style ="width: 50%" src="https://static1.squarespace.com/static/538df61ae4b055cc3310e47f/t/59124725893fc098b54c30a7/1494370113194/vassardevil.jpg"></b-img>
+      <br><br>
     <b-form @submit="onSubmit" id="form_signup">
 
       <b-form-group id="emailForm"
