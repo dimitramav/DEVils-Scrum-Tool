@@ -4,7 +4,7 @@
             <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
             <b-navbar variant="faded" type="light">
                 <b-navbar-brand href="#">
-                    <img src="https://static1.squarespace.com/static/538df61ae4b055cc3310e47f/t/59124725893fc098b54c30a7/1494370113194/vassardevil.jpg?format=500w" width="45" height="45" alt="BV">
+                    <img src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" width="45" height="45" alt="BV">
                 </b-navbar-brand>
             </b-navbar>
             <b-collapse is-nav id="nav_collapse">
@@ -12,7 +12,7 @@
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item-dropdown right>
                         <template slot="button-content">
-                            <em>       
+                            <em>
                   <img src="https://support.rocketchatlauncher.com/wp-content/uploads/2017/03/bell.png" style="width:27px;">
                 </em>
                         </template>
@@ -23,7 +23,7 @@
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown right>
                         <template slot="button-content">
-                            <em>       
+                            <em>
                   <img src="https://www.mindvoize.com/images/userImage.png" style="width:30px;">
                 </em>
                         </template>
@@ -152,6 +152,44 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  export default {
+    name: 'SignUp',
+    data() {
+      return {
+        projects: {
+          idProject: '',
+          title: '',
+          isDone: '',
+          deadlineDate: '',
+        },
+        validEmail: null,
+        validPassword: null,
+        response: [],
+        errors: []
+      }
+    },
+
+    methods: {
+      getProjects () {
+        //evt.preventDefault();
+        const self = this;
+        console.log("auth_token = " + sessionStorage.getItem('auth_token'));
+        axios.get('http://localhost:8765/app/api/users/'+sessionStorage.getItem('userId') + '/projects?limit=10', {
+          headers: { "auth": sessionStorage.getItem('auth_token') }
+        })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
+    },
+    mounted (){
+      this.getProjects();
+    },
+  }
 </script>
 
 <style scoped>
@@ -160,7 +198,7 @@
         top: 0;
         left: 0;
     }
-    
+
     .line {
         width: 99%;
         font-size: 1px;

@@ -132,7 +132,7 @@
 					- We are a team of junior developers , developing our first project , implementing a web cooperative platform for software management. This platform helps teams to implement software projects based on agile methodology (SCRUM) via backlogs, issues, epics and sprints.
 				</p>
 			</b-row>
-			
+
 	       	<b-container class="bottom" style="background-color:#444545;" fluid>
 				<b-row align-h="center">
 		        	<ul>
@@ -149,7 +149,7 @@
 		    	</b-row>
 		    </b-container>
 	    </b-container>
-	</b-container>    
+	</b-container>
 </template>
 
 <script>import axios from 'axios'
@@ -175,7 +175,7 @@ export default {
 
 .Home{
 	position: absolute;
-	background-color: #f9ebe0; 
+	background-color: #f9ebe0;
 	width: 100vw;
 	left: 0;
 }
@@ -189,7 +189,7 @@ export default {
 .Features{
   position: absolute;
   top:457%;
-  left:0;	
+  left:0;
 }
 
 .stamp {
@@ -201,12 +201,12 @@ export default {
 .About{
   position: absolute;
   top:865%;
-  left:4px;		
+  left:4px;
 }
 
 .devs{
  	height: 50%;
- 	width: 50%;	
+ 	width: 50%;
 }
 
 .description{
@@ -220,7 +220,7 @@ export default {
 .bottom{
 	position: absolute;
  	left:0%;
- 	width: 100%;			
+ 	width: 100%;
 }
 
 ul {

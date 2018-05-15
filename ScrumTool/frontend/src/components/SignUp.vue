@@ -5,10 +5,12 @@
     <b-col></b-col>
     <b-col class="w-100">
 
-        <!--<b-img src="../assets/vassardevil.png"/>-->
+        <!--<b-img src="../../../src/main/webapp/assets/kanban-512.png"></b-img>-->
+      <b-img style ="width: 50%" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
+
 
         <!--<b-card :src="require('https://lorempixel.com/300/150/')"></b-card>-->
-        <b-img style ="width: 50%" src="https://static1.squarespace.com/static/538df61ae4b055cc3310e47f/t/59124725893fc098b54c30a7/1494370113194/vassardevil.jpg"></b-img>
+        <!--<b-img style ="width: 50%" src="https://static1.squarespace.com/static/538df61ae4b055cc3310e47f/t/59124725893fc098b54c30a7/1494370113194/vassardevil.jpg"></b-img>-->
       <br><br>
     <b-form @submit="onSubmit" id="form_signup">
 
