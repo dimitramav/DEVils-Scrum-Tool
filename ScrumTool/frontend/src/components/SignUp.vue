@@ -40,17 +40,16 @@
       <b-form-group id="password"
                     label="Password"
                     label-for="password"
-                    description='Password must contain at least eight characters, at least one number and both lower and uppercase letters and special characters' >
+                    description='Password must contain at least eight characters, at least one number and both lower and special characters' >
         <b-form-input id="password"
                       type="password"
                       v-model="form.password"
-                      @change="checkPassword"
-                      :state="validPassword"
+                      :state="checkPassword"
                       required>
         </b-form-input>
       </b-form-group>
       <br>
-      <b-button size="lg" type="submit" variant="primary" :disabled="rightEmail===false" > Sign up</b-button>
+      <b-button size="lg" type="submit" variant="primary" :disabled="rightEmail===false || validPassword===false" > Sign up</b-button>
       <br><br><br>
       <b-button variant="link" v-on:click="gotoSignIn">Already a member? Sign in</b-button>
     </b-form>
@@ -76,6 +75,20 @@ export default {
       response: [],
       errors: []
     }
+  },
+  computed: {
+    checkPassword() {
+      if (this.form.password==='') return null;
+      const regex = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/ ;
+      if(this.form.password.match(regex)) {
+        this.validPassword=true;
+        return true;
+      }
+      else {
+        this.validPassword=false;
+        return false;
+      }
+    },
   },
   methods: {
     onSubmit () {
@@ -111,16 +124,6 @@ export default {
         .catch(function (error) {
           console.log(error);
         })
-    },
-    checkPassword() {
-      const regex = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/ ;
-      if(this.form.password.match(regex)) {
-        this.validPassword=true;
-      }
-      else {
-        alert('Invalid Password');
-        this.validPassword=false;
-      }
     },
   }
 }
