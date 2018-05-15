@@ -46,12 +46,13 @@
 
       <b-form-group id="password"
                     label="Password"
-                    label-for="password">
+                    label-for="password"
+                    description='Password must contain at least eight characters, at least one number and both lower and uppercase letters and special characters' >
         <b-form-input id="password"
-                      label="Password"
-                      label-for="password"
                       type="password"
                       v-model="form.password"
+                      @change="checkPassword"
+                      :state="validPassword"
                       required>
         </b-form-input>
       </b-form-group>
@@ -78,6 +79,7 @@ export default {
         password: '',
       },
       rightEmail: null,
+      validPassword: null,
       response: [],
       errors: []
     }
@@ -116,6 +118,16 @@ export default {
         .catch(function (error) {
           console.log(error);
         })
+    },
+    checkPassword() {
+      const regex = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/ ;
+      if(this.form.password.match(regex)) {
+        this.validPassword=true;
+      }
+      else {
+        alert('Invalid Password');
+        this.validPassword=false;
+      }
     },
   }
 }
