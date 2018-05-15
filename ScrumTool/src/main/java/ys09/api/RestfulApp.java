@@ -66,7 +66,7 @@ public class RestfulApp extends Application {
 		router.attach("/exists", UserExistsResource.class);
 		// GET
 		// Pagination for projects
-        router.attach("/projects/{userId}/limit={limit}&offset={offset}", ProjectsResource.class);
+        router.attach("/users/{userId}/projects", ProjectsResource.class);
 
 		return corsFilter;
 	}
