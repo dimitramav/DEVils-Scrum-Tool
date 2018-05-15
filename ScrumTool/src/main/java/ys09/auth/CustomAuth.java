@@ -9,6 +9,7 @@ import ys09.conf.Configuration;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
+import java.io.UnsupportedEncodingException;
 import java.security.Key;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -18,12 +19,11 @@ public class CustomAuth {
 
     // Creates an auth token
     // TODO: Add more parameters
-
-    public String createToken(String mail) {
+    public String createToken(String userId) {
         // the key would be read from our application configuration.
         Configuration config = Configuration.getInstance();
         String compactJws =  Jwts.builder()
-                .setSubject(mail)
+                .setSubject(userId)
                 .signWith(SignatureAlgorithm.HS512, config.getKey())
                 .compact();
 
@@ -48,6 +48,28 @@ public class CustomAuth {
         catch( MalformedJwtException e1) {
             // Parser Exception
             // It's not in token format with the double dots
+            return false;
+        }
+    }
+
+    // Get UserId
+    public boolean userValidation(String token, String userId){
+        try {
+            Configuration config = Configuration.getInstance();
+            String subject = Jwts.parser().setSigningKey(config.getKey()).parseClaimsJws(token).getBody().getSubject();
+            //System.out.println(subject);
+            //System.out.println("xoxo");
+            if(subject.equals(userId)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (SignatureException e) {
+            return false;
+        }
+        catch(MalformedJwtException el) {
             return false;
         }
     }

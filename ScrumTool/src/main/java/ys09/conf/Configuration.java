@@ -11,10 +11,11 @@ import io.jsonwebtoken.impl.crypto.MacProvider;
 public class Configuration {
 
     public static final String[] CONFIG_KEYS = new String[]{"x", "y"};
+    private static final String KEY = new String("secret_key");
     private static final Configuration self = new Configuration();
 
-    private static final Key key = MacProvider.generateKey();  //secret key for authentication
-
+    //public static final Key key = MacProvider.generateKey();  //secret key for authentication
+    //private static final Key key = ;
     private DataAccess dataAccess = new DataAccess();
     private String contextPath = null;
     private Properties props = new Properties();
@@ -62,5 +63,5 @@ public class Configuration {
 
     public DataAccess getDataAccess() { return dataAccess; }
 
-    public Key getKey() {return key;}
+    public String getKey() {return KEY;}
 }
