@@ -1,14 +1,17 @@
 package ys09.data;
 
-import org.apache.commons.dbcp2.BasicDataSource;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import ys09.model.Project;
 import ys09.model.User;
 import ys09.model.SignIn;
+
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 
@@ -74,14 +77,19 @@ public class DataAccess {
     }
 
 
-    public List<Project> getUserProjects(int idUser) {
+    public List<Project> getUserProjects(int idUser, Limits limit) {
         // Return all the projects belong to user with the above id
 
         List<Project> projects = new ArrayList<>();
-        String query = "select * from Project where idProject in (select Project_id from Project_has_User where User_id = ?)";
-        jdbcTemplate = new JdbcTemplate(dataSource);
+        String query = "select * from Project where idProject in (select Project_id from Project_has_User where User_id = :id) and deadlineDate <= :expDate order by deadlineDate limit :limit";
+        // Use NamedParameterJdbcTemplate because of Date parsing
+        NamedParameterJdbcTemplate namedJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", idUser);
+        params.addValue("limit",  limit.getCount());
+        params.addValue("expDate", limit.getStart(), Types.DATE);
         try {
-            return jdbcTemplate.query(query, new Object[]{idUser}, new ProjectRowMapper());
+            return namedJdbcTemplate.query(query, params, new ProjectRowMapper());
         } catch (EmptyResultDataAccessException e) {
             return projects;
         }
