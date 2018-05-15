@@ -49,8 +49,8 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
-      // evt.preventDefault();
+    onSubmit (evt) {
+      evt.preventDefault();
       // alert(JSON.stringify(this.form));
       const self = this;
       axios.post('http://localhost:8765/app/api/signin', {

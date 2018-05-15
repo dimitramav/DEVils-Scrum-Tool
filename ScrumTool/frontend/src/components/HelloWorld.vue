@@ -8,7 +8,7 @@
 	    		<h1 align="center" style="font-family:Courier New;color:white;"> Scrum Tool </h1>
     		</b-col>
 	    	<b-col>
-	    		<button type="button" class="btn btn-warning">Log In</button>
+	    		<button type="button" class="btn btn-warning" v-on:click="gotoSignIn">Log In</button>
 	        	<button type="button" class="btn btn-warning">Sign Up</button>
 	   		</b-col>
 	   	</b-row>
@@ -152,7 +152,18 @@
 	</b-container>    
 </template>
 
-<script>
+<script>import axios from 'axios'
+export default {
+  data() {
+    return {
+    }
+  },
+  methods: {
+    gotoSignIn() {
+      this.$router.push({path: '/signin'});
+    },
+  }
+}
 </script>
 
 <style scoped>

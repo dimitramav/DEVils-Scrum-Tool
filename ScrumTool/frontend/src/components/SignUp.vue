@@ -1,19 +1,27 @@
 <template>
+
   <b-container style="padding-top:100px;">
     <b-row>
     <b-col></b-col>
     <b-col class="w-100">
+
+        <!--<b-img src="../assets/vassardevil.png"/>-->
+
+        <!--<b-card :src="require('https://lorempixel.com/300/150/')"></b-card>-->
+        <b-img src="https://i2.wp.com/beebom.com/wp-content/uploads/2016/01/Reverse-Image-Search-Engines-Apps-And-Its-Uses-2016.jpg"></b-img>
+
     <b-form @submit="onSubmit" id="form_signup">
+
       <b-form-group id="emailForm"
                     label="Email address"
                     label-for="email"
-                    :invalid-feedback="rightEmail===false ? 'Email is already in use' : ''"
+                    :invalid-feedback="validEmail===false ? 'Email is already in use' : ''"
                     description="We'll never share your email with anyone else.">
         <b-form-input id="emailInput"
                       type="email"
                       v-model="form.email"
                       @change="checkEmail"
-                      :state="rightEmail"
+                      :state="validEmail"
                       autocomplete="off" required> <!--autocomplete has a bug and v-model does not syncronize it-->
         </b-form-input>
 
@@ -49,7 +57,7 @@
         </b-form-input>
       </b-form-group>
       <br>
-      <b-button size="lg" type="submit" variant="primary" :disabled="rightEmail===false || validPassword===false" > Sign up</b-button>
+      <b-button size="lg" type="submit" variant="primary" :disabled="validEmail===false || validPassword===false" > Sign up</b-button>
       <br><br><br>
       <b-button variant="link" v-on:click="gotoSignIn">Already a member? Sign in</b-button>
     </b-form>
@@ -70,7 +78,7 @@ export default {
         lastName: '',
         password: '',
       },
-      rightEmail: null,
+      validEmail: null,
       validPassword: null,
       response: [],
       errors: []
@@ -91,8 +99,10 @@ export default {
     },
   },
   methods: {
-    onSubmit () {
+    onSubmit (evt) {
+      evt.preventDefault();
       const self = this;
+      console.log("mphka sto on submit");
       axios.post('http://localhost:8765/app/api/users', {
         mail: this.form.email,
         firstname: this.form.firstname,
@@ -100,11 +110,14 @@ export default {
         password: this.form.password
       })
         .then(function (response) {
+          console.log("mphka sto then");
           if (response.data.results) {
+            console.log("mphka sthn if");
             sessionStorage.setItem('auth_token', response.data.results.auth_token);
             sessionStorage.setItem('userId', response.data.results.userId);
             self.$router.push({path: '/home'})
           }
+          console.log(response);
         })
         .catch(function (error) {
           console.log(error);
@@ -119,7 +132,7 @@ export default {
         mail: this.form.email,
       })
         .then(function (response) {
-          self.rightEmail=(response.data.exists===0);
+          self.validEmail=(response.data.exists===0);
         })
         .catch(function (error) {
           console.log(error);
