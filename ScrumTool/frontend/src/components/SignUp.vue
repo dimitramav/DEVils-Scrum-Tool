@@ -1,10 +1,3 @@
-<!--<template>-->
-<!--<div>-->
-<!--<button class=”Search__button” @click="callRestService()">CALL Spring Boot REST backend service</button>-->
-<!--<p>{{response}}</p>-->
-<!--</div>-->
-<!--</template>-->
-
 <template>
   <b-container style="padding-top:100px;">
     <b-row>
