@@ -77,17 +77,18 @@ public class DataAccess {
     }
 
 
-    public List<Project> getUserProjects(int idUser, Limits limit) {
+    public List<Project> getUserProjects(int idUser, Limits limit, Boolean isDone){
         // Return all the projects belong to user with the above id
 
         List<Project> projects = new ArrayList<>();
-        String query = "select * from Project where idProject in (select Project_id from Project_has_User where User_id = :id) and deadlineDate <= :expDate order by deadlineDate limit :limit";
+        String query = "select * from Project where idProject in (select Project_id from Project_has_User where User_id = :id) and isDone = :done and deadlineDate <= :expDate order by deadlineDate limit :limit";
         // Use NamedParameterJdbcTemplate because of Date parsing
         NamedParameterJdbcTemplate namedJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", idUser);
         params.addValue("limit",  limit.getCount());
         params.addValue("expDate", limit.getStart(), Types.DATE);
+        params.addValue("done", isDone);
         try {
             return namedJdbcTemplate.query(query, params, new ProjectRowMapper());
         } catch (EmptyResultDataAccessException e) {

@@ -44,6 +44,8 @@ public class ProjectsResource extends ServerResource {
         // Read the values of url (limit and nearestDeadline) for pagination
         String strcount = getQuery().getValues("limit");
         String strstart = getQuery().getValues("nearestDeadline");
+        String isDone = getQuery().getValues("isDone");
+
         DateFormat format = new SimpleDateFormat("yyyy-M-d");
         Date expDate = new Date(Long.MAX_VALUE);
         try { expDate = format.parse(strstart); }
@@ -68,7 +70,7 @@ public class ProjectsResource extends ServerResource {
             // Get Projects only for the current user
             // Show them in the index page
             if(customAuth.userValidation(token, userId)) {
-                List<Project> projects = dataAccess.getUserProjects(user, limit);
+                List<Project> projects = dataAccess.getUserProjects(user, limit, Boolean.parseBoolean(isDone));
                 map.put("results", projects);
                 // Set the response headers
                 return new JsonMapRepresentation(map);
