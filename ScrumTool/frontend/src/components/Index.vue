@@ -222,28 +222,10 @@
           <div class="line">.</div>
         </b-row>
         <b-row>
-          <b-card-group deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-            <b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">
+          <b-card-group v-for="project in projects" :key="project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
+            <b-card :title="project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
               <p class="card-text">
-                Small paragraph describing project's info
-              </p>
-              <b-button href="#" variant="warning">Proceed</b-button>
-            </b-card>
-            <b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">
-              <p class="card-text">
-                Small paragraph describing project's info
-              </p>
-              <b-button href="#" variant="warning">Proceed</b-button>
-            </b-card>
-            <b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">
-              <p class="card-text">
-                Small paragraph describing project's info
-              </p>
-              <b-button href="#" variant="warning">Proceed</b-button>
-            </b-card>
-            <b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">
-              <p class="card-text">
-                Small paragraph describing project's info
+                Deadline: {{project.deadlineDate}}
               </p>
               <b-button href="#" variant="warning">Proceed</b-button>
             </b-card>
@@ -275,34 +257,34 @@
           <div class="line">.</div>
         </b-row>
 
-        <b-row>
-          <b-card-group deck class="mb-3" style="margin: 0 auto;float: none;margin-bottom: 10px;">
-            <b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">
-              <p class="card-text">
-                Small paragraph describing project's info
-              </p>
-              <b-button href="#" variant="warning">Proceed</b-button>
-            </b-card>
-            <b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">
-              <p class="card-text">
-                Small paragraph describing project's info
-              </p>
-              <b-button href="#" variant="warning">Proceed</b-button>
-            </b-card>
-            <b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">
-              <p class="card-text">
-                Small paragraph describing project's info
-              </p>
-              <b-button href="#" variant="warning">Proceed</b-button>
-            </b-card>
-            <b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">
-              <p class="card-text">
-                Small paragraph describing project's info
-              </p>
-              <b-button href="#" variant="warning">Proceed</b-button>
-            </b-card>
-          </b-card-group>
-        </b-row>
+        <!--<b-row>-->
+          <!--<b-card-group deck class="mb-3" style="margin: 0 auto;float: none;margin-bottom: 10px;">-->
+            <!--<b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">-->
+              <!--<p class="card-text">-->
+                <!--Small paragraph describing project's info-->
+              <!--</p>-->
+              <!--<b-button href="#" variant="warning">Proceed</b-button>-->
+            <!--</b-card>-->
+            <!--<b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">-->
+              <!--<p class="card-text">-->
+                <!--Small paragraph describing project's info-->
+              <!--</p>-->
+              <!--<b-button href="#" variant="warning">Proceed</b-button>-->
+            <!--</b-card>-->
+            <!--<b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">-->
+              <!--<p class="card-text">-->
+                <!--Small paragraph describing project's info-->
+              <!--</p>-->
+              <!--<b-button href="#" variant="warning">Proceed</b-button>-->
+            <!--</b-card>-->
+            <!--<b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">-->
+              <!--<p class="card-text">-->
+                <!--Small paragraph describing project's info-->
+              <!--</p>-->
+              <!--<b-button href="#" variant="warning">Proceed</b-button>-->
+            <!--</b-card>-->
+          <!--</b-card-group>-->
+        <!--</b-row>-->
       </b-container>
 
     </template>
@@ -314,23 +296,25 @@ export default {
   data() {
     return {
       isLoggedIn: false,
+      // projects: {
+      //   idProject: '',
+      //   title: '',
+      //   isDone: '',
+      //   deadlineDate: '',
+      // },
+      projects:[],
     }
   },
   methods: {
     gotoSignIn() {
       this.$router.push({path: '/signin'});
     },
-    // isLoggedIn() {
-    //   console.log(localStorage.getItem('userId'));
-    //   if (localStorage.getItem('userId')===null) return false;
-    //   else return true;
-    // },
     getProjects () {
       //evt.preventDefault();
       const self = this;
       //this.changeLoggedInState();
-      console.log(localStorage.getItem('auth_token'));
-      //console.log("auth_token = " + localStorage.getItem('auth_token') + "user id = " + localStorage.getItem('userId') + this.isLoggedIn);
+      //console.log(localStorage.getItem('auth_token'));
+      console.log("auth_token = " + localStorage.getItem('auth_token') + "user id = " + localStorage.getItem('userId') + this.isLoggedIn);
       axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?limit=10', {
         headers: { "auth": localStorage.getItem('auth_token') }
       })
@@ -342,27 +326,15 @@ export default {
           }
           else self.isLoggedIn=true;
           console.log(response);
+          if (response.data.results) {
+            self.projects = response.data.results;
+            console.log(self.projects);
+          }
         })
         .catch(function (error) {
           console.log(error);
         })
     },
-    // changeLoggedInState() {
-    //   //console.log('check');
-    //   // if (localStorage.getItem('userId')==='null') {
-    //   //   this.isLoggedIn=false;
-    //   //   //return false
-    //   // }
-    //   // else {
-    //   //   //return true;
-    //   //   this.isLoggedIn=true;
-    //   //
-    //   // }
-    //   //localStorage.setItem('auth_token', 'null');
-    //   //console.log(typeof(localStorage.getItem('auth_token')));
-    //   //this.isLoggedIn=!this.isLoggedIn;
-    //
-    // },
     logout() {
       localStorage.setItem('userId','null');
       localStorage.setItem('auth_token', 'null');
@@ -370,6 +342,7 @@ export default {
     },
   },
   mounted (){
+    if (localStorage.getItem('auth_token')==='null' || localStorage.getItem('userId')==='null') return;
     this.getProjects();
   },
 }
