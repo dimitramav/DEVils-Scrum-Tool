@@ -110,7 +110,7 @@ export default {
             console.log("mphka sthn if");
             localStorage.setItem('auth_token', response.data.results.auth_token);
             localStorage.setItem('userId', response.data.results.userId);
-            self.$router.push({path: '/home'})
+            self.$router.push({path: '/'})
           }
           console.log(response);
         })

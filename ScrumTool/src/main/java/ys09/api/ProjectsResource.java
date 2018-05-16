@@ -40,7 +40,7 @@ public class ProjectsResource extends ServerResource {
         // Get UserId
         String userId = getRequestAttributes().get("userId").toString();
         if (userId.equals("null")) {
-            mapError.put("unauthorized", "null");
+            mapError.put("error", "Unauthorized projects");
             return new JsonMapRepresentation(mapError);
         }
         int user = Integer.parseInt(userId);
