@@ -1,9 +1,11 @@
 <template>
-  <b-container style="padding-top:100px;">
+  <b-container>
       <b-row>
       <b-col></b-col>
-      <b-col>
-      <b-form @submit="onSubmit" id="form_login">
+        <b-col class="w-100">
+        <b-img style ="width: 50%" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
+          <br><br>
+      <b-form @submit="onSubmit" id="formlogin" style ="width: 50%">
         <b-alert show variant="warning" v-if="wrongLogin===true">Wrong email or password</b-alert>
 
         <b-form-group id="mail_group">
@@ -87,7 +89,7 @@ export default {
 </script>
 
 <style scoped>
-  #form_login {
+  #formlogin {
     display: table-cell;
     text-align: center;
     vertical-align: central;
