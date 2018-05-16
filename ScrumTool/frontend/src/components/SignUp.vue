@@ -115,8 +115,8 @@ export default {
           console.log("mphka sto then");
           if (response.data.results) {
             console.log("mphka sthn if");
-            sessionStorage.setItem('auth_token', response.data.results.auth_token);
-            sessionStorage.setItem('userId', response.data.results.userId);
+            localStorage.setItem('auth_token', response.data.results.auth_token);
+            localStorage.setItem('userId', response.data.results.userId);
             self.$router.push({path: '/home'})
           }
           console.log(response);

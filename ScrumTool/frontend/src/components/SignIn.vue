@@ -60,8 +60,8 @@ export default {
         .then(function (response) {
           console.log(response);
           if (response.data.results) {
-            sessionStorage.setItem('auth_token', response.data.results.auth_token);
-            sessionStorage.setItem('userId', response.data.results.userId);
+            localStorage.setItem('auth_token', response.data.results.auth_token);
+            localStorage.setItem('userId', response.data.results.userId);
             self.$router.push({path: '/home'})
           }
           else if (response.data.Message) {

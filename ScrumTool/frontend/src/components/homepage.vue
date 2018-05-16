@@ -28,7 +28,7 @@
                 </em>
                         </template>
                         <b-dropdown-item href="#">Profile</b-dropdown-item>
-                        <b-dropdown-item href="#">Signout</b-dropdown-item>
+                      <b-dropdown-item-button v-on:click="logout">Sign out</b-dropdown-item-button>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
             </b-collapse>
@@ -174,17 +174,22 @@
       getProjects () {
         //evt.preventDefault();
         const self = this;
-        console.log("auth_token = " + sessionStorage.getItem('auth_token'));
-        axios.get('http://localhost:8765/app/api/users/'+sessionStorage.getItem('userId') + '/projects?limit=10', {
-          headers: { "auth": sessionStorage.getItem('auth_token') }
-        })
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
+        console.log("auth_token = " + localStorage.getItem('auth_token') + "user id = " + localStorage.getItem('userId'));
+        // axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?limit=10', {
+        //   headers: { "auth": localStorage.getItem('auth_token') }
+        // })
+        //   .then(function (response) {
+        //     console.log(response);
+        //   })
+        //   .catch(function (error) {
+        //     console.log(error);
+        //   })
       },
+      logout() {
+        localStorage.setItem('userId',null);
+        localStorage.setItem('auth_token', null);
+        this.$router.push({path: '/signin'})
+      }
     },
     mounted (){
       this.getProjects();
