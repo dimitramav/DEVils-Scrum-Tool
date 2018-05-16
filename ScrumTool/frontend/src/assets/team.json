@@ -3,44 +3,51 @@
     "member1": {
       "name": "Yolanda K",
       "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA",
-      "lang": "Java/SQL/Spring",
-      "dev": "back-end developer"
+      "lang": "Java/ SQL",
+      "dev": "back-end developer",
+      "phrase": "Ax, san skata tha ginei"
     },
     "member2": {
       "name": "Orestis G",
       "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA",
-      "lang": "Java/SQL/Spring",
-      "dev": "back-end developer"
+      "lang": "Java/ SQL",
+      "dev": "back-end developer",
+      "phrase": "Arakste paidia, exoume xrono"
     },
     "member3": {
-      "name": "Dhmhtra M",
+      "name": "Dimitra M",
       "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA",
-      "lang": "Java/SQL/Spring",
-      "dev": "back-end developer"
+      "lang": "Java/ SQL",
+      "dev": "back-end developer",
+      "phrase": "Elaaaa re oxi twra auto"
     },
     "member4": {
       "name": "Markos V",
       "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA",
-      "lang": "Vue JS/Javascript/HTML/CSS",
-      "dev": "front-end developer"
+      "lang": "VueJS/ Javascript/ HTML/ CSS",
+      "dev": "front-end developer",
+      "phrase": "Kai to netflix etsi to kanei!"
     },
     "member5": {
-      "name": "Vagelhs G",
+      "name": "Vagelis G",
       "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA",
-      "lang": "Vue JS/Javascript/HTML/CSS",
-      "dev": "front-end developer"
+      "lang": "VueJS/ Javascript/ HTML/ CSS",
+      "dev": "front-end developer",
+      "phrase": "Re file akou na sou pw pws to exw skeftei"
     },
     "member6": {
       "name": "Kostas K",
       "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA",
-      "lang": "HTML/CSS/Javascript",
-      "dev": "back end developer"
+      "lang": "HTML/ CSS/ Javascript",
+      "dev": "back end developer",
+      "phrase": "Paidia ena ena mou ta lete"
     },
     "member7": {
-      "name": "Vagelhs K",
+      "name": "Vagelis K",
       "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA",
-      "lang": "HTML/CSS/Javascript",
-      "dev": "front-end developer"
+      "lang": "HTML/ CSS/ Javascript",
+      "dev": "front-end developer",
+      "phrase": "Tha vrethoume telika simera? Min erxomai mono gi auto"
     }
   }
 }

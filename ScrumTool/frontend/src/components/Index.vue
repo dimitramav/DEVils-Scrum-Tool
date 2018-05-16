@@ -34,7 +34,7 @@
 
         <div id="home" class="Home">
           <img src="../assets/ScrumWordCloud.jpg" class="wordcloud"">
-          <button type="button" class="btn btn-primary" v-on:click="gotoSignUp">Join Free Now</button>
+          <b-button variant="primary" size="lg" type="button" v-on:click="gotoSignUp">Join Free Now</b-button>
           <p><br/></p>
         </div>
 
@@ -74,14 +74,15 @@
             <p></p>
           </b-row>
           <b-row>
-            <b-card-group v-for="teamMember in teamData" :key="teamMember.member" deck style=" margin: 0 auto;float: none; margin-bottom: 10px;">
+            <b-card-group v-for="teamMember in teamData" :key="teamMember.member" deck style="margin: 0 auto;float: none; margin-bottom: 10px;">
               <b-card :title="teamMember.name"
                       :img-src="teamMember.img"
                       img-alt="Img"
-                      style="max-width: 15rem;"
+                      style="max-width: 9rem"
                       class="mb-2">
                 <p class="card-text" style="font-style: italic;">
-                  {{teamMember.lang}}, {{teamMember.dev}}
+                  {{teamMember.dev}}, {{teamMember.lang}}
+                  <br><br><p style="color: rgba(47,75,72,0.85)"> Phrase:<br>{{teamMember.phrase}}</p>
                 </p>
               </b-card>
             </b-card-group>
