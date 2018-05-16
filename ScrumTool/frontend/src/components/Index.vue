@@ -1,33 +1,40 @@
 <template>
   <div>
     <template v-if="isLoggedIn===false">
-      <b-container class="Title" style="background-color:#444545;" fluid >
+      <b-container class="Title" style="background-color:#2d2d2d;" fluid >
+        <b-row>
+          <p></p>
+        </b-row>
         <b-row>
           <b-col>
-            <b-img src="https://static1.squarespace.com/static/538df61ae4b055cc3310e47f/t/59124725893fc098b54c30a7/1494370113194/vassardevil.jpg?format=500w" width="55" height="55" fluid alt="Responsive image"/>
+            <b-img style ="width: 30%" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
           </b-col>
           <b-col cols="8">
-            <h1 align="center" style="font-family:Courier New;color:white;"> Scrum Tool </h1>
+            <h1 align="center" style="font-family:cursive;margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
           </b-col>
           <b-col>
-            <button type="button" class="btn btn-warning" v-on:click="gotoSignIn">Log In</button>
-            <button type="button" class="btn btn-warning">Sign Up</button>
+            <button type="button" class="btn btn-primary" v-on:click="gotoSignIn">Log In</button>
+            <button type="button" class="btn btn-primary" v-on:click="gotoSignUp">Sign Up</button>
           </b-col>
         </b-row>
         <b-row align-h="center">
-          <p style="font-family:Courier New; color:white; font-style: italic;text-decoration: overline-underline;" align="center">Let's get agile together! </p>
+          <p style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">Be agile together! </p>
         </b-row>
-        <b-row align-h="center">
-          <ul>
-            <li><a class="active" href="#home" >Home</a></li>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#about">About Us</a></li>
-          </ul>
+        <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
+            <b-col col lg="1">
+              <a class="active" href="#home" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">home</a>
+            </b-col>
+            <b-col col lg="1">
+              <a href="#features" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">features</a>
+            </b-col>
+            <b-col col lg="1">
+              <a href="#about" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">about</a>
+            </b-col>
         </b-row>
 
         <div id="home" class="Home">
           <img src="../assets/ScrumWordCloud.jpg" class="wordcloud"">
-          <button type="button" class="btn btn-warning">Join Free Now</button>
+          <button type="button" class="btn btn-primary" v-on:click="gotoSignUp">Join Free Now</button>
           <p><br/></p>
         </div>
 
@@ -40,8 +47,8 @@
           </b-row>
           <b-row>
             <b-col>
-              <b-list-group style="text-align:center; font-style: italic;font-family: Comic Sans MS, cursive, sans-serif;">
-                <b-list-group-item>Implement agile / scrum methodology</b-list-group-item>
+              <b-list-group style="text-align:center; font-weight: normal;font-family:cursive;color:#2d2d2d;">
+                <b-list-group-item>Implement scrum methodology</b-list-group-item>
                 <b-list-group-item>Free of charge forever</b-list-group-item>
                 <b-list-group-item>Variety of tools to choose by</b-list-group-item>
                 <b-list-group-item>Create , participate , communicate in projects</b-list-group-item>
@@ -53,13 +60,13 @@
                 <b-list-group-item>Create Epics , Tasks , Stories</b-list-group-item>
               </b-list-group>
             </b-col>
-            <b-col>
-              <iframe class="stamp" src="https://www.youtube.com/embed/tgbNymZ7vqY" width="740" height="500" style="float: right" allowfullscreen></iframe>
+            <b-col align-self="center">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/9TycLR0TqFA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             </b-col>
           </b-row>
         </b-container>
 
-        <b-container class="About Us" id="about" style="background-color: #F5F5FB;" fluid>
+        <b-container class="About Us" id="about" style="background-color: #fbfbff;" fluid>
           <b-row align-h="center">
             <h2 style="font-family:Courier New;"> About Us </h2>
           </b-row>
@@ -67,7 +74,7 @@
             <p></p>
           </b-row>
           <b-row>
-            <b-card-group deck>
+            <b-card-group deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
               <b-card title="Yolanda K"
                       img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"
                       img-alt="Img"
@@ -135,19 +142,25 @@
             </p>
           </b-row>
 
-          <b-container class="bottom" style="background-color:#444545;" fluid>
-            <b-row align-h="center">
-              <ul>
-                <li><a class="active" href="#home">Home</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#about">About Us</a></li>
-              </ul>
+          <b-container class="bottom" style="background-color:#2d2d2d;" fluid>
+            <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
+                <b-col col lg="1">
+                  <a class="active" href="#home" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">home</a>
+                </b-col>
+                <b-col col lg="1">
+                  <a href="#features" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">features</a>
+                </b-col>
+                <b-col col lg="1">
+                  <a href="#about" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">about</a>
+                </b-col>
             </b-row>
-            <b-row align-h="center">
-              <ul>
-                <li style="font-size: 13px"><a class="active" href="#terms"> Terms of policy</a></li>
-                <li style="font-size: 13px"><a href="#privacy"> Privacy policy</a></li>
-              </ul>
+            <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
+                <b-col col lg="2">
+                  <a class="active" href="#home" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold;" align="center"> terms of use</a>
+                </b-col>
+                <b-col col lg="2">
+                  <a href="#features" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">privacy policy</a>
+                </b-col>
             </b-row>
           </b-container>
         </b-container>
@@ -209,7 +222,7 @@
                   <h4>Title:</h4>
                   <label class="sr-only" for="inlineFormInputName2"></label>
                   <b-input class="" id="inlineFormInputName2" placeholder="New Project's Name" />
-                  <b-button variant="warning" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
+                  <b-button variant="default" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
                 </b-form>
               </b-dropdown>
             </div>
@@ -225,7 +238,7 @@
               <p class="card-text">
                 Deadline: {{project.deadlineDate}}
               </p>
-              <b-button href="#" variant="warning">Proceed</b-button>
+              <b-button href="#" variant="default">Proceed</b-button>
             </b-card>
           </b-card-group>
         </b-row>
@@ -266,25 +279,25 @@
               <!--<p class="card-text">-->
                 <!--Small paragraph describing project's info-->
               <!--</p>-->
-              <!--<b-button href="#" variant="warning">Proceed</b-button>-->
+              <!--<b-button href="#" variant="default">Proceed</b-button>-->
             <!--</b-card>-->
             <!--<b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">-->
               <!--<p class="card-text">-->
                 <!--Small paragraph describing project's info-->
               <!--</p>-->
-              <!--<b-button href="#" variant="warning">Proceed</b-button>-->
+              <!--<b-button href="#" variant="default">Proceed</b-button>-->
             <!--</b-card>-->
             <!--<b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">-->
               <!--<p class="card-text">-->
                 <!--Small paragraph describing project's info-->
               <!--</p>-->
-              <!--<b-button href="#" variant="warning">Proceed</b-button>-->
+              <!--<b-button href="#" variant="default">Proceed</b-button>-->
             <!--</b-card>-->
             <!--<b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">-->
               <!--<p class="card-text">-->
                 <!--Small paragraph describing project's info-->
               <!--</p>-->
-              <!--<b-button href="#" variant="warning">Proceed</b-button>-->
+              <!--<b-button href="#" variant="default">Proceed</b-button>-->
             <!--</b-card>-->
           <!--</b-card-group>-->
         <!--</b-row>-->
@@ -315,6 +328,10 @@ export default {
     gotoSignIn() {
       this.$router.push({path: '/signin'});
     },
+    gotoSignUp() {
+      this.$router.push({path: '/signup'});
+    }
+    ,
     getProjects () {
       //evt.preventDefault();
       const self = this;
@@ -363,7 +380,7 @@ export default {
 
   .Home{
     position: absolute;
-    background-color: #f9ebe0;
+    background-color: #fafaff;
     width: 100vw;
     left: 0;
   }
@@ -371,12 +388,12 @@ export default {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 54%;
+    width: 51%;
   }
 
   .Features{
     position: absolute;
-    top:457%;
+    top:498%;
     left:0;
   }
 
@@ -388,7 +405,7 @@ export default {
 
   .About{
     position: absolute;
-    top:865%;
+    top:900%;
     left:4px;
   }
 
@@ -397,19 +414,23 @@ export default {
     width: 50%;
   }
 
-  .description{
-    font-family: "Lucida Console", Monaco, monospace;
-    font-size: 25px;
-    margin-top: .34em; color: #666;
-    color: black;
-    font-style: italic;
-  }
-
   .bottom{
     position: absolute;
     left:0%;
     width: 100%;
   }
+
+  .description{
+    font-size: 14px;
+    width: 500px;
+    text-align: justify;
+    word-wrap: break-word;
+    padding: 8px;
+    text-indent: 50px;
+    text-align: justify;
+    letter-spacing: 3px;
+  }
+
 
   .Navigation {
     position: absolute;
@@ -425,37 +446,5 @@ export default {
     margin-top: -6px;
     margin-bottom: 10px;
   }
-
-  /*ul {*/
-  /*list-style-type: none;*/
-  /*margin: 0;*/
-  /*padding: 0;*/
-  /*overflow: hidden;*/
-  /*background-color: #444545;*/
-  /*text-align: center;*/
-  /*}*/
-
-  /*li {*/
-  /*display: inline-block;*/
-  /*margin-right: 10px;*/
-  /*}*/
-
-  /*li a {*/
-  /*display: inline-block;*/
-  /*color: white;*/
-  /*text-align: center;*/
-  /*padding: 14px 16px;*/
-  /*text-decoration: none;*/
-  /*margin-right: 10px;*/
-  /*}*/
-
-  /*li a:visited{*/
-  /*color: #f9ebe0*/
-  /*}*/
-
-  /*li a:hover {*/
-  /*color: #f9ebe0;*/
-  /*}*/
-
 </style>
 
