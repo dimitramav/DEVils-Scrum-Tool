@@ -45,7 +45,7 @@ public class CustomAuth {
             return false;
             //don't trust the JWT!
         }
-        catch( MalformedJwtException e1) {
+        catch (MalformedJwtException e1) {
             // Parser Exception
             // It's not in token format with the double dots
             return false;

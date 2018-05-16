@@ -36,18 +36,14 @@ public class UsersResource extends ServerResource {
           User user = gson.fromJson(str, User.class);
 
           // Return token for auth
-
           int key = dataAccess.insertUser(user);
 
-
           // Return token for auth
-
           CustomAuth customAuth = new CustomAuth();
           String token = customAuth.createToken(Integer.toString(key));
           SignInResponse response = new SignInResponse(key, token);
           map.put("results", response);
           return new JsonMapRepresentation(map);
-
       }
 
       catch(IOException e) {

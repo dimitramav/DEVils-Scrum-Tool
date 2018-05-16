@@ -81,7 +81,7 @@ public class DataAccess {
         // Return all the projects belong to user with the above id
 
         List<Project> projects = new ArrayList<>();
-        String query = "select * from Project where idProject in (select Project_id from Project_has_User where User_id = :id) and isDone = :done and deadlineDate <= :expDate order by deadlineDate limit :limit";
+        String query = "select * from Project where idProject in (select Project_id from Project_has_User where User_id = :id) and isDone = :done and deadlineDate >= :expDate order by deadlineDate limit :limit";
         // Use NamedParameterJdbcTemplate because of Date parsing
         NamedParameterJdbcTemplate namedJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         MapSqlParameterSource params = new MapSqlParameterSource();

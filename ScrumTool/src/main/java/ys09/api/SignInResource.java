@@ -43,7 +43,7 @@ public class SignInResource extends ServerResource {
           int key = dataAccess.checkSignIn(signin);
           Map<String, Object> map = new HashMap<>();
 
-          if (key != 0) {
+          if (key != 0) {           // Key is the userId for a real user
               // Create a JJWT
               CustomAuth customAuth = new CustomAuth();
               String token = customAuth.createToken(Integer.toString(key));

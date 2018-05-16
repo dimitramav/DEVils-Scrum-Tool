@@ -43,11 +43,14 @@ public class ProjectsResource extends ServerResource {
 
         // Read the values of url (limit and nearestDeadline) for pagination
         String strcount = getQuery().getValues("limit");
+        if (strcount == null) {
+            strcount = "0";
+        }
         String strstart = getQuery().getValues("nearestDeadline");
         String isDone = getQuery().getValues("isDone");
 
         DateFormat format = new SimpleDateFormat("yyyy-M-d");
-        Date expDate = new Date(Long.MAX_VALUE);
+        Date expDate = new Date(0L);
         try { expDate = format.parse(strstart); }
         catch (Exception e) { System.out.println("No date"); }
         System.out.println(expDate);
@@ -64,7 +67,6 @@ public class ProjectsResource extends ServerResource {
         }
 
         CustomAuth customAuth = new CustomAuth();
-
 
         if(customAuth.checkAuthToken(token)) {
             // Get Projects only for the current user
