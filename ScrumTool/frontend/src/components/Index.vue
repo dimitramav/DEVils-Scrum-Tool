@@ -82,8 +82,7 @@
                       class="mb-2">
                 <p class="card-text" style="font-style: italic;">
                   {{teamMember.dev}}, {{teamMember.lang}}
-                  <br><br><p style="color: rgba(47,75,72,0.85)"> Phrase:<br>{{teamMember.phrase}}</p>
-                </p>
+                  <br><br> <i style="color: rgba(47,75,72,0.85)"> Phrase:<br>{{teamMember.phrase}}</i></p>
               </b-card>
             </b-card-group>
             <!--<b-card-group deck style="margin: 0 auto;float: none;margin-bottom: 10px;">-->
