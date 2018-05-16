@@ -62,9 +62,9 @@ export default {
         .then(function (response) {
           console.log(response);
           if (response.data.results) {
-            sessionStorage.setItem('auth_token', response.data.results.auth_token);
-            sessionStorage.setItem('userId', response.data.results.userId);
-            self.$router.push({path: '/home'})
+            localStorage.setItem('auth_token', response.data.results.auth_token);
+            localStorage.setItem('userId', response.data.results.userId);
+            self.$router.push({path: '/'})
           }
           else if (response.data.Message) {
             if (response.data.Message === "Wrong Email or Password") {

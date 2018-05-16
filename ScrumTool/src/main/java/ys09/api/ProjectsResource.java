@@ -39,6 +39,10 @@ public class ProjectsResource extends ServerResource {
 
         // Get UserId
         String userId = getRequestAttributes().get("userId").toString();
+        if (userId.equals("null")) {
+            mapError.put("error", "Unauthorized projects");
+            return new JsonMapRepresentation(mapError);
+        }
         int user = Integer.parseInt(userId);
 
         // Read the values of url (limit and nearestDeadline) for pagination
@@ -62,7 +66,7 @@ public class ProjectsResource extends ServerResource {
         String token = requestHeaders.getFirstValue("auth");
 
         if (token == null) {
-            mapError.put("error", "Null token");
+            mapError.put("error", "null");
             return new JsonMapRepresentation(mapError);
         }
 
