@@ -74,64 +74,75 @@
             <p></p>
           </b-row>
           <b-row>
-            <b-card-group deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-              <b-card title="Yolanda K"
-                      img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"
+            <b-card-group v-for="teamMember in teamData" :key="teamMember.member" deck style=" margin: 0 auto;float: none; margin-bottom: 10px;">
+              <b-card :title="teamMember.name"
+                      :img-src="teamMember.img"
                       img-alt="Img"
-                      img-top>
+                      style="max-width: 15rem;"
+                      class="mb-2">
                 <p class="card-text" style="font-style: italic;">
-                  Java/SQL/Spring , back end developer
-                </p>
-              </b-card>
-              <b-card title="Orestis G"
-                      img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"
-                      img-alt="Img"
-                      img-top>
-                <p class="card-text" style="font-style: italic;">
-                  Java/SQL/Spring , back end developer
-                </p>
-              </b-card>
-              <b-card title="Dhmhtra M"
-                      img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"
-                      img-alt="Img"
-                      img-top>
-                <p class="card-text" style="font-style: italic;">
-                  Java/Scrum Master , back end developer
-                </p>
-              </b-card>
-              <b-card title="Markos V"
-                      img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"
-                      img-alt="Img"
-                      img-top>
-                <p class="card-text" style="font-style: italic;">
-                  Vue JS/Javascript/HTML/CSS  , front end developer
-                </p>
-              </b-card>
-              <b-card title="Vagelhs G"
-                      img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"
-                      img-alt="Img"
-                      img-top>
-                <p class="card-text" style="font-style: italic;">
-                  Vue JS/Javascript/HTML/CSS  , front end developer
-                </p>
-              </b-card>
-              <b-card title="Kostas Kotronis"
-                      img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"
-                      img-alt="Img"
-                      img-top>
-                <p class="card-text" style="font-style: italic;">
-                  HTML/CSS/Javascript Developer , front end
-                </p>
-              </b-card>
-              <b-card title="Vagelhs K"
-                      img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"
-                      img-alt="Img"
-                      img-top>
-                <p class="card-text" style="font-style: italic;">
-                  HTML/CSS/Javascript Developer , front end
+                  {{teamMember.lang}}, {{teamMember.dev}}
                 </p>
               </b-card>
             </b-card-group>
+            <!--<b-card-group deck style="margin: 0 auto;float: none;margin-bottom: 10px;">-->
+              <!--<b-card title="Yolanda K"-->
+                      <!--img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"-->
+                      <!--img-alt="Img"-->
+                      <!--img-top>-->
+                <!--<p class="card-text" style="font-style: italic;">-->
+                  <!--Java/SQL/Spring, back end developer-->
+                <!--</p>-->
+              <!--</b-card>-->
+              <!--<b-card title="Orestis G"-->
+                      <!--img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"-->
+                      <!--img-alt="Img"-->
+                      <!--img-top>-->
+                <!--<p class="card-text" style="font-style: italic;">-->
+                  <!--Java/SQL/Spring, back end developer-->
+                <!--</p>-->
+              <!--</b-card>-->
+              <!--<b-card title="Dhmhtra M"-->
+                      <!--img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"-->
+                      <!--img-alt="Img"-->
+                      <!--img-top>-->
+                <!--<p class="card-text" style="font-style: italic;">-->
+                  <!--Java/Scrum Master, back end developer-->
+                <!--</p>-->
+              <!--</b-card>-->
+              <!--<b-card title="Markos V"-->
+                      <!--img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"-->
+                      <!--img-alt="Img"-->
+                      <!--img-top>-->
+                <!--<p class="card-text" style="font-style: italic;">-->
+                  <!--Vue JS/Javascript/HTML/CSS  , front end developer-->
+                <!--</p>-->
+              <!--</b-card>-->
+              <!--<b-card title="Vagelhs G"-->
+                      <!--img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"-->
+                      <!--img-alt="Img"-->
+                      <!--img-top>-->
+                <!--<p class="card-text" style="font-style: italic;">-->
+                  <!--Vue JS/Javascript/HTML/CSS  , front end developer-->
+                <!--</p>-->
+              <!--</b-card>-->
+              <!--<b-card title="Kostas Kotronis"-->
+                      <!--img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"-->
+                      <!--img-alt="Img"-->
+                      <!--img-top>-->
+                <!--<p class="card-text" style="font-style: italic;">-->
+                  <!--HTML/CSS/Javascript Developer , front end-->
+                <!--</p>-->
+              <!--</b-card>-->
+              <!--<b-card title="Vagelhs K"-->
+                      <!--img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"-->
+                      <!--img-alt="Img"-->
+                      <!--img-top>-->
+                <!--<p class="card-text" style="font-style: italic;">-->
+                  <!--HTML/CSS/Javascript Developer , front end-->
+                <!--</p>-->
+              <!--</b-card>-->
+            <!--</b-card-group>-->
           </b-row>
           <b-row>
             <p></p>
@@ -311,17 +322,13 @@
 
 
 <script>import axios from 'axios'
+import json from '../assets/team.json'
 export default {
   data() {
     return {
       isLoggedIn: false,
-      // projects: {
-      //   idProject: '',
-      //   title: '',
-      //   isDone: '',
-      //   deadlineDate: '',
-      // },
       projects:[],
+      teamData: json.team,
     }
   },
   methods: {
@@ -335,9 +342,6 @@ export default {
     getProjects () {
       //evt.preventDefault();
       const self = this;
-      //this.changeLoggedInState();
-      //console.log(localStorage.getItem('auth_token'));
-      console.log("auth_token = " + localStorage.getItem('auth_token') + "user id = " + localStorage.getItem('userId') + this.isLoggedIn);
       axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?limit=10', {
         headers: { "auth": localStorage.getItem('auth_token') }
       })
@@ -348,10 +352,8 @@ export default {
             }
           }
           else self.isLoggedIn=true;
-          console.log(response);
           if (response.data.results) {
             self.projects = response.data.results;
-            console.log(self.projects);
           }
         })
         .catch(function (error) {

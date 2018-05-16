@@ -1,0 +1,46 @@
+{
+  "team": {
+    "member1": {
+      "name": "Yolanda K",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA",
+      "lang": "Java/SQL/Spring",
+      "dev": "back-end developer"
+    },
+    "member2": {
+      "name": "Orestis G",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA",
+      "lang": "Java/SQL/Spring",
+      "dev": "back-end developer"
+    },
+    "member3": {
+      "name": "Dhmhtra M",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA",
+      "lang": "Java/SQL/Spring",
+      "dev": "back-end developer"
+    },
+    "member4": {
+      "name": "Markos V",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA",
+      "lang": "Vue JS/Javascript/HTML/CSS",
+      "dev": "front-end developer"
+    },
+    "member5": {
+      "name": "Vagelhs G",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA",
+      "lang": "Vue JS/Javascript/HTML/CSS",
+      "dev": "front-end developer"
+    },
+    "member6": {
+      "name": "Kostas K",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA",
+      "lang": "HTML/CSS/Javascript",
+      "dev": "back end developer"
+    },
+    "member7": {
+      "name": "Vagelhs K",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA",
+      "lang": "HTML/CSS/Javascript",
+      "dev": "front-end developer"
+    }
+  }
+}
