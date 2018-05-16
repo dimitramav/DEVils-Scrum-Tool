@@ -1,10 +1,10 @@
 <template>
     <b-container class="Navigation" fluid>
-        <b-navbar toggleable="md" class="navbar navbar-expand-lg bg-dark navbar-dark navbar-static-top" variant="info" style="height: 41px;" fluid>
+        <b-navbar toggleable="md" class="navbar navbar-expand-lg bg-dark navbar-dark navbar-static-top" variant="info" fluid>
             <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
             <b-navbar variant="faded" type="light">
                 <b-navbar-brand href="#">
-                    <img src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" width="45" height="45" alt="BV">
+                    <img src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" width="60" height="60" alt="BV">
                 </b-navbar-brand>
             </b-navbar>
             <b-collapse is-nav id="nav_collapse">
@@ -36,7 +36,7 @@
         <b-row>
             <p></p>
         </b-row>
-        <b-row>
+        <b-row style="padding-top:10px;">
             <b-col>
                 <h2> Current Projects</h2>
             </b-col>
@@ -49,11 +49,11 @@
             <b-col>
                 <div>
                     <b-dropdown id="ddown1" text="Create a New Project" class="m-md-2">
-                        <b-form inline>
-                            Tittle:
+                        <b-form inline style="margin: 10px;">
+                            <h4>Title:</h4>
                             <label class="sr-only" for="inlineFormInputName2"></label>
-                            <b-input class="mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputName2" placeholder="New Project's Name" />
-                            <b-button variant="warning" style="margin-top: 5px; height: 35px;">Add to Projects</b-button>
+                            <b-input class="" id="inlineFormInputName2" placeholder="New Project's Name" />
+                            <b-button variant="warning" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
                         </b-form>
                     </b-dropdown>
                 </div>
@@ -206,5 +206,13 @@
         background-color: lavender;
         margin-top: -6px;
         margin-bottom: 10px;
+    }
+    .container-fluid {
+      padding-right: 0;
+      padding-left:0;
+    }
+    .row {
+      margin-right: 0px;
+      margin-left: 0px;
     }
 </style>
