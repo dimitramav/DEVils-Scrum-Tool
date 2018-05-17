@@ -21,3 +21,4 @@ insert into Project_has_User (Project_id, User_id, role) values (1, 3, 'Develope
 insert into Project_has_User (Project_id, User_id, role) values (2, 3, 'Developer');
 insert into Project_has_User (Project_id, User_id, role) values (3, 3, 'Developer');
 #select * from Project_has_User;
+#select * from Project where idProject in (select Project_id from Project_has_User where User_id = 1);
