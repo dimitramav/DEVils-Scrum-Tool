@@ -132,7 +132,11 @@ export default {
           console.log(error);
         })
     },
-  }
+  },
+  mounted (){
+    //redirect to user homepage if user is already logged in
+    if (localStorage.getItem('auth_token')!=='null' && localStorage.getItem('userId')!=='null') this.$router.push({path: '/'});
+  },
 }
 </script>
 

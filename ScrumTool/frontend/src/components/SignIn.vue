@@ -82,7 +82,11 @@ export default {
     gotoSignUp () {
       this.$router.push({path: '/signup'});
     },
-  }
+  },
+  mounted (){
+    //redirect to user homepage if user is already logged in
+    if (localStorage.getItem('auth_token')!=='null' && localStorage.getItem('userId')!=='null') this.$router.push({path: '/'});
+  },
 }
 </script>
 

@@ -284,7 +284,10 @@ export default {
     },
   },
   mounted (){
-    if (localStorage.getItem('auth_token')==='null' || localStorage.getItem('userId')==='null') return;
+    if (localStorage.getItem('auth_token')==='null' || localStorage.getItem('userId')==='null') {
+      this.isLoggedIn=false;
+      return;
+    }
     this.getProjects();
   },
 }
