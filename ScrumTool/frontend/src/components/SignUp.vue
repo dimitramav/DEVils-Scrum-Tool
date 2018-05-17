@@ -5,7 +5,7 @@
     <b-col class="w-100">
       <b-img style ="width: 50%" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
       <br><br>
-    <b-form @submit="onSubmit" id="form_signup">
+    <b-form @submit="onSubmit">
 
       <b-form-group id="emailForm"
                     label="Email address"
@@ -55,6 +55,7 @@
       <b-button size="lg" type="submit" variant="primary" :disabled="validEmail===false || validPassword===false" > Sign up</b-button>
       <br><br><br>
       <b-button variant="link" v-on:click="gotoSignIn">Already a member? Sign in</b-button>
+      <br><br>
     </b-form>
     </b-col>
     <b-col></b-col>
@@ -75,8 +76,6 @@ export default {
       },
       validEmail: null,
       validPassword: null,
-      response: [],
-      errors: []
     }
   },
   computed: {
@@ -97,7 +96,6 @@ export default {
     onSubmit (evt) {
       evt.preventDefault();
       const self = this;
-      console.log("mphka sto on submit");
       axios.post('http://localhost:8765/app/api/users', {
         mail: this.form.email,
         firstname: this.form.firstname,
@@ -105,14 +103,11 @@ export default {
         password: this.form.password
       })
         .then(function (response) {
-          console.log("mphka sto then");
           if (response.data.results) {
-            console.log("mphka sthn if");
             localStorage.setItem('auth_token', response.data.results.auth_token);
             localStorage.setItem('userId', response.data.results.userId);
             self.$router.push({path: '/'})
           }
-          console.log(response);
         })
         .catch(function (error) {
           console.log(error);
@@ -122,6 +117,10 @@ export default {
       this.$router.push({path: '/signin'});
     },
     checkEmail() {
+      if (this.form.email==='') {
+        this.validEmail=null;
+        return;
+      }
       const self = this;
       axios.post('http://localhost:8765/app/api/exists', {
         mail: this.form.email,
@@ -138,11 +137,6 @@ export default {
 </script>
 
 <style scoped>
-  #form_signup {
-    display: table-cell;
-    text-align: center;
-    vertical-align: central;
-  }
 </style>
 
 

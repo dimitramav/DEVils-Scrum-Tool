@@ -342,10 +342,11 @@ export default {
     getProjects () {
       //evt.preventDefault();
       const self = this;
-      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?limit=10', {
+      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=10&offset=0', {
         headers: { "auth": localStorage.getItem('auth_token') }
       })
         .then(function (response) {
+          console.log(response);
           if (response.data.error) {
             if (response.data.error = "Unauthorized user") {
               self.isLoggedIn=false;
