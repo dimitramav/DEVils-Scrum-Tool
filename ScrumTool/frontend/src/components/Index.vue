@@ -178,6 +178,7 @@
         <b-row>
           <div class="line">.</div>
         </b-row>
+        <br>
 
         <b-row>
           <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
@@ -189,6 +190,7 @@
             </b-card>
           </b-card-group>
         </b-row>
+        <br>
 
         <b-row style="padding-top:10px;">
           <b-col class="text-left">
@@ -198,6 +200,7 @@
         <b-row>
           <div class="line">.</div>
         </b-row>
+        <br>
         <b-row>
         <b-card-group v-for="done_project in doneProjects" :key="done_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
           <b-card :title="done_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
@@ -208,6 +211,7 @@
           </b-card>
         </b-card-group>
         </b-row>
+        <br>
       </b-container>
 
     </template>
@@ -220,7 +224,7 @@ import json from '../assets/team.json'
 export default {
   data() {
     return {
-      isLoggedIn: false,
+      isLoggedIn: null,
       currentProjects: [],
       doneProjects:[],
       teamData: json.team,
