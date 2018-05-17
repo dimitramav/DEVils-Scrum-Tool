@@ -178,9 +178,6 @@
         <b-row>
           <div class="line">.</div>
         </b-row>
-        <b-row>
-          <br>
-        </b-row>
 
         <b-row>
           <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
@@ -193,31 +190,24 @@
           </b-card-group>
         </b-row>
 
-        <b-row>
-          <br>
-        </b-row>
-
-        <b-row>
+        <b-row style="padding-top:10px;">
           <b-col class="text-left">
             <h2>Done Projects</h2>
-          </b-col>          
-        </b-row>
-
-        <b-row>
-          <br>
+          </b-col>
         </b-row>
         <b-row>
           <div class="line">.</div>
         </b-row>
-
+        <b-row>
         <b-card-group v-for="done_project in doneProjects" :key="done_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
           <b-card :title="done_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
             <p class="card-text">
               Deadline: {{done_project.deadlineDate}}
             </p>
-            <b-button href="#" variant="default">Proceed</b-button>
+            <b-button variant="primary">Proceed</b-button>
           </b-card>
         </b-card-group>
+        </b-row>
       </b-container>
 
     </template>
@@ -251,7 +241,6 @@ export default {
         headers: { "auth": localStorage.getItem('auth_token') }
       })
         .then(function (response) {
-          console.log(response);
           if (response.data.error) {
             if (response.data.error = "Unauthorized user") {
               self.isLoggedIn=false;
@@ -270,7 +259,6 @@ export default {
         headers: { "auth": localStorage.getItem('auth_token') }
       })
         .then(function (response) {
-          console.log(response);
           if (response.data.error) {
             if (response.data.error = "Unauthorized user") {
               self.isLoggedIn=false;
