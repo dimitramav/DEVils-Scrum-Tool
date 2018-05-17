@@ -85,64 +85,6 @@
                   <br><br> <i style="color: rgba(47,75,72,0.85)"> Phrase:<br>{{teamMember.phrase}}</i></p>
               </b-card>
             </b-card-group>
-            <!--<b-card-group deck style="margin: 0 auto;float: none;margin-bottom: 10px;">-->
-              <!--<b-card title="Yolanda K"-->
-                      <!--img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"-->
-                      <!--img-alt="Img"-->
-                      <!--img-top>-->
-                <!--<p class="card-text" style="font-style: italic;">-->
-                  <!--Java/SQL/Spring, back end developer-->
-                <!--</p>-->
-              <!--</b-card>-->
-              <!--<b-card title="Orestis G"-->
-                      <!--img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"-->
-                      <!--img-alt="Img"-->
-                      <!--img-top>-->
-                <!--<p class="card-text" style="font-style: italic;">-->
-                  <!--Java/SQL/Spring, back end developer-->
-                <!--</p>-->
-              <!--</b-card>-->
-              <!--<b-card title="Dhmhtra M"-->
-                      <!--img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"-->
-                      <!--img-alt="Img"-->
-                      <!--img-top>-->
-                <!--<p class="card-text" style="font-style: italic;">-->
-                  <!--Java/Scrum Master, back end developer-->
-                <!--</p>-->
-              <!--</b-card>-->
-              <!--<b-card title="Markos V"-->
-                      <!--img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"-->
-                      <!--img-alt="Img"-->
-                      <!--img-top>-->
-                <!--<p class="card-text" style="font-style: italic;">-->
-                  <!--Vue JS/Javascript/HTML/CSS  , front end developer-->
-                <!--</p>-->
-              <!--</b-card>-->
-              <!--<b-card title="Vagelhs G"-->
-                      <!--img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"-->
-                      <!--img-alt="Img"-->
-                      <!--img-top>-->
-                <!--<p class="card-text" style="font-style: italic;">-->
-                  <!--Vue JS/Javascript/HTML/CSS  , front end developer-->
-                <!--</p>-->
-              <!--</b-card>-->
-              <!--<b-card title="Kostas Kotronis"-->
-                      <!--img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"-->
-                      <!--img-alt="Img"-->
-                      <!--img-top>-->
-                <!--<p class="card-text" style="font-style: italic;">-->
-                  <!--HTML/CSS/Javascript Developer , front end-->
-                <!--</p>-->
-              <!--</b-card>-->
-              <!--<b-card title="Vagelhs K"-->
-                      <!--img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb0XtpVL_8yPpoug8pWRK5VIepB9xP2or2p1Y4dX0iYP8R97gQwA"-->
-                      <!--img-alt="Img"-->
-                      <!--img-top>-->
-                <!--<p class="card-text" style="font-style: italic;">-->
-                  <!--HTML/CSS/Javascript Developer , front end-->
-                <!--</p>-->
-              <!--</b-card>-->
-            <!--</b-card-group>-->
           </b-row>
           <b-row>
             <p></p>
@@ -178,6 +120,7 @@
       </b-container>
     </template>
 
+<!--USER HOMEPAGE    -->
     <template v-else>
       <b-container class="Navigation" fluid>
         <b-navbar toggleable="md" class="navbar navbar-expand-lg bg-dark navbar-dark navbar-static-top" variant="info" fluid>
@@ -228,35 +171,36 @@
           </b-col>
           <b-col>
             <div>
-              <b-dropdown id="ddown1" text="Create a New Project" class="m-md-2">
+              <b-dropdown id="ddown1" size="lg" variant ="info" text="Create a New Project" class="m-md-2">
                 <b-form inline style="margin: 10px;">
                   <h4>Title:</h4>
                   <label class="sr-only" for="inlineFormInputName2"></label>
                   <b-input class="" id="inlineFormInputName2" placeholder="New Project's Name" />
-                  <b-button variant="default" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
+                  <b-button variant="success" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
                 </b-form>
               </b-dropdown>
             </div>
           </b-col>
         </b-row>
         <b-row>
+          <div class="line">.</div>
+        </b-row>
+        <b-row>
           <br>
         </b-row>
 
         <b-row>
-          <b-card-group v-for="project in projects" :key="project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-            <b-card :title="project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
+          <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
+            <b-card :title="cur_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
               <p class="card-text">
-                Deadline: {{project.deadlineDate}}
+                Deadline: {{cur_project.deadlineDate}}
               </p>
-              <b-button href="#" variant="default">Proceed</b-button>
+              <b-button variant="primary">Proceed</b-button>
             </b-card>
           </b-card-group>
         </b-row>
 
-        <b-row>
-          <div class="line">.</div>
-        </b-row>
+
 
         <b-row>
           <br>
@@ -284,41 +228,19 @@
           <div class="line">.</div>
         </b-row>
 
-        <!--<b-row>-->
-          <!--<b-card-group deck class="mb-3" style="margin: 0 auto;float: none;margin-bottom: 10px;">-->
-            <!--<b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">-->
-              <!--<p class="card-text">-->
-                <!--Small paragraph describing project's info-->
-              <!--</p>-->
-              <!--<b-button href="#" variant="default">Proceed</b-button>-->
-            <!--</b-card>-->
-            <!--<b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">-->
-              <!--<p class="card-text">-->
-                <!--Small paragraph describing project's info-->
-              <!--</p>-->
-              <!--<b-button href="#" variant="default">Proceed</b-button>-->
-            <!--</b-card>-->
-            <!--<b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">-->
-              <!--<p class="card-text">-->
-                <!--Small paragraph describing project's info-->
-              <!--</p>-->
-              <!--<b-button href="#" variant="default">Proceed</b-button>-->
-            <!--</b-card>-->
-            <!--<b-card title="Project Title" img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv2Pgjy86vhJ7j3aq6vxH3ZqyfypJfhreVM6_yWWB7dx9ObDkt3w" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">-->
-              <!--<p class="card-text">-->
-                <!--Small paragraph describing project's info-->
-              <!--</p>-->
-              <!--<b-button href="#" variant="default">Proceed</b-button>-->
-            <!--</b-card>-->
-          <!--</b-card-group>-->
-        <!--</b-row>-->
+        <b-card-group v-for="done_project in doneProjects" :key="done_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
+          <b-card :title="done_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
+            <p class="card-text">
+              Deadline: {{done_project.deadlineDate}}
+            </p>
+            <b-button href="#" variant="default">Proceed</b-button>
+          </b-card>
+        </b-card-group>
       </b-container>
 
     </template>
   </div>
 </template>
-
-
 
 
 <script>import axios from 'axios'
@@ -327,7 +249,8 @@ export default {
   data() {
     return {
       isLoggedIn: false,
-      projects:[],
+      currentProjects: [],
+      doneProjects:[],
       teamData: json.team,
     }
   },
@@ -342,10 +265,11 @@ export default {
     getProjects () {
       //evt.preventDefault();
       const self = this;
-      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?limit=10', {
+      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=10&offset=0', {
         headers: { "auth": localStorage.getItem('auth_token') }
       })
         .then(function (response) {
+          console.log(response);
           if (response.data.error) {
             if (response.data.error = "Unauthorized user") {
               self.isLoggedIn=false;
@@ -353,7 +277,26 @@ export default {
           }
           else self.isLoggedIn=true;
           if (response.data.results) {
-            self.projects = response.data.results;
+            self.currentProjects = response.data.results;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+
+      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=true&limit=10&offset=0', {
+        headers: { "auth": localStorage.getItem('auth_token') }
+      })
+        .then(function (response) {
+          console.log(response);
+          if (response.data.error) {
+            if (response.data.error = "Unauthorized user") {
+              self.isLoggedIn=false;
+            }
+          }
+          else self.isLoggedIn=true;
+          if (response.data.results) {
+            self.doneProjects = response.data.results;
           }
         })
         .catch(function (error) {

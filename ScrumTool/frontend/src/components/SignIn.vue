@@ -5,8 +5,8 @@
         <b-col class="w-100">
         <b-img style ="width: 50%" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
           <br><br>
-      <b-form @submit="onSubmit" id="formlogin" style ="width: 50%">
-        <b-alert show variant="warning" v-if="wrongLogin===true">Wrong email or password</b-alert>
+      <b-form @submit="onSubmit">
+        <b-alert show variant="warning" v-if="wrongLogin===true">Invalid email or password</b-alert>
 
         <b-form-group id="mail_group">
           <b-form-input id="mail"
@@ -32,6 +32,7 @@
         <b-button size="lg" type="submit" variant="primary"> Sign in</b-button>
         <br><br><br>
         <b-button variant="link" v-on:click="gotoSignUp">Not a member? Sign up</b-button>
+        <br><br>
       </b-form>
       </b-col>
       <b-col></b-col>
@@ -53,14 +54,12 @@ export default {
   methods: {
     onSubmit (evt) {
       evt.preventDefault();
-      // alert(JSON.stringify(this.form));
       const self = this;
       axios.post('http://localhost:8765/app/api/signin', {
         mail: this.form.mail,
         password: this.form.password
       })
         .then(function (response) {
-          console.log(response);
           if (response.data.results) {
             localStorage.setItem('auth_token', response.data.results.auth_token);
             localStorage.setItem('userId', response.data.results.userId);
@@ -68,7 +67,6 @@ export default {
           }
           else if (response.data.Message) {
             if (response.data.Message === "Wrong Email or Password") {
-              console.log("wrong email or password");
               self.wrongLogin = true;
               self.form.password = '';
             }
@@ -89,9 +87,4 @@ export default {
 </script>
 
 <style scoped>
-  #formlogin {
-    display: table-cell;
-    text-align: center;
-    vertical-align: central;
-  }
 </style>
