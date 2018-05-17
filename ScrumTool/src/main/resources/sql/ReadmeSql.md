@@ -6,7 +6,7 @@
   for proper communication (see app.properties in WEB-INF).
 
 - Emails / Passwords for Users (Log in, passwords encrypted in database):
-  orestis@gmail.com / orestis7#
-  kostas@gmail.com  / kostas7#
-  markos@gmail.com  / markos7#
-  dimitra@gmail.com / dimitra7#
+  - orestis@gmail.com / orestis7#
+  - kostas@gmail.com  / kostas7#
+  - markos@gmail.com  / markos7#
+  - dimitra@gmail.com / dimitra7#
