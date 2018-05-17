@@ -157,19 +157,7 @@
           </b-collapse>
         </b-navbar>
         <b-row>
-          <p></p>
-        </b-row>
-        <b-row style="padding-top:10px;">
-          <b-col>
-            <h2> Current Projects</h2>
-          </b-col>
-          <b-col>
-            <br>
-          </b-col>
-          <b-col>
-            <br>
-          </b-col>
-          <b-col>
+          <b-col class="text-right">
             <div>
               <b-dropdown id="ddown1" size="lg" variant ="info" text="Create a New Project" class="m-md-2">
                 <b-form inline style="margin: 10px;">
@@ -180,6 +168,11 @@
                 </b-form>
               </b-dropdown>
             </div>
+          </b-col>
+        </b-row>
+        <b-row style="padding-top:10px;">
+          <b-col class="text-left">
+            <h2> Current Projects</h2>
           </b-col>
         </b-row>
         <b-row>
@@ -200,25 +193,14 @@
           </b-card-group>
         </b-row>
 
-
-
         <b-row>
           <br>
         </b-row>
 
         <b-row>
-          <b-col>
+          <b-col class="text-left">
             <h2>Done Projects</h2>
-          </b-col>
-          <b-col>
-            <br>
-          </b-col>
-          <b-col>
-            <br>
-          </b-col>
-          <b-col>
-            <br>
-          </b-col>
+          </b-col>          
         </b-row>
 
         <b-row>
