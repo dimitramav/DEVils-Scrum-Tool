@@ -1,6 +1,5 @@
  
-- Use ScrumTool.sql to create the database structure
-- Use InitialDataValues.sql to fill in some tables with a few data
+- Use schema.sql to create the ScrumTool_db and to insert some test data.
 - TestingSQL1.sql (and 2) are testing queries that should be executed seperately
 
 - Emails / Passwords for Users (Log in, passwords encrypted in database):
