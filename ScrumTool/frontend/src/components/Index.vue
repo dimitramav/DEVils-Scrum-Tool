@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="isLoggedIn===false">
+    <template v-if="notLoggedIn()===true">
       <b-container class="Title" style="background-color:#2d2d2d;" fluid >
         <b-row>
           <p></p>
@@ -224,7 +224,7 @@ import json from '../assets/team.json'
 export default {
   data() {
     return {
-      isLoggedIn: null,
+      logOut: null,
       currentProjects: [],
       doneProjects:[],
       teamData: json.team,
@@ -236,8 +236,10 @@ export default {
     },
     gotoSignUp() {
       this.$router.push({path: '/signup'});
-    }
-    ,
+    },
+    notLoggedIn() {
+      return (localStorage.getItem('auth_token')==='null' || localStorage.getItem('userId')==='null' || this.logOut);
+    },
     getProjects () {
       //evt.preventDefault();
       const self = this;
@@ -247,10 +249,9 @@ export default {
         .then(function (response) {
           if (response.data.error) {
             if (response.data.error = "Unauthorized user") {
-              self.isLoggedIn=false;
+              console.log("Unauthorized user");
             }
           }
-          else self.isLoggedIn=true;
           if (response.data.results) {
             self.currentProjects = response.data.results;
           }
@@ -265,10 +266,9 @@ export default {
         .then(function (response) {
           if (response.data.error) {
             if (response.data.error = "Unauthorized user") {
-              self.isLoggedIn=false;
+              console.log("Unauthorized user");
             }
           }
-          else self.isLoggedIn=true;
           if (response.data.results) {
             self.doneProjects = response.data.results;
           }
@@ -280,14 +280,11 @@ export default {
     logout() {
       localStorage.setItem('userId','null');
       localStorage.setItem('auth_token', 'null');
-      this.isLoggedIn=false;
+      this.logOut=true;
     },
   },
   mounted (){
-    if (localStorage.getItem('auth_token')==='null' || localStorage.getItem('userId')==='null') {
-      this.isLoggedIn=false;
-      return;
-    }
+    if (localStorage.getItem('auth_token')==='null' || localStorage.getItem('userId')==='null') return;
     this.getProjects();
   },
 }
