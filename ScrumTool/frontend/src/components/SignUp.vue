@@ -43,7 +43,7 @@
       <b-form-group id="password"
                     label="Password"
                     label-for="password"
-                    description='Password must contain at least eight characters, at least one number and special characters' >
+                    description='Password must contain at least eight characters, at least one number and one special character' >
         <b-form-input id="password"
                       type="password"
                       v-model="form.password"
