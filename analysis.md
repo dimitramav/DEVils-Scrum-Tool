@@ -77,7 +77,7 @@
  ![Forgot Password Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Forgot%20Password%20page.png)
  
  ### Change Password Page
- ![Change Password Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Forgot%20Password%20page.png)
+ ![Change Password Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/Change%20Password%20page.png)
  
  ### User Homepage
  ![User Homepage](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/wireframes/User%20Homepage.png)
