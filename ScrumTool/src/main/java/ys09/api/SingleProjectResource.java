@@ -110,7 +110,7 @@ public class SingleProjectResource extends ServerResource {
             Project project = gson.fromJson(str, Project.class);
 
             // Insert the Project to the database
-            dataAccess.insertProject(project);
+            dataAccess.insertProject(project, 1, "Developer");
 
             Map<String, Object> mapError = new HashMap<>();
             mapError.put("results", project);
