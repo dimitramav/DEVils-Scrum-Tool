@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/components/Index'
 import SignUp from '@/components/SignUp'
 import SignIn from '@/components/SignIn'
+import Sidebar from '@/components/Sidebar'
 
 Vue.use(Router)
 
@@ -23,5 +24,10 @@ export default new Router({
       name: 'SignIn',
       component: SignIn
     },
+    {
+      path: '/sidebar',
+      name: 'Sidebar',
+      component: Sidebar
+    }
   ]
 })
