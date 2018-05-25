@@ -3,7 +3,7 @@
       <b-row>
       <b-col></b-col>
         <b-col class="w-100">
-        <b-img style ="width: 50%" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
+        <b-img style ="width: 50%" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" v-on:click="gotoIndex" ></b-img>
           <br><br>
       <b-form @submit="onSubmit">
         <b-alert show variant="warning" v-if="wrongLogin===true">Invalid email or password</b-alert>
@@ -78,6 +78,9 @@ export default {
           console.log(error);
         });
 
+    },
+    gotoIndex() {
+      this.$router.push({path: '/'});
     },
     gotoSignUp () {
       this.$router.push({path: '/signup'});

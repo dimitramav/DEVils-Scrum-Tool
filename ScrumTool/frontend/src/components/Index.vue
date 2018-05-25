@@ -7,7 +7,7 @@
         </b-row>
         <b-row>
           <b-col>
-            <b-img style ="width: 30%" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
+            <b-img style ="width: 30%" v-on:click="gotoIndex" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
           </b-col>
           <b-col cols="8">
             <h1 align="center" style="font-family:cursive;margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
@@ -127,7 +127,7 @@
           <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
           <b-navbar variant="faded" type="light">
             <b-navbar-brand href="#">
-              <img src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" width="60" height="60" alt="BV">
+              <img src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" v-on:click="gotoIndex" width="60" height="60" alt="BV">
             </b-navbar-brand>
           </b-navbar>
           <b-collapse is-nav id="nav_collapse">
@@ -234,6 +234,9 @@ export default {
     gotoSignIn() {
       this.$router.push({path: '/signin'});
     },
+    gotoIndex() {
+      this.$router.push({path: '/'});
+    },
     gotoSignUp() {
       this.$router.push({path: '/signup'});
     },
@@ -312,7 +315,7 @@ export default {
 
   .Features{
     position: absolute;
-    top:498%;
+    top:540%;
     left:0;
   }
 
@@ -324,7 +327,7 @@ export default {
 
   .About{
     position: absolute;
-    top:900%;
+    top:960%;
     left:4px;
   }
 
