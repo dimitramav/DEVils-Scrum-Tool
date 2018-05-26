@@ -1,5 +1,6 @@
 package ys09.data;
 
+import ys09.model.Epic;
 import ys09.model.Project;
 import ys09.model.User;
 import ys09.model.SignIn;
@@ -118,6 +119,38 @@ public class DataAccess {
         } catch (EmptyResultDataAccessException e) {
             return projects;
         }
+    }
+
+    // Find the Epics
+    public List<Epic> getProjectEpics(int idProject, Boolean epic, int epicId) {
+        // Return all the epics for the current project
+        //System.out.println(epic);
+        List<Epic> epics = new ArrayList<>();
+        if (epic == true) {
+            String query = "select * from PBI where Project_id = :idProject and isEpic = :epic";
+            NamedParameterJdbcTemplate namedJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+            MapSqlParameterSource params = new MapSqlParameterSource();
+            params.addValue("idProject", idProject);
+            params.addValue("epic", epic);
+            try {
+                return namedJdbcTemplate.query(query, params, new EpicRowMapper());
+            } catch(EmptyResultDataAccessException e) {
+                return epics;
+            }
+        }
+        else {
+            String query = "select * from PBI where Project_id = :idProject and Epic_id = :epicId";
+            NamedParameterJdbcTemplate namedJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+            MapSqlParameterSource params = new MapSqlParameterSource();
+            params.addValue("idProject", idProject);
+            params.addValue("epicId", epicId);
+            try {
+                return namedJdbcTemplate.query(query, params, new EpicRowMapper());
+            } catch(EmptyResultDataAccessException e) {
+                return epics;
+            }
+        }
+
     }
 
 

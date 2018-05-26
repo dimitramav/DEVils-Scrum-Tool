@@ -52,11 +52,6 @@ public class RestfulApp extends Application {
 		//router.attach("/users/{userId}/projects", ProjectsResource.class);
 
 		router.attach("/users/{userId}/projects/{projectId}", SingleProjectResource.class);
-
-		// Post Project for a User
-		//router.attach("/users/{userId}", InsertProjectResource.class);
-		// Sprints
-
 		// POST
 		// Get Unauthorized, access only to admin
 		router.attach("/users", UsersResource.class);
@@ -67,6 +62,8 @@ public class RestfulApp extends Application {
 		// GET
 		// Pagination for projects
         router.attach("/users/{userId}/projects", ProjectsResource.class);
+        // GET PBIS
+		router.attach("/users/{userId}/projects/{projectId}/pbis", BacklogResource.class);
 
 		return corsFilter;
 	}
