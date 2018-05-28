@@ -1,5 +1,6 @@
 package ys09.data;
 
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import ys09.model.Epic;
 import ys09.model.Project;
 import ys09.model.User;
@@ -153,6 +154,29 @@ public class DataAccess {
 
     }
 
+
+    // Update PBI's Sprint_id field
+    public void updateSprintId(List<Epic> epics) {
+
+        String sql = "UPDATE PBI SET Sprint_id = ? WHERE idPBI = ?";
+
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+
+
+        template.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                Epic epic = epics.get(i);
+                ps.setInt(1, epic.getSprint_id());
+                ps.setInt(2, epic.getIdPBI());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return epics.size();
+            }
+        });
+    }
 
 
     // Check if User exists into the database
