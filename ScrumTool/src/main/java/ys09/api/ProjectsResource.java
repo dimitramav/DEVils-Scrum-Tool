@@ -132,13 +132,13 @@ public class ProjectsResource extends ServerResource {
                     // Now Create from String the JAVA object
                     Gson gson = new Gson();
                     Project newProject = gson.fromJson(str, Project.class);
-                    String response = dataAccess.insertProject(newProject, user, "Product Owner");
+                    Project response = dataAccess.insertProject(newProject, user, "Product Owner");
                     // Set the response headers
-                    map.put("Project insert", response);
+                    map.put("results", response);
                     return new JsonMapRepresentation(map);
                 }
                 catch(IOException e) {
-                    mapError.put("result", "System Exception");
+                    mapError.put("results", "System Exception");
                     return new JsonMapRepresentation(mapError);
                 }
             }

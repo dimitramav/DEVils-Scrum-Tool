@@ -160,11 +160,14 @@
           <b-col class="text-right">
             <div>
               <b-dropdown id="ddown1" size="lg" variant ="info" text="Create a New Project" class="m-md-2">
-                <b-form inline style="margin: 10px;">
+                <b-form inline style="margin: 10px;" @submit="newProject">
                   <h4>Title:</h4>
-                  <label class="sr-only" for="inlineFormInputName2"></label>
-                  <b-input class="" id="inlineFormInputName2" placeholder="New Project's Name" />
-                  <b-button variant="success" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
+                  <label class="sr-only" for="newProjectName"></label>
+                  <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle" required/>
+                  <h5>Deadline:</h5>
+                  <label class="sr-only" for="newProjectDate"></label>
+                  <b-form-input id="newProjectDate" placeholder="New Project's Deadline" v-model="form.deadlineDate" required/>
+                  <b-button variant="success" type="submit" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
                 </b-form>
               </b-dropdown>
             </div>
@@ -224,6 +227,11 @@ import json from '../assets/team.json'
 export default {
   data() {
     return {
+      form: {
+        newTitle: '',
+        deadlineDate: '',
+        isDone: false
+      },
       logOut: null,
       currentProjects: [],
       doneProjects:[],
@@ -251,7 +259,7 @@ export default {
       })
         .then(function (response) {
           if (response.data.error) {
-            if (response.data.error = "Unauthorized user") {
+            if (response.data.error == "Unauthorized user") {
               console.log("Unauthorized user");
             }
           }
@@ -268,12 +276,43 @@ export default {
       })
         .then(function (response) {
           if (response.data.error) {
-            if (response.data.error = "Unauthorized user") {
+            if (response.data.error == "Unauthorized user") {
               console.log("Unauthorized user");
             }
           }
           if (response.data.results) {
             self.doneProjects = response.data.results;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
+    newProject (evt) {
+      evt.preventDefault();
+      const self = this;
+      let config = {
+        headers: { "auth": localStorage.getItem('auth_token'), "Content-Type":'application/json' }
+      }
+      let data = {
+        title: this.form.newTitle, isDone: this.form.isDone, deadlineDate: this.form.deadlineDate
+      }
+      axios.post('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects', data, config)
+        .then(function (response) {
+          if (response.data.error) {
+            if (response.data.error == "Unauthorized user") {
+              console.log("Unauthorized user");
+            }
+            else if (response.data.error == "Unauthorized projects") {
+              console.log("Unauthorized projects");
+            }
+            else if (response.data.error == "null") {
+              console.log("Null token");
+            }
+          }
+          if (response.data.results) {
+            console.log(response.data.results);
+            self.currentProjects.push(response.data.results);
           }
         })
         .catch(function (error) {
