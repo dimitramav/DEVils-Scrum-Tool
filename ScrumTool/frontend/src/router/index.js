@@ -5,6 +5,7 @@ import SignUp from '@/components/SignUp'
 import SignIn from '@/components/SignIn'
 import Sidebar from '@/components/Sidebar'
 import ProjectPageOverview from '@/components/ProjectPageOverview'
+import NewSprint from '@/components/NewSprint'
 
 Vue.use(Router)
 
@@ -35,6 +36,10 @@ export default new Router({
       name: 'ProjectPageOverview',
       component: ProjectPageOverview
     },
-
+    {
+      path: '/newsprint',
+      name: 'NewSprint',
+      component: NewSprint
+    }
   ]
 })
