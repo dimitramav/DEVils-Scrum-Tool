@@ -2,7 +2,6 @@ package ys09.model;
 
 public class Epic {
 
-
     private int idPBI;
     private String title;
     private String description;

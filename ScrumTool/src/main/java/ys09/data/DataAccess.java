@@ -1,10 +1,7 @@
 package ys09.data;
 
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import ys09.model.Epic;
-import ys09.model.Project;
-import ys09.model.User;
-import ys09.model.SignIn;
+import ys09.model.*;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -176,6 +173,32 @@ public class DataAccess {
                 return epics.size();
             }
         });
+    }
+
+    // Create new sprint
+    // Insert User
+    public int createNewSprint(Sprint sprint) {
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        java.sql.Date sqlDate = new java.sql.Date(sprint.getDeadlineDate().getTime());
+
+        jdbcTemplate = new JdbcTemplate(dataSource);
+
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement statement = con.prepareStatement("INSERT INTO Sprint(deadlineDate, goal, plan, isCurrent, numSprint, Project_id) VALUES (?, ?, ?, ?, ?, ?) ", Statement.RETURN_GENERATED_KEYS);
+                statement.setDate(1, sqlDate);
+                statement.setString(2, sprint.getGoal());
+                statement.setString(3, sprint.getPlan());
+                statement.setBoolean(4, sprint.getCurrent());
+                statement.setInt(5, sprint.getNumSprint());
+                statement.setInt(6, sprint.getProject_id());
+                return statement;
+            }
+        }, keyHolder);
+        // Return the new generated id for user
+        return keyHolder.getKey().intValue();
     }
 
 

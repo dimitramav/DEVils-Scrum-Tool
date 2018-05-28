@@ -11,7 +11,6 @@ import ys09.auth.CustomAuth;
 import ys09.conf.Configuration;
 import ys09.data.DataAccess;
 import ys09.model.Epic;
-import ys09.model.Project;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -136,11 +135,10 @@ public class BacklogResource extends ServerResource {
                     // https://stackoverflow.com/questions/5554217/google-gson-deserialize-listclass-object-generic-type
                     Type listType = new TypeToken<ArrayList<Epic>>(){}.getType();
                     List<Epic> epics = new Gson().fromJson(str, listType);
-                    System.out.println(epics.get(1).getIdPBI());
                     dataAccess.updateSprintId(epics);
                     // Update the
                     // Set the response headers
-                    map.put("PBI Update", "result");
+                    map.put("result", "Updated PBI's");
                     return new JsonMapRepresentation(map);
                 }
                 catch(IOException e) {
