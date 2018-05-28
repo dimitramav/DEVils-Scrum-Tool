@@ -58,7 +58,7 @@ public class DataAccess {
 
 
 
-    public String insertProject(Project project, int idUser, String role) {
+    public Project insertProject(Project project, int idUser, String role) {
         // Insert an object to the projects array
 
         String query1 = "insert into Project (title, isDone, deadlineDate) values (?, ?, ?)";
@@ -83,13 +83,15 @@ public class DataAccess {
             // Return the new generated id for user
             int idProject = keyHolder.getKey().intValue();
             System.out.println(idProject);
+            project.setId(idProject);
+            project.setDeadlineDate(sqlDate);
 
             jdbcTemplate.update(query2, new Object[]{idProject, idUser, role});
-            return "OK";
+            return project;
           // Error in update of jdbcTemplate
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
-            return "Failed";
+            return null;
         }
     }
 
