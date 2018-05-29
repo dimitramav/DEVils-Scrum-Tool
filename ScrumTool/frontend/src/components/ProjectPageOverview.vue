@@ -1,40 +1,14 @@
 <template>
-  <div>
+  <div v-if = "true">
     <b-container class="Navigation" fluid>
-      <b-navbar toggleable="md" class="navbar navbar-expand-lg bg-dark navbar-dark navbar-static-top" variant="info" fluid>
-        <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-        <b-navbar variant="faded" type="light">
-          <b-navbar-brand href="#">
-            <img src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" width="60" height="60" alt="BV">
-          </b-navbar-brand>
-        </b-navbar>
-        <b-collapse is-nav id="nav_collapse">
-          <!-- Right aligned nav items -->
-          <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown right>
-              <template slot="button-content">
-                <em>
-                  <img src="https://support.rocketchatlauncher.com/wp-content/uploads/2017/03/bell.png" style="width:27px;">
-                </em>
-              </template>
-              <b-dropdown-item href="#">#Notification 1</b-dropdown-item>
-              <b-dropdown-item href="#">#Notification 2</b-dropdown-item>
-              <b-dropdown-item href="#">#Notification 3</b-dropdown-item>
-              <b-dropdown-item href="#">#Notification 4</b-dropdown-item>
-            </b-nav-item-dropdown>
-            <b-nav-item-dropdown right>
-              <template slot="button-content">
-                <em>
-                  <img src="https://www.mindvoize.com/images/userImage.png" style="width:30px;">
-                </em>
-              </template>
-              <b-dropdown-item href="#">Profile</b-dropdown-item>
-              <b-dropdown-item-button v-on:click="logout">Sign out</b-dropdown-item-button>
-            </b-nav-item-dropdown>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-navbar>
+
+      <navbar></navbar>
+      <!--<sidebar></sidebar>-->
+
       <br>
+      <b-row>
+        <b-breadcrumb :items="items" style="position: relative;left: 41px;"/>
+      </b-row>
       <b-row style="padding-top:10px;">
         <b-col class="text-left">
           <h2>Insurance App</h2>
@@ -47,51 +21,168 @@
         <b-container>
           <b-row>
             <b-col>
-              <b-jumbotron>
+              <br>
                 <b-row>
                   <h2>Current sprint</h2>
                 </b-row>
+                <br>
                 <b-row>
                   <b-col>
                     <b-card title="TODO">
-
+                      <p class="card-text">1024</p>
                     </b-card>
                   </b-col>
                   <b-col>
                     <b-card title="DOING">
-
+                      <p class="card-text">5</p>
                     </b-card>
                   </b-col>
                   <b-col>
                     <b-card title="DONE">
-
+                      <p class="card-text">15</p>
                     </b-card>
                   </b-col>
                 </b-row>
-                <br>
-                <b-card>
-                  <p style="text-align: left">Days Remaining:</p>
+                <br><br><br>
+                <b-row>
+                <b-col>
+                <b-card no-body class="text-left">
+                  <p class="card-text">Days Remaining:  15</p>
                 </b-card>
+                </b-col>
+                  <b-col></b-col>
+                </b-row>
+                <br><br><br>
+                <b-row style="padding-top:10px;">
+                  <b-col class="text-left">
+                    <h5>Progress</h5>
+                  </b-col>
+                </b-row>
+                <b-progress :value="value" show-progress class="mb-3"></b-progress>
                 <br>
-                <b-button variant="primary">Go to Sprint Page</b-button>
-                <br>
-              </b-jumbotron>
+                <b-button v-if="true" variant="primary">Go to Sprint Page</b-button>
+                <b-button v-else variant="primary">Create new Sprint</b-button>
+              <br><br>
             </b-col>
             <b-col>
-              <b-jumbotron>
+              <br>
                 <b-row>
                   <h2>Team</h2>
                 </b-row>
-              </b-jumbotron>
+                <br>
+                <b-list-group>
+                  <b-list-group-item class="flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Product Owner</h5>
+                    </div>
+                    <p align="left">
+                     Name: Steve Jobs
+                      <br>
+                      Email: unavailable
+                    </p>
+                  </b-list-group-item>
+                  <b-list-group-item class="flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Scrum Master</h5>
+                    </div>
+                    <p align="left">
+                      Name: Bill Gates
+                      <br>
+                      Email: unavailable
+                    </p>
+                  </b-list-group-item>
+                  <b-list-group-item class="flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Developer</h5>
+                    </div>
+                    <p align="left">
+                      Name: Evaggelos Raptis
+                      <br>
+                      Email: unavailable
+                    </p>
+                  </b-list-group-item>
+                </b-list-group>
+              <br>
+              <template>
+                <div>
+                  <b-form inline v-if="true">
+                   Add User &nbsp;
+                    <b-input class="mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputName2" placeholder="email" />
+                    as &nbsp;
+                    <b-form-select class="mb-2 mr-sm-2 mb-sm-0"
+                                   :value="null"
+                                   :options="{ '1': 'Scrum Master', '2': 'Developer'}"
+                                   id="inlineFormCustomSelectPref">
+                      <option slot="first" :value="null">Choose role</option>
+                    </b-form-select>
+                    <b-button variant="primary">Invite</b-button>
+                  </b-form>
+                </div>
+              </template>
+              <br><br>
             </b-col>
           </b-row>
         </b-container>
       </template>
     </b-container>
   </div>
+  <div v-else>
+    <b-container class="Navigation" fluid>
+      <navbar></navbar>
+      <br>
+      <b-row>
+        <b-breadcrumb :items="items" style="position: relative;left: 41px;"/>
+      </b-row>
+      <b-row style="padding-top:10px;">
+        <b-col class="text-left">
+          <h2>Insurance App</h2>
+        </b-col>
+      </b-row>
+      <b-row>
+        <div class="line">.</div>
+      </b-row>
+      <br>
+      <b-button variant="primary">Create new Sprint</b-button>
+    </b-container>
+  </div>
 </template>
 
 <script>
+import Sidebar from "./Sidebar.vue"
+import Navbar from "./Navbar.vue"
+
+export default {
+  components: {
+    navbar: Navbar,
+    sidebar: Sidebar,
+  },
+  data() {
+    return {
+      value: 75,
+      selected: [], // Must be an array reference!
+      options: [{
+        text: 'User Story 1',
+        value: 'orange'
+      }, {
+        text: 'User Story 2',
+        value: 'apple'
+      }, {
+        text: 'User Story 3',
+        value: 'pineapple'
+      }],
+      items: [{
+        text: 'Home',
+        href: '#'
+      }, {
+        text: 'Insurance App',
+        href: '#'
+      }, {
+        text: 'Overview',
+        active: true
+      }]
+    }
+  }
+}
 
 </script>
 

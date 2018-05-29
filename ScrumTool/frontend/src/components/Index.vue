@@ -276,7 +276,7 @@ export default {
       })
         .then(function (response) {
           if (response.data.error) {
-            if (response.data.error == "Unauthorized user") {
+            if (response.data.error === "Unauthorized user") {
               console.log("Unauthorized user");
             }
           }
@@ -300,13 +300,13 @@ export default {
       axios.post('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects', data, config)
         .then(function (response) {
           if (response.data.error) {
-            if (response.data.error == "Unauthorized user") {
+            if (response.data.error === "Unauthorized user") {
               console.log("Unauthorized user");
             }
-            else if (response.data.error == "Unauthorized projects") {
+            else if (response.data.error === "Unauthorized projects") {
               console.log("Unauthorized projects");
             }
-            else if (response.data.error == "null") {
+            else if (response.data.error === "null") {
               console.log("Null token");
             }
           }
