@@ -149,7 +149,7 @@ public class BacklogResource extends ServerResource {
                         return new JsonMapRepresentation(map);
                     }
                     else {
-                        ErrorMessage errorMessage = new ErrorMessage("Unauthorized Access", Status.CLIENT_ERROR_UNAUTHORIZED);
+                        ErrorMessage errorMessage = new ErrorMessage("Unauthorized", Status.CLIENT_ERROR_UNAUTHORIZED);
                         map.put("error", errorMessage);
                         return new JsonMapRepresentation(map);
                     }
