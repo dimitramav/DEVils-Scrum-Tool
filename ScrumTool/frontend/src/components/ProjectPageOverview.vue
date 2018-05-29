@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if = "true">
     <b-container class="Navigation" fluid>
 
       <navbar></navbar>
@@ -60,7 +60,8 @@
                 </b-row>
                 <b-progress :value="value" show-progress class="mb-3"></b-progress>
                 <br>
-                <b-button variant="primary">Go to Sprint Page</b-button>
+                <b-button v-if="true" variant="primary">Go to Sprint Page</b-button>
+                <b-button v-else variant="primary">Create new Sprint</b-button>
               <br><br>
             </b-col>
             <b-col>
@@ -104,7 +105,7 @@
               <br>
               <template>
                 <div>
-                  <b-form inline>
+                  <b-form inline v-if="true">
                    Add User &nbsp;
                     <b-input class="mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputName2" placeholder="email" />
                     as &nbsp;
@@ -123,6 +124,25 @@
           </b-row>
         </b-container>
       </template>
+    </b-container>
+  </div>
+  <div v-else>
+    <b-container class="Navigation" fluid>
+      <navbar></navbar>
+      <br>
+      <b-row>
+        <b-breadcrumb :items="items" style="position: relative;left: 41px;"/>
+      </b-row>
+      <b-row style="padding-top:10px;">
+        <b-col class="text-left">
+          <h2>Insurance App</h2>
+        </b-col>
+      </b-row>
+      <b-row>
+        <div class="line">.</div>
+      </b-row>
+      <br>
+      <b-button variant="primary">Create new Sprint</b-button>
     </b-container>
   </div>
 </template>
