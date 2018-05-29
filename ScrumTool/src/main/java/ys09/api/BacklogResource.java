@@ -2,6 +2,8 @@ package ys09.api;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.apache.commons.lang3.ArrayUtils;
+import org.restlet.data.Status;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Patch;
 import org.restlet.resource.ResourceException;
@@ -10,7 +12,9 @@ import org.restlet.util.Series;
 import ys09.auth.CustomAuth;
 import ys09.conf.Configuration;
 import ys09.data.DataAccess;
+import ys09.exceptions.ErrorMessage;
 import ys09.model.Epic;
+import ys09.model.Project;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -39,9 +43,6 @@ public class BacklogResource extends ServerResource {
             return new JsonMapRepresentation(mapError);
         }
         int user = Integer.parseInt(userId);
-
-        // Check if the user is Product Owner
-
         // Read the query parameters of the url
         String isEpic = getQuery().getValues("isEpic");
         Boolean epic;
@@ -58,7 +59,6 @@ public class BacklogResource extends ServerResource {
         int idProject = Integer.parseInt(projectId);
         // Get Epic_id
         String epicId = getQuery().getValues("epicId");
-        System.out.println(epicId);
         int idEpic;
         if(epicId == null) {
             idEpic = 0;
@@ -66,8 +66,6 @@ public class BacklogResource extends ServerResource {
         else {
             idEpic = Integer.parseInt(epicId);
         }
-
-        //int idEpic = Integer.parseInt(epicId);
 
         // Access the headers of the request !
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
@@ -137,11 +135,24 @@ public class BacklogResource extends ServerResource {
                     // https://stackoverflow.com/questions/5554217/google-gson-deserialize-listclass-object-generic-type
                     Type listType = new TypeToken<ArrayList<Epic>>(){}.getType();
                     List<Epic> epics = new Gson().fromJson(str, listType);
-                    dataAccess.updateSprintId(epics);
-                    // Update the
-                    // Set the response headers
-                    map.put("result", "Updated PBI's");
-                    return new JsonMapRepresentation(map);
+                    // Check if the user is Product Owner
+                    // Returns List of Project Id's
+
+                    List <Integer> projectsList = dataAccess.createAuthProjectList(user, "Product Owner");
+                    System.out.println(projectsList);
+                    // Use ArrayUtils to find if the project id is in the array
+                    if(projectsList.contains(epics.get(0).getProject_id())) {
+                        dataAccess.updateSprintId(epics);
+                        // Update the
+                        // Set the response headers
+                        map.put("result", "Updated PBI's");
+                        return new JsonMapRepresentation(map);
+                    }
+                    else {
+                        ErrorMessage errorMessage = new ErrorMessage("Unauthorized Access", Status.CLIENT_ERROR_UNAUTHORIZED);
+                        map.put("error", errorMessage);
+                        return new JsonMapRepresentation(map);
+                    }
                 }
                 catch(IOException e) {
                     mapError.put("result", "System Exception");
