@@ -10,8 +10,12 @@
           Deadline: {{cur_project.deadlineDate}}
         </p>
         <div>
-          <b-btn v-b-toggle.cur_project.idProject variant="primary">Toggle Collapse</b-btn>
-          <b-collapse v-bind:id="cur_project.idProject" class="mt-2">
+          <b-btn  @click="showCollapse=cur_project.title"
+                  class="collapsed"
+                 aria-controls="collapse">
+            Toggle Collapse
+          </b-btn>
+          <b-collapse class="mt-2" v-model="showCollapse===cur_project.title" id="collapse">
             <b-card>
               <p class="card-text">Collapse contents Here</p>
             </b-card>
@@ -43,6 +47,7 @@ export default {
       currentProjects: [],
       doneProjects: [],
       teamData: json.team,
+      showCollapse: null,
     }
   },
   methods: {
