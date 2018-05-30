@@ -1,4 +1,8 @@
 <template>
+  <b-container class="Navigation" fluid>
+
+    <navbar></navbar>
+    <br>
   <b-row>
 
     <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
@@ -19,6 +23,8 @@
       </b-card>
     </b-card-group>
   </b-row>
+  </b-container>
+
 </template>
 
 
@@ -70,3 +76,15 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.Navigation {
+position: absolute;
+top: 0;
+left: 0;
+}
+.container-fluid {
+  padding-right: 0;
+  padding-left:0;
+}
+</style>
