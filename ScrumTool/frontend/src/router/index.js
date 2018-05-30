@@ -6,6 +6,7 @@ import SignIn from '@/components/SignIn'
 import Sidebar from '@/components/Sidebar'
 import ProjectPageOverview from '@/components/ProjectPageOverview'
 import NewSprint from '@/components/NewSprint'
+import Logout from '@/components/Logout'
 
 Vue.use(Router)
 
@@ -25,6 +26,11 @@ export default new Router({
       path: '/signin',
       name: 'SignIn',
       component: SignIn
+    },
+    {
+      path: '/logout',
+      name: 'Logout',
+      component: Logout
     },
     {
       path: '/sidebar',

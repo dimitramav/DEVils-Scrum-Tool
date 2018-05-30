@@ -46,8 +46,9 @@
           logout() {
             localStorage.setItem('userId','null');
             localStorage.setItem('auth_token', 'null');
-            this.$router.push({path: '/'});
-          },aboutProject() {
+            this.$router.push({path: '/logout'});
+          },
+          aboutProject() {
             return false;
           }
         }
