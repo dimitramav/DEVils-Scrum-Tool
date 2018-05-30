@@ -1,21 +1,20 @@
 <template>
   <b-row>
+
     <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
       <b-card :title="cur_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
         <p class="card-text">
           Deadline: {{cur_project.deadlineDate}}
         </p>
         <div>
-          <b-btn  @click="showCollapse=cur_project.title"
-                  class="collapsed"
-                 aria-controls="collapse">
-            Toggle Collapse
-          </b-btn>
-          <b-collapse class="mt-2" v-model="showCollapse===cur_project.title" id="collapse">
+
+          <b-btn v-b-toggle="'collapse'+cur_project.idProject" variant="primary">Toggle Collapse</b-btn>
+          <b-collapse :id="'collapse'+cur_project.idProject" class="mt-2">
             <b-card>
               <p class="card-text">Collapse contents Here</p>
             </b-card>
           </b-collapse>
+
         </div>
       </b-card>
     </b-card-group>
@@ -41,7 +40,6 @@ export default {
       currentProjects: [],
       doneProjects: [],
       teamData: json.team,
-      showCollapse: null,
     }
   },
   methods: {
