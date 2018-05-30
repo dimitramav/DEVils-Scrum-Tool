@@ -7,6 +7,7 @@ import Sidebar from '@/components/Sidebar'
 import ProjectPageOverview from '@/components/ProjectPageOverview'
 import NewSprint from '@/components/NewSprint'
 import Logout from '@/components/Logout'
+import Backlog from '@/components/Backlog/'
 
 Vue.use(Router)
 
@@ -46,6 +47,12 @@ export default new Router({
       path: '/newsprint',
       name: 'NewSprint',
       component: NewSprint
+    },
+    {
+      path: '/backlog',
+      name: 'Backlog',
+      component: Backlog
     }
+
   ]
 })
