@@ -38,7 +38,7 @@
                     </b-card>
                   </b-col>
                   <b-col>
-                    <b-card title="DONE">
+                    <b-card title="DONE ">
                       <p class="card-text">15</p>
                     </b-card>
                   </b-col>

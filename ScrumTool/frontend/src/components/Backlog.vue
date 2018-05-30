@@ -1,4 +1,8 @@
 <template>
+  <b-container class="Navigation" fluid>
+
+    <navbar></navbar>
+    <br>
   <b-row>
     <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
       <b-card :title="cur_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
@@ -6,8 +10,8 @@
           Deadline: {{cur_project.deadlineDate}}
         </p>
         <div>
-          <b-btn v-b-toggle.collapse1 variant="primary">Toggle Collapse</b-btn>
-          <b-collapse id="collapse1" class="mt-2">
+          <b-btn v-b-toggle.cur_project.idProject variant="primary">Toggle Collapse</b-btn>
+          <b-collapse v-bind:id="cur_project.idProject" class="mt-2">
             <b-card>
               <p class="card-text">Collapse contents Here</p>
             </b-card>
@@ -16,6 +20,8 @@
       </b-card>
     </b-card-group>
   </b-row>
+  </b-container>
+
 </template>
 
 
@@ -67,3 +73,15 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.Navigation {
+position: absolute;
+top: 0;
+left: 0;
+}
+.container-fluid {
+  padding-right: 0;
+  padding-left:0;
+}
+</style>
