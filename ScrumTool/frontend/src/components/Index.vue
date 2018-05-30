@@ -10,7 +10,7 @@
             <b-img style ="width: 30%" v-on:click="gotoIndex" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
           </b-col>
           <b-col cols="8">
-            <h1 align="center" style="font-family:cursive;margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
+            <h1 align="center" style="font-family:cursive,Courier New;margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
           </b-col>
           <b-col>
             <button type="button" class="btn btn-primary" v-on:click="gotoSignIn">Log In</button>
