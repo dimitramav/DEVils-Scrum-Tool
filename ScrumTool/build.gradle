@@ -18,7 +18,7 @@ task wrapper(type: Wrapper) {
 //build frontend after backend build
 task frontend_build(type: Exec) {
     workingDir 'frontend'
-    commandLine "npm", "install"
+    commandLine "npm", "install" //npm run build //dolast //dofirst
 }
 build.finalizedBy(frontend_build)
 
