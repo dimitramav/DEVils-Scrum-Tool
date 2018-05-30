@@ -6,6 +6,11 @@
         <img src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" width="60" height="60" alt="BV">
       </b-navbar-brand>
     </b-navbar>
+      <b-navbar-nav v-if="aboutProject()===true" class="ml-auto">
+        <b-nav-item href="/#/projectpageoverview"> <b-button variant="outline-default">Overview </b-button></b-nav-item>
+        <b-nav-item href="/#/projectpageoverview">  <b-button variant="outline-default"> Product Backlog </b-button></b-nav-item>
+        <b-nav-item href="/#/projectpageoverview">  <b-button variant="outline-default"> Sprints </b-button></b-nav-item>
+      </b-navbar-nav>
     <b-collapse is-nav id="nav_collapse">
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
@@ -42,11 +47,25 @@
             localStorage.setItem('userId','null');
             localStorage.setItem('auth_token', 'null');
             this.$router.push({path: '/'});
-          },
+          },aboutProject() {
+            return false;
+          }
         }
     }
 </script>
 
 <style scoped>
-
+  .Navigation {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .line {
+    width: 99%;
+    font-size: 1px;
+    line-height: 2px;
+    background-color: lavender;
+    margin-top: -6px;
+    margin-bottom: 10px;
+  }
 </style>
