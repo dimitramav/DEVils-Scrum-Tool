@@ -5,15 +5,15 @@
     <br>
   <b-row>
 
-    <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-      <b-card :title="cur_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
+    <b-card-group v-for="cur_pbi in currentPbis" :key="cur_pbi.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
+      <b-card :title="cur_pbi.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
         <p class="card-text">
-          Deadline: {{cur_project.deadlineDate}}
+          Description: {{cur_pbi.description}}
         </p>
         <div>
 
-          <b-btn v-b-toggle="'collapse'+cur_project.idProject" variant="primary">Toggle Collapse</b-btn>
-          <b-collapse :id="'collapse'+cur_project.idProject" class="mt-2">
+          <b-btn v-b-toggle="'collapse'+cur_pbi.idPBI" variant="primary">Toggle Collapse</b-btn>
+          <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2">
             <b-card>
               <p class="card-text">Collapse contents Here</p>
             </b-card>
@@ -37,22 +37,16 @@ export default {
   },
   data() {
     return {
-      form: {
-        newTitle: '',
-        deadlineDate: '',
-        isDone: false
-      },
       logOut: null,
-      currentProjects: [],
-      doneProjects: [],
+      currentPbis: [],
       teamData: json.team,
     }
   },
   methods: {
-    getProjects() {
+    getPBIS() {
       //evt.preventDefault();
       const self = this;
-      axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects?isDone=false&limit=10&offset=0', {
+      axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + 3 + '/pbis?isEpic=true', {
         headers: {"auth": localStorage.getItem('auth_token')}
       })
         .then(function (response) {
@@ -62,7 +56,7 @@ export default {
             }
           }
           if (response.data.results) {
-            self.currentProjects = response.data.results;
+            self.currentPbis = response.data.results;
           }
         })
         .catch(function (error) {
@@ -72,7 +66,7 @@ export default {
   },
     mounted() {
       if (localStorage.getItem('auth_token') === 'null' || localStorage.getItem('userId') === 'null') return;
-      this.getProjects();
+      this.getPBIS();
     },
 }
 </script>
