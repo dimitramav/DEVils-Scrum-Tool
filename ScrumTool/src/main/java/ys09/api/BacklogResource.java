@@ -2,7 +2,6 @@ package ys09.api;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.apache.commons.lang3.ArrayUtils;
 import org.restlet.data.Status;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Patch;
@@ -62,7 +61,7 @@ public class BacklogResource extends ServerResource {
         int idProject = Integer.parseInt(projectId);
         // Get Epic_id
         String epicIdStr = getQuery().getValues("epicId");
-        System.out.println(epicIdStr);
+        System.out.println("hi"+ epicIdStr);
         int epicId;
         if(epicIdStr == null) {
             epicId = 0;
@@ -89,6 +88,7 @@ public class BacklogResource extends ServerResource {
             if(customAuth.userValidation(token, userId)) {
                 // Get all the pbis of this project (either Epics or Stories)
                 List<PBI> pbis = dataAccess.getProjectPBIs(idProject, isEpic, epicId);
+                System.out.println("hi" + isEpic +epicId);
                 map.put("results", pbis);
                 // Set the response headers
                 return new JsonMapRepresentation(map);

@@ -381,10 +381,7 @@ export default {
     margin-top: -6px;
     margin-bottom: 10px;
   }
-  .container-fluid {
-    padding-right: 0;
-    padding-left:0;
-  }
+
   .row {
     margin-right: 0px;
     margin-left: 0px;

@@ -110,8 +110,8 @@
                 goal: '',
                 plan: '',
                 isCurrent: true,
-                numSprint: 2,
-                Project_id: 3
+                numSprint: 0,
+                Project_id: 0
               },
 
               selected: null,
@@ -146,7 +146,8 @@
             headers: { "auth": localStorage.getItem('auth_token'), "Content-Type":'application/json' }
           }
           // Call to create the new sprint
-          axios.post('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects/5/sprints', new_sprint, config)
+
+          axios.post('http://localhost:8765/app/api/users/'+localStorage.getItem('userId')+'/projects/'+ self.sprint.Project_id + '/sprints', new_sprint, config)
             .then(function (response) {
               console.log(response.data.Sprint_id)
               // Call to update the pbis !
@@ -155,7 +156,7 @@
                 self.pbis_list.push({idPBI: self.selected_stories[i].value, Sprint_id: response.data.Sprint_id, Project_id: 3})
               }
 
-              axios.patch('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/5/pbis', self.pbis_list, config)
+              axios.patch('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + self.sprint.Project_id + '/pbis', self.pbis_list, config)
                 .then(function (response) {
                     console.log("xoxo")
                 })
@@ -172,7 +173,7 @@
           console.log(title);
           // Call the other rest endpoint to get the stories of each epic
           const self = this;
-          axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects/5/pbis?epicId=' + idPBI, {
+          axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId')+'/projects/'+ self.sprint.Project_id + '/pbis?epicId=' + idPBI, {
             headers: { "auth": localStorage.getItem('auth_token') }
           })
             .then(function (response) {
@@ -201,7 +202,7 @@
         },
         getEpics () {
           const self = this;
-          axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects/5/pbis?isEpic=true', {
+          axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId')+'/projects/'+ self.sprint.Project_id + '/pbis?isEpic=true', {
             headers: { "auth": localStorage.getItem('auth_token') }
           })
             .then(function (response) {
@@ -241,6 +242,13 @@
         }
       },
       mounted() {
+        this.sprint.Project_id = this.$route.query.projectId;      // Receive projectId from url parameters
+        //this.sprint.Project_id = 5;
+        this.sprint.numSprint  = this.$route.query.newSprintNum;   // Receive new numSprint (+1 from the previous one)
+        //this.sprint.numSprint = 8;
+        if (this.sprint.Project_id == null || this.sprint.numSprint == null) {
+          console.log("Error: Add correct parameters (projectId and newSprintNum) in url");
+        }
         this.getEpics();
       },
       watch: {
