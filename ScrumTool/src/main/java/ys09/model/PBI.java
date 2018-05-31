@@ -1,6 +1,6 @@
 package ys09.model;
 
-public class Epic {
+public class PBI {
 
     private int idPBI;
     private String title;
@@ -11,7 +11,7 @@ public class Epic {
     private int Epic_id;
     private int Sprint_id;
 
-    public Epic(int idPBI, String title, String description, int order, Boolean isEpic, int project_id, int epic_id, int sprint_id) {
+    public PBI(int idPBI, String title, String description, int order, Boolean isEpic, int project_id, int epic_id, int sprint_id) {
         this.idPBI = idPBI;
         this.title = title;
         this.description = description;
@@ -70,11 +70,11 @@ public class Epic {
         this.order = order;
     }
 
-    public Boolean getEpic() {
+    public Boolean getIsEpic() {
         return isEpic;
     }
 
-    public void setEpic(Boolean epic) {
+    public void setIsEpic(Boolean epic) {
         isEpic = epic;
     }
 

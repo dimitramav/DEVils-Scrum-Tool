@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+
+
 public class DataAccess {
 
     private static final int MAX_TOTAL_CONNECTIONS = 16;
@@ -121,23 +123,24 @@ public class DataAccess {
         }
     }
 
-    // Find the Epics
-    public List<Epic> getProjectEpics(int idProject, Boolean epic, int epicId) {
-        // Return all the epics for the current project
-        //System.out.println(epic);
-        List<Epic> epics = new ArrayList<>();
-        if (epic == true) {
-            String query = "select * from PBI where Project_id = :idProject and isEpic = :epic";
+    // Find the PBIs (Epics or Stories)
+    public List<PBI> getProjectPBIs(int idProject, Boolean isEpic, int epicId) {
+        // Return the pbis asked for the current project
+        //System.out.println(isEpic);
+        List<PBI> pbis = new ArrayList<>();
+        if (isEpic == true) {
+            // Returns Epics
+            String query = "select * from PBI where Project_id = :idProject and isEpic = :isEpic";
             NamedParameterJdbcTemplate namedJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
             MapSqlParameterSource params = new MapSqlParameterSource();
             params.addValue("idProject", idProject);
-            params.addValue("epic", epic);
+            params.addValue("isEpic", isEpic);
             try {
-                return namedJdbcTemplate.query(query, params, new EpicRowMapper());
+                return namedJdbcTemplate.query(query, params, new PBIRowMapper());
             } catch(EmptyResultDataAccessException e) {
-                return epics;
+                return pbis;
             }
-        }
+        }         // Returns User Stories on else
         else {
             String query = "select * from PBI where Project_id = :idProject and Epic_id = :epicId";
             NamedParameterJdbcTemplate namedJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -145,9 +148,9 @@ public class DataAccess {
             params.addValue("idProject", idProject);
             params.addValue("epicId", epicId);
             try {
-                return namedJdbcTemplate.query(query, params, new EpicRowMapper());
+                return namedJdbcTemplate.query(query, params, new PBIRowMapper());
             } catch(EmptyResultDataAccessException e) {
-                return epics;
+                return pbis;
             }
         }
 
@@ -155,7 +158,7 @@ public class DataAccess {
 
 
     // Update PBI's Sprint_id field
-    public void updateSprintId(List<Epic> epics) {
+    public void updateSprintId(List<PBI> pbis) {
 
         String sql = "UPDATE PBI SET Sprint_id = ? WHERE idPBI = ?";
 
@@ -165,14 +168,14 @@ public class DataAccess {
         template.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                Epic epic = epics.get(i);
-                ps.setInt(1, epic.getSprint_id());
-                ps.setInt(2, epic.getIdPBI());
+                PBI singlePbi = pbis.get(i);
+                ps.setInt(1, singlePbi.getSprint_id());
+                ps.setInt(2, singlePbi.getIdPBI());
             }
 
             @Override
             public int getBatchSize() {
-                return epics.size();
+                return pbis.size();
             }
         });
     }

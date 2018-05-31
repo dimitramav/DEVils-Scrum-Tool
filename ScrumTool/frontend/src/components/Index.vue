@@ -136,7 +136,7 @@
                   <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle" required/>
                   <h5>Deadline:</h5>
                   <label class="sr-only" for="newProjectDate"></label>
-                  <b-form-input id="newProjectDate" placeholder="New Project's Deadline" v-model="form.deadlineDate" required/>
+                  <b-form-input id="newProjectDate" type="date" v-model="form.deadlineDate" required/>
                   <b-button variant="success" type="submit" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
                 </b-form>
               </b-dropdown>
