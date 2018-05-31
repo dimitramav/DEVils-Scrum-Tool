@@ -146,6 +146,7 @@
             headers: { "auth": localStorage.getItem('auth_token'), "Content-Type":'application/json' }
           }
           // Call to create the new sprint
+
           axios.post('http://localhost:8765/app/api/users/'+localStorage.getItem('userId')+'/projects/'+ self.sprint.Project_id + '/sprints', new_sprint, config)
             .then(function (response) {
               console.log(response.data.Sprint_id)
@@ -242,7 +243,9 @@
       },
       mounted() {
         this.sprint.Project_id = this.$route.query.projectId;      // Receive projectId from url parameters
+        //this.sprint.Project_id = 5;
         this.sprint.numSprint  = this.$route.query.newSprintNum;   // Receive new numSprint (+1 from the previous one)
+        //this.sprint.numSprint = 8;
         if (this.sprint.Project_id == null || this.sprint.numSprint == null) {
           console.log("Error: Add correct parameters (projectId and newSprintNum) in url");
         }

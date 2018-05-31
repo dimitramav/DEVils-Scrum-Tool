@@ -6,9 +6,9 @@
         <img src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" width="60" height="60" alt="BV">
       </b-navbar-brand>
     </b-navbar>
-      <b-navbar-nav v-if="aboutProject()===true" class="ml-auto">
+      <b-navbar-nav v-if="dashboard" class="ml-auto">
         <b-nav-item href="/#/projectpageoverview"> <b-button variant="outline-default">Overview </b-button></b-nav-item>
-        <b-nav-item href="/#/projectpageoverview">  <b-button variant="outline-default"> Product Backlog </b-button></b-nav-item>
+        <b-nav-item href="/#/backlog">  <b-button variant="outline-default"> Product Backlog </b-button></b-nav-item>
         <b-nav-item href="/#/projectpageoverview">  <b-button variant="outline-default"> Sprints </b-button></b-nav-item>
       </b-navbar-nav>
     <b-collapse is-nav id="nav_collapse">
@@ -48,9 +48,9 @@
             localStorage.setItem('auth_token', 'null');
             this.$router.push({path: '/logout'});
           },
-          aboutProject() {
-            return false;
-          }
+        },
+        props: {
+          dashboard: Boolean,
         }
     }
 </script>
