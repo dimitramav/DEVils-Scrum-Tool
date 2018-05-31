@@ -27,10 +27,9 @@ DROP TABLE IF EXISTS `Issue`;
 CREATE TABLE `Issue` (
   `idIssue` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(500) DEFAULT NULL,
-  `Task_id` int(11) NOT NULL,
-  PRIMARY KEY (`idIssue`,`Task_id`),
-  KEY `fk_Issue_Task1_idx` (`Task_id`),
-  CONSTRAINT `fk_Issue_Task1` FOREIGN KEY (`Task_id`) REFERENCES `Task` (`idTask`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `Task_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idIssue`),
+  KEY `fk_Issue_Task1_idx` (`Task_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -51,10 +50,10 @@ DROP TABLE IF EXISTS `PBI`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `PBI` (
-  `idPBI` int(11) NOT NULL,
+  `idPBI` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(45) NOT NULL,
   `description` varchar(500) DEFAULT NULL,
-  `order` int(11) NOT NULL,
+  `priority` int(11) NOT NULL,
   `isEpic` tinyint(1) NOT NULL,
   `Project_id` int(11) NOT NULL,
   `Epic_id` int(11) DEFAULT NULL,
@@ -66,7 +65,7 @@ CREATE TABLE `PBI` (
   CONSTRAINT `fk_PBI_PBI1` FOREIGN KEY (`Epic_id`) REFERENCES `PBI` (`idPBI`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_PBI_Project1` FOREIGN KEY (`Project_id`) REFERENCES `Project` (`idProject`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_PBI_Sprint1` FOREIGN KEY (`Sprint_id`) REFERENCES `Sprint` (`idSprint`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,6 +74,7 @@ CREATE TABLE `PBI` (
 
 LOCK TABLES `PBI` WRITE;
 /*!40000 ALTER TABLE `PBI` DISABLE KEYS */;
+INSERT INTO `PBI` VALUES (1,'Communicate with Donald','Constantly inform him about statistics from stolen data',2,1,3,NULL,1),(2,'Stop Telegram Uprise','Make Telegram programmers life difficult to work',1,1,3,NULL,NULL),(3,'Telegram & ISIS','Blame Telegram for permitting Isis soldiers to use their app',3,0,3,2,NULL),(4,'Bad Telegram Reputation','Pay websites to write negative reviews for our enemy',2,0,3,2,NULL);
 /*!40000 ALTER TABLE `PBI` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,12 +115,11 @@ CREATE TABLE `Project_User_has_Task` (
   `Project_id` int(11) NOT NULL,
   `User_id` int(11) NOT NULL,
   `Task_id` int(11) NOT NULL,
-  `Task_PBI_id` int(11) NOT NULL,
-  PRIMARY KEY (`Project_id`,`User_id`,`Task_id`,`Task_PBI_id`),
-  KEY `fk_Project_has_User_has_Task_Task1_idx` (`Task_id`,`Task_PBI_id`),
+  PRIMARY KEY (`Project_id`,`User_id`,`Task_id`),
   KEY `fk_Project_has_User_has_Task_Project_has_User1_idx` (`Project_id`,`User_id`),
+  KEY `fk_Project_has_User_has_Task_Task1_idx` (`Task_id`),
   CONSTRAINT `fk_Project_has_User_has_Task_Project_has_User1` FOREIGN KEY (`Project_id`, `User_id`) REFERENCES `Project_has_User` (`Project_id`, `User_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Project_has_User_has_Task_Task1` FOREIGN KEY (`Task_id`, `Task_PBI_id`) REFERENCES `Task` (`idTask`, `PBI_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Project_has_User_has_Task_Task1` FOREIGN KEY (`Task_id`) REFERENCES `Task` (`idTask`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -180,7 +179,7 @@ CREATE TABLE `Sprint` (
   PRIMARY KEY (`idSprint`,`Project_id`),
   KEY `fk_Sprint_Project1_idx` (`Project_id`),
   CONSTRAINT `fk_Sprint_Project1` FOREIGN KEY (`Project_id`) REFERENCES `Project` (`idProject`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,6 +188,7 @@ CREATE TABLE `Sprint` (
 
 LOCK TABLES `Sprint` WRITE;
 /*!40000 ALTER TABLE `Sprint` DISABLE KEYS */;
+INSERT INTO `Sprint` VALUES (1,'2018-02-10','Help Trump become president','Steal Data From Users',0,1,3),(2,'2018-08-08','Recreate Messenger','Copy awesome Telegram',1,2,3),(3,'2018-11-22','Make it more popular','Hack Facebook',1,1,1);
 /*!40000 ALTER TABLE `Sprint` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -264,4 +264,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-17 16:05:14
+-- Dump completed on 2018-05-31  5:01:15

@@ -5,17 +5,17 @@ public class PBI {
     private int idPBI;
     private String title;
     private String description;
-    private int order;
+    private int priority;
     private Boolean isEpic;
     private int Project_id;
     private int Epic_id;
     private int Sprint_id;
 
-    public PBI(int idPBI, String title, String description, int order, Boolean isEpic, int project_id, int epic_id, int sprint_id) {
+    public PBI(int idPBI, String title, String description, int priority, Boolean isEpic, int project_id, int epic_id, int sprint_id) {
         this.idPBI = idPBI;
         this.title = title;
         this.description = description;
-        this.order = order;
+        this.priority = priority;
         this.isEpic = isEpic;
         Project_id = project_id;
         Epic_id = epic_id;
@@ -62,12 +62,12 @@ public class PBI {
         this.description = description;
     }
 
-    public int getOrder() {
-        return order;
+    public int getPriority() {
+        return priority;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     public Boolean getIsEpic() {

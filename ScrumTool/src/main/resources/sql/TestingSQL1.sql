@@ -22,3 +22,22 @@ insert into Project_has_User (Project_id, User_id, role) values (2, 3, 'Develope
 insert into Project_has_User (Project_id, User_id, role) values (3, 3, 'Developer');
 select * from Project_has_User;
 select * from Project where idProject in (select Project_id from Project_has_User where User_id = 1);
+insert into Sprint (deadlineDate, goal, plan, isCurrent, numSprint, Project_id)
+	values ('2018-02-10', 'Help Trump become president', 'Steal Data From Users', FALSE, 1, 3);
+insert into Sprint (deadlineDate, goal, plan, isCurrent, numSprint, Project_id)
+	values ('2018-08-08', 'Recreate Messenger', 'Copy awesome Telegram', TRUE, 2, 3);
+insert into Sprint (deadlineDate, goal, plan, isCurrent, numSprint, Project_id)
+	values ('2018-11-22', 'Make it more popular', 'Hack Facebook', TRUE, 1, 1);
+select * from Sprint;
+insert into PBI (title, description, priority, isEpic, Project_id, Sprint_id)
+	values ('Communicate with Donald', 'Constantly inform him about statistics from stolen data', 2, TRUE, 3, 1);
+insert into PBI (title, description, priority, isEpic, Project_id)
+	values ('Stop Telegram Uprise', 'Make Telegram programmers life difficult to work', 1, TRUE, 3);
+insert into PBI (title, description, priority, isEpic, Project_id, Epic_id)
+	values ('Telegram & ISIS', 'Blame Telegram for permitting Isis soldiers to use their app', 3, FALSE, 3, 2);
+insert into PBI (title, description, priority, isEpic, Project_id, Epic_id)
+	values ('Bad Telegram Reputation', 'Pay websites to write negative reviews for our enemy', 2, FALSE, 3, 2);
+select * from PBI;
+
+
+
