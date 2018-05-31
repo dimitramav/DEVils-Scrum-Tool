@@ -138,7 +138,7 @@ public class ProjectsResource extends ServerResource {
                     return new JsonMapRepresentation(map);
                 }
                 catch(IOException e) {
-                    mapError.put("results", "System Exception");
+                    mapError.put("error", "System Exception");
                     return new JsonMapRepresentation(mapError);
                 }
             }

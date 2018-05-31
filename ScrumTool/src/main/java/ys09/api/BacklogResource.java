@@ -103,7 +103,7 @@ public class BacklogResource extends ServerResource {
         }
     }
 
-    // Update PBI
+    // Update PBI's Sprint_id
     @Patch
     public Representation update(Representation entity) {
         // New map string (which is the json name) and objects
@@ -171,6 +171,146 @@ public class BacklogResource extends ServerResource {
                 }
                 catch(IOException e) {
                     mapError.put("result", "System Exception");
+                    return new JsonMapRepresentation(mapError);
+                }
+            }
+            else {
+                mapError.put("error", "Unauthorized projects");
+                return new JsonMapRepresentation(mapError);
+            }
+        }
+        else {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+    }
+
+
+    // Insert a new PBI into database
+    @Override
+    protected Representation post(Representation entity) throws ResourceException {
+
+        // New map string (which is the json name) and objects
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> mapError = new HashMap<>();
+        //System.out.println("Inside post");
+
+        // Get UserId
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized projects");
+            return new JsonMapRepresentation(mapError);
+        }
+        int userId = Integer.parseInt(userIdStr);
+
+        // Check if is Epic
+        String isEpicStr = getQuery().getValues("isEpic");
+        Boolean isEpic;
+        if (isEpicStr == null)
+            isEpic = false;
+        else isEpic = Boolean.parseBoolean(isEpicStr);
+        // Convert it to boolean
+
+        // Get projectId
+        String projectId = getRequestAttributes().get("projectId").toString();
+        int idProject = Integer.parseInt(projectId);
+
+        // Access the headers of the request!
+        Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
+        String token = requestHeaders.getFirstValue("auth");
+
+        if (token == null) {
+            mapError.put("error", "null");
+            return new JsonMapRepresentation(mapError);
+        }
+        CustomAuth customAuth = new CustomAuth();
+
+        if(customAuth.checkAuthToken(token)) {
+            // Insert the pbi given (either epic or story)
+            if(customAuth.userValidation(token, userIdStr)) {
+                // Get the whole json body representation
+                try {
+                    String str = entity.getText();
+                    // Now Create from String the JAVA object
+                    Gson gson = new Gson();
+                    PBI pbi = gson.fromJson(str, PBI.class);
+                    pbi.setIsEpic(isEpic);
+                    // Insert
+                    PBI response = dataAccess.insertNewPBI(pbi);
+                    // Set the response headers
+                    map.put("results", response);
+                    return new JsonMapRepresentation(map);
+                }
+                catch(IOException e) {
+                    mapError.put("error", "System Exception");
+                    return new JsonMapRepresentation(mapError);
+                }
+            }
+            else {
+                mapError.put("error", "Unauthorized projects");
+                return new JsonMapRepresentation(mapError);
+            }
+        }
+        else {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+    }
+
+
+    // Update an existing PBI
+    @Override
+    protected Representation put(Representation entity) throws ResourceException {
+
+        // New map string (which is the json name) and objects
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> mapError = new HashMap<>();
+        //System.out.println("Inside post");
+
+        // Get UserId
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized projects");
+            return new JsonMapRepresentation(mapError);
+        }
+        int userId = Integer.parseInt(userIdStr);
+
+        // Check if is Epic
+        String isEpicStr = getQuery().getValues("isEpic");
+        Boolean isEpic;
+        if (isEpicStr == null)
+            isEpic = false;
+        else isEpic = Boolean.parseBoolean(isEpicStr);
+        // Convert it to boolean
+
+        // Access the headers of the request!
+        Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
+        String token = requestHeaders.getFirstValue("auth");
+
+        if (token == null) {
+            mapError.put("error", "null");
+            return new JsonMapRepresentation(mapError);
+        }
+        CustomAuth customAuth = new CustomAuth();
+
+        if(customAuth.checkAuthToken(token)) {
+            // Insert the pbi given (either epic or story)
+            if(customAuth.userValidation(token, userIdStr)) {
+                // Get the whole json body representation
+                try {
+                    String str = entity.getText();
+                    // Now Create from String the JAVA object
+                    Gson gson = new Gson();
+                    PBI pbi = gson.fromJson(str, PBI.class);
+                    pbi.setIsEpic(isEpic);
+                    // Update
+                    PBI response = dataAccess.updatePBI(pbi);
+                    // Set the response headers
+                    map.put("results", response);
+                    return new JsonMapRepresentation(map);
+                }
+                catch(IOException e) {
+                    mapError.put("error", "System Exception");
                     return new JsonMapRepresentation(mapError);
                 }
             }
