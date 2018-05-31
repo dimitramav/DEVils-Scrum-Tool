@@ -146,7 +146,7 @@
             headers: { "auth": localStorage.getItem('auth_token'), "Content-Type":'application/json' }
           }
           // Call to create the new sprint
-          axios.post('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects/3/sprints', new_sprint, config)
+          axios.post('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects/5/sprints', new_sprint, config)
             .then(function (response) {
               console.log(response.data.Sprint_id)
               // Call to update the pbis !
@@ -155,7 +155,7 @@
                 self.pbis_list.push({idPBI: self.selected_stories[i].value, Sprint_id: response.data.Sprint_id, Project_id: 3})
               }
 
-              axios.patch('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/3/pbis', self.pbis_list, config)
+              axios.patch('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/5/pbis', self.pbis_list, config)
                 .then(function (response) {
                     console.log("xoxo")
                 })
@@ -172,7 +172,7 @@
           console.log(title);
           // Call the other rest endpoint to get the stories of each epic
           const self = this;
-          axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects/3/pbis?epicId=' + idPBI, {
+          axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects/5/pbis?epicId=' + idPBI, {
             headers: { "auth": localStorage.getItem('auth_token') }
           })
             .then(function (response) {
@@ -201,7 +201,7 @@
         },
         getEpics () {
           const self = this;
-          axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects/3/pbis?isEpic=true', {
+          axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects/5/pbis?isEpic=true', {
             headers: { "auth": localStorage.getItem('auth_token') }
           })
             .then(function (response) {
