@@ -202,5 +202,10 @@ export default {
     margin-bottom: 10px;
   }
 
+  .container-fluid {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
 </style>
 

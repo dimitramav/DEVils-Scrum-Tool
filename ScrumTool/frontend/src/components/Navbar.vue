@@ -2,7 +2,7 @@
   <b-navbar toggleable="md" class="navbar navbar-expand-lg bg-dark navbar-dark navbar-static-top" variant="info" fluid>
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-navbar variant="faded" type="light">
-      <b-navbar-brand href="#">
+      <b-navbar-brand href="/#/">
         <img src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" width="60" height="60" alt="BV">
       </b-navbar-brand>
     </b-navbar>
@@ -72,5 +72,10 @@
     background-color: lavender;
     margin-top: -6px;
     margin-bottom: 10px;
+  }
+
+  .container-fluid {
+    padding-right: 0;
+    padding-left: 0;
   }
 </style>

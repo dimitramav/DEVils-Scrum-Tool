@@ -138,6 +138,7 @@
 
             axios.patch('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + self.sprint.Project_id + '/pbis', self.pbis_list, config)
               .then(function (response) {
+                // Debugging
                 console.log("xoxo")
                 self.$router.push({path: '/projectpageoverview'})
               })
