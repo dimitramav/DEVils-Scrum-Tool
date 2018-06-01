@@ -17,7 +17,7 @@
         <b-btn v-b-toggle="'collapse'+cur_pbi.idPBI" v-on:click="getEpicUserStories(cur_pbi.idPBI)" variant="primary">Toggle Collapse</b-btn>
         <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2">
         <div>
-          <b-card-group v-for="cur_us in currentUserStories" :key="cur_us.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
+          <b-card-group v-for="cur_us in currentUserStories[cur_pbi.idPBI]" :key="cur_us.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
           <b-card no-body class="mb-1">
             <b-card-header header-tag="header" class="p-1" role="tab">
               <b-btn block href="#"  v-b-toggle="'collapse'+cur_us.idPBI" variant="info">Accordion 1</b-btn>
@@ -60,7 +60,7 @@ export default {
     return {
       logOut: null,
       currentPbis: [],
-      currentUserStories: [],
+      currentUserStories: [[],[]],
       teamData: json.team,
     }
   },
@@ -82,16 +82,16 @@ export default {
              //prepei na to spasw se synartisi
             response.data.results.forEach(function(arrayItem)
             {
-              if(arrayItem.priority==1)
+              if(arrayItem.priority===1)
               {
                 arrayItem.priority="High";
               }
-              else if(arrayItem.priority==2)
+              else if(arrayItem.priority===2)
               {
                 arrayItem.priority="Medium";
 
               }
-              else if(arrayItem.priority==3)
+              else if(arrayItem.priority===3)
               {
                 arrayItem.priority="Low";
               }
@@ -115,7 +115,7 @@ export default {
         }
       }
       if (response.data.results) {
-        self.currentUserStories = response.data.results;
+        self.currentUserStories[epicId] = response.data.results;
 
 
       }
