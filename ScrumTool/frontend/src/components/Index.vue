@@ -125,7 +125,7 @@
       <b-container class="Navigation" fluid>
 
         <navbar></navbar>
-
+        <b-container>
         <b-row>
           <b-col class="text-right">
             <div>
@@ -145,7 +145,7 @@
         </b-row>
         <b-row style="padding-top:10px;">
           <b-col class="text-left">
-            <h2> Current Projects</h2>
+            <h2 class="text-enhancement"> Current Projects</h2>
           </b-col>
         </b-row>
         <b-row>
@@ -154,8 +154,9 @@
         <br>
 
         <b-row>
-          <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-            <b-card :title="cur_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
+          <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+            <b-card :title="cur_project.title" img-top tag="article" style="max-width: 15rem;"   img-src="https://picsum.photos/600/300/?image=25"
+                    img-alt="Image">
               <p class="card-text">
                 Deadline: {{cur_project.deadlineDate}}
               </p>
@@ -164,10 +165,10 @@
           </b-card-group>
         </b-row>
         <br>
-
+        <div v-if="doneLength !== 0">
         <b-row style="padding-top:10px;">
           <b-col class="text-left">
-            <h2>Done Projects</h2>
+            <h2 class="text-enhancement">Done Projects</h2>
           </b-col>
         </b-row>
         <b-row>
@@ -185,10 +186,12 @@
         </b-card-group>
         </b-row>
         <br>
+        </div>
       </b-container>
-
+      </b-container>
     </template>
   </div>
+
 </template>
 
 
@@ -210,6 +213,8 @@ export default {
       currentProjects: [],
       doneProjects:[],
       teamData: json.team,
+      numProjects: 0,
+      doneLength: 0
     }
   },
   methods: {
@@ -228,7 +233,7 @@ export default {
     getProjects () {
       //evt.preventDefault();
       const self = this;
-      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=10&offset=0', {
+      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=9&offset=0', {
         headers: { "auth": localStorage.getItem('auth_token') }
       })
         .then(function (response) {
@@ -239,6 +244,8 @@ export default {
           }
           if (response.data.results) {
             self.currentProjects = response.data.results;
+            self.numProjects = self.currentProjects.length;
+            console.log(self.numProjects);
           }
         })
         .catch(function (error) {
@@ -256,6 +263,7 @@ export default {
           }
           if (response.data.results) {
             self.doneProjects = response.data.results;
+            self.doneLength = self.doneProjects.length;
           }
         })
         .catch(function (error) {
@@ -307,6 +315,9 @@ export default {
 </script>
 
 <style scoped>
+
+  @import url('https://fonts.googleapis.com/css?family=Merienda');
+
   .Title{
     position: absolute;
     top: 0;
@@ -378,7 +389,7 @@ export default {
     font-size: 1px;
     line-height: 2px;
     background-color: lavender;
-    margin-top: -6px;
+    margin-top: 10px;
     margin-bottom: 10px;
   }
 
@@ -391,5 +402,10 @@ export default {
     padding-right: 0;
     padding-left: 0;
   }
+
+  .text-enhancement {
+    font-family: 'Merienda', cursive;
+  }
+
 </style>
 
