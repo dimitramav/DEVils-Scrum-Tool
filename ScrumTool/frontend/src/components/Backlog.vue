@@ -1,7 +1,7 @@
 <template>
   <b-container class="Navigation" fluid>
 
-    <navbar></navbar>
+    <navbar :dashboard="true"></navbar>
     <br>
   <b-row>
 

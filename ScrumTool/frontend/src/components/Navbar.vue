@@ -6,14 +6,17 @@
         <img src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" width="60" height="60" alt="BV">
       </b-navbar-brand>
     </b-navbar>
-      <b-navbar-nav v-if="aboutProject()===true" class="ml-auto">
-        <b-nav-item href="/#/projectpageoverview"> <b-button variant="outline-default">Overview </b-button></b-nav-item>
-        <b-nav-item href="/#/projectpageoverview">  <b-button variant="outline-default"> Product Backlog </b-button></b-nav-item>
-        <b-nav-item href="/#/projectpageoverview">  <b-button variant="outline-default"> Sprints </b-button></b-nav-item>
-      </b-navbar-nav>
+    <!-- Project navigation items -->
+    <b-nav tabs  class="ml-auto" style="position:relative;top:27px; left:29%" >
+      <b-nav-item active href="/#/projectpageoverview" > <label style="color:grey;"> Overview </label> </b-nav-item>
+      <b-nav-item href="/#/backlog" >  <label style="color:grey;"> Procuct Backlog</label> </b-nav-item>
+      <b-nav-item href="/#/projectpageoverview">  <label style="color:grey;"> Sprints </label> </b-nav-item>
+    </b-nav>
+
     <b-collapse is-nav id="nav_collapse">
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
+        <!-- Project notifications -->
         <b-nav-item-dropdown right>
           <template slot="button-content">
             <em>
@@ -25,10 +28,11 @@
           <b-dropdown-item href="#">#Notification 3</b-dropdown-item>
           <b-dropdown-item href="#">#Notification 4</b-dropdown-item>
         </b-nav-item-dropdown>
+        <!-- Setting notifications -->
         <b-nav-item-dropdown right>
           <template slot="button-content">
             <em>
-              <img src="https://www.mindvoize.com/images/userImage.png" style="width:30px;">
+              <img src="https://www.mindvoize.com/images/userImage.png" style="width:30px; position: relative; bottom: 2.5px">
             </em>
           </template>
           <b-dropdown-item href="#">Profile</b-dropdown-item>
@@ -48,9 +52,9 @@
             localStorage.setItem('auth_token', 'null');
             this.$router.push({path: '/logout'});
           },
-          aboutProject() {
-            return false;
-          }
+        },
+        props: {
+          dashboard: Boolean,
         }
     }
 </script>

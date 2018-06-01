@@ -37,6 +37,7 @@ insert into PBI (title, description, priority, isEpic, Project_id, Epic_id)
 	values ('Telegram & ISIS', 'Blame Telegram for permitting Isis soldiers to use their app', 3, FALSE, 3, 2);
 insert into PBI (title, description, priority, isEpic, Project_id, Epic_id)
 	values ('Bad Telegram Reputation', 'Pay websites to write negative reviews for our enemy', 2, FALSE, 3, 2);
+update PBI set description = 'Return token', Epic_id = 5 where idPBI = 5;
 select * from PBI;
 
 

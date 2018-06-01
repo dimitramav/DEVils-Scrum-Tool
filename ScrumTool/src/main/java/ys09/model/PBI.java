@@ -8,8 +8,8 @@ public class PBI {
     private int priority;
     private Boolean isEpic;
     private int Project_id;
-    private int Epic_id;
-    private int Sprint_id;
+    private Integer Epic_id;
+    private Integer Sprint_id;
 
     public PBI(int idPBI, String title, String description, int priority, Boolean isEpic, int project_id, int epic_id, int sprint_id) {
         this.idPBI = idPBI;
@@ -22,19 +22,19 @@ public class PBI {
         Sprint_id = sprint_id;
     }
 
-    public int getEpic_id() {
+    public Integer getEpic_id() {
         return Epic_id;
     }
 
-    public void setEpic_id(int epic_id) {
+    public void setEpic_id(Integer epic_id) {
         this.Epic_id = epic_id;
     }
 
-    public int getSprint_id() {
+    public Integer getSprint_id() {
         return Sprint_id;
     }
 
-    public void setSprint_id(int sprint_id) {
+    public void setSprint_id(Integer sprint_id) {
         this.Sprint_id = sprint_id;
     }
 
