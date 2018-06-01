@@ -154,8 +154,9 @@
         <br>
 
         <b-row>
-          <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-            <b-card :title="cur_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
+          <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+            <b-card :title="cur_project.title" img-top tag="article" style="max-width: 15rem;"   img-src="https://picsum.photos/600/300/?image=25"
+                    img-alt="Image">
               <p class="card-text">
                 Deadline: {{cur_project.deadlineDate}}
               </p>
@@ -232,7 +233,7 @@ export default {
     getProjects () {
       //evt.preventDefault();
       const self = this;
-      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=12&offset=0', {
+      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=9&offset=0', {
         headers: { "auth": localStorage.getItem('auth_token') }
       })
         .then(function (response) {

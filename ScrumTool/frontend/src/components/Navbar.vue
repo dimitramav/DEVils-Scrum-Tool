@@ -1,10 +1,11 @@
 <template>
-  <b-navbar toggleable="md" class="navbar navbar-expand-lg bg-dark navbar-dark navbar-static-top" variant="info" fluid>
+  <b-navbar  toggleable="md" class="navbar navbar-expand-lg bg-dark navbar-dark navbar-static-top" variant="info" fluid>
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-navbar variant="faded" type="light">
       <b-navbar-brand href="/#/">
         <img src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" width="60" height="60" alt="BV">
       </b-navbar-brand>
+      <span class="text-enhancement"><a href="/#/" style="text-decoration: none; color:white;">Scrum Tool</a></span>
     </b-navbar>
     <!-- Project navigation items -->
     <b-nav tabs  class="ml-auto" style="position:relative;top:27px; left:29%" >
@@ -77,5 +78,13 @@
   .container-fluid {
     padding-right: 0;
     padding-left: 0;
+  }
+
+
+  .text-enhancement {
+    font-family: 'Merienda', cursive;
+    padding-left: 15px;
+    font-size: 32px;
+    color: white;
   }
 </style>
