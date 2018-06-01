@@ -6,9 +6,13 @@
   <b-row>
 
     <b-card-group v-for="cur_pbi in currentPbis" :key="cur_pbi.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-      <b-card :title="cur_pbi.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
+      <b-card :title="cur_pbi.title" img-top tag="article" style="max-width: 15rem;" class="mb-2"
+              header="Epic"
+              header-tag="header"
+              :footer="cur_pbi.priority"
+              footer-tag="footer">
         <p class="card-text">
-          Description: {{cur_pbi.description}}
+          {{cur_pbi.description}}
         </p>
         <b-btn v-b-toggle="'collapse'+cur_pbi.idPBI" v-on:click="getEpicUserStories(cur_pbi.idPBI)" variant="primary">Toggle Collapse</b-btn>
         <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2">
@@ -21,7 +25,7 @@
             <b-collapse :id="'collapse'+cur_us.idPBI" visible accordion="my-accordion" role="tabpanel">
               <b-card-body>
                 <p class="card-text">
-                  description: {{cur_us.description}}
+                   {{cur_us.description}}
                 </p>
               </b-card-body>
             </b-collapse>
@@ -61,6 +65,7 @@ export default {
     }
   },
   methods: {
+
     getPBIS() {
       //evt.preventDefault();
       const self = this;
@@ -74,6 +79,23 @@ export default {
             }
           }
           if (response.data.results) {
+             //prepei na to spasw se synartisi
+            response.data.results.forEach(function(arrayItem)
+            {
+              if(arrayItem.priority==1)
+              {
+                arrayItem.priority="High";
+              }
+              else if(arrayItem.priority==2)
+              {
+                arrayItem.priority="Medium";
+
+              }
+              else if(arrayItem.priority==3)
+              {
+                arrayItem.priority="Low";
+              }
+            });
             self.currentPbis = response.data.results;
           }
         })
@@ -94,7 +116,8 @@ export default {
       }
       if (response.data.results) {
         self.currentUserStories = response.data.results;
-        console.log(self.currentUserStories);
+
+
       }
     })
     .catch(function (error) {

@@ -61,7 +61,6 @@ public class BacklogResource extends ServerResource {
         int idProject = Integer.parseInt(projectId);
         // Get Epic_id
         String epicIdStr = getQuery().getValues("epicId");
-        System.out.println("hi"+ epicIdStr);
         int epicId;
         if(epicIdStr == null) {
             epicId = 0;
@@ -88,9 +87,9 @@ public class BacklogResource extends ServerResource {
             if(customAuth.userValidation(token, userId)) {
                 // Get all the pbis of this project (either Epics or Stories)
                 List<PBI> pbis = dataAccess.getProjectPBIs(idProject, isEpic, epicId);
-                System.out.println("hi" + isEpic +epicId);
                 map.put("results", pbis);
                 // Set the response headers
+                System.out.println("lll " + pbis.get(0).getPriority());
                 return new JsonMapRepresentation(map);
             }
             else {
