@@ -230,7 +230,8 @@ export default {
     },
     notLoggedIn() {
       return (localStorage.getItem('auth_token')==='null' || localStorage.getItem('userId')==='null' || this.logOut);
-    },
+    }
+    ,
     getProjects () {
       //evt.preventDefault();
       const self = this;
