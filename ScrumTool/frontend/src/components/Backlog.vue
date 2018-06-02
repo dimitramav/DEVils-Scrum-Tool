@@ -37,11 +37,17 @@
     </b-row>
     <b-row>
       <b-card-group v-for="cur_pbi in currentPbis" :key="cur_pbi.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-      <b-card :title="cur_pbi.title" img-top tag="article" class="mb-2"
-              header="Epic"
-              header-tag="header"
-              :footer="cur_pbi.priority"
-              footer-tag="footer">
+      <b-card :title="cur_pbi.title" img-top tag="article" class="mb-2">
+        <div slot="header">
+          <b-row>
+            <b-col class="text-left">
+              <h5 >Epic</h5>
+            </b-col>
+            <b-col class="text-right">
+              <a  href="https://www.w3schools.com/tags/tag_a.asp"><u>Edit</u></a>
+            </b-col>
+          </b-row>
+        </div>
         <p class="card-text">
           {{cur_pbi.description}}
         </p>
@@ -62,16 +68,11 @@
             </b-collapse>
           </b-card>
           </b-card-group>
-          <!--
-          <b-btn v-b-toggle="'collapse'+cur_pbi.idPBI" v-on:click="getEpicUserStories(cur_pbi.idPBI)" variant="primary">Toggle Collapse</b-btn>
-          <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2">
-            <b-card>
-              <p class="card-text">Description:{{currentUserStories[0].description}} </p>
-            </b-card>
-          </b-collapse>
-          -->
         </div>
         </b-collapse>
+        <div slot="footer">
+          <h6 class="text-muted">{{cur_pbi.priority}}</h6>
+        </div>
       </b-card>
     </b-card-group>
   </b-row>
