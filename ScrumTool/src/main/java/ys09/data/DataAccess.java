@@ -170,12 +170,6 @@ public class DataAccess {
                 @Override
                 public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                     PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-                    System.out.println("title: " +pbi.getTitle());
-                    System.out.println("description: " +pbi.getDescription());
-                    System.out.println("priority: " +pbi.getPriority());
-                    System.out.println("isEpic: " +pbi.getIsEpic());
-                    System.out.println("ProjectId: " +pbi.getProject_id());
-
                     statement.setString(1, pbi.getTitle());
                     statement.setString(2, pbi.getDescription());
                     statement.setInt(3, pbi.getPriority());
