@@ -66,7 +66,6 @@ public class RestfulApp extends Application {
 		router.attach("/users/{userId}/projects/{projectId}/pbis", BacklogResource.class);
 		// Sprint Resource (Create, Update, Get sprint info)
 		router.attach("/users/{userId}/projects/{projectId}/sprints", SprintResource.class);
-
 		return corsFilter;
 	}
 
