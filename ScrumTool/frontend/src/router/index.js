@@ -39,7 +39,7 @@ export default new Router({
       component: Sidebar
     },
     {
-      path: '/projectpageoverview',
+      path: '/projectpageoverview/:id',
       name: 'ProjectPageOverview',
       component: ProjectPageOverview
     },
