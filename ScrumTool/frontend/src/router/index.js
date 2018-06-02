@@ -8,6 +8,7 @@ import ProjectPageOverview from '@/components/ProjectPageOverview'
 import NewSprint from '@/components/NewSprint'
 import Logout from '@/components/Logout'
 import Backlog from '@/components/Backlog/'
+import OldSprints from '@/components/OldSprints'
 
 Vue.use(Router)
 
@@ -34,12 +35,16 @@ export default new Router({
       component: Logout
     },
     {
+<<<<<<< Updated upstream
       path: '/sidebar',
       name: 'Sidebar',
       component: Sidebar
     },
     {
       path: '/projectpageoverview/:id',
+=======
+      path: '/projectpageoverview#:id',
+>>>>>>> Stashed changes
       name: 'ProjectPageOverview',
       component: ProjectPageOverview
     },
@@ -52,7 +57,11 @@ export default new Router({
       path: '/backlog',
       name: 'Backlog',
       component: Backlog
+    },
+    {
+      path: '/oldsprints',
+      name: 'OldSprints',
+      component: OldSprints  
     }
-
   ]
 })
