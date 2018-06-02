@@ -109,19 +109,19 @@ export default {
       {
         this.priority_picked=1;
       }
-      else if(this.priority_picked=="Medium")
+      else if(this.priority_picked==="Medium")
       {
         this.priority_picked=2;
       }
-      else if(this.priority_picked=="Low")
+      else if(this.priority_picked==="Low")
       {
-        this.priority.picked=3;
+        this.priority_picked=3;
       }
       let config = {
         headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
       }
       let data = {
-        title: this.form.newTitle, description: this.form.newDescription, priority:this.priority_picked,
+        title: this.form.newTitle, description: this.form.newDescription, priority:this.priority_picked, Project_id: '3',
       }
       axios.post('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + 3 + '/pbis?isEpic=true', data, config)
         .then(function (response) {
@@ -138,7 +138,19 @@ export default {
           }
           if (response.data.results) {
             console.log(response.data.results);
-            self.currentProjects.push(response.data.results);
+            if (response.data.results.priority===1)
+            {
+              response.data.results.priority="High";
+            }
+            else if(response.data.results.priority===2)
+            {
+              response.data.results.priority="Medium";
+            }
+            else if (response.data.results.priority===3)
+            {
+              response.data.results.priority="Low";
+            }
+            self.currentPbis.push(response.data.results);
           }
         })
         .catch(function (error) {
