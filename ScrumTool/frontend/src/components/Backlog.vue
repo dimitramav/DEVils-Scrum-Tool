@@ -18,15 +18,15 @@
               <b-row class="text-center">
                 <b-col>
                   <label for="high">High</label>
-                  <input type="radio" id="high" value="High" v-model="priority_picked">
+                  <input type="radio" name="myChoice" id="high" value="High" v-model="priority_picked" required>
                 </b-col>
                 <b-col>
                   <label for="medium">Medium</label>
-                  <input type="radio" id="medium" value="Medium" v-model="priority_picked">
+                  <input type="radio" name="myChoice" id="medium" value="Medium" v-model="priority_picked" required>
                 </b-col>
                 <b-col>
                   <label for="low">Low</label>
-                  <input type="radio" id="low" value="Low" v-model="priority_picked">
+                  <input type="radio" name="myChoice" id="low" value="Low" v-model="priority_picked" required>
                 </b-col>
               </b-row>
               <b-button variant="success" type="submit" style="margin-top: 10px; width: 100%;">Add to Epics</b-button>
@@ -101,29 +101,50 @@ export default {
     }
   },
   methods: {
+    priorityToNumber(priority)
+    {
+      if(priority==="High")
+      {
+        priority=1;
+      }
+      else if(priority==="Medium")
+      {
+        priority=2;
+      }
+      else if(piority==="Low")
+      {
+        priority=3;
+      }
+      return priority;
+    },
+    priorityToString(priority)
+    {
+      if(priority===1)
+      {
+        priority="High";
+      }
+      else if(priority===2)
+      {
+        priority="Medium";
 
+      }
+      else if(priority===3)
+      {
+        priority="Low";
+      }
+      return priority;
+    },
     newEpic (evt) {
       evt.preventDefault();
       const self = this;
-      if(this.priority_picked==="High")
-      {
-        this.priority_picked=1;
-      }
-      else if(this.priority_picked==="Medium")
-      {
-        this.priority_picked=2;
-      }
-      else if(this.priority_picked==="Low")
-      {
-        this.priority_picked=3;
-      }
+      this.priority_picked=self.priorityToNumber(this.priority_picked);
       let config = {
         headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
       }
       let data = {
-        title: this.form.newTitle, description: this.form.newDescription, priority:this.priority_picked, Project_id: '3',
+        title: this.form.newTitle, description: this.form.newDescription, priority:this.priority_picked, Project_id: this.currentProject_id,
       }
-      axios.post('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + 3 + '/pbis?isEpic=true', data, config)
+      axios.post('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
         .then(function (response) {
           if (response.data.error) {
             if (response.data.error === "Unauthorized user") {
@@ -137,19 +158,7 @@ export default {
             }
           }
           if (response.data.results) {
-            console.log(response.data.results);
-            if (response.data.results.priority===1)
-            {
-              response.data.results.priority="High";
-            }
-            else if(response.data.results.priority===2)
-            {
-              response.data.results.priority="Medium";
-            }
-            else if (response.data.results.priority===3)
-            {
-              response.data.results.priority="Low";
-            }
+            response.data.results.priority=self.priorityToString(response.data.results.priority);
             self.currentPbis.push(response.data.results);
           }
         })
@@ -173,19 +182,7 @@ export default {
              //prepei na to spasw se synartisi
             response.data.results.forEach(function(arrayItem)
             {
-              if(arrayItem.priority===1)
-              {
-                arrayItem.priority="High";
-              }
-              else if(arrayItem.priority===2)
-              {
-                arrayItem.priority="Medium";
-
-              }
-              else if(arrayItem.priority===3)
-              {
-                arrayItem.priority="Low";
-              }
+              arrayItem.priority=self.priorityToString(arrayItem.priority);
             });
             self.currentPbis = response.data.results;
           }
@@ -217,6 +214,7 @@ export default {
   },
     mounted() {
       if (localStorage.getItem('auth_token') === 'null' || localStorage.getItem('userId') === 'null') return;
+      this.currentProject_id=this.$route.params.id;
       this.getPBIS();
     },
 }
