@@ -37,7 +37,7 @@
     </b-row>
     <b-row>
       <b-card-group v-for="cur_pbi in currentPbis" :key="cur_pbi.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-      <b-card :title="cur_pbi.title" img-top tag="article" style="max-width: 15rem;" class="mb-2"
+      <b-card :title="cur_pbi.title" img-top tag="article" class="mb-2"
               header="Epic"
               header-tag="header"
               :footer="cur_pbi.priority"
@@ -45,13 +45,13 @@
         <p class="card-text">
           {{cur_pbi.description}}
         </p>
-        <b-btn v-b-toggle="'icollapse'+cur_pbi.idPBI" v-on:click="getEpicUserStories(cur_pbi.idPBI)" variant="primary">Toggle Collapse</b-btn>
+        <b-btn v-b-toggle="'icollapse'+cur_pbi.idPBI" v-on:click="getEpicUserStories(cur_pbi.idPBI)" variant="primary">User Stories</b-btn>
         <b-collapse :id="'icollapse'+cur_pbi.idPBI" class="mt-2">
         <div>
           <b-card-group v-for="cur_us in currentUserStories[cur_pbi.idPBI]" :key="cur_us.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
             <b-card class="mb-1">
             <b-card-header header-tag="header" class="p-1" role="tab">
-              <b-btn block href="#"  v-b-toggle="'collapse'+cur_us.idPBI" variant="info">Accordion 1</b-btn>
+              <b-btn block href="#"  v-b-toggle="'collapse'+cur_us.idPBI" variant="info">{{cur_us.title}}</b-btn>
             </b-card-header>
             <b-collapse :id="'collapse'+cur_us.idPBI" visible accordion="my-accordion" role="tabpanel">
               <b-card-body>
@@ -194,8 +194,7 @@ export default {
         }
       }
       if (response.data.results) {
-        self.currentUserStories[epicId] = response.data.results;
-        console.log(self.currentUserStories[epicId]);
+        self.$set(self.currentUserStories,epicId,response.data.results);
 
       }
     })
