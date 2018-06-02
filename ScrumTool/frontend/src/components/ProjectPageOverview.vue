@@ -86,6 +86,7 @@
                 <h2>Team</h2>
               </b-row>
               <br>
+              <!--
               <b-list-group v-for="teamMember in Team">
                 <b-list-group-item class="flex-column align-items-start">
                   <div class="d-flex w-100 justify-content-between">
@@ -98,6 +99,7 @@
                   </p>
                 </b-list-group-item>
               </b-list-group>
+              -->
               <br>
               <template>
                 <div>
@@ -160,7 +162,7 @@
       return {
         value: 75,
         selected: [], // Must be an array reference!
-        
+
         items: [{
           text: 'Home',
           href: '#'

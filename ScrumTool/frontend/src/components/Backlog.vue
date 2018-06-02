@@ -45,11 +45,11 @@
         <p class="card-text">
           {{cur_pbi.description}}
         </p>
-        <b-btn v-b-toggle="'collapse'+cur_pbi.idPBI" v-on:click="getEpicUserStories(cur_pbi.idPBI)" variant="primary">Toggle Collapse</b-btn>
-        <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2">
+        <b-btn v-b-toggle="'icollapse'+cur_pbi.idPBI" v-on:click="getEpicUserStories(cur_pbi.idPBI)" variant="primary">Toggle Collapse</b-btn>
+        <b-collapse :id="'icollapse'+cur_pbi.idPBI" class="mt-2">
         <div>
           <b-card-group v-for="cur_us in currentUserStories[cur_pbi.idPBI]" :key="cur_us.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-          <b-card no-body class="mb-1">
+            <b-card class="mb-1">
             <b-card-header header-tag="header" class="p-1" role="tab">
               <b-btn block href="#"  v-b-toggle="'collapse'+cur_us.idPBI" variant="info">Accordion 1</b-btn>
             </b-card-header>
@@ -148,7 +148,7 @@ export default {
     getPBIS() {
       //evt.preventDefault();
       const self = this;
-      axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + 5 + '/pbis?isEpic=true', {
+      axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + 3 + '/pbis?isEpic=true', {
         headers: {"auth": localStorage.getItem('auth_token')}
       })
         .then(function (response) {
@@ -184,7 +184,7 @@ export default {
     },
     getEpicUserStories(epicId) {
       const self = this;
-    axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + 5 + '/pbis?isEpic=false&epicId='+epicId, {
+    axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + 3 + '/pbis?isEpic=false&epicId='+epicId, {
     headers: {"auth": localStorage.getItem('auth_token')}
     })
     .then(function (response) {
@@ -195,7 +195,7 @@ export default {
       }
       if (response.data.results) {
         self.currentUserStories[epicId] = response.data.results;
-
+        console.log(self.currentUserStories[epicId]);
 
       }
     })
