@@ -69,7 +69,7 @@ export default {
     getPBIS() {
       //evt.preventDefault();
       const self = this;
-      axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + 3 + '/pbis?isEpic=true', {
+      axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + 5 + '/pbis?isEpic=true', {
         headers: {"auth": localStorage.getItem('auth_token')}
       })
         .then(function (response) {
@@ -105,7 +105,7 @@ export default {
     },
     getEpicUserStories(epicId) {
       const self = this;
-    axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + 3 + '/pbis?isEpic=false&epicId='+epicId, {
+    axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + 5 + '/pbis?isEpic=false&epicId='+epicId, {
     headers: {"auth": localStorage.getItem('auth_token')}
     })
     .then(function (response) {

@@ -8,10 +8,10 @@
       <span class="text-enhancement"><a href="/#/" style="text-decoration: none; color:white;">Scrum Tool</a></span>
     </b-navbar>
     <!-- Project navigation items -->
-    <b-nav tabs  class="ml-auto" style="position:relative;top:27px; left:29%" >
+    <b-nav tabs v-if="isProject" class="ml-auto" style="position:relative;top:27px; left:29%" >
       <b-nav-item active href="/#/projectpageoverview" > <label style="color:grey;"> Overview </label> </b-nav-item>
       <b-nav-item href="/#/backlog" >  <label style="color:grey;"> Procuct Backlog</label> </b-nav-item>
-      <b-nav-item href="/#/projectpageoverview">  <label style="color:grey;"> Sprints </label> </b-nav-item>
+      <b-nav-item href="/#/oldsprints">  <label style="color:grey;"> Sprints </label> </b-nav-item>
     </b-nav>
 
     <b-collapse is-nav id="nav_collapse">
@@ -47,6 +47,11 @@
 <script>
     export default {
         name: "Navbar",
+        data() {
+              return{
+                isProject: true
+            }
+        },
         methods: {
           logout() {
             localStorage.setItem('userId','null');
@@ -54,9 +59,6 @@
             this.$router.push({path: '/logout'});
           },
         },
-        props: {
-          dashboard: Boolean,
-        }
     }
 </script>
 
