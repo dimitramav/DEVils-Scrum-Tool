@@ -28,23 +28,26 @@
               <b-jumbotron>
                 <br>
                 <b-row>
-                  <h2>Current sprint</h2>
+                  <h2>Current sprint #{{sprintid}}</h2>
                 </b-row>
                 <br>
                 <b-row>
                   <b-col>
                     <b-card title="TODO">
-                      <p class="card-text">1024</p>
+                      <p class="card-text">{{todo}}</p>
+                      <p class="card-text" style="color: red">Issues: {{todoIssues}}</p>
                     </b-card>
                   </b-col>
                   <b-col>
                     <b-card title="DOING">
-                      <p class="card-text">5</p>
+                      <p class="card-text">{{doing}}</p>
+                      <p class="card-text" style="color: red">Issues: {{doingIssues}}</p>
                     </b-card>
                   </b-col>
                   <b-col>
                     <b-card title="DONE">
-                      <p class="card-text">15</p>
+                      <p class="card-text">{{done}}</p>
+                      <p class="card-text" style="color: red">Issues: {{doneIssues}}</p>
                     </b-card>
                   </b-col>
                 </b-row>
@@ -52,7 +55,7 @@
                 <b-row>
                   <b-col>
                     <b-card no-body class="text-left">
-                      <p class="card-text">Days Remaining:  15</p>
+                      <p class="card-text">Days Remaining:  {{diffDays}}</p>
                     </b-card>
                   </b-col>
                   <b-col></b-col>
@@ -83,35 +86,15 @@
                 <h2>Team</h2>
               </b-row>
               <br>
-              <b-list-group>
+              <b-list-group v-for="teamMember in Team">
                 <b-list-group-item class="flex-column align-items-start">
                   <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Product Owner</h5>
+                    <h5 class="mb-1">{{teamMember.role}}</h5>
                   </div>
                   <p align="left">
-                    Name: Steve Jobs
+                    Name: {{teamMember.lastname}} {{teamMember.firstname}}
                     <br>
-                    Email: unavailable
-                  </p>
-                </b-list-group-item>
-                <b-list-group-item class="flex-column align-items-start">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Scrum Master</h5>
-                  </div>
-                  <p align="left">
-                    Name: Bill Gates
-                    <br>
-                    Email: unavailable
-                  </p>
-                </b-list-group-item>
-                <b-list-group-item class="flex-column align-items-start">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Developer</h5>
-                  </div>
-                  <p align="left">
-                    Name: Evaggelos Raptis
-                    <br>
-                    Email: unavailable
+                    Email: {{teamMember.mail}}
                   </p>
                 </b-list-group-item>
               </b-list-group>
@@ -177,16 +160,7 @@
       return {
         value: 75,
         selected: [], // Must be an array reference!
-        options: [{
-          text: 'User Story 1',
-          value: 'orange'
-        }, {
-          text: 'User Story 2',
-          value: 'apple'
-        }, {
-          text: 'User Story 3',
-          value: 'pineapple'
-        }],
+        
         items: [{
           text: 'Home',
           href: '#'
@@ -196,9 +170,76 @@
         }, {
           text: 'Overview',
           active: true
-        }]
+        }],
+
+        sprintid: 1997,
+        sprintexpdate: '',
+        diffDays: -1,
+        Team: [{role: "Very Senior Dev", lastname: "Raptis", firstname:"Eyaggelos", mail: "sokolatitsa1949@math.gr"}, {role: "Junior Dev", lastname: "Takhs", firstname: "Mathiopoylos", mail: "kaikaikaikaikai@sys.ch"}],
+        todo: 6,
+        doing: 10,
+        done: 2,
+        todoIssues: 99,
+        doingIssues: 1,
+        doneIssues: 0
       }
-    }
+    },
+
+    methods: {
+      getSprintInfo () {
+        axios.get ('app/api/projects/'+this.$route.params.id+'/sprints')
+        .then(function (response) {
+          if (response.data.error) {
+            if (response.data.error === "Wrong Project") {
+              console.log("Wrong Project");
+            }
+          }
+          if (response.data.results) {
+            this.sprintid = response.data.idSprint;
+            this.sprintexpdate = this.currentProjects.deadline;
+            console.log("Got the results");
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+      },
+
+      calcDeadline () {
+        var today=new Date ();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1;
+        var yyyy = today.getFullYear();
+
+        var l=new Date (2018, 5, 4); //anti gia l mpainei to this.springexpdate
+        var oneDay=24*60*60*1000;
+        this.diffDays=Math.floor(Math.abs((today.getTime() - l.getTime())/(oneDay)));
+      },
+
+      getUsers () {
+      const self=this; // προσαρμοσε το axios για users αντι για projects
+      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=9&offset=0', {
+        headers: { "auth": localStorage.getItem('auth_token') }
+      })
+        .then(function (response) {
+          if (response.data.error) {
+            if (response.data.error === "Wrong user") {
+              console.log("Wrong user");
+            }
+          }
+          if (response.data.results) {
+            self.Team = response.data.results;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+      },
+    },
+
+    mounted () {
+      this.calcDeadline ();
+    },
   }
 
 </script>
