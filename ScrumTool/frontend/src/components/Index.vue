@@ -124,7 +124,7 @@
     <template v-else>
       <b-container class="Navigation" fluid>
 
-        <navbar></navbar>
+        <navbar :dashboard="false"></navbar>
         <b-container>
         <b-row>
           <b-col class="text-right">
@@ -215,7 +215,8 @@ export default {
       doneProjects:[],
       teamData: json.team,
       numProjects: 0,
-      doneLength: 0
+      doneLength: 0,
+      isProject: false
     }
   },
   methods: {
@@ -235,7 +236,7 @@ export default {
     getProjects () {
       //evt.preventDefault();
       const self = this;
-      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=9&offset=0', {
+      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=22&offset=0', {
         headers: { "auth": localStorage.getItem('auth_token') }
       })
         .then(function (response) {

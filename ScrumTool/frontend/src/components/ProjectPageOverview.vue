@@ -4,7 +4,6 @@
 
       <navbar></navbar>
       <!--<sidebar></sidebar>-->
-
       <br>
       <b-row>
         <b-breadcrumb :items="items" style="position: relative;left: 41px;"/>
@@ -68,8 +67,8 @@
                 </b-row>
                 <b-progress :value="value" show-progress class="mb-3"></b-progress>
                 <br>
-                <b-button v-if="true" variant="primary">Go to Sprint Page</b-button>
-                <b-button v-else variant="primary">Create new Sprint</b-button>
+                <b-button v-if="false" variant="primary">Go to Sprint Page</b-button>
+                <b-button v-else variant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}">Create new Sprint</b-button>
                 <br><br>
 
               </b-jumbotron>
@@ -86,7 +85,8 @@
                 <h2>Team</h2>
               </b-row>
               <br>
-              <b-list-group v-for="teamMember in Team">
+              <b-list-group v-for="teamMember in Team" v-bind:data="teamMember"
+                            v-bind:key="teamMember.mail">
                 <b-list-group-item class="flex-column align-items-start">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{teamMember.role}}</h5>
@@ -160,7 +160,7 @@
       return {
         value: 75,
         selected: [], // Must be an array reference!
-        
+
         items: [{
           text: 'Home',
           href: '#'
@@ -181,7 +181,7 @@
         done: 2,
         todoIssues: 99,
         doingIssues: 1,
-        doneIssues: 0
+        doneIssues: 0,
       }
     },
 
@@ -258,6 +258,11 @@
     background-color: lavender;
     margin-top: -6px;
     margin-bottom: 10px;
+  }
+
+  .row {
+    margin-right: 0px;
+    margin-left: 0px;
   }
   .container-fluid {
     padding-right: 0;
