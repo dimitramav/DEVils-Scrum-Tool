@@ -3,9 +3,40 @@
 
     <navbar :dashboard="true"></navbar>
     <br>
-  <b-row>
-
-    <b-card-group v-for="cur_pbi in currentPbis" :key="cur_pbi.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
+    <b-row>
+      <b-col class="text-right">
+        <div>
+          <b-dropdown id="ddown1" size="lg" variant ="info" text="Create New Epic" class="m-md-2">
+            <b-form inline style="margin: 10px;" @submit="newEpic">
+              <h4>Title:</h4>
+              <label class="sr-only" for="newEpicName"></label>
+              <b-form-input id="newEpicName" placeholder="New Epic's Name" v-model="form.newTitle" required/>
+              <h5>Description:</h5>
+              <label class="sr-only" for="newEpicDescription"></label>
+              <b-form-input id="newEpicDescription" placeholder="New Epic's Description" v-model="form.newDescription" required/>
+              <h5>Priority:</h5>
+              <b-row class="text-center">
+                <b-col>
+                  <label for="high">High</label>
+                  <input type="radio" id="high" value="High" v-model="priority_picked">
+                </b-col>
+                <b-col>
+                  <label for="medium">Medium</label>
+                  <input type="radio" id="medium" value="Medium" v-model="priority_picked">
+                </b-col>
+                <b-col>
+                  <label for="low">Low</label>
+                  <input type="radio" id="low" value="Low" v-model="priority_picked">
+                </b-col>
+              </b-row>
+              <b-button variant="success" type="submit" style="margin-top: 10px; width: 100%;">Add to Epics</b-button>
+            </b-form>
+          </b-dropdown>
+        </div>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-card-group v-for="cur_pbi in currentPbis" :key="cur_pbi.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
       <b-card :title="cur_pbi.title" img-top tag="article" style="max-width: 15rem;" class="mb-2"
               header="Epic"
               header-tag="header"
@@ -58,6 +89,11 @@ export default {
   },
   data() {
     return {
+      form: {
+        newTitle: '',
+        newDescription: '',
+      },
+      priority_picked: '',
       logOut: null,
       currentPbis: [],
       currentUserStories: [[],[]],
@@ -66,6 +102,49 @@ export default {
   },
   methods: {
 
+    newEpic (evt) {
+      evt.preventDefault();
+      const self = this;
+      if(this.priority_picked==="High")
+      {
+        this.priority_picked=1;
+      }
+      else if(this.priority_picked=="Medium")
+      {
+        this.priority_picked=2;
+      }
+      else if(this.priority_picked=="Low")
+      {
+        this.priority.picked=3;
+      }
+      let config = {
+        headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
+      }
+      let data = {
+        title: this.form.newTitle, description: this.form.newDescription, priority:this.priority_picked,
+      }
+      axios.post('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + 3 + '/pbis?isEpic=true', data, config)
+        .then(function (response) {
+          if (response.data.error) {
+            if (response.data.error === "Unauthorized user") {
+              console.log("Unauthorized user");
+            }
+            else if (response.data.error === "Unauthorized projects") {
+              console.log("Unauthorized projects");
+            }
+            else if (response.data.error === "null") {
+              console.log("Null token");
+            }
+          }
+          if (response.data.results) {
+            console.log(response.data.results);
+            self.currentProjects.push(response.data.results);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
     getPBIS() {
       //evt.preventDefault();
       const self = this;
