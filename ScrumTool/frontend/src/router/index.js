@@ -45,19 +45,19 @@ export default new Router({
       component: ProjectPageOverview
     },
     {
-      path: '/newsprint',
+      path: '/newsprint/:id',
       name: 'NewSprint',
       component: NewSprint
     },
     {
-      path: '/backlog',
+      path: '/backlog/:id',
       name: 'Backlog',
       component: Backlog
     },
     {
-      path: '/oldsprints',
+      path: '/oldsprints/:id',
       name: 'OldSprints',
-      component: OldSprints  
+      component: OldSprints
     }
   ]
 })

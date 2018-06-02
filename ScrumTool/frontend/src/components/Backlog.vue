@@ -160,7 +160,7 @@ export default {
     getPBIS() {
       //evt.preventDefault();
       const self = this;
-      axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + 3 + '/pbis?isEpic=true', {
+      axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.$route.params.id + '/pbis?isEpic=true', {
         headers: {"auth": localStorage.getItem('auth_token')}
       })
         .then(function (response) {
@@ -196,7 +196,7 @@ export default {
     },
     getEpicUserStories(epicId) {
       const self = this;
-    axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + 3 + '/pbis?isEpic=false&epicId='+epicId, {
+    axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.$route.params.id + '/pbis?isEpic=false&epicId='+epicId, {
     headers: {"auth": localStorage.getItem('auth_token')}
     })
     .then(function (response) {
@@ -223,13 +223,21 @@ export default {
 </script>
 
 <style scoped>
+
 .Navigation {
 position: absolute;
 top: 0;
 left: 0;
 }
+
 .container-fluid {
   padding-right: 0;
   padding-left:0;
+}
+
+
+.row {
+  margin-right: 0px;
+  margin-left: 0px;
 }
 </style>

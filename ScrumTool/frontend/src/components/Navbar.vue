@@ -7,14 +7,20 @@
       </b-navbar-brand>
       <span class="text-enhancement"><a href="/#/" style="text-decoration: none; color:white;">Scrum Tool</a></span>
     </b-navbar>
+    <!--
     <!-- Project navigation items -->
+    <!--
     <b-nav tabs v-if="isProject" class="ml-auto" style="position:relative;top:27px; left:29%" >
       <b-nav-item active href="/#/projectpageoverview" > <label style="color:grey;"> Overview </label> </b-nav-item>
       <b-nav-item href="/#/backlog" >  <label style="color:grey;"> Procuct Backlog</label> </b-nav-item>
       <b-nav-item href="/#/oldsprints">  <label style="color:grey;"> Sprints </label> </b-nav-item>
     </b-nav>
-
+    -->
     <b-collapse is-nav id="nav_collapse">
+      <b-navbar-nav v-if="isProject">
+        <b-nav-item :to="{name: 'ProjectPageOverview', params: {id:$route.params.id}}">Overview</b-nav-item>
+        <b-nav-item :to="{name: 'Backlog', params: {id:$route.params.id}}">Backlog</b-nav-item>
+      </b-navbar-nav>
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
         <!-- Project notifications -->
@@ -49,7 +55,7 @@
         name: "Navbar",
         data() {
               return{
-                isProject: true
+              isProject: true
             }
         },
         methods: {
