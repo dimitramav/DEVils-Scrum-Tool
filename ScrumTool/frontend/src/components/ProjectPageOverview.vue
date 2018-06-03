@@ -176,7 +176,7 @@
         sprintid: 1997,
         sprintexpdate: '',
         diffDays: -1,
-        Team: [{role: "Very Senior Dev", lastname: "Raptis", firstname:"Eyaggelos", mail: "sokolatitsa1949@math.gr"}, {role: "Junior Dev", lastname: "Takhs", firstname: "Mathiopoylos", mail: "kaikaikaikaikai@sys.ch"}],
+        Team: [{role: "Senior Developer", lastname: "Anastasiou", firstname:"Aggelos", mail: "aggelos@gmail.com"}, {role: "Junior Developer", lastname: "Helen", firstname: "Brown", mail: "helb@gmail.com"}],
         todo: 6,
         doing: 10,
         done: 2,

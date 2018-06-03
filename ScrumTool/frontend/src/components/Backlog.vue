@@ -3,6 +3,7 @@
 
     <navbar :dashboard="true"></navbar>
     <br>
+    <b-container>
     <b-row>
       <b-col class="text-right">
         <div>
@@ -36,7 +37,7 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-card-group v-for="cur_pbi in currentPbis" :key="cur_pbi.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
+      <b-card-group v-for="cur_pbi in currentPbis" :key="cur_pbi.idPBI" deck style="margin-left: 10px;">
       <b-card :title="cur_pbi.title" img-top tag="article" class="mb-2">
         <div slot="header">
           <b-row>
@@ -76,6 +77,8 @@
       </b-card>
     </b-card-group>
   </b-row>
+    </b-container>
+
   </b-container>
 
 </template>
