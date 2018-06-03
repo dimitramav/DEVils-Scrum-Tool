@@ -2,7 +2,7 @@
   <div v-if = "true">
     <b-container class="Navigation" fluid>
 
-      <navbar></navbar>
+      <navbar :dashboard="true"></navbar>
       <!--<sidebar></sidebar>-->
       <br>
       <b-row>
