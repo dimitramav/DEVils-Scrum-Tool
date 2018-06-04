@@ -133,14 +133,14 @@
             // Call to update the pbis !
             // Sprint_id, idPBI
             for(let i = 0; i < self.selected_stories.length; i++) {
-              self.pbis_list.push({idPBI: self.selected_stories[i].value, Sprint_id: response.data.Sprint_id, Project_id: 5})
+              self.pbis_list.push({idPBI: self.selected_stories[i].value, Sprint_id: response.data.Sprint_id, Project_id: self.sprint.Project_id})
             }
 
             axios.patch('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + self.sprint.Project_id + '/pbis', self.pbis_list, config)
               .then(function (response) {
                 // Debugging
                 console.log("xoxo")
-                self.$router.push({path: '/projectpageoverview'})
+                self.$router.push({path: '/projectpageoverview/' + self.sprint.Project_id})
               })
               .catch(function(error){
 
@@ -225,10 +225,10 @@
       }
     },
     mounted() {
-      this.sprint.Project_id = this.$route.query.projectId;      // Receive projectId from url parameters
-      this.sprint.Project_id = 5;
+      this.sprint.Project_id = this.$route.params.id;      // Receive projectId from url parameters
+      //this.sprint.Project_id = 5;
       this.sprint.numSprint  = this.$route.query.newSprintNum;   // Receive new numSprint (+1 from the previous one)
-      this.sprint.numSprint = 8;
+      //this.sprint.numSprint = 8;
       if (this.sprint.Project_id == null || this.sprint.numSprint == null) {
         console.log("Error: Add correct parameters (projectId and newSprintNum) in url");
       }

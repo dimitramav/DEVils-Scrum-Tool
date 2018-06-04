@@ -17,7 +17,7 @@
     </b-nav>
     -->
     <b-collapse is-nav id="nav_collapse">
-      <b-navbar-nav v-if="isProject">
+      <b-navbar-nav v-if="dashboard">
         <b-nav-item :to="{name: 'ProjectPageOverview', params: {id:$route.params.id}}">Overview</b-nav-item>
         <b-nav-item :to="{name: 'Backlog', params: {id:$route.params.id}}">Backlog</b-nav-item>
       </b-navbar-nav>
@@ -53,11 +53,6 @@
 <script>
     export default {
         name: "Navbar",
-        data() {
-              return{
-              isProject: true
-            }
-        },
         methods: {
           logout() {
             localStorage.setItem('userId','null');
@@ -65,6 +60,9 @@
             this.$router.push({path: '/logout'});
           },
         },
+        props: {
+          dashboard: Boolean,
+        }
     }
 </script>
 
