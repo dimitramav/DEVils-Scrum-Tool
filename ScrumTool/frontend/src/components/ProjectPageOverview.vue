@@ -18,7 +18,6 @@
         <div class="line">.</div>
       </b-row>
 
-
       <b-row>
         <b-col>
 
@@ -77,7 +76,6 @@
         </b-col>
         <b-col>
 
-
           <b-container fluid>
             <b-jumbotron>
               <br>
@@ -123,8 +121,6 @@
         </b-col>
       </b-row>
 
-
-
     </b-container>
   </div>
   <div v-else>
@@ -147,6 +143,7 @@
     </b-container>
   </div>
 </template>
+
 
 <script>
   import Sidebar from "./Sidebar.vue"
@@ -218,10 +215,10 @@
       },
 
       getUsers () {
-      const self=this; // προσαρμοσε το axios για users αντι για projects
-      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=9&offset=0', {
-        headers: { "auth": localStorage.getItem('auth_token') }
-      })
+        const self=this; // προσαρμοσε το axios για users αντι για projects
+        axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=9&offset=0', {
+          headers: { "auth": localStorage.getItem('auth_token') }
+        })
         .then(function (response) {
           if (response.data.error) {
             if (response.data.error === "Wrong user") {
@@ -244,6 +241,7 @@
   }
 
 </script>
+
 
 <style scoped>
 

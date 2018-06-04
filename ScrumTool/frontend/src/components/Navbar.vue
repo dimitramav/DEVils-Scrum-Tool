@@ -7,8 +7,7 @@
       </b-navbar-brand>
       <span class="text-enhancement"><a href="/#/" style="text-decoration: none; color:white;">Scrum Tool</a></span>
     </b-navbar>
-    <!--
-    <!-- Project navigation items -->
+    <!--Project navigation items -->
     <!--
     <b-nav tabs v-if="isProject" class="ml-auto" style="position:relative;top:27px; left:29%" >
       <b-nav-item active href="/#/projectpageoverview" > <label style="color:grey;"> Overview </label> </b-nav-item>

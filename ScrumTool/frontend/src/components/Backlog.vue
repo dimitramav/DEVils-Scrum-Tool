@@ -197,32 +197,32 @@ export default {
     },
     getEpicUserStories(epicId) {
       const self = this;
-    axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.$route.params.id + '/pbis?isEpic=false&epicId='+epicId, {
-    headers: {"auth": localStorage.getItem('auth_token')}
-    })
-    .then(function (response) {
-      if (response.data.error) {
-        if (response.data.error === "Unauthorized user") {
-          console.log("Unauthorized user");
+      axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.$route.params.id + '/pbis?isEpic=false&epicId='+epicId, {
+      headers: {"auth": localStorage.getItem('auth_token')}
+      })
+      .then(function (response) {
+        if (response.data.error) {
+          if (response.data.error === "Unauthorized user") {
+            console.log("Unauthorized user");
+          }
         }
-      }
-      if (response.data.results) {
-        self.$set(self.currentUserStories,epicId,response.data.results);
-
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-},
-  },
-    mounted() {
-      if (localStorage.getItem('auth_token') === 'null' || localStorage.getItem('userId') === 'null') return;
-      this.currentProject_id=this.$route.params.id;
-      this.getPBIS();
+        if (response.data.results) {
+          self.$set(self.currentUserStories,epicId,response.data.results);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
     },
+  },
+  mounted() {
+    if (localStorage.getItem('auth_token') === 'null' || localStorage.getItem('userId') === 'null') return;
+    this.currentProject_id=this.$route.params.id;
+    this.getPBIS();
+  },
 }
 </script>
+
 
 <style scoped>
 
