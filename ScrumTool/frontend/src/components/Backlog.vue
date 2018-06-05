@@ -48,22 +48,22 @@
               <!-- EDIT EPIC -->
               <b-btn v-b-modal="'modal'+cur_pbi.idPBI">Edit</b-btn>
               <b-modal :id="'modal'+cur_pbi.idPBI" title="Update Epic" @ok="updateEpic(cur_pbi.idPBI,$event)">
-                <div class="text-left">
+                <div class="text-left" :id="'updateEpic1'+cur_pbi.idPBI">
                   <b-form>
-                    <b-form-group id="updateEpic1"
-                                  label="Title:"
-                                  label-for="updateEpicTitle">
-                      <b-form-input id="updateEpicTitle"
+                    <b-form-group
+                                  :label="'Title:' + cur_pbi.idPBI"
+                                  :label-for="'updateEpicTitle'+cur_pbi.idPBI">
+                      <b-form-input :id="'updateEpicTitle'+cur_pbi.idPBI"
                                     type="text"
                                     v-model="form.updateEpicTitle"
                                     required
                                     :value="cur_pbi.title">
                       </b-form-input>
                     </b-form-group>
-                    <b-form-group id="updateEpic2"
+                    <b-form-group :id="'updateEpic2'+cur_pbi.idPBI"
                                   label="Description:"
-                                  label-for="updateEpicDesc">
-                      <b-form-input id="updateEpicDesc"
+                                  :label-for="'updateEpicDesc'+cur_pbi.idPBI">
+                      <b-form-input :id="'updateEpicDesc'+cur_pbi.idPBI"
                                     type="text"
                                     v-model="form.updateEpicDesc"
                                     required
@@ -95,9 +95,20 @@
               ">
               {{cur_pbi.description}}
               </p>
+              <!--New User Story-->
+              <div row>
+                <b-btn  v-b-modal="'new_story'+cur_pbi.idPBI" variant="primary">Add User Story
+                  <b-modal :id="'new_story'+cur_pbi.idPBI" title="Add User Story" @ok="newStory(cur_pbi.idPBI,$event)">
+                  <!--Add user story-->
+                  </b-modal>
+                </b-btn>
+              </div>
+              <!--Get User Stories of each epic-->
+              <div row style="padding-top: 2px">
               <b-btn v-b-toggle="'collapse'+cur_pbi.idPBI" v-on:click="getEpicUserStories(cur_pbi.idPBI)"
                      variant="primary">User Stories
               </b-btn>
+              </div>
               <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2">
                 <div>
                   <b-card-group v-for="cur_us in currentUserStories[cur_pbi.idPBI]" :key="cur_us.idPBI" deck
@@ -216,15 +227,17 @@ export default {
           }
           if (response.data.results) {
             response.data.results.priority=self.priorityToString(response.data.results.priority);
-            console.log(response.data.results);
+            var i = self.currentPbis.findIndex(o => o.idPBI === response.data.results.idPBI);
             //remove previous epic
-            self.currentPbis = self.currentPbis.filter(function(el) {
-              return el.idPBI !== current_id;
-            });
+            console.log("current id")
+            console.log(current_id);
+            self.currentPbis = self.currentPbis.filter(el => el.idPBI !== self.current_id);
+            console.log(self.currentPbis);
             //add updated epic
-            self.currentPbis.push(response.data.results);
+            self.$set(self.currentPbis,i,response.data.results);
             console.log("after push");
             console.log(self.currentPbis);
+
           }
         })
         .catch(function (error) {
