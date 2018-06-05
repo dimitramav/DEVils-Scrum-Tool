@@ -51,7 +51,7 @@ public class RestfulApp extends Application {
 		// Also put limits
 		//router.attach("/users/{userId}/projects", ProjectsResource.class);
 
-		router.attach("/users/{userId}/projects/{projectId}", SingleProjectResource.class);
+		router.attach("/users/{userId}/projects/{projectId}", ProjectOverviewResource.class);
 		// POST
 		// Get Unauthorized, access only to admin
 		router.attach("/users", UsersResource.class);

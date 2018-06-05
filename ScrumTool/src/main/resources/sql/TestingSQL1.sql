@@ -23,9 +23,9 @@ insert into Project_has_User (Project_id, User_id, role) values (3, 3, 'Develope
 select * from Project_has_User;
 select * from Project where idProject in (select Project_id from Project_has_User where User_id = 1);
 insert into Sprint (deadlineDate, goal, plan, isCurrent, numSprint, Project_id)
-	values ('2018-02-10', 'Help Trump become president', 'Steal Data From Users', FALSE, 1, 3);
+	values ('2018-08-08', 'Recreate Messenger', 'Copy awesome Telegram', FALSE, 1, 3);
 insert into Sprint (deadlineDate, goal, plan, isCurrent, numSprint, Project_id)
-	values ('2018-08-08', 'Recreate Messenger', 'Copy awesome Telegram', TRUE, 2, 3);
+	values ('2018-02-10', 'Help Trump become president', 'Steal Data From Users', TRUE, 2, 3);
 insert into Sprint (deadlineDate, goal, plan, isCurrent, numSprint, Project_id)
 	values ('2018-11-22', 'Make it more popular', 'Hack Facebook', TRUE, 1, 1);
 select * from Sprint;
@@ -39,6 +39,17 @@ insert into PBI (title, description, priority, isEpic, Project_id, Epic_id)
 	values ('Bad Telegram Reputation', 'Pay websites to write negative reviews for our enemy', 2, FALSE, 3, 2);
 update PBI set description = 'Return token', Epic_id = 5 where idPBI = 5;
 select * from PBI;
-
+select * from Sprint where Project_id = 3 and isCurrent = TRUE;
+insert into Task (description, state, PBI_id) values ('Hire Cambridge Analytica', 3, 1);
+insert into Task (description, state, PBI_id) values ('Do not let the press know about anything', 2, 1);
+insert into Task (description, state, PBI_id) values ('Find the users with open profiles first', 2, 1);
+insert into Task (description, state, PBI_id) values ('Show the results to the Republican Party', 1, 1);
+select * from Task;
+select * from Task where PBI_id in (select idPBI from PBI where Sprint_id = 1);
+insert into Issue (description, Task_id) values ('Rumors in England', 2);
+insert into Issue (description, Task_id) values ('They ask for more money', 1);
+select * from Issue;
+select * from Issue where Task_id in (select idTask from Task where PBI_id in (select idPBI from PBI where Sprint_id = 2));
+update Sprint set deadlineDate = '2018-07-10' where idSprint = 2;
 
 
