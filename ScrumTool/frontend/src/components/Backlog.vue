@@ -47,9 +47,9 @@
             <b-col class="text-right">
               <!-- EDIT EPIC -->
               <b-btn v-b-modal="'modal'+cur_pbi.idPBI">Edit</b-btn>
-              <b-modal :id="'modal'+cur_pbi.idPBI" title="Update Epic">
+              <b-modal :id="'modal'+cur_pbi.idPBI" title="Update Epic" @ok="updateEpic(cur_pbi.idPBI)">
                 <div class="text-left">
-                  <b-form @submit="onSubmit" @reset="onReset">
+                  <b-form>
                     <b-form-group id="updateEpic1"
                                   label="Title:"
                                   label-for="updateEpicTitle">
@@ -70,7 +70,7 @@
                                     :placeholder="cur_pbi.description">
                       </b-form-input>
                     </b-form-group>
-                    <h7>Priority:</h7>
+                    <h6>Priority:</h6>
                     <b-row class="text-center">
                       <b-col>
                         <label for="high">High</label>
@@ -144,6 +144,10 @@ export default {
         newEpicTitle: '',
         newEpicDesc: '',
       },
+      form: {
+        updateEpicTitle: '',
+        updateEpicDesc: '',
+      },
       pick_priority: '',
       update_priority: '',
       logOut: null,
@@ -186,7 +190,42 @@ export default {
       }
       return priority;
     },
-    newEpic (evt) {
+    updateEpic(evt,current_id){
+      const self = this;
+      this.update_priority=self.priorityToNumber(this.update_priority);
+      let config = {
+        headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
+      }
+      let data = {
+        title: this.form.updateEpicTitle, description: this.form.updateEpicDesc, priority:this.update_priority, Project_id: this.currentProject_id, idPBI: current_id,
+      }
+      axios.put('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
+        .then(function (response) {
+          if (response.data.error) {
+            if (response.data.error === "Unauthorized user") {
+              console.log("Unauthorized user");
+            }
+            else if (response.data.error === "Unauthorized projects") {
+              console.log("Unauthorized projects");
+            }
+            else if (response.data.error === "null") {
+              console.log("Null token");
+            }
+          }
+          if (response.data.results) {
+            response.data.results.priority=self.priorityToString(response.data.results.priority);
+            //remove previous epic
+            var index=list.map(function(currentPbis){ return currentPbis.Id; }).indexOf(id);
+            list.splice(index,1);
+            //add updated epic
+            self.currentPbis.push(response.data.results);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
+    newEpic (evt,current_idPBI) {
       evt.preventDefault();
       const self = this;
       this.pick_priority=self.priorityToNumber(this.pick_priority);
@@ -194,7 +233,7 @@ export default {
         headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
       }
       let data = {
-        title: this.form.newEpicTitle, description: this.form.newEpicDesc, priority:num_priority, Project_id: this.currentProject_id,
+        title: this.form.newEpicTitle, description: this.form.newEpicDesc, priority:this.pick_priority, Project_id: this.currentProject_id, idPBI: current_idPBI ,
       }
       axios.post('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
         .then(function (response) {
