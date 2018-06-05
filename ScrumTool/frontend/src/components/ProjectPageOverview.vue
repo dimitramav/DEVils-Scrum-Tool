@@ -10,8 +10,7 @@
       </b-row>
       <b-row style="padding-top:10px;">
         <b-col class="text-left">
-          <h2>Insurance App</h2>
-          <p> {{$route.params.id}} </p>
+          <h2>{{projectOverview.project.title}}</h2>
         </b-col>
       </b-row>
       <b-row>
@@ -26,26 +25,26 @@
               <b-jumbotron>
                 <br>
                 <b-row>
-                  <h2>Current sprint #{{sprintid}}</h2>
+                  <h2>Current sprint #{{projectOverview.currentSprintNum}}</h2>
                 </b-row>
                 <br>
                 <b-row>
                   <b-col>
                     <b-card title="TODO">
-                      <p class="card-text">{{todo}}</p>
-                      <p class="card-text" style="color: red">Issues: {{todoIssues}}</p>
+                      <p class="card-text">{{projectOverview.todo}}</p>
+                      <p class="card-text" style="color: red">Issues: {{projectOverview.todoIssues}}</p>
                     </b-card>
                   </b-col>
                   <b-col>
                     <b-card title="DOING">
-                      <p class="card-text">{{doing}}</p>
-                      <p class="card-text" style="color: red">Issues: {{doingIssues}}</p>
+                      <p class="card-text">{{projectOverview.doing}}</p>
+                      <p class="card-text" style="color: red">Issues: {{projectOverview.doingIssues}}</p>
                     </b-card>
                   </b-col>
                   <b-col>
                     <b-card title="DONE">
-                      <p class="card-text">{{done}}</p>
-                      <p class="card-text" style="color: red">Issues: {{doneIssues}}</p>
+                      <p class="card-text">{{projectOverview.done}}</p>
+                      <p class="card-text" style="color: red">Issues: {{projectOverview.doneIssues}}</p>
                     </b-card>
                   </b-col>
                 </b-row>
@@ -64,7 +63,7 @@
                     <h5>Progress</h5>
                   </b-col>
                 </b-row>
-                <b-progress :value="value" show-progress class="mb-3"></b-progress>
+                <b-progress :value="donePercentage" show-progress class="mb-3"></b-progress>
                 <br>
                 <b-button v-if="false" variant="primary">Go to Sprint Page</b-button>
                 <b-button v-else variant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}">Create new Sprint</b-button>
@@ -146,8 +145,10 @@
 
 
 <script>
+  import axios from 'axios'
   import Sidebar from "./Sidebar.vue"
   import Navbar from "./Navbar.vue"
+  import json from '../assets/team.json'
 
   export default {
     components: {
@@ -156,45 +157,74 @@
     },
     data() {
       return {
-        value: 75,
+        projectOverview: {
+          project: {
+            idProject: 0,
+            title: '',
+            isDone: false,
+            deadlineDate: ''
+          },
+          currentSprintId: 0,
+          currentSprintNum: 0,
+          currentSprintExpDate: '',
+          todo: 0,
+          doing: 0,
+          done: 0,
+          todoIssues: 0,
+          doingIssues: 0,
+          doneIssues: 0
+        },
+
+        donePercentage: 0,
         selected: [], // Must be an array reference!
 
         items: [{
           text: 'Home',
           href: '#'
         }, {
-          text: 'Insurance App',
+          text: '',
           href: '#'
         }, {
           text: 'Overview',
           active: true
         }],
 
-        sprintid: 1997,
-        sprintexpdate: '',
+        //currentSprintId: 1997,
+        //currentSprintExpDate: '',
         diffDays: -1,
-        Team: [{role: "Senior Developer", lastname: "Anastasiou", firstname:"Aggelos", mail: "aggelos@gmail.com"}, {role: "Junior Developer", lastname: "Helen", firstname: "Brown", mail: "helb@gmail.com"}],
-        todo: 6,
-        doing: 10,
-        done: 2,
-        todoIssues: 99,
-        doingIssues: 1,
-        doneIssues: 0,
+        Team: [{role: "Senior Developer", lastname: "Anastasiou", firstname:"Aggelos", mail: "aggelos@gmail.com"}, {role: "Junior Developer", lastname: "Helen", firstname: "Brown", mail: "helb@gmail.com"}]
+        //todo: 6,
+        //doing: 10,
+        //done: 2,
+        //todoIssues: 99,
+        //doingIssues: 1,
+        //doneIssues: 0,
       }
     },
 
     methods: {
       getSprintInfo () {
-        axios.get ('app/api/projects/'+this.$route.params.id+'/sprints')
+        const self = this;
+        axios.get ('http://localhost:8765/app/api/users/'+ localStorage.getItem('userId') +'/projects/'+ this.$route.params.id,{
+          headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
+        })
         .then(function (response) {
           if (response.data.error) {
-            if (response.data.error === "Wrong Project") {
-              console.log("Wrong Project");
+            if (response.data.error === "Unauthorized user") {
+              console.log("Unauthorized user");
+            }
+            else if (response.data.error === "Unauthorized projects") {
+              console.log("Unauthorized projects");
+            }
+            else if (response.data.error === "null") {
+              console.log("Null token");
             }
           }
           if (response.data.results) {
-            this.sprintid = response.data.idSprint;
-            this.sprintexpdate = this.currentProjects.deadline;
+            self.projectOverview = response.data.results;
+            self.items[1].text = self.projectOverview.project.title;
+            var totalTasks = self.projectOverview.todo + self.projectOverview.doing + self.projectOverview.done;
+            self.donePercentage = self.projectOverview.done / totalTasks * 100;
             console.log("Got the results");
           }
         })
@@ -204,14 +234,15 @@
       },
 
       calcDeadline () {
-        var today=new Date ();
+        const self = this;
+        var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth()+1;
         var yyyy = today.getFullYear();
 
-        var l=new Date (2018, 5, 4); //anti gia l mpainei to this.springexpdate
-        var oneDay=24*60*60*1000;
-        this.diffDays=Math.floor(Math.abs((today.getTime() - l.getTime())/(oneDay)));
+        var l = new Date (2018, 5, 4); //anti gia l mpainei to this.springexpdate
+        var oneDay = 24*60*60*1000;
+        self.diffDays=Math.floor(Math.abs((today.getTime() - l.getTime())/(oneDay)));
       },
 
       getUsers () {
@@ -236,7 +267,8 @@
     },
 
     mounted () {
-      this.calcDeadline ();
+      this.getSprintInfo();
+      this.calcDeadline();
     },
   }
 

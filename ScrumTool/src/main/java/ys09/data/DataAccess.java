@@ -123,6 +123,17 @@ public class DataAccess {
         }
     }
 
+
+
+    public Project getCurrentProject(int projectId){
+        // Get current project Information
+        String query = "select * from Project where idProject = ?;";
+        Project projectItem = jdbcTemplate.queryForObject(query, new Object[]{projectId}, new ProjectRowMapper());
+        return projectItem;
+    }
+
+
+
     // Find the PBIs (Epics or Stories)
     public List<PBI> getProjectPBIs(int idProject, Boolean isEpic, int epicId) {
         // Return the pbis asked for the current project
@@ -256,6 +267,20 @@ public class DataAccess {
     }
 
 
+    
+    public Sprint getProjectCurrentSprint(int projectId) {
+        // Get the current sprint of a project
+        String query = "select * from Sprint where Project_id = ? and isCurrent = TRUE;";
+        try {
+            Sprint sprintItem = jdbcTemplate.queryForObject(query, new Object[]{projectId}, new SprintRowMapper());
+            return sprintItem;
+        } catch (EmptyResultDataAccessException e) {
+            Sprint sprintItem = new Sprint();
+            return sprintItem;
+        } 
+    }
+
+
     // Create new sprint
     // Insert User
     public int createNewSprint(Sprint sprint) {
@@ -329,6 +354,23 @@ public class DataAccess {
     }
 
 
+
+    public List<Task> getSprintTasks(int sprintId) {
+        // Find the Tasks belong to a specific Sprint
+        String query = "select * from Task where PBI_id in (select idPBI from PBI where Sprint_id = ?);";
+        return jdbcTemplate.query(query, new Object[]{sprintId}, new TaskRowMapper());
+    }
+
+
+
+    public List<Issue> getSprintIssues(int sprintId) {
+        // Find the Issues of current sprint's tasks
+        String query = "select * from Issue where Task_id in (select idTask from Task where PBI_id in (select idPBI from PBI where Sprint_id = ?));";
+        return jdbcTemplate.query(query, new Object[]{sprintId}, new IssueRowMapper());
+    }
+
+
+
     public int checkSignIn(SignIn signin) {
         // Query to find if user exists
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -363,7 +405,7 @@ public class DataAccess {
             return jdbcTemplate.query(query, new Object[]{idUser, role}, new ProjectRowMapper());
         } catch (EmptyResultDataAccessException e) {
             return projects;
-            }
+        }
     }
 
     public List<Integer> createAuthProjectList (int id, String role)
