@@ -99,7 +99,7 @@
               <br>
               <template>
                 <div>
-                  <b-form inline>
+                  <b-form inline @submit="getUsers">
                     Add User &nbsp;
                     <b-input class="mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputName2" placeholder="email" />
                     as &nbsp;
@@ -225,6 +225,7 @@
             self.items[1].text = self.projectOverview.project.title;
             var totalTasks = self.projectOverview.todo + self.projectOverview.doing + self.projectOverview.done;
             self.donePercentage = self.projectOverview.done / totalTasks * 100;
+            self.calcDeadline ();
             console.log("Got the results");
           }
         })
@@ -239,10 +240,9 @@
         var dd = today.getDate();
         var mm = today.getMonth()+1;
         var yyyy = today.getFullYear();
-
-        var l = new Date (2018, 5, 4); //anti gia l mpainei to this.springexpdate
+        var jsDate=new Date (Date.parse(self.projectOverview.project.deadlineDate.replace ('-', '/', 'g')));
         var oneDay = 24*60*60*1000;
-        self.diffDays=Math.floor(Math.abs((today.getTime() - l.getTime())/(oneDay)));
+        self.diffDays=Math.floor(Math.abs((today.getTime() - jsDate.getTime())/(oneDay)));
       },
 
       getUsers () {
@@ -268,7 +268,7 @@
 
     mounted () {
       this.getSprintInfo();
-      this.calcDeadline();
+//      this.getUsers ();
     },
   }
 
