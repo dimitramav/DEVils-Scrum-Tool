@@ -47,7 +47,7 @@
             <b-col class="text-right">
               <!-- EDIT EPIC -->
               <b-btn v-b-modal="'modal'+cur_pbi.idPBI">Edit</b-btn>
-              <b-modal :id="'modal'+cur_pbi.idPBI" title="Update Epic" @ok="updateEpic(cur_pbi.idPBI)">
+              <b-modal :id="'modal'+cur_pbi.idPBI" title="Update Epic" @ok="updateEpic(cur_pbi.idPBI,$event)">
                 <div class="text-left">
                   <b-form>
                     <b-form-group id="updateEpic1"
@@ -57,7 +57,7 @@
                                     type="text"
                                     v-model="form.updateEpicTitle"
                                     required
-                                    :placeholder="cur_pbi.title">
+                                    :value="cur_pbi.title">
                       </b-form-input>
                     </b-form-group>
                     <b-form-group id="updateEpic2"
@@ -67,22 +67,22 @@
                                     type="text"
                                     v-model="form.updateEpicDesc"
                                     required
-                                    :placeholder="cur_pbi.description">
+                                    :value="cur_pbi.description">
                       </b-form-input>
                     </b-form-group>
                     <h6>Priority:</h6>
                     <b-row class="text-center">
                       <b-col>
-                        <label for="high">High</label>
+                        <label for="high_up">High</label>
                         <input type="radio" name="myChoice" id="high_up" value="High" v-model="update_priority" required>
                       </b-col>
                       <b-col>
-                        <label for="medium">Medium</label>
-                        <input type="radio" name="myChoice" id="medium_up" value="Medium" :v-model="update_priority" required>
+                        <label for="medium_up">Medium</label>
+                        <input type="radio" name="myChoice" id="medium_up" value="Medium" v-model="update_priority" required>
                       </b-col>
                       <b-col>
-                        <label for="low">Low</label>
-                        <input type="radio" name="current_priority" id="low_up" value="Low" :v-model="update_priority" required>
+                        <label for="low_up">Low</label>
+                        <input type="radio" name="myChoice" id="low_up" value="Low" v-model="update_priority" required>
                       </b-col>
                     </b-row>
                   </b-form>
@@ -167,10 +167,11 @@ export default {
       {
         priority=2;
       }
-      else if(piority==="Low")
+      else if(priority==="Low")
       {
         priority=3;
       }
+      console.log(priority);
       return priority;
     },
     priorityToString(priority)
@@ -190,8 +191,9 @@ export default {
       }
       return priority;
     },
-    updateEpic(evt,current_id){
+    updateEpic(current_id,evt){
       const self = this;
+      console.log("hi " +       this.form.updateEpicTitle);
       this.update_priority=self.priorityToNumber(this.update_priority);
       let config = {
         headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
@@ -214,11 +216,15 @@ export default {
           }
           if (response.data.results) {
             response.data.results.priority=self.priorityToString(response.data.results.priority);
+            console.log(response.data.results);
             //remove previous epic
-            var index=list.map(function(currentPbis){ return currentPbis.Id; }).indexOf(id);
-            list.splice(index,1);
+            self.currentPbis = self.currentPbis.filter(function(el) {
+              return el.idPBI !== current_id;
+            });
             //add updated epic
             self.currentPbis.push(response.data.results);
+            console.log("after push");
+            console.log(self.currentPbis);
           }
         })
         .catch(function (error) {
