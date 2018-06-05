@@ -9,8 +9,30 @@
         <b-breadcrumb :items="items" style="position: relative;left: 41px;"/>
       </b-row>
       <b-row style="padding-top:10px;">
-        <b-col class="text-left">
-          <h2>{{projectOverview.project.title}}</h2>
+        <b-col>
+        	<b-row>
+        		<b-col class="text-left">
+				<h2>{{projectOverview.project.title}}</h2>
+			</b-col>
+
+			<b-col class="text-right">
+					<b-dropdown style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
+						<template slot="button-content">
+							<b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px"/> Edit Project
+						</template>
+						
+						<template>
+							<div style="margin-right: 10px; margin-left: 10px">
+								<p> New Project's Title</p>
+								<b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
+								<p style="margin-top: 5px">New Project's Deadline</p>
+								<b-form-input v-model="text1" type="text" placeholder=" New Deadline" style="margin-top: -10px"></b-form-input>
+								<b-button variant="success" style="margin-top: 10px; width: 100%;">Save changes</b-button>
+							</div>
+						</template>
+					</b-dropdown>
+				</b-col>
+			</b-row>
         </b-col>
       </b-row>
       <b-row>
@@ -99,7 +121,7 @@
               <br>
               <template>
                 <div>
-                  <b-form inline>
+                  <b-form inline @submit="getUsers">
                     Add User &nbsp;
                     <b-input class="mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputName2" placeholder="email" />
                     as &nbsp;
@@ -180,7 +202,7 @@
 
         items: [{
           text: 'Home',
-          href: '#'
+          href: '#/'
         }, {
           text: '',
           href: '#'
@@ -225,6 +247,7 @@
             self.items[1].text = self.projectOverview.project.title;
             var totalTasks = self.projectOverview.todo + self.projectOverview.doing + self.projectOverview.done;
             self.donePercentage = self.projectOverview.done / totalTasks * 100;
+            self.calcDeadline ();
             console.log("Got the results");
           }
         })
@@ -239,10 +262,9 @@
         var dd = today.getDate();
         var mm = today.getMonth()+1;
         var yyyy = today.getFullYear();
-
-        var l = new Date (2018, 5, 4); //anti gia l mpainei to this.springexpdate
+        var jsDate=new Date (Date.parse(self.projectOverview.project.deadlineDate.replace ('-', '/', 'g')));
         var oneDay = 24*60*60*1000;
-        self.diffDays=Math.floor(Math.abs((today.getTime() - l.getTime())/(oneDay)));
+        self.diffDays=Math.floor(Math.abs((today.getTime() - jsDate.getTime())/(oneDay)));
       },
 
       getUsers () {
@@ -268,7 +290,7 @@
 
     mounted () {
       this.getSprintInfo();
-      this.calcDeadline();
+//      this.getUsers ();
     },
   }
 

@@ -47,42 +47,42 @@
             <b-col class="text-right">
               <!-- EDIT EPIC -->
               <b-btn v-b-modal="'modal'+cur_pbi.idPBI">Edit</b-btn>
-              <b-modal :id="'modal'+cur_pbi.idPBI" title="Update Epic">
-                <div class="text-left">
-                  <b-form @submit="onSubmit" @reset="onReset">
-                    <b-form-group id="updateEpic1"
-                                  label="Title:"
-                                  label-for="updateEpicTitle">
-                      <b-form-input id="updateEpicTitle"
+              <b-modal :id="'modal'+cur_pbi.idPBI" title="Update Epic" @ok="updateEpic(cur_pbi.idPBI,$event)">
+                <div class="text-left" :id="'updateEpic1'+cur_pbi.idPBI">
+                  <b-form>
+                    <b-form-group
+                                  :label="'Title:' + cur_pbi.idPBI"
+                                  :label-for="'updateEpicTitle'+cur_pbi.idPBI">
+                      <b-form-input :id="'updateEpicTitle'+cur_pbi.idPBI"
                                     type="text"
                                     v-model="form.updateEpicTitle"
                                     required
-                                    :placeholder="cur_pbi.title">
+                                    :value="cur_pbi.title">
                       </b-form-input>
                     </b-form-group>
-                    <b-form-group id="updateEpic2"
+                    <b-form-group :id="'updateEpic2'+cur_pbi.idPBI"
                                   label="Description:"
-                                  label-for="updateEpicDesc">
-                      <b-form-input id="updateEpicDesc"
+                                  :label-for="'updateEpicDesc'+cur_pbi.idPBI">
+                      <b-form-input :id="'updateEpicDesc'+cur_pbi.idPBI"
                                     type="text"
                                     v-model="form.updateEpicDesc"
                                     required
-                                    :placeholder="cur_pbi.description">
+                                    :value="cur_pbi.description">
                       </b-form-input>
                     </b-form-group>
-                    <h7>Priority:</h7>
+                    <h6>Priority:</h6>
                     <b-row class="text-center">
                       <b-col>
-                        <label for="high">High</label>
+                        <label for="high_up">High</label>
                         <input type="radio" name="myChoice" id="high_up" value="High" v-model="update_priority" required>
                       </b-col>
                       <b-col>
-                        <label for="medium">Medium</label>
-                        <input type="radio" name="myChoice" id="medium_up" value="Medium" :v-model="update_priority" required>
+                        <label for="medium_up">Medium</label>
+                        <input type="radio" name="myChoice" id="medium_up" value="Medium" v-model="update_priority" required>
                       </b-col>
                       <b-col>
-                        <label for="low">Low</label>
-                        <input type="radio" name="current_priority" id="low_up" value="Low" :v-model="update_priority" required>
+                        <label for="low_up">Low</label>
+                        <input type="radio" name="myChoice" id="low_up" value="Low" v-model="update_priority" required>
                       </b-col>
                     </b-row>
                   </b-form>
@@ -95,9 +95,20 @@
               ">
               {{cur_pbi.description}}
               </p>
+              <!--New User Story-->
+              <div row>
+                <b-btn  v-b-modal="'new_story'+cur_pbi.idPBI" variant="primary">Add User Story
+                  <b-modal :id="'new_story'+cur_pbi.idPBI" title="Add User Story" @ok="newStory(cur_pbi.idPBI,$event)">
+                  <!--Add user story-->
+                  </b-modal>
+                </b-btn>
+              </div>
+              <!--Get User Stories of each epic-->
+              <div row style="padding-top: 2px">
               <b-btn v-b-toggle="'collapse'+cur_pbi.idPBI" v-on:click="getEpicUserStories(cur_pbi.idPBI)"
                      variant="primary">User Stories
               </b-btn>
+              </div>
               <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2">
                 <div>
                   <b-card-group v-for="cur_us in currentUserStories[cur_pbi.idPBI]" :key="cur_us.idPBI" deck
@@ -144,6 +155,10 @@ export default {
         newEpicTitle: '',
         newEpicDesc: '',
       },
+      form: {
+        updateEpicTitle: '',
+        updateEpicDesc: '',
+      },
       pick_priority: '',
       update_priority: '',
       logOut: null,
@@ -163,10 +178,11 @@ export default {
       {
         priority=2;
       }
-      else if(piority==="Low")
+      else if(priority==="Low")
       {
         priority=3;
       }
+      console.log(priority);
       return priority;
     },
     priorityToString(priority)
@@ -186,7 +202,49 @@ export default {
       }
       return priority;
     },
-    newEpic (evt) {
+    updateEpic(current_id,evt){
+      const self = this;
+      console.log("hi " +       this.form.updateEpicTitle);
+      this.update_priority=self.priorityToNumber(this.update_priority);
+      let config = {
+        headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
+      }
+      let data = {
+        title: this.form.updateEpicTitle, description: this.form.updateEpicDesc, priority:this.update_priority, Project_id: this.currentProject_id, idPBI: current_id,
+      }
+      axios.put('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
+        .then(function (response) {
+          if (response.data.error) {
+            if (response.data.error === "Unauthorized user") {
+              console.log("Unauthorized user");
+            }
+            else if (response.data.error === "Unauthorized projects") {
+              console.log("Unauthorized projects");
+            }
+            else if (response.data.error === "null") {
+              console.log("Null token");
+            }
+          }
+          if (response.data.results) {
+            response.data.results.priority=self.priorityToString(response.data.results.priority);
+            var i = self.currentPbis.findIndex(o => o.idPBI === response.data.results.idPBI);
+            //remove previous epic
+            console.log("current id")
+            console.log(current_id);
+            self.currentPbis = self.currentPbis.filter(el => el.idPBI !== self.current_id);
+            console.log(self.currentPbis);
+            //add updated epic
+            self.$set(self.currentPbis,i,response.data.results);
+            console.log("after push");
+            console.log(self.currentPbis);
+
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
+    newEpic (evt,current_idPBI) {
       evt.preventDefault();
       const self = this;
       this.pick_priority=self.priorityToNumber(this.pick_priority);
@@ -194,7 +252,7 @@ export default {
         headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
       }
       let data = {
-        title: this.form.newEpicTitle, description: this.form.newEpicDesc, priority:num_priority, Project_id: this.currentProject_id,
+        title: this.form.newEpicTitle, description: this.form.newEpicDesc, priority:this.pick_priority, Project_id: this.currentProject_id, idPBI: current_idPBI ,
       }
       axios.post('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
         .then(function (response) {
