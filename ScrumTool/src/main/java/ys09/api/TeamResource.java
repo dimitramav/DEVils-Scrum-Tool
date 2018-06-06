@@ -1,36 +1,36 @@
 package ys09.api;
 
-import ys09.auth.CustomAuth;
-import ys09.conf.Configuration;
-import ys09.data.DataAccess;
-import ys09.data.Limits;
-import ys09.model.Project;
-
 import org.restlet.data.Status;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
-import org.restlet.util.Series;
-
-import java.io.IOException;
+import ys09.auth.CustomAuth;
+import ys09.conf.Configuration;
+import ys09.data.DataAccess;
+import ys09.data.Limits;
 import java.io.Reader;
+import org.restlet.resource.Post;
+import org.restlet.ext.json.JsonRepresentation;
 import org.json.JSONObject;
 import com.google.gson.Gson;
+import org.restlet.representation.BufferingRepresentation;
+import org.restlet.data.ClientInfo;
+import org.restlet.engine.header.Header;
+import org.restlet.util.Series;
+import java.io.IOException;
 
+import ys09.model.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Date;
-import java.util.Locale;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.concurrent.ConcurrentMap;
+import org.restlet.Message;
+import org.restlet.Context;
+import org.restlet.data.Form;
+import org.restlet.util.Series;
 
 
-import static org.restlet.data.Status.CLIENT_ERROR_UNAUTHORIZED;
-
-
-public class ProjectsResource extends ServerResource {
+public class TeamResource extends ServerResource {
 
     private final DataAccess dataAccess = Configuration.getInstance().getDataAccess();
 
@@ -41,31 +41,24 @@ public class ProjectsResource extends ServerResource {
         Map<String, Object> map = new HashMap<>();
         Map<String, String> mapError = new HashMap<>();
 
+        // Unauthorized access if user is not the product owner
         // Get UserId
         String userId = getRequestAttributes().get("userId").toString();
         if (userId.equals("null")) {
-            mapError.put("error", "Unauthorized projects");
+            mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
         int user = Integer.parseInt(userId);
 
-        // Read the values of url (limit and nearestDeadline) for pagination
-        String strcount = getQuery().getValues("limit");
-        if (strcount == null) {
-            strcount = "0";
+        // Get projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        if (projectIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized project");
+            return new JsonMapRepresentation(mapError);
         }
-        String strstart = getQuery().getValues("nearestDeadline");
-        String isDone = getQuery().getValues("isDone");
+        int projectId = Integer.parseInt(projectIdStr);
 
-        DateFormat format = new SimpleDateFormat("yyyy-M-d");
-        Date expDate = new Date(0L);
-        try { expDate = format.parse(strstart); }
-        catch (Exception e) { System.out.println("No date"); }
-        System.out.println(expDate);
-        System.out.println(strcount);
-        Limits limit = new Limits(Integer.parseInt(strcount), expDate);
-
-        // Access the headers of the request !
+        // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
         String token = requestHeaders.getFirstValue("auth");
 
@@ -76,12 +69,16 @@ public class ProjectsResource extends ServerResource {
         CustomAuth customAuth = new CustomAuth();
 
         if(customAuth.checkAuthToken(token)) {
-            // Get Projects only for the current user
-            // Show them in the index page
+            // Get Project Team Members
             if(customAuth.userValidation(token, userId)) {
-                List<Project> projects = dataAccess.getUserProjects(user, limit, Boolean.parseBoolean(isDone));
-                map.put("results", projects);
-                // Set the response headers
+                // Get project and its current sprint Information information
+                List<Team> teamList = dataAccess.getTeamMembers(projectId);
+                // Find the role that each member has in project
+                for (int i = 0; i < teamList.size(); i++){
+                    String role = dataAccess.getMemberRole(teamList.get(i).getIdUser(), projectId);
+                    teamList.get(i).setRole(role);
+                }
+                map.put("results", teamList);
                 return new JsonMapRepresentation(map);
             }
             else {
@@ -96,22 +93,29 @@ public class ProjectsResource extends ServerResource {
     }
 
 
-
+    // Insert a new member into project
     @Override
     protected Representation post(Representation entity) throws ResourceException {
 
         // New map string (which is the json name) and objects
         Map<String, Object> map = new HashMap<>();
         Map<String, String> mapError = new HashMap<>();
-        //System.out.println("Inside post");
 
         // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
             mapError.put("error", "Unauthorized projects");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
+
+        // Get projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        if (projectIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized project");
+            return new JsonMapRepresentation(mapError);
+        }
+        int projectId = Integer.parseInt(projectIdStr);
 
         // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
@@ -124,15 +128,16 @@ public class ProjectsResource extends ServerResource {
         CustomAuth customAuth = new CustomAuth();
 
         if(customAuth.checkAuthToken(token)) {
-            // Insert a project only for the current user (Product Owner)
-            if(customAuth.userValidation(token, userId)) {
+            // Insert the member
+            if(customAuth.userValidation(token, userIdStr)) {
                 // Get the whole json body representation
                 try {
                     String str = entity.getText();
                     // Now Create from String the JAVA object
                     Gson gson = new Gson();
-                    Project newProject = gson.fromJson(str, Project.class);
-                    Project response = dataAccess.insertProject(newProject, user, "Product Owner");
+                    Team member = gson.fromJson(str, Team.class);
+                    // Insert
+                    Team response = dataAccess.insertNewMember(member, projectId);
                     // Set the response headers
                     map.put("results", response);
                     return new JsonMapRepresentation(map);
@@ -153,4 +158,3 @@ public class ProjectsResource extends ServerResource {
         }
     }
 }
-

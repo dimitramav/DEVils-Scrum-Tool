@@ -7,10 +7,10 @@
         </b-row>
         <b-row>
           <b-col>
-            <b-img style ="width: 30%" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
+            <b-img style ="width: 30%" v-on:click="gotoIndex" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
           </b-col>
           <b-col cols="8">
-            <h1 align="center" style="font-family:cursive;margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
+            <h1 align="center" style="font-family:cursive,Courier New;margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
           </b-col>
           <b-col>
             <button type="button" class="btn btn-primary" v-on:click="gotoSignIn">Log In</button>
@@ -33,7 +33,7 @@
         </b-row>
 
         <div id="home" class="Home">
-          <img src="../assets/ScrumWordCloud.jpg" class="wordcloud"">
+          <img src="../assets/ScrumWordCloud.jpg" class="wordcloud">
           <b-button variant="primary" size="lg" type="button" v-on:click="gotoSignUp">Join Free Now</b-button>
           <p><br/></p>
         </div>
@@ -123,48 +123,21 @@
 <!--USER HOMEPAGE    -->
     <template v-else>
       <b-container class="Navigation" fluid>
-        <b-navbar toggleable="md" class="navbar navbar-expand-lg bg-dark navbar-dark navbar-static-top" variant="info" fluid>
-          <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-          <b-navbar variant="faded" type="light">
-            <b-navbar-brand href="#">
-              <img src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" width="60" height="60" alt="BV">
-            </b-navbar-brand>
-          </b-navbar>
-          <b-collapse is-nav id="nav_collapse">
-            <!-- Right aligned nav items -->
-            <b-navbar-nav class="ml-auto">
-              <b-nav-item-dropdown right>
-                <template slot="button-content">
-                  <em>
-                    <img src="https://support.rocketchatlauncher.com/wp-content/uploads/2017/03/bell.png" style="width:27px;">
-                  </em>
-                </template>
-                <b-dropdown-item href="#">#Notification 1</b-dropdown-item>
-                <b-dropdown-item href="#">#Notification 2</b-dropdown-item>
-                <b-dropdown-item href="#">#Notification 3</b-dropdown-item>
-                <b-dropdown-item href="#">#Notification 4</b-dropdown-item>
-              </b-nav-item-dropdown>
-              <b-nav-item-dropdown right>
-                <template slot="button-content">
-                  <em>
-                    <img src="https://www.mindvoize.com/images/userImage.png" style="width:30px;">
-                  </em>
-                </template>
-                <b-dropdown-item href="#">Profile</b-dropdown-item>
-                <b-dropdown-item-button v-on:click="logout">Sign out</b-dropdown-item-button>
-              </b-nav-item-dropdown>
-            </b-navbar-nav>
-          </b-collapse>
-        </b-navbar>
+
+        <navbar :dashboard="false"></navbar>
+        <b-container>
         <b-row>
           <b-col class="text-right">
             <div>
               <b-dropdown id="ddown1" size="lg" variant ="info" text="Create a New Project" class="m-md-2">
-                <b-form inline style="margin: 10px;">
+                <b-form inline style="margin: 10px;" @submit="newProject">
                   <h4>Title:</h4>
-                  <label class="sr-only" for="inlineFormInputName2"></label>
-                  <b-input class="" id="inlineFormInputName2" placeholder="New Project's Name" />
-                  <b-button variant="success" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
+                  <label class="sr-only" for="newProjectName"></label>
+                  <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle" required/>
+                  <h5>Deadline:</h5>
+                  <label class="sr-only" for="newProjectDate"></label>
+                  <b-form-input id="newProjectDate" type="date" v-model="form.deadlineDate" required/>
+                  <b-button variant="success" type="submit" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
                 </b-form>
               </b-dropdown>
             </div>
@@ -172,7 +145,7 @@
         </b-row>
         <b-row style="padding-top:10px;">
           <b-col class="text-left">
-            <h2> Current Projects</h2>
+            <h2 class="text-enhancement"> Current Projects</h2>
           </b-col>
         </b-row>
         <b-row>
@@ -181,20 +154,21 @@
         <br>
 
         <b-row>
-          <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-            <b-card :title="cur_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
+          <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+            <b-card :title="cur_project.title" img-top tag="article" style="max-width: 15rem;"   img-src="https://picsum.photos/600/300/?image=25"
+                    img-alt="Image">
               <p class="card-text">
                 Deadline: {{cur_project.deadlineDate}}
               </p>
-              <b-button variant="primary">Proceed</b-button>
+              <router-link tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:cur_project.idProject}}">Proceed</router-link>
             </b-card>
           </b-card-group>
         </b-row>
         <br>
-
+        <div v-if="doneLength !== 0">
         <b-row style="padding-top:10px;">
           <b-col class="text-left">
-            <h2>Done Projects</h2>
+            <h2 class="text-enhancement">Done Projects</h2>
           </b-col>
         </b-row>
         <b-row>
@@ -207,53 +181,73 @@
             <p class="card-text">
               Deadline: {{done_project.deadlineDate}}
             </p>
-            <b-button variant="primary">Proceed</b-button>
+            <router-link tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:done_project.idProject}}">Proceed</router-link>
           </b-card>
         </b-card-group>
         </b-row>
         <br>
+        </div>
       </b-container>
-
+      </b-container>
     </template>
   </div>
+
 </template>
 
 
 <script>import axios from 'axios'
+import Navbar from "./Navbar.vue"
 import json from '../assets/team.json'
 export default {
+  components: {
+    navbar: Navbar,
+  },
   data() {
     return {
+      form: {
+        newTitle: '',
+        deadlineDate: '',
+        isDone: false
+      },
       logOut: null,
       currentProjects: [],
       doneProjects:[],
       teamData: json.team,
+      numProjects: 0,
+      doneLength: 0,
+      isProject: false
     }
   },
   methods: {
     gotoSignIn() {
       this.$router.push({path: '/signin'});
     },
+    gotoIndex() {
+      this.$router.push({path: '/'});
+    },
     gotoSignUp() {
       this.$router.push({path: '/signup'});
     },
     notLoggedIn() {
       return (localStorage.getItem('auth_token')==='null' || localStorage.getItem('userId')==='null' || this.logOut);
-    },
+    }
+    ,
     getProjects () {
       //evt.preventDefault();
       const self = this;
-      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=10&offset=0', {
+      axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=22&offset=0', {
         headers: { "auth": localStorage.getItem('auth_token') }
       })
         .then(function (response) {
           if (response.data.error) {
-            if (response.data.error = "Unauthorized user") {
+            if (response.data.error === "Unauthorized user") {
               console.log("Unauthorized user");
             }
           }
           if (response.data.results) {
             self.currentProjects = response.data.results;
+            self.numProjects = self.currentProjects.length;
+            console.log(self.numProjects);
           }
         })
         .catch(function (error) {
@@ -265,12 +259,44 @@ export default {
       })
         .then(function (response) {
           if (response.data.error) {
-            if (response.data.error = "Unauthorized user") {
+            if (response.data.error === "Unauthorized user") {
               console.log("Unauthorized user");
             }
           }
           if (response.data.results) {
             self.doneProjects = response.data.results;
+            self.doneLength = self.doneProjects.length;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
+    newProject (evt) {
+      evt.preventDefault();
+      const self = this;
+      let config = {
+        headers: { "auth": localStorage.getItem('auth_token'), "Content-Type":'application/json' }
+      }
+      let data = {
+        title: this.form.newTitle, isDone: this.form.isDone, deadlineDate: this.form.deadlineDate
+      }
+      axios.post('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects', data, config)
+        .then(function (response) {
+          if (response.data.error) {
+            if (response.data.error === "Unauthorized user") {
+              console.log("Unauthorized user");
+            }
+            else if (response.data.error === "Unauthorized projects") {
+              console.log("Unauthorized projects");
+            }
+            else if (response.data.error === "null") {
+              console.log("Null token");
+            }
+          }
+          if (response.data.results) {
+            console.log(response.data.results);
+            self.currentProjects.push(response.data.results);
           }
         })
         .catch(function (error) {
@@ -291,6 +317,9 @@ export default {
 </script>
 
 <style scoped>
+
+  @import url('https://fonts.googleapis.com/css?family=Merienda');
+
   .Title{
     position: absolute;
     top: 0;
@@ -312,7 +341,7 @@ export default {
 
   .Features{
     position: absolute;
-    top:498%;
+    top:540%;
     left:0;
   }
 
@@ -324,7 +353,7 @@ export default {
 
   .About{
     position: absolute;
-    top:900%;
+    top:960%;
     left:4px;
   }
 
@@ -362,16 +391,23 @@ export default {
     font-size: 1px;
     line-height: 2px;
     background-color: lavender;
-    margin-top: -6px;
+    margin-top: 10px;
     margin-bottom: 10px;
   }
-  .container-fluid {
-    padding-right: 0;
-    padding-left:0;
-  }
+
   .row {
     margin-right: 0px;
     margin-left: 0px;
   }
+
+  .container-fluid {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .text-enhancement {
+    font-family: 'Merienda', cursive;
+  }
+
 </style>
 

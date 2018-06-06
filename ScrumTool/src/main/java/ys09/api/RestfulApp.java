@@ -51,12 +51,7 @@ public class RestfulApp extends Application {
 		// Also put limits
 		//router.attach("/users/{userId}/projects", ProjectsResource.class);
 
-		router.attach("/users/{userId}/projects/{projectId}", SingleProjectResource.class);
-
-		// Post Project for a User
-		//router.attach("/users/{userId}", InsertProjectResource.class);
-		// Sprints
-
+		router.attach("/users/{userId}/projects/{projectId}", ProjectOverviewResource.class);
 		// POST
 		// Get Unauthorized, access only to admin
 		router.attach("/users", UsersResource.class);
@@ -67,7 +62,12 @@ public class RestfulApp extends Application {
 		// GET
 		// Pagination for projects
         router.attach("/users/{userId}/projects", ProjectsResource.class);
-
+        // Team Data get and post
+        router.attach("/users/{userId}/projects/{projectId}/members", TeamResource.class);
+        // GET PBIS
+		router.attach("/users/{userId}/projects/{projectId}/pbis", BacklogResource.class);
+		// Sprint Resource (Create, Update, Get sprint info)
+		router.attach("/users/{userId}/projects/{projectId}/sprints", SprintResource.class);
 		return corsFilter;
 	}
 

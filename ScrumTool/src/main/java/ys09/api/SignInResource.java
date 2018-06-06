@@ -41,12 +41,14 @@ public class SignInResource extends ServerResource {
           SignIn signin = gson.fromJson(str, SignIn.class);
           // Check if email and password match
           int key = dataAccess.checkSignIn(signin);
+          //System.out.println(key);
           Map<String, Object> map = new HashMap<>();
 
           if (key != 0) {           // Key is the userId for a real user
               // Create a JJWT
               CustomAuth customAuth = new CustomAuth();
               String token = customAuth.createToken(Integer.toString(key));
+              //System.out.println(token);
 
               SignInResponse response = new SignInResponse(key, token);
               map.put("results", response);
