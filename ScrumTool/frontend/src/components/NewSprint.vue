@@ -79,7 +79,7 @@
   import axios from 'axios'
   import json from '../assets/team.json'
   export default {
-    name: "NewSprint2",
+    name: "NewSprint",
     components: {
       navbar: Navbar,
     },
@@ -129,13 +129,11 @@
 
         axios.post('http://localhost:8765/app/api/users/'+localStorage.getItem('userId')+'/projects/'+ self.sprint.Project_id + '/sprints', new_sprint, config)
           .then(function (response) {
-            console.log(response.data.Sprint_id)
-            // Call to update the pbis !
-            // Sprint_id, idPBI
-            for(let i = 0; i < self.selected_stories.length; i++) {
-              self.pbis_list.push({idPBI: self.selected_stories[i].value, Sprint_id: response.data.Sprint_id, Project_id: self.sprint.Project_id})
-            }
-
+              for(var i = 0; i < self.selected_stories.length; i++) {
+                self.pbis_list.push({idPBI: self.selected_stories[i].value, Sprint_id: response.data.Sprint_id, Project_id: self.sprint.Project_id})
+              }
+              console.log(self.pbis_list)
+              console.log(self.sprint.Project_id)
             axios.patch('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + self.sprint.Project_id + '/pbis', self.pbis_list, config)
               .then(function (response) {
                 // Debugging
@@ -143,8 +141,10 @@
                 self.$router.push({path: '/projectpageoverview/' + self.sprint.Project_id})
               })
               .catch(function(error){
-
+                console.log(error)
               })
+            // Call to update the pbis !
+            // Sprint_id, idPBI
           })
           .catch(function (error) {
             console.log(error);

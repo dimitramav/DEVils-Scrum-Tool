@@ -162,7 +162,8 @@ public class BacklogResource extends ServerResource {
                     */
                     Type listType = new TypeToken<ArrayList<PBI>>(){}.getType();
                     List<PBI> pbis = new Gson().fromJson(str, listType);
-                    System.out.println(pbis.get(1).getIdPBI());
+                    //System.out.println(pbis.get(0).getIdPBI());
+                    System.out.println("lolo");
                     dataAccess.updateSprintId(pbis);
                     // Update the
                     // Set the response headers

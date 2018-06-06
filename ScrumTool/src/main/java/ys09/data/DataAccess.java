@@ -251,6 +251,7 @@ public class DataAccess {
 
         String sql = "UPDATE PBI SET Sprint_id = ? WHERE idPBI = ?";
         JdbcTemplate template = new JdbcTemplate(dataSource);
+        System.out.println("updateSprint");
 
         template.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
