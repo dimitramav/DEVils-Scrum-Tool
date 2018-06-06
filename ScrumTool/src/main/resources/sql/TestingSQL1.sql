@@ -59,4 +59,3 @@ select role from Project_has_User where User_id = 3 and Project_id = 2;
 
 
 
-

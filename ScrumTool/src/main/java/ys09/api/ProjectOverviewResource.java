@@ -104,11 +104,6 @@ public class ProjectOverviewResource extends ServerResource {
                         projectOverviewItem.setDoneIssues(projectOverviewItem.getDoneIssues()+1);
                 }
                 map.put("results", projectOverviewItem);
-                // Get all the pbis of this project (either Epics or Stories)
-                //List<PBI> pbis = dataAccess.getProjectPBIs(idProject, isEpic, epicId);
-                //map.put("results", pbis);
-                // Set the response headers
-                //System.out.println("lll " + pbis.get(0).getPriority());
                 return new JsonMapRepresentation(map);
             }
             else {
@@ -126,7 +121,7 @@ public class ProjectOverviewResource extends ServerResource {
 
 
     // Post Representation
-    @Override
+    /*@Override
     protected Representation post(Representation entity) throws ResourceException {
 
         //Foo targetObject = new Gson().fromJson(entity, Project.class);
@@ -154,5 +149,5 @@ public class ProjectOverviewResource extends ServerResource {
             mapError.put("result", "System Exception");
             return new JsonMapRepresentation(mapError);
         }
-    }
+    }*/
 }

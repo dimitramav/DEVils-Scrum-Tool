@@ -121,17 +121,29 @@
               <br>
               <template>
                 <div>
-                  <b-form inline @submit="getUsers">
+                  <b-form inline @submit="addMembers">
                     Add User &nbsp;
-                    <b-input class="mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputName2" placeholder="email" />
+                    <b-form-group id="emailForm"
+                                  label-for="email"
+                                  :invalid-feedback="validEmail===false ? 'Invalid User' : ''">
+                      <b-form-input class="mb-2 mr-sm-2 mb-sm-0"
+                                        id="emailInput"
+                                        type="email"
+                                        v-model="newMember.mail"
+                                        @change="checkEmail"
+                                        :state="validEmail"
+                                        placeholder="email" required>
+                       </b-form-input>
+                    </b-form-group>
                     as &nbsp;
                     <b-form-select class="mb-2 mr-sm-2 mb-sm-0"
                                    :value="null"
                                    :options="{ '1': 'Scrum Master', '2': 'Developer'}"
+                                   v-model="newMember.role"
                                    id="inlineFormCustomSelectPref">
                       <option slot="first" :value="null">Choose role</option>
                     </b-form-select>
-                    <b-button variant="primary">Invite</b-button>
+                    <b-button type="submit" variant="primary" :disabled="validEmail===false" >Invite</b-button>
                   </b-form>
                 </div>
               </template>
@@ -211,16 +223,14 @@
           active: true
         }],
 
-        //currentSprintId: 1997,
-        //currentSprintExpDate: '',
+        newMember: {
+          mail: '',
+          role: ''
+        },
+
+        validEmail: null,
         diffDays: -1,
-        Team: [{role: "Senior Developer", lastname: "Anastasiou", firstname:"Aggelos", mail: "aggelos@gmail.com"}, {role: "Junior Developer", lastname: "Helen", firstname: "Brown", mail: "helb@gmail.com"}]
-        //todo: 6,
-        //doing: 10,
-        //done: 2,
-        //todoIssues: 99,
-        //doingIssues: 1,
-        //doneIssues: 0,
+        Team: []
       }
     },
 
@@ -267,30 +277,96 @@
         self.diffDays=Math.floor(Math.abs((today.getTime() - jsDate.getTime())/(oneDay)));
       },
 
-      getUsers () {
-        const self=this; // προσαρμοσε το axios για users αντι για projects
-        axios.get('http://localhost:8765/app/api/users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=9&offset=0', {
-          headers: { "auth": localStorage.getItem('auth_token') }
+      getMembers () {
+        const self=this;
+        axios.get('http://localhost:8765/app/api/users/'+ localStorage.getItem('userId') +'/projects/' + this.$route.params.id + '/members', {
+          headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
         })
         .then(function (response) {
           if (response.data.error) {
-            if (response.data.error === "Wrong user") {
-              console.log("Wrong user");
+            if (response.data.error === "Unauthorized user") {
+              console.log("Unauthorized user");
+            }
+            else if (response.data.error === "Unauthorized projects") {
+              console.log("Unauthorized projects");
+            }
+            else if (response.data.error === "null") {
+              console.log("Null token");
             }
           }
           if (response.data.results) {
             self.Team = response.data.results;
+            console.log("Got the members");
           }
         })
         .catch(function (error) {
           console.log(error);
         })
       },
+
+      addMembers () {
+        const self = this;
+        if (self.newMember.role == '1'){
+          self.newMember.role = "Scrum Master";
+        }
+        else if (self.newMember.role == '2'){
+          self.newMember.role = "Developer";
+        }
+        axios.post('http://localhost:8765/app/api/users/'+ localStorage.getItem('userId') +'/projects/' + this.$route.params.id + '/members', self.newMember, {
+          headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
+        })
+        .then(function (response) {
+          if (response.data.error) {
+            if (response.data.error === "Unauthorized user") {
+              console.log("Unauthorized user");
+            }
+            else if (response.data.error === "Unauthorized projects") {
+              console.log("Unauthorized projects");
+            }
+            else if (response.data.error === "null") {
+              console.log("Null token");
+            }
+          }
+          if (response.data.results) {
+            self.Team.push(response.data.results);
+            console.log("New member inserted");
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+      },
+
+      checkEmail () {
+        if (this.newMember.mail==='') {
+          this.validEmail=null;
+          return;
+        }
+        const self = this;
+        // Check if the user is among the members already in project
+        var i;
+        for (i = 0; i < self.Team.length; i++){
+          if (self.Team[i].mail == self.newMember.mail){
+            this.validEmail=false;
+            return;
+          }
+        }
+        // Now check the users in database
+        axios.post('http://localhost:8765/app/api/exists', {
+          mail: self.newMember.mail,
+        })
+          .then(function (response) {
+            self.validEmail=(response.data.exists===1);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
     },
 
     mounted () {
       this.getSprintInfo();
-//      this.getUsers ();
+      this.getMembers();
     },
   }
 
