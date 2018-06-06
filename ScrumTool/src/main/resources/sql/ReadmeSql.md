@@ -1,7 +1,7 @@
 
-- Use schema.sql to create the ScrumTool_db and to insert data.
-- TestingSQL1.sql (and 2) are testing queries that should be executed seperately
-  (not required, just for debbuging reasons when writing code).
+- Import schema.sql for automatic creation of ScrumTool_db and data insertion.
+- TestingSQL1.sql (and 2) are testing queries that should not be used
+  (they exist just for debugging reasons when writing code).
 - There must be a MySQL connection with username:scrumtool and password:scrumtool
   for proper communication (see app.properties in WEB-INF).
 
