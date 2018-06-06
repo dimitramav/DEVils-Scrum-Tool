@@ -20,7 +20,7 @@
 						<template slot="button-content">
 							<b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px"/> Edit Project
 						</template>
-						
+
 						<template>
 							<div style="margin-right: 10px; margin-left: 10px">
 								<p> New Project's Title</p>
@@ -272,9 +272,11 @@
         var dd = today.getDate();
         var mm = today.getMonth()+1;
         var yyyy = today.getFullYear();
-        var jsDate=new Date (Date.parse(self.projectOverview.project.deadlineDate.replace ('-', '/', 'g')));
+        var jsDate=new Date (Date.parse(self.projectOverview.currentSprintExpDate.replace ('-', '/', 'g')));
         var oneDay = 24*60*60*1000;
         self.diffDays=Math.floor(Math.abs((today.getTime() - jsDate.getTime())/(oneDay)));
+        // Check the days interval
+        self.diffDays += 2
       },
 
       getMembers () {
