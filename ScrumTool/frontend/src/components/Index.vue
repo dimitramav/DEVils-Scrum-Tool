@@ -181,8 +181,7 @@
             <p class="card-text">
               Deadline: {{done_project.deadlineDate}}
             </p>
-            <b-button variant="primary">Proceed</b-button>
-            <!--<router-link tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:cur_project.idProject}}">Proceed</router-link>-->
+            <router-link tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:done_project.idProject}}">Proceed</router-link>
           </b-card>
         </b-card-group>
         </b-row>
