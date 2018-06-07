@@ -19,15 +19,15 @@
               <b-row class="text-center">
                 <b-col>
                   <label for="high">High</label>
-                  <input type="radio" name="myChoice" id="high" value="High" v-model="pick_priority" required>
+                  <input type="radio" name="myChoice" id="high" value="High" v-model="pick_EpicPriority" required>
                 </b-col>
                 <b-col>
                   <label for="medium">Medium</label>
-                  <input type="radio" name="myChoice" id="medium" value="Medium" v-model="pick_priority" required>
+                  <input type="radio" name="myChoice" id="medium" value="Medium" v-model="pick_EpicPriority" required>
                 </b-col>
                 <b-col>
                   <label for="low">Low</label>
-                  <input type="radio" name="myChoice" id="low" value="Low" v-model="pick_priority" required>
+                  <input type="radio" name="myChoice" id="low" value="Low" v-model="pick_EpicPriority" required>
                 </b-col>
               </b-row>
               <b-button variant="success" type="submit" style="margin-top: 10px; width: 100%;">Add to Epics</b-button>
@@ -74,15 +74,15 @@
                     <b-row class="text-center">
                       <b-col>
                         <label for="high_up">High</label>
-                        <input type="radio" name="myChoice" id="high_up" value="High" v-model="update_priority" required>
+                        <input type="radio" name="myChoice" id="high_up" value="High" v-model="update_EpicPriority" required>
                       </b-col>
                       <b-col>
                         <label for="medium_up">Medium</label>
-                        <input type="radio" name="myChoice" id="medium_up" value="Medium" v-model="update_priority" required>
+                        <input type="radio" name="myChoice" id="medium_up" value="Medium" v-model="update_EpicPriority" required>
                       </b-col>
                       <b-col>
                         <label for="low_up">Low</label>
-                        <input type="radio" name="myChoice" id="low_up" value="Low" v-model="update_priority" required>
+                        <input type="radio" name="myChoice" id="low_up" value="Low" v-model="update_EpicPriority" required>
                       </b-col>
                     </b-row>
                   </b-form>
@@ -97,16 +97,52 @@
               </p>
               <!--New User Story-->
               <div row>
-                <b-btn  v-b-modal="'new_story'+cur_pbi.idPBI" variant="primary">Add User Story
+                <b-btn  v-b-modal="'new_story'+cur_pbi.idPBI" variant="primary">Add User Story</b-btn>
                   <b-modal :id="'new_story'+cur_pbi.idPBI" title="Add User Story" @ok="newStory(cur_pbi.idPBI,$event)">
-                  <!--Add user story-->
+                    <div class="text-left" :id="'new_story'+cur_pbi.idPBI">
+                      <b-form>
+                        <b-form-group
+                          label="Title:"
+                          :label-for="'addStoryTitle'+cur_pbi.idPBI">
+                          <b-form-input :id="'addStoryTitle'+cur_pbi.idPBI"
+                                        type="text"
+                                        v-model="form.newStoryTitle"
+                                        required>
+                          </b-form-input>
+                        </b-form-group>
+                        <b-form-group
+                                      label="Description:"
+                                      :label-for="'addStoryDesc'+cur_pbi.idPBI">
+                          <b-form-input :id="'updateEpicDesc'+cur_pbi.idPBI"
+                                        type="text"
+                                        v-model="form.newStoryDesc"
+                                        required
+                                        >
+                          </b-form-input>
+                        </b-form-group>
+                        <h6>Priority:</h6>
+                        <b-row class="text-center">
+                          <b-col>
+                            <label for="high_story">High</label>
+                            <input type="radio" name="myChoice" id="high_story" value="High" v-model="pick_StoryPriority" required>
+                          </b-col>
+                          <b-col>
+                            <label for="medium_story">Medium</label>
+                            <input type="radio" name="myChoice" id="medium_story" value="Medium" v-model="pick_StoryPriority" required>
+                          </b-col>
+                          <b-col>
+                            <label for="low_story">Low</label>
+                            <input type="radio" name="myChoice" id="low_story" value="Low" v-model="pick_StoryPriority" required>
+                          </b-col>
+                        </b-row>
+                      </b-form>
+                    </div>
                   </b-modal>
-                </b-btn>
               </div>
               <!--Get User Stories of each epic-->
               <div row style="padding-top: 2px">
               <b-btn v-b-toggle="'collapse'+cur_pbi.idPBI" v-on:click="getEpicUserStories(cur_pbi.idPBI)"
-                     variant="primary">User Stories
+                     variant="primary"> User Stories
               </b-btn>
               </div>
               <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2">
@@ -155,12 +191,17 @@ export default {
         newEpicTitle: '',
         newEpicDesc: '',
       },
-      form: {
+      form:{
         updateEpicTitle: '',
         updateEpicDesc: '',
       },
-      pick_priority: '',
-      update_priority: '',
+      form:{
+        newStoryTitle:'',
+        newStoryDesc:'',
+      },
+      pick_EpicPriority: '',
+      update_EpicPriority: '',
+      pick_StoryPriority:'',
       logOut: null,
       currentPbis: [],
       currentUserStories: [[],[]],
@@ -168,6 +209,38 @@ export default {
     }
   },
   methods: {
+    newStory (current_idPBI,evt) {
+      evt.preventDefault();
+      const self = this;
+      this.pick_StoryPriority=self.priorityToNumber(this.pick_StoryPriority);
+      let config = {
+        headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
+      }
+      let data = {
+        title: this.form.newStoryTitle, description: this.form.newStoryDesc, priority:this.pick_StoryPriority, Project_id: this.currentProject_id, Epic_id: current_idPBI ,
+      }
+      axios.post('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis', data, config)
+        .then(function (response) {
+          if (response.data.error) {
+            if (response.data.error === "Unauthorized user") {
+              console.log("Unauthorized user");
+            }
+            else if (response.data.error === "Unauthorized projects") {
+              console.log("Unauthorized projects");
+            }
+            else if (response.data.error === "null") {
+              console.log("Null token");
+            }
+          }
+          if (response.data.results) {
+            response.data.results.priority=self.priorityToString(response.data.results.priority);
+            self.currentUserStories[current_idPBI].push(response.data.results);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
     priorityToNumber(priority)
     {
       if(priority==="High")
@@ -204,13 +277,13 @@ export default {
     },
     updateEpic(current_id,evt){
       const self = this;
-      console.log("hi " +       this.form.updateEpicTitle);
-      this.update_priority=self.priorityToNumber(this.update_priority);
+      //console.log("hi " +       this.form.updateEpicTitle);
+      this.update_EpicPriority=self.priorityToNumber(this.update_EpicPriority);
       let config = {
         headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
       }
       let data = {
-        title: this.form.updateEpicTitle, description: this.form.updateEpicDesc, priority:this.update_priority, Project_id: this.currentProject_id, idPBI: current_id,
+        title: this.form.updateEpicTitle, description: this.form.updateEpicDesc, priority:this.update_EpicPriority, Project_id: this.currentProject_id, idPBI: current_id,
       }
       axios.put('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
         .then(function (response) {
@@ -243,16 +316,17 @@ export default {
         .catch(function (error) {
           console.log(error);
         })
+
     },
-    newEpic (evt,current_idPBI) {
+    newEpic (evt) {
       evt.preventDefault();
       const self = this;
-      this.pick_priority=self.priorityToNumber(this.pick_priority);
+      this.pick_EpicPriority=self.priorityToNumber(this.pick_EpicPriority);
       let config = {
         headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
       }
       let data = {
-        title: this.form.newEpicTitle, description: this.form.newEpicDesc, priority:this.pick_priority, Project_id: this.currentProject_id, idPBI: current_idPBI ,
+        title: this.form.newEpicTitle, description: this.form.newEpicDesc, priority:this.pick_EpicPriority, Project_id: this.currentProject_id ,
       }
       axios.post('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
         .then(function (response) {
@@ -269,6 +343,7 @@ export default {
           }
           if (response.data.results) {
             response.data.results.priority=self.priorityToString(response.data.results.priority);
+            console.log(response.data.results);
             self.currentPbis.push(response.data.results);
           }
         })
