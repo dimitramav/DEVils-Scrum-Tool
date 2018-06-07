@@ -89,7 +89,6 @@ public class BacklogResource extends ServerResource {
                 List<PBI> pbis = dataAccess.getProjectPBIs(idProject, isEpic, epicId);
                 map.put("results", pbis);
                 // Set the response headers
-                System.out.println("lll " + pbis.get(0).getPriority());
                 return new JsonMapRepresentation(map);
             }
             else {

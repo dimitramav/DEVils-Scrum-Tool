@@ -47,7 +47,7 @@
             <b-col class="text-right">
               <!-- EDIT EPIC -->
               <b-btn v-b-modal="'modal'+cur_pbi.idPBI">Edit</b-btn>
-              <b-modal :id="'modal'+cur_pbi.idPBI" title="Update Epic" @ok="updateEpic(cur_pbi.idPBI,$event)">
+              <b-modal :id="'modal'+cur_pbi.idPBI" title="Update Epic"   @ok="updateEpic(cur_pbi.idPBI,$event)">
                 <div class="text-left" :id="'updateEpic1'+cur_pbi.idPBI">
                   <b-form>
                     <b-form-group
@@ -116,8 +116,7 @@
                           <b-form-input :id="'updateEpicDesc'+cur_pbi.idPBI"
                                         type="text"
                                         v-model="form.newStoryDesc"
-                                        required
-                                        >
+                                        required>
                           </b-form-input>
                         </b-form-group>
                         <h6>Priority:</h6>
@@ -157,9 +156,62 @@
                       <b-collapse :id="'collapse'+cur_us.idPBI" visible accordion="my-accordion" role="tabpanel">
                         <b-card-body>
                           <p class="card-text">
-                            {{cur_us.description}}
+                            <b-row>
+                              {{cur_us.description}}
+                            </b-row>
+                          </p>
+                          <p class="card-text">
+                            <b-row>
+                              <i class="text-muted">{{cur_us.priority}}</i>
+                            </b-row>
                           </p>
                         </b-card-body>
+                        <div class="text-right">
+                          <!--EDIT USER STORY-->
+                          <b-btn v-b-modal="'modal_story'+cur_us.idPBI">Edit</b-btn>
+                        </div>
+                          <b-modal :id="'modal_story'+cur_us.idPBI" title="Update User Story"   @ok="updateStory(cur_us.idPBI,cur_us.Epic_id,$event)">
+                            <div class="text-left" :id="'updateStory1'+cur_us.idPBI">
+                              <b-form>
+                                <b-form-group
+                                  :label="'Title:' + cur_us.idPBI"
+                                  :label-for="'updateStoryTitle'+cur_us.idPBI">
+                                  <b-form-input :id="'updateStoryTitle'+cur_us.idPBI"
+                                                type="text"
+                                                v-model="form.updateStoryTitle"
+                                                required
+                                                :value="cur_us.title">
+                                  </b-form-input>
+                                </b-form-group>
+                                <b-form-group :id="'updateStory2'+cur_us.idPBI"
+                                              label="Description:"
+                                              :label-for="'updateStoryDesc'+cur_us.idPBI">
+                                  <b-form-input :id="'updateStoryDesc'+cur_us.idPBI"
+                                                type="text"
+                                                v-model="form.updateStoryDesc"
+                                                required
+                                                :value="cur_us.description">
+                                  </b-form-input>
+                                </b-form-group>
+                                <h6>Priority:</h6>
+                                <b-row class="text-center">
+                                  <b-col>
+                                    <label for="high_upstory">High</label>
+                                    <input type="radio" name="myChoice" id="high_upstory" value="High" v-model="update_StoryPriority" required>
+                                  </b-col>
+                                  <b-col>
+                                    <label for="medium_upstory">Medium</label>
+                                    <input type="radio" name="myChoice" id="medium_upstory" value="Medium" v-model="update_StoryPriority" required>
+                                  </b-col>
+                                  <b-col>
+                                    <label for="low_upstory">Low</label>
+                                    <input type="radio" name="myChoice" id="low_upstory" value="Low" v-model="update_StoryPriority" required>
+                                  </b-col>
+                                </b-row>
+                              </b-form>
+                            </div>
+                          </b-modal>
+
                       </b-collapse>
                     </b-card>
                   </b-card-group>
@@ -199,6 +251,11 @@ export default {
         newStoryTitle:'',
         newStoryDesc:'',
       },
+      form:{
+        updateStoryTitle:'',
+        updateStoryDesc:'',
+      },
+      update_StoryPriority:'',
       pick_EpicPriority: '',
       update_EpicPriority: '',
       pick_StoryPriority:'',
@@ -209,7 +266,46 @@ export default {
     }
   },
   methods: {
-    newStory (current_idPBI,evt) {
+    updateStory(current_id,current_epicId,evt) {
+      const self = this;
+      //console.log("hi " +       this.form.updateEpicTitle);
+      this.update_StoryPriority = self.priorityToNumber(this.update_StoryPriority);
+      let config = {
+        headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
+      }
+      let data = {
+        title: this.form.updateStoryTitle,
+        description: this.form.updateStoryDesc,
+        priority: this.update_StoryPriority,
+        Project_id: this.currentProject_id,
+        idPBI: current_id,
+        Epic_id:current_epicId,
+      }
+      axios.put('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=false' , data, config)
+        .then(function (response) {
+          if (response.data.error) {
+            if (response.data.error === "Unauthorized user") {
+              console.log("Unauthorized user");
+            }
+            else if (response.data.error === "Unauthorized projects") {
+              console.log("Unauthorized projects");
+            }
+            else if (response.data.error === "null") {
+              console.log("Null token");
+            }
+          }
+          if (response.data.results) {
+            response.data.results.priority = self.priorityToString(response.data.results.priority);
+            var epic=response.data.results.Epic_id;
+            var i = self.currentUserStories[epic].findIndex(o => o.idPBI === response.data.results.idPBI);
+            console.log(response.data.results);
+            self.currentUserStories[epic] = self.currentUserStories[current_epicId].filter(el => el.idPBI !== self.current_id);
+            self.$set(self.currentUserStories[epic], i, response.data.results);
+            //TODO: isws na kleinw to card gia na ananewnetai
+          }
+        })
+    },
+    newStory (current_epicId,evt) {
       evt.preventDefault();
       const self = this;
       this.pick_StoryPriority=self.priorityToNumber(this.pick_StoryPriority);
@@ -217,7 +313,7 @@ export default {
         headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
       }
       let data = {
-        title: this.form.newStoryTitle, description: this.form.newStoryDesc, priority:this.pick_StoryPriority, Project_id: this.currentProject_id, Epic_id: current_idPBI ,
+        title: this.form.newStoryTitle, description: this.form.newStoryDesc, priority:this.pick_StoryPriority, Project_id: this.currentProject_id, Epic_id: current_epicId ,
       }
       axios.post('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis', data, config)
         .then(function (response) {
@@ -234,7 +330,7 @@ export default {
           }
           if (response.data.results) {
             response.data.results.priority=self.priorityToString(response.data.results.priority);
-            self.currentUserStories[current_idPBI].push(response.data.results);
+            self.currentUserStories[response.data.results.Epic_id].push(response.data.results);
           }
         })
         .catch(function (error) {
@@ -387,7 +483,12 @@ export default {
             console.log("Unauthorized user");
           }
         }
+        response.data.results.forEach(function(arrayItem)
+        {
+          arrayItem.priority=self.priorityToString(arrayItem.priority);
+        });
         if (response.data.results) {
+
           self.$set(self.currentUserStories,epicId,response.data.results);
         }
       })
