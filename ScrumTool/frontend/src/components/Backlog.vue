@@ -281,7 +281,7 @@ export default {
         idPBI: current_id,
         Epic_id:current_epicId,
       }
-      axios.put('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=false' , data, config)
+      axios.put(this.$url + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=false' , data, config)
         .then(function (response) {
           if (response.data.error) {
             if (response.data.error === "Unauthorized user") {
@@ -315,7 +315,7 @@ export default {
       let data = {
         title: this.form.newStoryTitle, description: this.form.newStoryDesc, priority:this.pick_StoryPriority, Project_id: this.currentProject_id, Epic_id: current_epicId ,
       }
-      axios.post('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis', data, config)
+      axios.post(this.$url + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis', data, config)
         .then(function (response) {
           if (response.data.error) {
             if (response.data.error === "Unauthorized user") {
@@ -381,7 +381,7 @@ export default {
       let data = {
         title: this.form.updateEpicTitle, description: this.form.updateEpicDesc, priority:this.update_EpicPriority, Project_id: this.currentProject_id, idPBI: current_id,
       }
-      axios.put('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
+      axios.put(this.$url + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
         .then(function (response) {
           if (response.data.error) {
             if (response.data.error === "Unauthorized user") {
@@ -424,7 +424,7 @@ export default {
       let data = {
         title: this.form.newEpicTitle, description: this.form.newEpicDesc, priority:this.pick_EpicPriority, Project_id: this.currentProject_id ,
       }
-      axios.post('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
+      axios.post(this.$url + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
         .then(function (response) {
           if (response.data.error) {
             if (response.data.error === "Unauthorized user") {
@@ -450,7 +450,7 @@ export default {
     getPBIS() {
       //evt.preventDefault();
       const self = this;
-      axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.$route.params.id + '/pbis?isEpic=true', {
+      axios.get(this.$url + localStorage.getItem('userId') + '/projects/' + this.$route.params.id + '/pbis?isEpic=true', {
         headers: {"auth": localStorage.getItem('auth_token')}
       })
         .then(function (response) {
@@ -474,7 +474,7 @@ export default {
     },
     getEpicUserStories(epicId) {
       const self = this;
-      axios.get('http://localhost:8765/app/api/users/' + localStorage.getItem('userId') + '/projects/' + this.$route.params.id + '/pbis?isEpic=false&epicId='+epicId, {
+      axios.get(this.$url + localStorage.getItem('userId') + '/projects/' + this.$route.params.id + '/pbis?isEpic=false&epicId='+epicId, {
       headers: {"auth": localStorage.getItem('auth_token')}
       })
       .then(function (response) {

@@ -13,6 +13,8 @@ Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 
+Vue.prototype.$url = 'http://localhost:8765/app/api/users/'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

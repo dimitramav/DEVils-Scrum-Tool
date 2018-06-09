@@ -237,7 +237,7 @@
     methods: {
       getSprintInfo () {
         const self = this;
-        axios.get ('http://localhost:8765/app/api/users/'+ localStorage.getItem('userId') +'/projects/'+ this.$route.params.id,{
+        axios.get (this.$url+ localStorage.getItem('userId') +'/projects/'+ this.$route.params.id,{
           headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
         })
         .then(function (response) {
@@ -281,7 +281,7 @@
 
       getMembers () {
         const self=this;
-        axios.get('http://localhost:8765/app/api/users/'+ localStorage.getItem('userId') +'/projects/' + this.$route.params.id + '/members', {
+        axios.get(this.$url+ localStorage.getItem('userId') +'/projects/' + this.$route.params.id + '/members', {
           headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
         })
         .then(function (response) {
@@ -314,7 +314,7 @@
         else if (self.newMember.role == '2'){
           self.newMember.role = "Developer";
         }
-        axios.post('http://localhost:8765/app/api/users/'+ localStorage.getItem('userId') +'/projects/' + this.$route.params.id + '/members', self.newMember, {
+        axios.post(this.$url+ localStorage.getItem('userId') +'/projects/' + this.$route.params.id + '/members', self.newMember, {
           headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
         })
         .then(function (response) {
