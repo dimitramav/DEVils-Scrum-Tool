@@ -51,8 +51,18 @@
                       required>
         </b-form-input>
       </b-form-group>
+      <b-form-group id="verify_password"
+                    label="Verify password"
+                    label-for="verify_password">
+        <b-form-input id="verify_password"
+                      type="password"
+                      v-model="form.verify_password"
+                      :state="verifyPassword"
+                      required>
+        </b-form-input>
+      </b-form-group>
       <br>
-      <b-button size="lg" type="submit" variant="primary" :disabled="validEmail===false || validPassword===false" > Sign up</b-button>
+      <b-button size="lg" type="submit" variant="primary" :disabled="validEmail===false || validPassword===false || verifiedPassword===false" > Sign up</b-button>
       <br><br><br>
       <b-button variant="link" v-on:click="gotoSignIn">Already a member? Sign in</b-button>
       <br><br>
@@ -73,12 +83,24 @@ export default {
         firstName: '',
         lastName: '',
         password: '',
+        verify_password: '',
       },
       validEmail: null,
       validPassword: null,
+      verifiedPassword:null,
     }
   },
   computed: {
+    verifyPassword(){
+      if (this.form.password===this.form.verify_password && this.form.password!=='' &&this.validPassword===true){
+        this.verifiedPassword=true;
+        return true;
+      }
+      else {
+        this.verifiedPassword=false;
+        return false;
+      }
+    },
     checkPassword() {
       if (this.form.password==='') return null;
       const regex = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/ ;

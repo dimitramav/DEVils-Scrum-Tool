@@ -9,6 +9,7 @@ import NewSprint from '@/components/NewSprint'
 import Logout from '@/components/Logout'
 import Backlog from '@/components/Backlog/'
 import OldSprints from '@/components/OldSprints'
+import Profile from '@/components/Profile'
 
 Vue.use(Router)
 
@@ -58,6 +59,11 @@ export default new Router({
       path: '/oldsprints/:id',
       name: 'OldSprints',
       component: OldSprints
+    },
+    {
+      path:'/profile/:name',
+      name: 'Profile',
+      component: Profile
     }
   ]
 })
