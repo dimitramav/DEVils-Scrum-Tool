@@ -536,6 +536,11 @@ public class DataAccess {
         return projectsByRoleID;
     }
 
+    public User getUserProfile(String username) {
+        String query = "select * from User where firstname = ?;";
+        User profile = jdbcTemplate.queryForObject(query,new Object[]{username},new UserRowMapper());
+        return profile;
+    }
 
 
 }

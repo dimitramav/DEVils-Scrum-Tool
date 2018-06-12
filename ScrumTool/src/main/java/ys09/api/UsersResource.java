@@ -74,19 +74,14 @@ public class UsersResource extends ServerResource {
             mapError.put("error", "null");
             return new JsonMapRepresentation(mapError);
         }
+        String username = getRequestAttributes().get("username").toString();
         CustomAuth customAuth = new CustomAuth();
-
         if(customAuth.checkAuthToken(token)) {
-            String fullname = getQuery().getValues("fullname");
-            String fullname_array[]=fullname.split(".");
-            String firstname=fullname_array[0];
-            String lastname= fullname_array[1];
-            System.out.println("hi "+firstname+ "hi "+lastname);
 
             if(customAuth.userValidation(token, userId)) {
                 // Get all the user's information
-                //List<PBI> profile = dataAccess.getProfile(user,username,password);
-                //map.put("results", profile);
+                User profile = dataAccess.getUserProfile(username);
+                map.put("results", profile);
                 // Set the response headers
                 return new JsonMapRepresentation(map);
             }

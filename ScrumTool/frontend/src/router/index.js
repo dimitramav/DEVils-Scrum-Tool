@@ -61,7 +61,7 @@ export default new Router({
       component: OldSprints
     },
     {
-      path:'/profile/:name',
+      path:'/profile/:id',
       name: 'Profile',
       component: Profile
     }

@@ -2,6 +2,7 @@
   <b-container class="Navigation" fluid>
 
     <navbar :dashboard="true"></navbar>
+
   </b-container>
 </template>
 
@@ -16,14 +17,14 @@
     },
   data () {
     return {
-
+      userInfos: '',
     }
   },
   methods: {
     getProfile() {
       //evt.preventDefault();
       const self = this;
-      axios.get(this.$url + localStorage.getItem('userId') + '/profile/' + this.current_fullname, {
+      axios.get(this.$url + localStorage.getItem('userId') + '/profile/' + this.current_username, {
         headers: {"auth": localStorage.getItem('auth_token')}
       })
         .then(function (response) {
@@ -33,12 +34,8 @@
             }
           }
           if (response.data.results) {
-            //prepei na to spasw se synartisi
-            response.data.results.forEach(function(arrayItem)
-            {
-              arrayItem.priority=self.priorityToString(arrayItem.priority);
-            });
-            self.currentPbis = response.data.results;
+            self.userInfos = response.data.results;
+            console.log(self.userInfos);
           }
         })
         .catch(function (error) {
@@ -48,7 +45,7 @@
   },
     mounted() {
       if (localStorage.getItem('auth_token') === 'null' || localStorage.getItem('userId') === 'null') return;
-      this.current_fullname=this.$route.params.id;
+      this.current_username=this.$route.params.id;
       this.getProfile();
     },
 }
