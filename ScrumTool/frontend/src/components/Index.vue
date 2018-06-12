@@ -290,6 +290,9 @@ export default {
             else if (response.data.error === "Unauthorized projects") {
               console.log("Unauthorized projects");
             }
+            else if (response.data.error === "System Exception") {
+              console.log("System Exception");
+            }
             else if (response.data.error === "null") {
               console.log("Null token");
             }

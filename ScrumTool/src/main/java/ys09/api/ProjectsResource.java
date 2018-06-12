@@ -17,6 +17,7 @@ import java.io.Reader;
 import org.json.JSONObject;
 import com.google.gson.Gson;
 
+import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,10 +133,22 @@ public class ProjectsResource extends ServerResource {
                     // Now Create from String the JAVA object
                     Gson gson = new Gson();
                     Project newProject = gson.fromJson(str, Project.class);
-                    Project response = dataAccess.insertProject(newProject, user, "Product Owner");
-                    // Set the response headers
-                    map.put("results", response);
-                    return new JsonMapRepresentation(map);
+                    try {
+                        Project response = dataAccess.insertProject(newProject, user, "Product Owner");
+                        // Set the response headers
+                        if (response == null){
+                            mapError.put("error", "System Exception");
+                            System.out.println("Transaction Error!!!");
+                            return new JsonMapRepresentation(mapError);
+                        }
+                        map.put("results", response);
+                        return new JsonMapRepresentation(map);
+                    }
+                    catch (SQLException e) {
+                        mapError.put("error", "System Exception");
+                        System.out.println("Transaction Error!1!1");
+                        return new JsonMapRepresentation(mapError);
+                    }
                 }
                 catch(IOException e) {
                     mapError.put("error", "System Exception");
