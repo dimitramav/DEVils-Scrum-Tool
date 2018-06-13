@@ -11,7 +11,7 @@
       <b-col>
       </b-col>
       <b-col>
-        <b-form style="text-align: left">
+        <b-form style="text-align: left" @submit="updateProfile">
       <b-form-group id="firstname"
                     label="First Name"
                     label-for="firstname">
@@ -75,9 +75,11 @@
             </b-form-textarea>
           </b-form-group>
           <!--TODO bio-->
+          <p  :v-show="same"> aaaaa </p>
+          <b-button v-if="NonEdit" @click="EnableEditing">Edit Information</b-button>
+          <b-button v-if="!NonEdit" type="submit">Submit changes</b-button>
         </b-form>
-        <p  :v-show="same"> aaaaa </p>
-          <b-button  @click="EnableEditing">Edit Information</b-button>
+
       </b-col>
 
       <b-col>
@@ -132,6 +134,27 @@
       //evt.preventDefault();
       const self = this;
       axios.get(this.$url +'users/' + localStorage.getItem('userId') + '/profile/' + this.current_username, {
+        headers: {"auth": localStorage.getItem('auth_token')}
+      })
+        .then(function (response) {
+          if (response.data.error) {
+            if (response.data.error === "Unauthorized user") {
+              console.log("Unauthorized user");
+            }
+          }
+          if (response.data.results) {
+            self.userInfos = response.data.results;
+            console.log(self.userInfos);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
+    updateProfile(evt) {
+      evt.preventDefault();
+      const self = this;
+      axios.put(this.$url +'users/' + localStorage.getItem('userId') + '/profile/' + this.current_username, {
         headers: {"auth": localStorage.getItem('auth_token')}
       })
         .then(function (response) {
