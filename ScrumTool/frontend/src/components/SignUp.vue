@@ -19,8 +19,22 @@
                       :state="validEmail"
                       autocomplete="off" required> <!--autocomplete has a bug and v-model does not syncronize it-->
         </b-form-input>
-
       </b-form-group>
+
+      <b-form-group id="username"
+                    label="Username"
+                    label-for="username"
+                    :invalid-feedback="validUsername===false ? 'Invalid username' : ''"
+                    description="Username should not containt '@' character">
+        <b-form-input id="username"
+                      type="text"
+                      v-model="form.username"
+                      @change="checkUsername"
+                      :state="validUsername"
+                      autocomplete="off" required> <!--autocomplete has a bug and v-model does not syncronize it-->
+        </b-form-input>
+      </b-form-group>
+
       <b-form-group id="firstname"
                     label="First Name"
                     label-for="firstname">
@@ -62,7 +76,7 @@
         </b-form-input>
       </b-form-group>
       <br>
-      <b-button size="lg" type="submit" variant="primary" :disabled="validEmail===false || validPassword===false || verifiedPassword===false" > Sign up</b-button>
+      <b-button size="lg" type="submit" variant="primary" :disabled="validEmail===false || validUsername===false || validPassword===false || verifiedPassword===false" > Sign up</b-button>
       <br><br><br>
       <b-button variant="link" v-on:click="gotoSignIn">Already a member? Sign in</b-button>
       <br><br>
@@ -80,12 +94,14 @@ export default {
     return {
       form: {
         email: '',
+        username: '',
         firstName: '',
         lastName: '',
         password: '',
         verify_password: '',
       },
       validEmail: null,
+      validUsername: null,
       validPassword: null,
       verifiedPassword:null,
     }
@@ -120,6 +136,7 @@ export default {
       const self = this;
       axios.post(this.$url+'users', {
         mail: this.form.email,
+        username: this.form.username,
         firstname: this.form.firstname,
         lastname: this.form.lastname,
         password: this.form.password
@@ -152,6 +169,26 @@ export default {
       })
         .then(function (response) {
           self.validEmail=(response.data.exists===0);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
+    checkUsername() {
+      if (this.form.username==='') {
+        this.validUsername=null;
+        return;
+      }
+      if (this.form.username.indexOf("@") != -1) {
+        this.validUsername=false;
+        return false;
+      }
+      const self = this;
+      axios.post('http://localhost:8765/app/api/exists', {
+        mail: this.form.username,
+      })
+        .then(function (response) {
+          self.validUsername=(response.data.exists===0);
         })
         .catch(function (error) {
           console.log(error);

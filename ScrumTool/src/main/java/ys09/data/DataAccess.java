@@ -375,11 +375,16 @@ public class DataAccess {
     }
 
 
-    // Check if User exists into the database
+    // Check if User exists into the database (either checking email or username)
     public boolean userExists(String mail) {
         // Query to find if user exists
         jdbcTemplate = new JdbcTemplate(dataSource);
-        String query = "SELECT * FROM User WHERE mail = ?";
+
+        String query = "";
+        if (mail.indexOf('@') < 0){
+            query = "SELECT * FROM User WHERE username = ?";
+        }
+        else query = "SELECT * FROM User WHERE mail = ?";
 
         try {
             User exist = jdbcTemplate.queryForObject(query, new Object[]{mail}, new UserRowMapper());   // Exists
@@ -401,7 +406,7 @@ public class DataAccess {
         // Avoid SQL injections
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        String query = "INSERT INTO User(mail, firstname, lastname, password, isAdmin, numProjects) VALUES (?, ?, ?, ?, ?, ?);";
+        String query = "INSERT INTO User(mail, username, firstname, lastname, password, isAdmin, numProjects) VALUES (?, ?, ?, ?, ?, ?, ?);";
         jdbcTemplate = new JdbcTemplate(dataSource);
 
         jdbcTemplate.update(new PreparedStatementCreator() {
@@ -409,11 +414,12 @@ public class DataAccess {
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, user.getEmail());
-                statement.setString(2, user.getFirstName());
-                statement.setString(3, user.getLastName());
-                statement.setString(4, user.getPassword());
-                statement.setInt(5, user.getIsAdmin());
-                statement.setInt(6, user.getNumOfProjects());
+                statement.setString(2, user.getUsername());
+                statement.setString(3, user.getFirstName());
+                statement.setString(4, user.getLastName());
+                statement.setString(5, user.getPassword());
+                statement.setInt(6, user.getIsAdmin());
+                statement.setInt(7, user.getNumOfProjects());
                 return statement;
             }
         }, keyHolder);
@@ -537,7 +543,7 @@ public class DataAccess {
     }
 
     public User getUserProfile(String username) {
-        String query = "select * from User where firstname = ?;";
+        String query = "select * from User where username = ?;";
         User profile = jdbcTemplate.queryForObject(query,new Object[]{username},new UserRowMapper());
         return profile;
     }
