@@ -118,7 +118,7 @@ export default {
     onSubmit (evt) {
       evt.preventDefault();
       const self = this;
-      axios.post('http://localhost:8765/app/api/users', {
+      axios.post(this.$url+'users', {
         mail: this.form.email,
         firstname: this.form.firstname,
         lastname: this.form.lastname,

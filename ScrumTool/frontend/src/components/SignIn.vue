@@ -55,7 +55,7 @@ export default {
     onSubmit (evt) {
       evt.preventDefault();
       const self = this;
-      axios.post('http://localhost:8765/app/api/signin', {
+      axios.post(this.$url +'/signin', {
         mail: this.form.mail,
         password: this.form.password
       })

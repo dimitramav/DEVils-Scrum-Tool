@@ -235,7 +235,7 @@ export default {
     getProjects () {
       //evt.preventDefault();
       const self = this;
-      axios.get(this.$url+localStorage.getItem('userId') + '/projects?isDone=false&limit=22&offset=0', {
+      axios.get(this.$url + 'users/'+localStorage.getItem('userId') + '/projects?isDone=false&limit=22&offset=0', {
         headers: { "auth": localStorage.getItem('auth_token') }
       })
         .then(function (response) {
@@ -254,7 +254,7 @@ export default {
           console.log(error);
         })
 
-      axios.get(this.$url+localStorage.getItem('userId') + '/projects?isDone=true&limit=10&offset=0', {
+      axios.get(this.$url + 'users/' +localStorage.getItem('userId') + '/projects?isDone=true&limit=10&offset=0', {
         headers: { "auth": localStorage.getItem('auth_token') }
       })
         .then(function (response) {
@@ -281,7 +281,7 @@ export default {
       let data = {
         title: this.form.newTitle, isDone: this.form.isDone, deadlineDate: this.form.deadlineDate
       }
-      axios.post(this.$url + localStorage.getItem('userId') + '/projects', data, config)
+      axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects', data, config)
         .then(function (response) {
           if (response.data.error) {
             if (response.data.error === "Unauthorized user") {

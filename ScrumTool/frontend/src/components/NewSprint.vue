@@ -127,14 +127,14 @@
         }
         // Call to create the new sprint
 
-        axios.post(this.$url+localStorage.getItem('userId')+'/projects/'+ self.sprint.Project_id + '/sprints', new_sprint, config)
+        axios.post(this.$url + 'users/' +localStorage.getItem('userId')+'/projects/'+ self.sprint.Project_id + '/sprints', new_sprint, config)
           .then(function (response) {
               for(var i = 0; i < self.selected_stories.length; i++) {
                 self.pbis_list.push({idPBI: self.selected_stories[i].value, Sprint_id: response.data.Sprint_id, Project_id: self.sprint.Project_id})
               }
               console.log(self.pbis_list)
               console.log(self.sprint.Project_id)
-            axios.patch(this.$url + localStorage.getItem('userId') + '/projects/' + self.sprint.Project_id + '/pbis', self.pbis_list, config)
+            axios.patch(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + self.sprint.Project_id + '/pbis', self.pbis_list, config)
               .then(function (response) {
                 // Debugging
                 console.log("xoxo")
@@ -155,7 +155,7 @@
         console.log(title);
         // Call the other rest endpoint to get the stories of each epic
         const self = this;
-        axios.get(this.$url+localStorage.getItem('userId')+'/projects/'+ self.sprint.Project_id + '/pbis?epicId=' + idPBI, {
+        axios.get(this.$url + 'users/' +localStorage.getItem('userId')+'/projects/'+ self.sprint.Project_id + '/pbis?epicId=' + idPBI, {
           headers: { "auth": localStorage.getItem('auth_token') }
         })
           .then(function (response) {
@@ -184,7 +184,7 @@
       },
       getEpics () {
         const self = this;
-        axios.get(this.$url+localStorage.getItem('userId')+'/projects/'+ self.sprint.Project_id + '/pbis?isEpic=true', {
+        axios.get(this.$url + 'users/' +localStorage.getItem('userId')+'/projects/'+ self.sprint.Project_id + '/pbis?isEpic=true', {
           headers: { "auth": localStorage.getItem('auth_token') }
         })
           .then(function (response) {

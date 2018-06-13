@@ -63,12 +63,13 @@
                     <b-form-group :id="'updateEpic2'+cur_pbi.idPBI"
                                   label="Description:"
                                   :label-for="'updateEpicDesc'+cur_pbi.idPBI">
-                      <b-form-input :id="'updateEpicDesc'+cur_pbi.idPBI"
+                      <b-form-textarea :id="'updateEpicDesc'+cur_pbi.idPBI"
                                     type="text"
                                     v-model="form.updateEpicDesc"
-                                    required
+                                    required :rows="3"
+                                       :max-rows="6"
                                     :value="cur_pbi.description">
-                      </b-form-input>
+                      </b-form-textarea>
                     </b-form-group>
                     <h6>Priority:</h6>
                     <b-row class="text-center">
@@ -113,11 +114,13 @@
                         <b-form-group
                                       label="Description:"
                                       :label-for="'addStoryDesc'+cur_pbi.idPBI">
-                          <b-form-input :id="'updateEpicDesc'+cur_pbi.idPBI"
+                          <b-form-textarea :id="'updateEpicDesc'+cur_pbi.idPBI"
                                         type="text"
+                                           :rows="3"
+                                           :max-rows="6"
                                         v-model="form.newStoryDesc"
                                         required>
-                          </b-form-input>
+                          </b-form-textarea>
                         </b-form-group>
                         <h6>Priority:</h6>
                         <b-row class="text-center">
@@ -186,12 +189,14 @@
                                 <b-form-group :id="'updateStory2'+cur_us.idPBI"
                                               label="Description:"
                                               :label-for="'updateStoryDesc'+cur_us.idPBI">
-                                  <b-form-input :id="'updateStoryDesc'+cur_us.idPBI"
+                                  <b-form-textarea :id="'updateStoryDesc'+cur_us.idPBI"
                                                 type="text"
+                                                   :rows="3"
+                                                   :max-rows="6"
                                                 v-model="form.updateStoryDesc"
                                                 required
                                                 :value="cur_us.description">
-                                  </b-form-input>
+                                  </b-form-textarea>
                                 </b-form-group>
                                 <h6>Priority:</h6>
                                 <b-row class="text-center">
@@ -281,7 +286,7 @@ export default {
         idPBI: current_id,
         Epic_id:current_epicId,
       }
-      axios.put(this.$url + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=false' , data, config)
+      axios.put(this.$url +'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=false' , data, config)
         .then(function (response) {
           if (response.data.error) {
             if (response.data.error === "Unauthorized user") {
@@ -315,7 +320,7 @@ export default {
       let data = {
         title: this.form.newStoryTitle, description: this.form.newStoryDesc, priority:this.pick_StoryPriority, Project_id: this.currentProject_id, Epic_id: current_epicId ,
       }
-      axios.post(this.$url + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis', data, config)
+      axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis', data, config)
         .then(function (response) {
           if (response.data.error) {
             if (response.data.error === "Unauthorized user") {
@@ -381,7 +386,7 @@ export default {
       let data = {
         title: this.form.updateEpicTitle, description: this.form.updateEpicDesc, priority:this.update_EpicPriority, Project_id: this.currentProject_id, idPBI: current_id,
       }
-      axios.put(this.$url + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
+      axios.put(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
         .then(function (response) {
           if (response.data.error) {
             if (response.data.error === "Unauthorized user") {
@@ -424,7 +429,7 @@ export default {
       let data = {
         title: this.form.newEpicTitle, description: this.form.newEpicDesc, priority:this.pick_EpicPriority, Project_id: this.currentProject_id ,
       }
-      axios.post(this.$url + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
+      axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
         .then(function (response) {
           if (response.data.error) {
             if (response.data.error === "Unauthorized user") {
@@ -450,7 +455,7 @@ export default {
     getPBIS() {
       //evt.preventDefault();
       const self = this;
-      axios.get(this.$url + localStorage.getItem('userId') + '/projects/' + this.$route.params.id + '/pbis?isEpic=true', {
+      axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.$route.params.id + '/pbis?isEpic=true', {
         headers: {"auth": localStorage.getItem('auth_token')}
       })
         .then(function (response) {
@@ -474,7 +479,7 @@ export default {
     },
     getEpicUserStories(epicId) {
       const self = this;
-      axios.get(this.$url + localStorage.getItem('userId') + '/projects/' + this.$route.params.id + '/pbis?isEpic=false&epicId='+epicId, {
+      axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.$route.params.id + '/pbis?isEpic=false&epicId='+epicId, {
       headers: {"auth": localStorage.getItem('auth_token')}
       })
       .then(function (response) {
