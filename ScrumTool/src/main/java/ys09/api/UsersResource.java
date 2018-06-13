@@ -11,12 +11,13 @@ import ys09.auth.CustomAuth;
 import ys09.data.DataAccess;
 import ys09.model.PBI;
 import com.google.gson.Gson;
-import ys09.model.SignInResponse;
+import ys09.model.LocalStorage;
 import ys09.model.User;
 import ys09.conf.Configuration;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
+
 
 // Endpoints for user entity
 public class UsersResource extends ServerResource {
@@ -35,24 +36,24 @@ public class UsersResource extends ServerResource {
           Gson gson = new Gson();
           User user = gson.fromJson(str, User.class);
 
-          // Return token for auth
-          int key = dataAccess.insertUser(user);
+          User newUser = dataAccess.insertUser(user);
+          int key = newUser.getId();
 
           // Return token for auth
           CustomAuth customAuth = new CustomAuth();
           String token = customAuth.createToken(Integer.toString(key));
-          SignInResponse response = new SignInResponse(key, token);
+          LocalStorage response = new LocalStorage(key, newUser.getUsername(), token);
+
           map.put("results", response);
           return new JsonMapRepresentation(map);
       }
-
       catch(IOException e) {
           map.put("result", "System Exception");
           return new JsonMapRepresentation(map);
       }
       // Maybe sent a response message ?
+    }
 
-  }
 
     @Override
     protected Representation get() throws ResourceException {
@@ -97,19 +98,22 @@ public class UsersResource extends ServerResource {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-  }
+    }
 
-    @Patch
-    public Representation update(Representation entity) {
+
+    @Override
+    public Representation put(Representation entity) {
         // New map string (which is the json name) and objects
         Map<String, Object> map = new HashMap<>();
         Map<String, String> mapError = new HashMap<>();
+
         String userId = getRequestAttributes().get("userId").toString();
         if (userId.equals("null")) {
-            mapError.put("error", "Unauthorized projects");
+            mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
         int user = Integer.parseInt(userId);
+
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
         String token = requestHeaders.getFirstValue("auth");
         String username = getRequestAttributes().get("username").toString();
@@ -119,27 +123,32 @@ public class UsersResource extends ServerResource {
             return new JsonMapRepresentation(mapError);
         }
         CustomAuth customAuth = new CustomAuth();
-        if(customAuth.checkAuthToken(token))
-        {
-            // Insert a project only for the current user (Product Owner)
+
+        if(customAuth.checkAuthToken(token)) {
+            // Update user's infoprmation
+            if(customAuth.userValidation(token, userId)) {
                 // Get the whole json body representation
-            try
-            {
+                try {
                     String str = entity.getText();
-                    User profile = new Gson().fromJson(str,User.class);
-                    //dataAccess.updateUser(profile);
-                    map.put("User Update", "result");
+                    User profile = new Gson().fromJson(str, User.class);
+                    User response = dataAccess.updateUser(profile, user);
+                    map.put("result", response);
                     return new JsonMapRepresentation(map);
+                }
+                catch(IOException e) {
+                    mapError.put("result", "System Exception");
+                    return new JsonMapRepresentation(mapError);
+                }
             }
-            catch(IOException e) {
-                mapError.put("result", "System Exception");
+            else {
+                mapError.put("error", "Unauthorized userId");
                 return new JsonMapRepresentation(mapError);
             }
         }
         else {
-        mapError.put("error", "Unauthorized user");
-        return new JsonMapRepresentation(mapError);
+          mapError.put("error", "Unauthorized user");
+          return new JsonMapRepresentation(mapError);
         }
-  }
+    }
 
 }

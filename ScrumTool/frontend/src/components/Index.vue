@@ -309,6 +309,7 @@ export default {
     logout() {
       localStorage.setItem('userId','null');
       localStorage.setItem('auth_token', 'null');
+      localStorage.setItem('username', 'null');
       this.logOut=true;
     },
   },

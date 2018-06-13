@@ -396,7 +396,7 @@ public class DataAccess {
 
 
     // Insert User
-    public int insertUser(User user) {
+    public User insertUser(User user) {
         // Generate Random Salt and Bcrypt
         String pw_hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         user.setPassword(pw_hash);
@@ -423,8 +423,48 @@ public class DataAccess {
                 return statement;
             }
         }, keyHolder);
-        // Return the new generated id for user
-        return keyHolder.getKey().intValue();
+        // Return ther user with the new generated id
+        user.setIdUser(keyHolder.getKey().intValue());
+        return user;
+    }
+
+
+    public User updateUser(User profile, int userId) {
+        // Update user profile
+        String query = "update User set firstname=?, lastname=?, mail=?, job=?, company=?, country=?, Description=? where idUser=?;";
+        jdbcTemplate = new JdbcTemplate(dataSource);
+
+        try {
+            jdbcTemplate.update(new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                    PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                    statement.setString(1, profile.getFirstName());
+                    statement.setString(2, profile.getLastName());
+                    statement.setString(3, profile.getEmail());
+                    if (profile.getJob() != null)
+                        statement.setString(4, profile.getJob());
+                    else statement.setNull(4, java.sql.Types.VARCHAR);
+                    if (profile.getCompany() != null)
+                        statement.setString(5, profile.getCompany());
+                    else statement.setNull(5, java.sql.Types.VARCHAR);
+                    if (profile.getCountry() != null)
+                        statement.setString(6, profile.getCountry());
+                    else statement.setNull(6, java.sql.Types.VARCHAR);
+                    if (profile.getDescription() != null)
+                        statement.setString(7, profile.getDescription());
+                    else statement.setNull(7, java.sql.Types.VARCHAR);
+                    statement.setInt(8, userId);
+                    return statement;
+                }
+            });
+            // PBI's id is already in pbi class (as returned from frontend)
+            return profile;
+        // Error in update of jdbcTemplate
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
@@ -493,11 +533,13 @@ public class DataAccess {
 
 
 
-    public int checkSignIn(SignIn signin) {
+    public User checkSignIn(SignIn signin) {
         // Query to find if user exists
         jdbcTemplate = new JdbcTemplate(dataSource);
+
         String query = "SELECT * FROM User WHERE mail = ?";
         String mail = signin.getEmail();
+
         try {
             User user = jdbcTemplate.queryForObject(query, new Object[]{mail}, new UserRowMapper());
 
@@ -505,13 +547,13 @@ public class DataAccess {
                 System.out.println("It matches");
                 // If it matches return JWT token !
                 // Save the token to a dictionary (user,token)
-                return user.getId();
+                return user;
             } else {
                 System.out.println("It does not match");
-                return 0;
+                return null;
             }
         } catch (EmptyResultDataAccessException e) {
-            return 0;
+            return null;
         }
     }
 
@@ -530,6 +572,7 @@ public class DataAccess {
         }
     }
 
+
     public List<Integer> createAuthProjectList (int id, String role)
     {
         List<Project> projectsByRole = getUserProjectsRole(id,role);
@@ -541,6 +584,7 @@ public class DataAccess {
         }
         return projectsByRoleID;
     }
+
 
     public User getUserProfile(String username) {
         String query = "select * from User where username = ?;";

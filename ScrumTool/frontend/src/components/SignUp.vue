@@ -144,6 +144,7 @@ export default {
         .then(function (response) {
           if (response.data.results) {
             localStorage.setItem('auth_token', response.data.results.auth_token);
+            localStorage.setItem('username', response.data.results.username);
             localStorage.setItem('userId', response.data.results.userId);
             self.$router.push({path: '/'})
           }
@@ -164,7 +165,7 @@ export default {
         return;
       }
       const self = this;
-      axios.post('http://localhost:8765/app/api/exists', {
+      axios.post(this.$url +'exists', {
         mail: this.form.email,
       })
         .then(function (response) {
@@ -184,7 +185,7 @@ export default {
         return false;
       }
       const self = this;
-      axios.post('http://localhost:8765/app/api/exists', {
+      axios.post(this.$url +'exists', {
         mail: this.form.username,
       })
         .then(function (response) {

@@ -41,7 +41,7 @@
               <img src="https://www.mindvoize.com/images/userImage.png" style="width:30px; position: relative; bottom: 2.5px">
             </em>
           </template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
+          <b-dropdown-item v-on:click="profile">Profile</b-dropdown-item>
           <b-dropdown-item-button v-on:click="logout">Sign out</b-dropdown-item-button>
         </b-nav-item-dropdown>
       </b-navbar-nav>
@@ -55,13 +55,17 @@
         methods: {
           logout() {
             localStorage.setItem('userId','null');
+            localStorage.setItem('username','null');
             localStorage.setItem('auth_token', 'null');
             this.$router.push({path: '/logout'});
+          },
+          profile() {
+            this.$router.push({name: 'Profile', params: {id: localStorage.getItem('username')}});
           },
         },
         props: {
           dashboard: Boolean,
-        }
+        },
     }
 </script>
 

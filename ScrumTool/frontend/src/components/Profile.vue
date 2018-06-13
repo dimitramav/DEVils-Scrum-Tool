@@ -1,7 +1,7 @@
 <template>
   <b-container class="Navigation" fluid>
 
-    <navbar :dashboard="true"></navbar>
+    <navbar :dashboard="false"></navbar>
     <br>
     <b-row>
       <b-breadcrumb :items="items" style="position: relative;left: 41px;"/>
@@ -99,6 +99,17 @@
     },
   data () {
     return {
+      userInfos: {
+        idUser: null,
+        firstname: null,
+        lastname: null,
+        mail: null,
+        job: null,
+        company: null,
+        country: null,
+        description: null
+      },
+
       items: [{
         text: 'Home',
         href: '#/'
@@ -107,8 +118,8 @@
         text: 'Profile',
         active: true
       }],
+
       NonEdit: true,
-      userInfos: '',
       loggedin_user:'',
       same: false,
     }
@@ -154,7 +165,7 @@
     updateProfile(evt) {
       evt.preventDefault();
       const self = this;
-      axios.put(this.$url +'users/' + localStorage.getItem('userId') + '/profile/' + this.current_username, {
+      axios.put(this.$url +'users/' + localStorage.getItem('userId') + '/profile/' + this.current_username, self.userInfos, {
         headers: {"auth": localStorage.getItem('auth_token')}
       })
         .then(function (response) {

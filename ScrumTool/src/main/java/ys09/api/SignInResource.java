@@ -12,10 +12,11 @@ import ys09.auth.CustomAuth;
 import ys09.data.DataAccess;
 import ys09.model.Project;
 import com.google.gson.Gson;
+import ys09.model.User;
 import ys09.model.SignIn;
 import ys09.conf.Configuration;
 import ys09.data.DataAccess;
-import ys09.model.SignInResponse;
+import ys09.model.LocalStorage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,17 +41,19 @@ public class SignInResource extends ServerResource {
           Gson gson = new Gson();
           SignIn signin = gson.fromJson(str, SignIn.class);
           // Check if email and password match
-          int key = dataAccess.checkSignIn(signin);
+          User user = dataAccess.checkSignIn(signin);
           //System.out.println(key);
           Map<String, Object> map = new HashMap<>();
 
-          if (key != 0) {           // Key is the userId for a real user
+          if (user != null) {           // Key is the userId for a real user
               // Create a JJWT
+              int key = user.getId();
+              String username = user.getUsername();
               CustomAuth customAuth = new CustomAuth();
               String token = customAuth.createToken(Integer.toString(key));
-              //System.out.println(token);
+              //System.out.println(user.getUsername());
 
-              SignInResponse response = new SignInResponse(key, token);
+              LocalStorage response = new LocalStorage(key, username, token);
               map.put("results", response);
               return new JsonMapRepresentation(map);
           }
