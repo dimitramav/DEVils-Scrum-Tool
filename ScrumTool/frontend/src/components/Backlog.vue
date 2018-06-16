@@ -63,13 +63,11 @@
                     <b-form-group :id="'updateEpic2'+cur_pbi.idPBI"
                                   label="Description:"
                                   :label-for="'updateEpicDesc'+cur_pbi.idPBI">
-                      <b-form-textarea :id="'updateEpicDesc'+cur_pbi.idPBI"
+                      <b-form-input :id="'updateEpicDesc'+cur_pbi.idPBI"
                                     type="text"
                                     v-model="form.updateEpicDesc"
-                                    required :rows="3"
-                                       :max-rows="6"
-                                    :value="cur_pbi.description">
-                      </b-form-textarea>
+                                    required :value="cur_pbi.description">
+                      </b-form-input>
                     </b-form-group>
                     <h6>Priority:</h6>
                     <b-row class="text-center">
@@ -114,13 +112,11 @@
                         <b-form-group
                                       label="Description:"
                                       :label-for="'addStoryDesc'+cur_pbi.idPBI">
-                          <b-form-textarea :id="'updateEpicDesc'+cur_pbi.idPBI"
+                          <b-form-input :id="'updateEpicDesc'+cur_pbi.idPBI"
                                         type="text"
-                                           :rows="3"
-                                           :max-rows="6"
                                         v-model="form.newStoryDesc"
                                         required>
-                          </b-form-textarea>
+                          </b-form-input>
                         </b-form-group>
                         <h6>Priority:</h6>
                         <b-row class="text-center">
@@ -189,14 +185,12 @@
                                 <b-form-group :id="'updateStory2'+cur_us.idPBI"
                                               label="Description:"
                                               :label-for="'updateStoryDesc'+cur_us.idPBI">
-                                  <b-form-textarea :id="'updateStoryDesc'+cur_us.idPBI"
+                                  <b-form-input :id="'updateStoryDesc'+cur_us.idPBI"
                                                 type="text"
-                                                   :rows="3"
-                                                   :max-rows="6"
                                                 v-model="form.updateStoryDesc"
                                                 required
                                                 :value="cur_us.description">
-                                  </b-form-textarea>
+                                  </b-form-input>
                                 </b-form-group>
                                 <h6>Priority:</h6>
                                 <b-row class="text-center">
@@ -335,7 +329,8 @@ export default {
           }
           if (response.data.results) {
             response.data.results.priority=self.priorityToString(response.data.results.priority);
-            self.currentUserStories[response.data.results.Epic_id].push(response.data.results);
+            self.currentUserStories.push([response.data.results.Epic_id,response.data.results]);
+
           }
         })
         .catch(function (error) {
@@ -427,7 +422,7 @@ export default {
         headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
       }
       let data = {
-        title: this.form.newEpicTitle, description: this.form.newEpicDesc, priority:this.pick_EpicPriority, Project_id: this.currentProject_id ,
+        title: this.form.newEpicTitle, description: this.form.newEpicDesc, priority:this.pick_EpicPriority, Project_id: this.currentProject_id,
       }
       axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
         .then(function (response) {
