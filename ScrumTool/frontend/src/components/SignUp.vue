@@ -108,6 +108,10 @@ export default {
   },
   computed: {
     verifyPassword(){
+      if (this.form.verify_password==='') {
+        this.verifiedPassword=null;
+        return null;
+      }
       if (this.form.password===this.form.verify_password && this.form.password!=='' &&this.validPassword===true){
         this.verifiedPassword=true;
         return true;
@@ -180,7 +184,7 @@ export default {
         this.validUsername=null;
         return;
       }
-      if (this.form.username.indexOf("@") != -1) {
+      if (this.form.username.indexOf("@") !== -1) {
         this.validUsername=false;
         return false;
       }
