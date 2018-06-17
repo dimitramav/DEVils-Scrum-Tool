@@ -10,6 +10,7 @@ import Logout from '@/components/Logout'
 import Backlog from '@/components/Backlog/'
 import OldSprints from '@/components/OldSprints'
 import Profile from '@/components/Profile'
+import EditProfile from '@/components/EditProfile'
 
 Vue.use(Router)
 
@@ -41,7 +42,7 @@ export default new Router({
       component: Sidebar
     },
     {
-      path: '/projectpageoverview/:id',
+      path: '/overview/:id',
       name: 'ProjectPageOverview',
       component: ProjectPageOverview
     },
@@ -61,9 +62,14 @@ export default new Router({
       component: OldSprints
     },
     {
-      path:'/profile/:id',
+      path:'/:id',
       name: 'Profile',
       component: Profile
+    },
+    {
+      path:'/editprofile/:id',
+      name: 'EditProfile',
+      component: EditProfile
     }
   ]
 })
