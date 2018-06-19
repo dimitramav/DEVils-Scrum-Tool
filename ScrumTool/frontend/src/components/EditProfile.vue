@@ -2,10 +2,8 @@
   <b-container class="Navigation" fluid>
 
     <navbar :dashboard="false"></navbar>
+    <b-breadcrumb :items="items"> </b-breadcrumb>
     <br>
-    <b-row>
-      <b-breadcrumb :items="items" style="position: relative;left: 41px;"> </b-breadcrumb>
-    </b-row>
     <!--User Infos-->
     <b-row>
       <b-col>
@@ -86,6 +84,9 @@
 
       <b-col>
       </b-col>
+    </b-row>
+    <b-row>
+      <p></p>
     </b-row>
   </b-container>
 </template>

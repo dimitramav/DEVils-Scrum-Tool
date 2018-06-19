@@ -1,14 +1,10 @@
 <template>
   <div v-if = "(projectOverview.project.isDone == false )">
     <b-container class="Navigation" fluid>
-
       <navbar :dashboard="true"></navbar>
+      <b-breadcrumb :items="items" style="font-size:13px;padding-left: :100px" />
       <!--<sidebar></sidebar>-->
-      <br>
-      <b-row>
-        <b-breadcrumb :items="items" style="position: relative;left: 41px;"/>
-      </b-row>
-      <b-row style="padding-top:10px;">
+     <b-row style="padding-top:10px;">
         <b-col>
         	<b-row>
         		<b-col class="text-left">

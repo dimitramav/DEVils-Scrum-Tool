@@ -1,18 +1,22 @@
 <template>
   <b-container class="Navigation" fluid>
-
     <navbar :dashboard="false"></navbar>
+    <b-breadcrumb :items="items"/>
     <br>
-    <b-row>
-      <b-breadcrumb :items="items" style="position: relative;left: 41px;"> </b-breadcrumb>
-    </b-row>
-    <b-jumbotron >
-      <h1>{{userInfos.firstname}} {{userInfos.lastname}}</h1>
-      <h3>{{userInfos.username}}</h3>
-      <p>Email: <b>{{userInfos.mail}}</b><br>
-        Number of projects: <b>{{userInfos.numProjects}}</b></p>
+    <b-card img-src="https://picsum.photos/600/300/?image=25"
+            img-alt="Image"
+            img-top
+            tag="article"
+            style="max-width:19rem;margin: 0 auto;float: none; margin-bottom: 10px;"
+            class="mb-2">
+        <div style="text-align: left;">
+          <h2>{{userInfos.firstname}} {{userInfos.lastname}} </h2><br/>
+          <p>Username: <b>{{userInfos.username}}</b></p>
+          <p>Email   : <b>{{userInfos.mail}}</b><br>
+          <p>Number of projects: <b>{{userInfos.numProjects}}</b></p>
+        </div>
       <b-button variant="primary" v-show="loggedin_userId===userInfos.idUser" @click="gotoEdit">Edit Information</b-button>
-    </b-jumbotron>
+    </b-card> 
   </b-container>
 </template>
 
