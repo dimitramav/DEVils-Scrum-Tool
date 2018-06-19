@@ -1,5 +1,5 @@
 <template>
-  <div v-if = "true">
+  <div v-if = "(projectOverview.project.isDone == false )">
     <b-container class="Navigation" fluid>
 
       <navbar :dashboard="true"></navbar>
@@ -157,23 +157,7 @@
     </b-container>
   </div>
   <div v-else>
-    <b-container class="Navigation" fluid>
-      <navbar></navbar>
-      <br>
-      <b-row>
-        <b-breadcrumb :items="items" style="position: relative;left: 41px;"/>
-      </b-row>
-      <b-row style="padding-top:10px;">
-        <b-col class="text-left">
-          <h2>Insurance App</h2>
-        </b-col>
-      </b-row>
-      <b-row>
-        <div class="line">.</div>
-      </b-row>
-      <br>
-      <b-button variant="primary">Create new Sprint</b-button>
-    </b-container>
+    finished! under construction!
   </div>
 </template>
 
