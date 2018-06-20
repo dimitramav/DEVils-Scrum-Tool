@@ -2,7 +2,7 @@
   <div v-if = "(projectOverview.project.isDone == false )">
     <b-container class="Navigation" fluid>
       <navbar :dashboard="true"></navbar>
-      <b-breadcrumb :items="items" style="font-size:13px;padding-left: :100px" />
+      <b-breadcrumb :items="items" style="font-size:13px;padding-left:100px" />
       <!--<sidebar></sidebar>-->
      <b-row style="padding-top:10px;">
         <b-col>
@@ -50,32 +50,33 @@
                   <b-col>
                     <b-card title="TODO">
                       <p class="card-text">{{projectOverview.todo}}</p>
-                      <p class="card-text" style="color: red">Issues: {{projectOverview.todoIssues}}</p>
                     </b-card>
                   </b-col>
                   <b-col>
                     <b-card title="DOING">
                       <p class="card-text">{{projectOverview.doing}}</p>
-                      <p class="card-text" style="color: red">Issues: {{projectOverview.doingIssues}}</p>
                     </b-card>
                   </b-col>
                   <b-col>
                     <b-card title="DONE">
                       <p class="card-text">{{projectOverview.done}}</p>
-                      <p class="card-text" style="color: red">Issues: {{projectOverview.doneIssues}}</p>
                     </b-card>
                   </b-col>
                 </b-row>
-                <br><br><br>
+                <br><br>
                 <b-row>
                   <b-col>
+                    <b-card no-body class="text-left">
+                      <p class="card-text" style="color: #ff0000">Issues:  {{projectOverview.issues}} </p>
+                    </b-card>
+                    <br>
                     <b-card no-body class="text-left">
                       <p class="card-text">Days Remaining:  {{diffDays}}</p>
                     </b-card>
                   </b-col>
                   <b-col></b-col>
                 </b-row>
-                <br><br><br>
+                <br>
                 <b-row style="padding-top:10px;">
                   <b-col class="text-left">
                     <h5>Progress</h5>
@@ -113,7 +114,6 @@
                   </p>
                 </b-list-group-item>
               </b-list-group>
-              -->
               <br>
               <template>
                 <div>
@@ -186,7 +186,8 @@
           done: 0,
           todoIssues: 0,
           doingIssues: 0,
-          doneIssues: 0
+          doneIssues: 0,
+          issues: 0
         },
 
         donePercentage: 0,
@@ -237,6 +238,7 @@
             self.items[1].text = self.projectOverview.project.title;
             var totalTasks = self.projectOverview.todo + self.projectOverview.doing + self.projectOverview.done;
             self.donePercentage = self.projectOverview.done / totalTasks * 100;
+            self.projectOverview.issues = self.projectOverview.todoIssues + self.projectOverview.doingIssues + self.projectOverview.doneIssues;
             self.calcDeadline ();
             console.log("Got the results");
           }
