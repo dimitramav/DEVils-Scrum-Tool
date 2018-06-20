@@ -1,9 +1,8 @@
 <template>
-  <div v-if = "(projectOverview.project.isDone == false )">
+  <div>
     <b-container class="Navigation" fluid>
-
       <navbar :dashboard="true"></navbar>
-      <b-breadcrumb :items="items""/>
+      <b-breadcrumb :items="items"/>
       <!--<sidebar></sidebar>-->
       <br>
       <b-row style="padding-top:10px; margin-bottom: -10px">
@@ -13,23 +12,23 @@
 				<h2>{{projectOverview.project.title}}</h2>
 			</b-col>
 
-			<b-col class="text-right">
-					<b-dropdown style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
-						<template slot="button-content">
-							<b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px"/> Edit Project
-						</template>
+        <b-col v-if = "(projectOverview.project.isDone == false )" class="text-right">
+            <b-dropdown style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
+              <template slot="button-content">
+                <b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px"/> Edit Project
+              </template>
 
-						<template>
-							<div style="margin-right: 10px; margin-left: 10px">
-								<p> New Project's Title</p>
-								<b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
-								<p style="margin-top: 5px">New Project's Deadline</p>
-								<b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
-								<b-button variant="success" style="margin-top: 10px; width: 100%;">Save changes</b-button>
-							</div>
-						</template>
-					</b-dropdown>
-				</b-col>
+              <template>
+                <div style="margin-right: 10px; margin-left: 10px">
+                  <p> New Project's Title</p>
+                  <b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
+                  <p style="margin-top: 5px">New Project's Deadline</p>
+                  <b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
+                  <b-button variant="success" style="margin-top: 10px; width: 100%;">Save changes</b-button>
+                </div>
+              </template>
+            </b-dropdown>
+        </b-col>
 			</b-row>
         </b-col>
       </b-row>
@@ -38,13 +37,9 @@
       </b-row>
 
       <b-row style="background-color: #d1d7e0; margin-left: 1.2%; margin-right: 1.2%">
-      	<b-col>
-      		<p style="font-size: 110%"> Project's Progress </p>
-      		<b-progress :value="donePercentage" show-progress class="mb-3" style="margin-top:-2%; width: 98.3%"></b-progress>
-      	</b-col>
-      	<b-col>	      	
-			<p style="font-size: 130%; margin-top: 2%"> Days Remaining:  {{diffDays}}</p>
-		</b-col>
+        <b-col>
+			    <p style="font-size: 130%; margin-top: 2%"> Deadline Date: {{projectOverview.project.deadlineDate}}</p>
+		    </b-col>
       </b-row>
       <b-row>
         <div class="line">.</div>
@@ -53,7 +48,7 @@
       <b-row>
         <b-col>
 
-          <div style="height: 100%">
+          <div v-if = "(projectOverview.project.isDone == false )" style="height: 100%">
             <b-container fluid>
               <b-jumbotron>
                 <b-row style="margin-top: -5%">
@@ -64,23 +59,29 @@
                   <b-col>
                     <b-card title="TODO">
                       <p class="card-text">{{projectOverview.todo}}</p>
-                      <p class="card-text" style="color: red">Issues: {{projectOverview.todoIssues}}</p>
                     </b-card>
                   </b-col>
                   <b-col>
                     <b-card title="DOING">
                       <p class="card-text">{{projectOverview.doing}}</p>
-                      <p class="card-text" style="color: red">Issues: {{projectOverview.doingIssues}}</p>
                     </b-card>
                   </b-col>
                   <b-col>
                     <b-card title="DONE">
                       <p class="card-text">{{projectOverview.done}}</p>
-                      <p class="card-text" style="color: red">Issues: {{projectOverview.doneIssues}}</p>
                     </b-card>
                   </b-col>
                 </b-row>
-                <br><br><br>
+                <br>
+                <b-row>
+                  <b-col>
+                    <b-card no-body class="text-left">
+                      <p class="card-text" style="color: red">Issues: {{issues}}</p>
+                    </b-card>
+                  </b-col>
+                  <b-col></b-col>
+                </b-row>
+                <br>
                 <b-row>
                   <b-col>
                     <b-card no-body class="text-left">
@@ -89,7 +90,7 @@
                   </b-col>
                   <b-col></b-col>
                 </b-row>
-                <br><br><br>
+                <br><br>
                 <b-row style="padding-top:10px;">
                   <b-col class="text-left">
                     <h5>Progress</h5>
@@ -97,12 +98,26 @@
                 </b-row>
                 <b-progress :value="donePercentage" show-progress class="mb-3"></b-progress>
                 <br>
-                <b-button v-if="false" variant="primary">Go to Sprint Page</b-button>
-                <b-button v-else variant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}">Create new Sprint</b-button>
-
+                <div v-if= "( diffDays == -1)">
+                  <b-button variant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}"> Create new Sprint! </b-button>
+                </div>
+                <div v-else>
+                  <b-button variant="primary"> Go to Sprint Page </b-button>
+                </div>
               </b-jumbotron>
             </b-container>
           </div>
+          <div v-else style="height: 100%">
+            <b-container fluid>
+              <b-jumbotron>
+                <b-row>
+                  <p style="font-size: 180%; color: #264d73"> This Project has finished... Go back to Home Page to create a new one! </p>
+                </b-row>
+                <b-button variant="primary" href="#/"  style="margin-top: 10%"> Home Page </b-button>
+              </b-jumbotron>
+            </b-container>
+          </div>
+
         </b-col>
         <b-col>
 
@@ -127,7 +142,7 @@
               </b-list-group>
               <br>
               <template>
-                <div>
+                <div v-if = "(projectOverview.project.isDone == false )">
                   <b-form inline @submit="addMembers">
                     Add User &nbsp;
                     <b-form-group id="emailForm"
@@ -148,7 +163,7 @@
                                    :options="{ '1': 'Scrum Master', '2': 'Developer'}"
                                    v-model="newMember.role"
                                    id="inlineFormCustomSelectPref">
-                      <option slot="first" :value="null">Choose role</option>
+                      <option slot="first" :value="null"> </option>
                     </b-form-select>
                     <b-button type="submit" variant="primary" :disabled="validEmail===false" >Invite</b-button>
                   </b-form>
@@ -160,107 +175,6 @@
       </b-row>
 
     </b-container>
-  </div>
-  <div v-else>
-  	<b-container class="Navigation" fluid>
-
-      <navbar :dashboard="true"></navbar>
-      <!--<sidebar></sidebar>-->
-      <br>
-      <b-row>
-        <b-breadcrumb :items="items" style="position: relative;left: 41px;"/>
-      </b-row>
-      <b-row style="padding-top:10px; margin-bottom: -10px">
-        <b-col>
-        	<b-row>
-        		<b-col class="text-left">
-				<h2>{{projectOverview.project.title}}</h2>
-			</b-col>
-
-			<b-col class="text-right">
-					<b-dropdown style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
-						<template slot="button-content">
-							<b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px"/> Edit Project
-						</template>
-
-						<template>
-							<div style="margin-right: 10px; margin-left: 10px">
-								<p> New Project's Title</p>
-								<b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
-								<p style="margin-top: 5px">New Project's Deadline</p>
-								<b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
-								<b-button variant="success" style="margin-top: 10px; width: 100%;">Save changes</b-button>
-							</div>
-						</template>
-					</b-dropdown>
-				</b-col>
-			</b-row>
-        </b-col>
-      </b-row>
-      <b-row>
-        <div class="line">.</div>
-      </b-row>
-
-      <b-row style="background-color: #d1d7e0; margin-left: 1.2%; margin-right: 1.2%">
-      	<b-col>
-      		<p style="font-size: 110%"> Project's Progress </p>
-      		<b-progress :value="donePercentage" show-progress class="mb-3" style="margin-top:-2%; width: 98.3%"></b-progress>
-      	</b-col>
-      	<b-col>	      	
-			<p style="font-size: 130%; margin-top: 2%"> Days Remaining:  {{diffDays}}</p>
-		</b-col>
-      </b-row>
-      <b-row>
-        <div class="line">.</div>
-      </b-row>
-
-      <b-row>
-        <b-col>
-
-          <div style="height: 100%">
-            <b-container fluid>
-              <b-jumbotron>
-              	<b-row>
-              		<p style="font-size: 180%; color: #264d73"> This Project has finished. </p>
-              	</b-row>
-              	<b-row>
-              		<b-button variant="primary" style="margin-top: 10%"> Create New Project </b-button>
-              	</b-row>
-
-              </b-jumbotron>
-            </b-container>
-          </div>
-        </b-col>
-        <b-col>
-
-          <b-container fluid>
-            <b-jumbotron>
-              <b-row style="margin-top: -5%">
-                <h2>Team</h2>
-              </b-row>
-              <br>
-              <b-list-group v-for="teamMember in Team" v-bind:data="teamMember"
-                            v-bind:key="teamMember.mail">
-                <b-list-group-item class="flex-column align-items-start">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{teamMember.role}}</h5>
-                  </div>
-                  <p align="left">
-                    Name: {{teamMember.lastname}} {{teamMember.firstname}}
-                    <br>
-                    Email: {{teamMember.mail}}
-                  </p>
-                </b-list-group-item>
-              </b-list-group>
-
-            </b-jumbotron>
-          </b-container>
-        </b-col>
-      </b-row>
-
-    </b-container>
-  </div>
-
   </div>
 </template>
 
@@ -317,6 +231,7 @@
 
         validEmail: null,
         diffDays: 0,
+        issues: 0,
         Team: []
       }
     },
@@ -344,6 +259,7 @@
             self.items[1].text = self.projectOverview.project.title;
             var totalTasks = self.projectOverview.todo + self.projectOverview.doing + self.projectOverview.done;
             self.donePercentage = self.projectOverview.done / totalTasks * 100;
+            self.issues = projectOverview.todoIssues + projectOverview.doingIssues + projectOverview.doneIssues;
             self.calcDeadline ();
             console.log("Got the results");
           }
