@@ -10,7 +10,7 @@
                         <b-img style="width: 30%" v-on:click="gotoIndex" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
                     </b-col>
                     <b-col cols="8">
-                        <h1 align="center" style="font-family:cursive,Courier New;margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
+                        <h1 align="center" class="text-enhancement" style="margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
                     </b-col>
                     <b-col>
                         <button type="button" class="btn btn-primary" v-on:click="gotoSignIn">Log In</button>
@@ -22,13 +22,13 @@
                 </b-row>
                 <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
                     <b-col col lg="1">
-                        <a class="active" href="#home" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">home</a>
+                        <a class="active" href="#home" style="font-family:Courier New; color:white; font-style: italic;font-weight:450;" align="center">home</a>
                     </b-col>
                     <b-col col lg="1">
-                        <a href="#features" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">features</a>
+                        <a href="#features" style="font-family:Courier New; color:white; font-style: italic;font-weight:450;" align="center">features</a>
                     </b-col>
                     <b-col col lg="1">
-                        <a href="#about" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">about</a>
+                        <a href="#about" style="font-family:Courier New; color:white; font-style: italic;font-weight:450;" align="center">about</a>
                     </b-col>
                 </b-row>
 
@@ -119,7 +119,7 @@
             </b-container>
         </template>
 
-        <!--USER HOMEPAGE    -->
+        <!--USER HOMEPAGE-->
         <template v-else>
             <b-container class="Navigation" fluid>
 
@@ -176,7 +176,7 @@
                         <br>
                         <b-row>
                             <b-card-group v-for="done_project in doneProjects" :key="done_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-                                <b-card :title="done_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2">
+                                <b-card :title="done_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2" img-src="https://picsum.photos/600/300/?image=25" img-alt="Image">
                                     <p class="card-text">
                                         Deadline: {{done_project.deadlineDate}}
                                     </p>

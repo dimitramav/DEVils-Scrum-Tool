@@ -1,10 +1,12 @@
 <template>
   <div v-if = "(projectOverview.project.isDone == false )">
     <b-container class="Navigation" fluid>
+
       <navbar :dashboard="true"></navbar>
-      <b-breadcrumb :items="items" style="font-size:13px;padding-left:100px" />
+      <b-breadcrumb :items="items""/>
       <!--<sidebar></sidebar>-->
-     <b-row style="padding-top:10px;">
+      <br>
+      <b-row style="padding-top:10px; margin-bottom: -10px">
         <b-col>
         	<b-row>
         		<b-col class="text-left">
@@ -22,7 +24,7 @@
 								<p> New Project's Title</p>
 								<b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
 								<p style="margin-top: 5px">New Project's Deadline</p>
-								<b-form-input v-model="text1" type="text" placeholder=" New Deadline" style="margin-top: -10px"></b-form-input>
+								<b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
 								<b-button variant="success" style="margin-top: 10px; width: 100%;">Save changes</b-button>
 							</div>
 						</template>
@@ -35,14 +37,26 @@
         <div class="line">.</div>
       </b-row>
 
+      <b-row style="background-color: #d1d7e0; margin-left: 1.2%; margin-right: 1.2%">
+      	<b-col>
+      		<p style="font-size: 110%"> Project's Progress </p>
+      		<b-progress :value="donePercentage" show-progress class="mb-3" style="margin-top:-2%; width: 98.3%"></b-progress>
+      	</b-col>
+      	<b-col>	      	
+			<p style="font-size: 130%; margin-top: 2%"> Days Remaining:  {{diffDays}}</p>
+		</b-col>
+      </b-row>
+      <b-row>
+        <div class="line">.</div>
+      </b-row>
+
       <b-row>
         <b-col>
 
           <div style="height: 100%">
             <b-container fluid>
               <b-jumbotron>
-                <br>
-                <b-row>
+                <b-row style="margin-top: -5%">
                   <h2>Current sprint #{{projectOverview.currentSprintNum}}</h2>
                 </b-row>
                 <br>
@@ -50,33 +64,32 @@
                   <b-col>
                     <b-card title="TODO">
                       <p class="card-text">{{projectOverview.todo}}</p>
+                      <p class="card-text" style="color: red">Issues: {{projectOverview.todoIssues}}</p>
                     </b-card>
                   </b-col>
                   <b-col>
                     <b-card title="DOING">
                       <p class="card-text">{{projectOverview.doing}}</p>
+                      <p class="card-text" style="color: red">Issues: {{projectOverview.doingIssues}}</p>
                     </b-card>
                   </b-col>
                   <b-col>
                     <b-card title="DONE">
                       <p class="card-text">{{projectOverview.done}}</p>
+                      <p class="card-text" style="color: red">Issues: {{projectOverview.doneIssues}}</p>
                     </b-card>
                   </b-col>
                 </b-row>
-                <br><br>
+                <br><br><br>
                 <b-row>
                   <b-col>
-                    <b-card no-body class="text-left">
-                      <p class="card-text" style="color: #ff0000">Issues:  {{projectOverview.issues}} </p>
-                    </b-card>
-                    <br>
                     <b-card no-body class="text-left">
                       <p class="card-text">Days Remaining:  {{diffDays}}</p>
                     </b-card>
                   </b-col>
                   <b-col></b-col>
                 </b-row>
-                <br>
+                <br><br><br>
                 <b-row style="padding-top:10px;">
                   <b-col class="text-left">
                     <h5>Progress</h5>
@@ -86,7 +99,6 @@
                 <br>
                 <b-button v-if="false" variant="primary">Go to Sprint Page</b-button>
                 <b-button v-else variant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}">Create new Sprint</b-button>
-                <br><br>
 
               </b-jumbotron>
             </b-container>
@@ -96,8 +108,7 @@
 
           <b-container fluid>
             <b-jumbotron>
-              <br>
-              <b-row>
+              <b-row style="margin-top: -5%">
                 <h2>Team</h2>
               </b-row>
               <br>
@@ -143,8 +154,6 @@
                   </b-form>
                 </div>
               </template>
-              <br><br>
-
             </b-jumbotron>
           </b-container>
         </b-col>
@@ -153,7 +162,105 @@
     </b-container>
   </div>
   <div v-else>
-    finished! under construction!
+  	<b-container class="Navigation" fluid>
+
+      <navbar :dashboard="true"></navbar>
+      <!--<sidebar></sidebar>-->
+      <br>
+      <b-row>
+        <b-breadcrumb :items="items" style="position: relative;left: 41px;"/>
+      </b-row>
+      <b-row style="padding-top:10px; margin-bottom: -10px">
+        <b-col>
+        	<b-row>
+        		<b-col class="text-left">
+				<h2>{{projectOverview.project.title}}</h2>
+			</b-col>
+
+			<b-col class="text-right">
+					<b-dropdown style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
+						<template slot="button-content">
+							<b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px"/> Edit Project
+						</template>
+
+						<template>
+							<div style="margin-right: 10px; margin-left: 10px">
+								<p> New Project's Title</p>
+								<b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
+								<p style="margin-top: 5px">New Project's Deadline</p>
+								<b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
+								<b-button variant="success" style="margin-top: 10px; width: 100%;">Save changes</b-button>
+							</div>
+						</template>
+					</b-dropdown>
+				</b-col>
+			</b-row>
+        </b-col>
+      </b-row>
+      <b-row>
+        <div class="line">.</div>
+      </b-row>
+
+      <b-row style="background-color: #d1d7e0; margin-left: 1.2%; margin-right: 1.2%">
+      	<b-col>
+      		<p style="font-size: 110%"> Project's Progress </p>
+      		<b-progress :value="donePercentage" show-progress class="mb-3" style="margin-top:-2%; width: 98.3%"></b-progress>
+      	</b-col>
+      	<b-col>	      	
+			<p style="font-size: 130%; margin-top: 2%"> Days Remaining:  {{diffDays}}</p>
+		</b-col>
+      </b-row>
+      <b-row>
+        <div class="line">.</div>
+      </b-row>
+
+      <b-row>
+        <b-col>
+
+          <div style="height: 100%">
+            <b-container fluid>
+              <b-jumbotron>
+              	<b-row>
+              		<p style="font-size: 180%; color: #264d73"> This Project has finished. </p>
+              	</b-row>
+              	<b-row>
+              		<b-button variant="primary" style="margin-top: 10%"> Create New Project </b-button>
+              	</b-row>
+
+              </b-jumbotron>
+            </b-container>
+          </div>
+        </b-col>
+        <b-col>
+
+          <b-container fluid>
+            <b-jumbotron>
+              <b-row style="margin-top: -5%">
+                <h2>Team</h2>
+              </b-row>
+              <br>
+              <b-list-group v-for="teamMember in Team" v-bind:data="teamMember"
+                            v-bind:key="teamMember.mail">
+                <b-list-group-item class="flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{teamMember.role}}</h5>
+                  </div>
+                  <p align="left">
+                    Name: {{teamMember.lastname}} {{teamMember.firstname}}
+                    <br>
+                    Email: {{teamMember.mail}}
+                  </p>
+                </b-list-group-item>
+              </b-list-group>
+
+            </b-jumbotron>
+          </b-container>
+        </b-col>
+      </b-row>
+
+    </b-container>
+  </div>
+
   </div>
 </template>
 
@@ -186,8 +293,7 @@
           done: 0,
           todoIssues: 0,
           doingIssues: 0,
-          doneIssues: 0,
-          issues: 0
+          doneIssues: 0
         },
 
         donePercentage: 0,
@@ -210,7 +316,7 @@
         },
 
         validEmail: null,
-        diffDays: -1,
+        diffDays: 0,
         Team: []
       }
     },
@@ -238,7 +344,6 @@
             self.items[1].text = self.projectOverview.project.title;
             var totalTasks = self.projectOverview.todo + self.projectOverview.doing + self.projectOverview.done;
             self.donePercentage = self.projectOverview.done / totalTasks * 100;
-            self.projectOverview.issues = self.projectOverview.todoIssues + self.projectOverview.doingIssues + self.projectOverview.doneIssues;
             self.calcDeadline ();
             console.log("Got the results");
           }
@@ -258,7 +363,7 @@
         var oneDay = 24*60*60*1000;
         self.diffDays=Math.floor(Math.abs((today.getTime() - jsDate.getTime())/(oneDay)));
         // Check the days interval
-        self.diffDays += 2
+        //self.diffDays += 2
       },
 
       getMembers () {
@@ -369,8 +474,10 @@
     font-size: 1px;
     line-height: 2px;
     background-color: lavender;
-    margin-top: -6px;
-    margin-bottom: 10px;
+    margin-top: 9px;
+    margin-bottom: 9px;
+    margin-left: 1.2%;
+    margin-right: 1.2%;
   }
 
   .row {
