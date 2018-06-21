@@ -2,11 +2,12 @@
   <b-col class="text-right">
     <b-button @click="openModal()">Edit</b-button>
     <b-modal v-model="modalShow" title="Update Epic" @ok="updateEpic()">
-      <div class="text-left" id="updateEpic1">
+      <div class="text-left" id="updateEpic">
         <b-form>
           <b-form-group
             label="Title:">
-            <b-form-input type="text"
+            <b-form-input :id="'title'+idPBI"
+                          type="text"
                           v-model="updateEpic_form.title"
                           required>
             </b-form-input>
@@ -20,7 +21,7 @@
           </b-form-group>
 
           <b-form-group label="Priority:">
-            <b-form-radio-group :id="'radios'+idPBI" v-model="updateEpic_form.selected" :options="options" name="radioOpenions2">
+            <b-form-radio-group :id="'radios'+idPBI" v-model="updateEpic_form.selected" :options="options">
             </b-form-radio-group>
           </b-form-group>
 

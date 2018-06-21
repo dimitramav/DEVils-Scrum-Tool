@@ -17,7 +17,7 @@
                 <b-form-input id="newEpicDescription" placeholder="New Epic's Description" v-model="newEpic_form.desc" required></b-form-input>
 
                 <b-form-group label="Priority">
-                  <b-form-radio-group id="radios1" v-model="newEpic_form.selected" :options="options" name="radioOpenions">
+                  <b-form-radio-group id="new_epic_radio" v-model="newEpic_form.selected" :options="options" name="radioOpenions">
                   </b-form-radio-group>
                 </b-form-group>
 
@@ -38,7 +38,7 @@
                 </b-col>
 
 
-                <!--EDIT EPIC-->
+                <!--EDIT EPIC aaaaaaaaaaaaaaaaaaaaaaaaaaa-->
                 <edit_epic v-on:edit_epic="editEpic" :idPBI="cur_pbi.idPBI" :idProject="currentProject_id"></edit_epic>
                 <!--<b-col class="text-right">-->
                   <!--<b-button @click="modalshow = !modalShow">Edit</b-button>-->
