@@ -9,27 +9,27 @@
         <b-col>
         	<b-row>
         		<b-col class="text-left">
-				<h2>{{projectOverview.project.title}}</h2>
-			</b-col>
+				      <h2>{{projectOverview.project.title}}</h2>
+			      </b-col>
 
-        <b-col v-if = "(projectOverview.project.isDone == false )" class="text-right">
-            <b-dropdown style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
-              <template slot="button-content">
-                <b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px"/> Edit Project
-              </template>
+            <b-col v-if = "(projectOverview.project.isDone == false )" class="text-right">
+              <b-dropdown style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
+                <template slot="button-content">
+                  <b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px"/> Edit Project
+                </template>
 
-              <template>
-                <div style="margin-right: 10px; margin-left: 10px">
-                  <p> New Project's Title</p>
-                  <b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
-                  <p style="margin-top: 5px">New Project's Deadline</p>
-                  <b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
-                  <b-button variant="success" style="margin-top: 10px; width: 100%;">Save changes</b-button>
-                </div>
-              </template>
-            </b-dropdown>
-        </b-col>
-			</b-row>
+                <template>
+                  <div style="margin-right: 10px; margin-left: 10px">
+                    <p> New Project's Title</p>
+                    <b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
+                    <p style="margin-top: 5px">New Project's Deadline</p>
+                    <b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
+                    <b-button variant="success" style="margin-top: 10px; width: 100%;">Save changes</b-button>
+                  </div>
+                </template>
+              </b-dropdown>
+            </b-col>
+          </b-row>
         </b-col>
       </b-row>
       <b-row>
@@ -232,7 +232,8 @@
         validEmail: null,
         diffDays: 0,
         issues: 0,
-        Team: []
+        Team: [],
+        text1: null
       }
     },
 
@@ -259,7 +260,7 @@
             self.items[1].text = self.projectOverview.project.title;
             var totalTasks = self.projectOverview.todo + self.projectOverview.doing + self.projectOverview.done;
             self.donePercentage = self.projectOverview.done / totalTasks * 100;
-            self.issues = projectOverview.todoIssues + projectOverview.doingIssues + projectOverview.doneIssues;
+            self.issues = self.projectOverview.todoIssues + self.projectOverview.doingIssues + self.projectOverview.doneIssues;
             self.calcDeadline ();
             console.log("Got the results");
           }
@@ -275,7 +276,7 @@
         var dd = today.getDate();
         var mm = today.getMonth()+1;
         var yyyy = today.getFullYear();
-        var jsDate=new Date (Date.parse(self.projectOverview.currentSprintExpDate.replace ('-', '/', 'g')));
+        var jsDate=new Date(Date.parse(self.projectOverview.currentSprintExpDate.replace ('-', '/', 'g')));
         var oneDay = 24*60*60*1000;
         self.diffDays=Math.floor(Math.abs((today.getTime() - jsDate.getTime())/(oneDay)));
         // Check the days interval
