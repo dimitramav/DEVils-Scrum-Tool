@@ -77,7 +77,7 @@
           <!--<div v-show="loggedin_userId===userInfos.idUser">-->
             <!--<b-button @click="EnableEditing">Edit Information</b-button>-->
           <!--</div>-->
-          <b-button type="submit">Submit changes</b-button>
+          <b-button variant="success" size="lg" type="submit">Submit changes</b-button>
         </b-form>
 
       </b-col>
@@ -117,7 +117,7 @@
         //same: false,
       }
     },
-    
+
     methods: {
       /*
       userIsOwner(){
