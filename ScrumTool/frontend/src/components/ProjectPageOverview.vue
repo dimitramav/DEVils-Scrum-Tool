@@ -11,13 +11,12 @@
         		<b-col class="text-left">
 				      <h2>{{projectOverview.project.title}}</h2>
 			      </b-col>
-
+            <b-col></b-col><b-col></b-col><b-col></b-col><b-col></b-col>
             <b-col v-if = "(projectOverview.project.isDone == false )" class="text-right">
               <b-dropdown style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
                 <template slot="button-content">
                   <b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px"/> Edit Project
                 </template>
-
                 <template>
                   <div style="margin-right: 10px; margin-left: 10px">
                     <p> New Project's Title</p>
@@ -29,6 +28,7 @@
                 </template>
               </b-dropdown>
             </b-col>
+            <b-col></b-col>
           </b-row>
         </b-col>
       </b-row>
@@ -276,9 +276,18 @@
         var dd = today.getDate();
         var mm = today.getMonth()+1;
         var yyyy = today.getFullYear();
-        var jsDate=new Date(Date.parse(self.projectOverview.currentSprintExpDate.replace ('-', '/', 'g')));
+        //console.log("-------");
+        //console.log("current date");
+        //console.log(today);
+        //console.log("-------");
+        //console.log("sprint date");
+        //console.log(self.projectOverview.currentSprintExpDate);
+        var d = new Date(self.projectOverview.currentSprintExpDate);
+        //console.log("-------");
+        //console.log(d);
+        //var jsDate=new Date(Date.parse(self.projectOverview.currentSprintExpDate.replace ('-', '/', 'g')));
         var oneDay = 24*60*60*1000;
-        self.diffDays=Math.floor(Math.abs((today.getTime() - jsDate.getTime())/(oneDay)));
+        self.diffDays=Math.floor(Math.abs((today.getTime() - d.getTime())/(oneDay)));
         // Check the days interval
         //self.diffDays += 2
       },
