@@ -39,7 +39,7 @@
 
 
                 <!--EDIT EPIC-->
-                <edit_epic v-on:edit_epic="editEpic" :idPBI="cur_pbi.idPBI" :idProject="currentProject_id"></edit_epic>
+                <edit_pbi v-on:edit_epic="editEpic" :idPBI="cur_pbi.idPBI" :epicId="cur_pbi.idPBI" :idProject="currentProject_id" :title="cur_pbi.title" :desc="cur_pbi.description" :priority="cur_pbi.priority"></edit_pbi>
               </b-row>
             </div>
             <p class=" card-text"> {{cur_pbi.description}} </p>
@@ -107,40 +107,8 @@
                         </p>
                       </b-card-body>
 
-                      <!--EDIT USER STORY-->
+                      <edit_pbi v-on:edit_epic="editStory" :epicId="cur_pbi.idPBI" :idPBI="cur_us.idPBI" :idProject="currentProject_id" :title="cur_us.title" :desc="cur_us.description" :priority="cur_us.priority"></edit_pbi>
 
-                      <div class="text-right">
-                        <b-btn v-b-modal="'modal_story'+cur_us.idPBI">Edit</b-btn>
-                      </div>
-                      <b-modal :id="'modal_story'+cur_us.idPBI" title="Update User Story" v-on:click="temp" @ok="updateStory(cur_us.idPBI,cur_us.Epic_id)">
-                        <div class="text-left" :id="'updateStory1'+cur_us.idPBI">
-                          <b-form>
-                            <b-form-group
-                              :label="'Title:' + cur_us.idPBI"
-                              :label-for="'updateStoryTitle'+cur_us.idPBI">
-                              <b-form-input :id="'updateStoryTitle'+cur_us.idPBI"
-                                            type="text"
-                                            v-bind:value="cur_us.title"
-                                            v-on:input="say('hello!', $event)"
-                                            required>
-                              </b-form-input>
-                            </b-form-group>
-                            <b-form-group :id="'updateStory2'+cur_us.idPBI"
-                                          label="Description:"
-                                          :label-for="'updateStoryDesc'+cur_us.idPBI">
-                              <b-form-input :id="'updateStoryDesc'+cur_us.idPBI"
-                                            type="text"
-                                            v-bind:value="cur_us.description"
-                                            required>
-                              </b-form-input>
-                            </b-form-group>
-                            <b-form-group label="Priority">
-                              <b-form-radio-group :id="'edit_story_radio'+cur_us.idPBI" v-model="updateStory_form.priority" :options="options">
-                              </b-form-radio-group>
-                            </b-form-group>
-                          </b-form>
-                        </div>
-                      </b-modal>
 
                     </b-collapse>
                   </b-card>
@@ -163,11 +131,11 @@
 
 <script>import axios from 'axios'
 import Navbar from "./Navbar.vue"
-import EditEpic from "./EditEpic.vue"
+import EditPBI from "./EditPBI.vue"
 export default {
   components: {
     navbar: Navbar,
-    edit_epic: EditEpic,
+    edit_pbi: EditPBI,
   },
   data() {
     return {
@@ -201,9 +169,6 @@ export default {
     }
   },
   methods: {
-    temp() {
-      console.log('mphka');
-    },
     getPBIS() {
       //evt.preventDefault();
       const self = this;
@@ -230,13 +195,6 @@ export default {
         .catch(function (error) {
           console.log(error);
         })
-    },
-
-    say(str, evt) {
-      this.updateStory_form.title=evt;
-      console.log(this.updateStory_form.title);
-      //console.log(evt);
-      //console.log(str, evt);
     },
 
     newEpic (evt) {
@@ -274,12 +232,21 @@ export default {
 
 
     editEpic (idPBI, title, desc, priority) {
-      console.log('mphka sthn synartisi, tittle = ' + idPBI + title + desc, priority);
+      //console.log('mphka sthn synartisi, tittle = ' + idPBI + title + desc, priority);
       let i = this.currentPbis.findIndex(o => o.idPBI === idPBI);
-      console.log(i);
+      //console.log(i);
       this.currentPbis[i].title=title;
       this.currentPbis[i].description=desc;
       this.currentPbis[i].priority=priority;
+    },
+
+    editStory(idPBI, title, desc, priority, epicId) {
+      //console.log (v1, v2, v3, v4, v5);
+      let i = this.currentUserStories[epicId].findIndex(o => o.idPBI === idPBI);
+
+      this.currentUserStories[epicId][i].title=title;
+      this.currentUserStories[epicId][i].description=desc;
+      this.currentUserStories[epicId][i].priority=priority;
     },
 
     getEpicUserStories(epicId) {
@@ -332,38 +299,6 @@ export default {
         })
     },
 
-    updateStory(current_id,current_epicId) {
-      const self = this;
-      let config = {
-        headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
-      };
-      let data = {
-        title: this.updateStory_form.title,
-        description: this.updateStory_form.desc,
-        priority: this.priorityToNumber(this.updateStory_form.selected),
-        Project_id: this.currentProject_id,
-        idPBI: current_id,
-        Epic_id: current_epicId,
-      };
-      axios.put(this.$url +'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=false' , data, config)
-        .then(function (response) {
-          if (response.data.error) {
-            if (response.data.error === "Unauthorized user") console.log("Unauthorized user");
-            else if (response.data.error === "Unauthorized projects") console.log("Unauthorized projects");
-            else if (response.data.error === "null") console.log("Null token");
-            else console.log(error);
-          }
-          if (response.data.results) {
-            response.data.results.priority = self.priorityToString(response.data.results.priority);
-            let epic=response.data.results.Epic_id;
-            let i = self.currentUserStories[epic].findIndex(o => o.idPBI === response.data.results.idPBI);
-            console.log(response.data.results);
-            //self.currentUserStories[epic] = self.currentUserStories[current_epicId].filter(el => el.idPBI !== self.current_id);
-            self.$set(self.currentUserStories[epic], i, response.data.results);
-            //TODO: isws na kleinw to card gia na ananewnetai
-          }
-        })
-    },
     priorityToNumber(priority) {
       let num_priority;
       switch(priority) {
