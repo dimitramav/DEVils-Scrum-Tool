@@ -29,6 +29,7 @@
               </b-dropdown>
             </b-col>
             <b-col></b-col>
+            <br><br>
           </b-row>
         </b-col>
       </b-row>

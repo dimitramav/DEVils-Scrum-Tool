@@ -36,7 +36,7 @@
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
-        
+
         <b-navbar v-if="dashboard" toggleable="md" class="navbar navbar-expand-lg navbar-static-top subnav" variant="primary" type="dark" fluid>
             <b-navbar-toggle target="subnav_collapse"></b-navbar-toggle>
             <b-collapse is-nav id="subnav_collapse">
@@ -89,7 +89,7 @@
         top: 0;
         left: 0;
     }
-    
+
     .line {
         width: 99%;
         font-size: 1px;
@@ -98,19 +98,19 @@
         margin-top: -6px;
         margin-bottom: 10px;
     }
-    
+
     .container-fluid {
         padding-right: 0;
         padding-left: 0;
     }
-    
+
     .text-enhancement {
         font-family: 'Merienda', cursive;
         padding-left: 15px;
         font-size: 24px;
         color: white;
     }
-    
+
     .text-enhancement2 {
         font-family: 'Shrikhand', cursive;
         font-size: 15px;
@@ -120,12 +120,15 @@
     .subnav {
         background-color: #486170!important;
     }
-    
+
     .navbar {
         min-height: 20px;
         max-height: 500px;
+        padding-top: 10px;
+        padding-bottom: 2px;
+        line-height: 2px;
     }
-    
+
     .navbar-toggle {
         /* (80px - button height 34px) / 2 = 23px */
         margin-top: 23px;
