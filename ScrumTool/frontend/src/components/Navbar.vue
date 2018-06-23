@@ -15,8 +15,8 @@
                     <b-nav-item-dropdown right>
                         <template slot="button-content">
                             <em>
-                <img src="https://support.rocketchatlauncher.com/wp-content/uploads/2017/03/bell.png" style="width:20px;">
-              </em>
+                                <img src="https://support.rocketchatlauncher.com/wp-content/uploads/2017/03/bell.png" style="width:20px;">
+                            </em>
                         </template>
                         <b-dropdown-item href="#">#Notification 1</b-dropdown-item>
                         <b-dropdown-item href="#">#Notification 2</b-dropdown-item>
@@ -27,8 +27,8 @@
                     <b-nav-item-dropdown right>
                         <template slot="button-content">
                             <em>
-                <img src="https://www.mindvoize.com/images/userImage.png" style="width:23px; position: relative; bottom: 0.5px">
-              </em>
+                                <img src="https://www.mindvoize.com/images/userImage.png" style="width:23px; position: relative; bottom: 0.5px">
+                            </em>
                         </template>
                         <b-dropdown-item v-on:click="profile">Profile</b-dropdown-item>
                         <b-dropdown-item-button v-on:click="logout">Sign out</b-dropdown-item-button>
@@ -36,13 +36,17 @@
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
-
+        
         <b-navbar v-if="dashboard" toggleable="md" class="navbar navbar-expand-lg navbar-static-top subnav" variant="primary" type="dark" fluid>
             <b-navbar-toggle target="subnav_collapse"></b-navbar-toggle>
             <b-collapse is-nav id="subnav_collapse">
                 <b-navbar-nav style="padding-left: 15px;">
-                    <b-nav-item :to="{name: 'ProjectPageOverview', params: {id:$route.params.id}}">Overview</b-nav-item>
-                    <b-nav-item :to="{name: 'Backlog', params: {id:$route.params.id}}">Backlog</b-nav-item>
+                    <b-nav-item :to="{name: 'ProjectPageOverview', params: {id:$route.params.id}}">
+                        <p class="text-enhancement2"> Overview </p>
+                    </b-nav-item>
+                    <b-nav-item :to="{name: 'Backlog', params: {id:$route.params.id}}">
+                        <p class="text-enhancement2"> Backlog </p>
+                    </b-nav-item>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
@@ -78,6 +82,8 @@
 </script>
 
 <style scoped>
+    @import url('https://fonts.googleapis.com/css?family=Merienda');
+    @import url('https://fonts.googleapis.com/css?family=Shrikhand');
     .Navigation {
         position: absolute;
         top: 0;
@@ -105,14 +111,19 @@
         color: white;
     }
     
+    .text-enhancement2 {
+        font-family: 'Shrikhand', cursive;
+        font-size: 15px;
+        color: white;
+    }
+
     .subnav {
-        max-height: 30px !important;
-        background-color: grey !important;
+        background-color: #486170!important;
     }
     
     .navbar {
         min-height: 20px;
-        max-height: 55px;
+        max-height: 500px;
     }
     
     .navbar-toggle {
