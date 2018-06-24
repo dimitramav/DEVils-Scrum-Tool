@@ -119,14 +119,14 @@
 
     .subnav {
         background-color: #486170!important;
+        padding-top: 10px;
+        padding-bottom: 2px;
+        line-height: 2px;
     }
 
     .navbar {
         min-height: 20px;
         max-height: 500px;
-        padding-top: 10px;
-        padding-bottom: 2px;
-        line-height: 2px;
     }
 
     .navbar-toggle {
