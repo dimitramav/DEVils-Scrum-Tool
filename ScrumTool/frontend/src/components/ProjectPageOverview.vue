@@ -85,9 +85,11 @@
                 <br>
                 <b-row>
                   <b-col>
-                    <b-card no-body class="text-left">
-                      <p class="card-text">Days Remaining:  {{diffDays}}</p>
-                    </b-card>
+                    <div v-if= "( diffDays > -1)">
+                      <b-card no-body class="text-left">
+                        <p class="card-text">Days Remaining:  {{diffDays}}</p>
+                      </b-card>
+                    </div>
                   </b-col>
                   <b-col></b-col>
                 </b-row>
@@ -99,7 +101,7 @@
                 </b-row>
                 <b-progress :value="donePercentage" show-progress class="mb-3"></b-progress>
                 <br>
-                <div v-if= "( diffDays == -1)">
+                <div v-if= "( diffDays < 0)">
                   <b-button variant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}"> Create new Sprint! </b-button>
                 </div>
                 <div v-else>
@@ -288,7 +290,7 @@
         //console.log(d);
         //var jsDate=new Date(Date.parse(self.projectOverview.currentSprintExpDate.replace ('-', '/', 'g')));
         var oneDay = 24*60*60*1000;
-        self.diffDays=Math.floor(Math.abs((today.getTime() - d.getTime())/(oneDay)));
+        self.diffDays=Math.floor((d.getTime() - today.getTime())/(oneDay));
         // Check the days interval
         //self.diffDays += 2
       },
