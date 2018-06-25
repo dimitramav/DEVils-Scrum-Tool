@@ -22,13 +22,13 @@
                 </b-row>
                 <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
                     <b-col col lg="1">
-                        <a class="active" href="#home" style="font-family:Courier New; color:white; font-style: italic;font-weight:450;" align="center">home</a>
+                        <a class="active" href="#home" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;font-weight:450;" align="center">home</a>
                     </b-col>
                     <b-col col lg="1">
-                        <a href="#features" style="font-family:Courier New; color:white; font-style: italic;font-weight:450;" align="center">features</a>
+                        <a href="#features" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;font-weight:450;" align="center">features</a>
                     </b-col>
                     <b-col col lg="1">
-                        <a href="#about" style="font-family:Courier New; color:white; font-style: italic;font-weight:450;" align="center">about</a>
+                        <a href="#about" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;font-weight:450;" align="center">about</a>
                     </b-col>
                 </b-row>
 
@@ -95,23 +95,26 @@
                     </b-row>
 
                     <b-container class="bottom" style="background-color:#2d2d2d;" fluid>
+                        <b-row>
+                            <p></p>
+                        </b-row>
                         <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
                             <b-col col lg="1">
-                                <a class="active" href="#home" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">home</a>
+                                <a class="active" href="#home" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;font-weight:450;" align="center">home</a>
                             </b-col>
                             <b-col col lg="1">
-                                <a href="#features" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">features</a>
+                                <a href="#features" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;font-weight:450;" align="center">features</a>
                             </b-col>
                             <b-col col lg="1">
-                                <a href="#about" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">about</a>
+                                <a href="#about" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;font-weight:450;" align="center">about</a>
                             </b-col>
                         </b-row>
                         <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
                             <b-col col lg="2">
-                                <a class="active" href="#home" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold;" align="center"> terms of use</a>
+                                <a class="active" href="#home" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;" align="right"> terms of use</a>
                             </b-col>
                             <b-col col lg="2">
-                                <a href="#features" style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">privacy policy</a>
+                                <a href="#features" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;" align="center">privacy policy</a>
                             </b-col>
                         </b-row>
                     </b-container>
@@ -377,7 +380,7 @@
     
     .bottom {
         position: absolute;
-        left: 0%;
+        left:-5px;
         width: 100%;
     }
     
