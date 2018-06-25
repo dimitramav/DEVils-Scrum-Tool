@@ -115,11 +115,13 @@
         font-family: 'Shrikhand', cursive;
         font-size: 15px;
         color: white;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
     .subnav {
         background-color: #486170!important;
-        padding-top: 10px;
+        padding-top: 4px;
         padding-bottom: 2px;
         line-height: 2px;
     }

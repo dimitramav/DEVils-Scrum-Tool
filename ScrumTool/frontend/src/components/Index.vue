@@ -18,7 +18,7 @@
                     </b-col>
                 </b-row>
                 <b-row align-h="center">
-                    <p style="font-family:Courier New; color:white; font-style: italic;font-weight:bold" align="center">Be agile together! </p>
+                    <p  class="text-enhancement" style="color:white; font-style: italic;font-weight:normal;" align="center">Be agile together! </p>
                 </b-row>
                 <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
                     <b-col col lg="1">
@@ -49,7 +49,7 @@
                     </b-row>
                     <b-row>
                         <b-col>
-                            <b-list-group style="text-align:center; font-weight: normal;font-family:cursive;color:#2d2d2d;">
+                            <b-list-group class="text-enhancement" style="text-align:center; font-weight: normal;color:#2d2d2d;">
                                 <b-list-group-item>Implement scrum methodology</b-list-group-item>
                                 <b-list-group-item>Free of charge forever</b-list-group-item>
                                 <b-list-group-item>Variety of tools to choose by</b-list-group-item>
@@ -341,7 +341,7 @@
     .Home {
         position: absolute;
         background-color: #fafaff;
-        width: 100vw;
+        width: 100%;
         left: 0;
     }
     
@@ -416,7 +416,7 @@
         padding-right: 0;
         padding-left: 0;
     }
-    
+
     .text-enhancement {
         font-family: 'Merienda', cursive;
     }
