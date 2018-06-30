@@ -2,10 +2,8 @@
   <b-container class="Navigation" fluid>
 
     <navbar :dashboard="false"></navbar>
+    <b-breadcrumb :items="items"> </b-breadcrumb>
     <br>
-    <b-row>
-      <b-breadcrumb :items="items" style="position: relative;left: 41px;"> </b-breadcrumb>
-    </b-row>
     <!--User Infos-->
     <b-row>
       <b-col>
@@ -79,13 +77,16 @@
           <!--<div v-show="loggedin_userId===userInfos.idUser">-->
             <!--<b-button @click="EnableEditing">Edit Information</b-button>-->
           <!--</div>-->
-          <b-button type="submit">Submit changes</b-button>
+          <b-button variant="success" size="lg" type="submit">Submit changes</b-button>
         </b-form>
 
       </b-col>
 
       <b-col>
       </b-col>
+    </b-row>
+    <b-row>
+      <p></p>
     </b-row>
   </b-container>
 </template>
@@ -116,7 +117,7 @@
         //same: false,
       }
     },
-    
+
     methods: {
       /*
       userIsOwner(){
