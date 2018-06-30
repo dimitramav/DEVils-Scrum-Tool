@@ -50,9 +50,7 @@
               <b-modal :id="'new_story'+cur_pbi.idPBI" title="Add User Story" @ok="newStory(cur_pbi.idPBI,$event)">
                 <div class="text-left" :id="'new_story'+cur_pbi.idPBI">
                   <b-form>
-                    <b-form-group
-                      label="Title:"
-                      :label-for="'addStoryTitle'+cur_pbi.idPBI">
+                    <b-form-group label="Title:" :label-for="'addStoryTitle'+cur_pbi.idPBI">
                       <b-form-input :id="'addStoryTitle'+cur_pbi.idPBI"
                                     type="text"
                                     v-model="newStory_form.title"
@@ -86,33 +84,35 @@
             </div>
             <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2">
               <div>
-                <b-card-group v-for="cur_us in currentUserStories[cur_pbi.idPBI]" :key="cur_us.idPBI" deck
-                              style="margin: 0 auto;float: none;margin-bottom: 10px;">
-                  <b-card class="mb-1">
-                    <b-card-header header-tag="header" class="p-1" role="tab">
-                      <b-btn block href="#" v-b-toggle="'collapse'+cur_us.idPBI" variant="info">{{cur_us.title}}
-                      </b-btn>
-                    </b-card-header>
-                    <b-collapse :id="'collapse'+cur_us.idPBI" visible accordion="my-accordion" role="tabpanel">
-                      <b-card-body>
-                        <p class="card-text">
-                          <b-row>
-                            {{cur_us.description}}
-                          </b-row>
-                        </p>
-                        <p class="card-text">
-                          <b-row>
-                            <i class="text-muted">{{cur_us.priority}}</i>
-                          </b-row>
-                        </p>
-                      </b-card-body>
+                <draggable v-model="currentUserStories" @change="onMove" :options="{group:'people'}">
 
-                      <edit_pbi v-on:edit_epic="editStory" :epicId="cur_pbi.idPBI" :idPBI="cur_us.idPBI" :idProject="currentProject_id" :title="cur_us.title" :desc="cur_us.description" :priority="cur_us.priority"></edit_pbi>
+                  <b-card-group v-for="cur_us in currentUserStories" :key="cur_us.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
+                    <b-card v-if="cur_us.Epic_id===cur_pbi.idPBI" class="mb-1">
+                      <b-card-header header-tag="header" class="p-1" role="tab">
+                        <b-btn block href="#" v-b-toggle="'collapse'+cur_us.idPBI" variant="info">{{cur_us.title}}
+                        </b-btn>
+                      </b-card-header>
+                      <b-collapse :id="'collapse'+cur_us.idPBI" visible accordion="my-accordion" role="tabpanel">
+                        <b-card-body>
+                          <p class="card-text">
+                            <b-row>
+                              {{cur_us.description}}
+                            </b-row>
+                          </p>
+                          <p class="card-text">
+                            <b-row>
+                              <i class="text-muted">{{cur_us.priority}}</i>
+                            </b-row>
+                          </p>
+                        </b-card-body>
+
+                        <edit_pbi v-on:edit_epic="editStory" :epicId="cur_pbi.idPBI" :idPBI="cur_us.idPBI" :idProject="currentProject_id" :title="cur_us.title" :desc="cur_us.description" :priority="cur_us.priority"></edit_pbi>
 
 
-                    </b-collapse>
-                  </b-card>
-                </b-card-group>
+                      </b-collapse>
+                    </b-card>
+                  </b-card-group>
+                </draggable>
               </div>
             </b-collapse>
 
@@ -132,10 +132,12 @@
 <script>import axios from 'axios'
 import Navbar from "./Navbar.vue"
 import EditPBI from "./EditPBI.vue"
+import draggable from 'vuedraggable'
 export default {
   components: {
     navbar: Navbar,
     edit_pbi: EditPBI,
+    draggable,
   },
   data() {
     return {
@@ -147,11 +149,7 @@ export default {
       newStory_form:{
         title:'',
         desc:'',
-      },
-      updateStory_form:{
-        title:'',
-        desc:'',
-        priority: '',
+        selected: '',
       },
 
       options: [
@@ -165,10 +163,26 @@ export default {
       something: 'high',
 
       currentPbis: [],
-      currentUserStories: [[],[]],
+      currentUserStories: [],
+      loadedStory: [],
     }
   },
   methods: {
+
+    onMove(something){
+      if (something.added) {
+        console.log(something);
+        console.log(this.currentUserStories);
+        console.log(this.currentUserStories[something.added.newIndex].Epic_id);
+
+        let temp = something;
+        temp.added.element.Epic_id = this.currentUserStories[something.added.newIndex].Epic_id;
+        console.log(temp);
+        this.currentUserStories.push(temp.added.element);
+      }
+      //something.added.element.Epic_id = this.currentUserStories[something.added.newIndex].Epic_id;
+    },
+
     getPBIS() {
       //evt.preventDefault();
       const self = this;
@@ -242,11 +256,11 @@ export default {
 
     editStory(idPBI, title, desc, priority, epicId) {
       //console.log (v1, v2, v3, v4, v5);
-      let i = this.currentUserStories[epicId].findIndex(o => o.idPBI === idPBI);
+      let i = this.currentUserStories.findIndex(o => o.idPBI === idPBI);
 
-      this.currentUserStories[epicId][i].title=title;
-      this.currentUserStories[epicId][i].description=desc;
-      this.currentUserStories[epicId][i].priority=priority;
+      this.currentUserStories[i].title=title;
+      this.currentUserStories[i].description=desc;
+      this.currentUserStories[i].priority=priority;
     },
 
     getEpicUserStories(epicId) {
@@ -260,11 +274,26 @@ export default {
               console.log("Unauthorized user");
             }
           }
-          response.data.results.forEach(function(arrayItem) {
-            arrayItem.priority=self.priorityToString(arrayItem.priority);
-          });
-          if (response.data.results) {
-            self.$set(self.currentUserStories,epicId,response.data.results);
+          else if (response.data.results) {
+            if (!self.loadedStory[epicId]===true) {
+
+              response.data.results.forEach(function(arrayItem) {
+                arrayItem.priority=self.priorityToString(arrayItem.priority);
+                self.currentUserStories.push(arrayItem);
+              });
+              self.loadedStory[epicId]=true;
+              console.log(response.data.results);
+              //Array.prototype.push.apply(self.currentUserStories, response.data.results);
+              //self.$set()
+              console.log(self.currentUserStories);
+              //self.currentUserStories = Object.assign({}, self.currentUserStories, response.data.results);
+
+
+
+            }
+            //self.$set(self.currentUserStories,epicId,response.data.results);
+            //console.log(response.data.results);
+            //self.currentUserStories = response.data.results;
           }
         })
         .catch(function (error) {
@@ -290,8 +319,9 @@ export default {
             else console.log(error);
           }
           if (response.data.results) {
+            console.log(response.data.results);
             response.data.results.priority=self.priorityToString(response.data.results.priority);
-            self.currentUserStories.push([response.data.results.Epic_id,response.data.results]);
+            //self.currentUserStories.push(response.data.results);
           }
         })
         .catch(function (error) {

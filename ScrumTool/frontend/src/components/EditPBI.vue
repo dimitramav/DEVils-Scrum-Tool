@@ -63,6 +63,8 @@ export default {
       //console.log("idpbi = " + this.idPBI);
       this.isEpic = (this.idPBI===this.epicId);
       console.log(this.isEpic);
+      console.log(this.idPBI);
+      console.log(this.priority);
       this.updateEpic_form.title = this.title;
       this.updateEpic_form.desc = this.desc;
       this.updateEpic_form.selected = this.priority;
@@ -113,7 +115,7 @@ export default {
         headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
       };
       let data = {
-        title: this.updateEpic_form.title, description: this.updateEpic_form.desc, priority: self.priorityToNumber(this.updateEpic_form.selected), Project_id: this.idProject, idPBI: this.idPBI,
+        title: this.updateEpic_form.title, description: this.updateEpic_form.desc, priority: self.priorityToNumber(this.updateEpic_form.selected), Project_id: this.idProject, idPBI: this.idPBI, Epic_id: this.epicId,
       };
       //console.log(data);
 

@@ -145,7 +145,7 @@
               </b-list-group>
               <br>
               <template>
-                <div v-if = "(projectOverview.project.isDone == false )">
+                <div v-if = "(projectOverview.project.isDone === false )">
                   <b-form inline @submit="addMembers">
                     Add User &nbsp;
                     <b-form-group id="emailForm"
@@ -324,10 +324,10 @@
 
       addMembers () {
         const self = this;
-        if (self.newMember.role == '1'){
+        if (self.newMember.role === '1'){
           self.newMember.role = "Scrum Master";
         }
-        else if (self.newMember.role == '2'){
+        else if (self.newMember.role === '2'){
           self.newMember.role = "Developer";
         }
         axios.post(this.$url+ 'users/'+ localStorage.getItem('userId') +'/projects/' + this.$route.params.id + '/members', self.newMember, {
@@ -348,7 +348,10 @@
           if (response.data.results) {
             self.Team.push(response.data.results);
             console.log("New member inserted");
+            self.newMember.mail='';
+            self.validEmail=null;
           }
+
         })
         .catch(function (error) {
           console.log(error);
