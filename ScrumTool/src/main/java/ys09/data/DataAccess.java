@@ -592,5 +592,26 @@ public class DataAccess {
         return profile;
     }
 
+    public boolean passwordMatches(int id,String password) {
+        // Query to find if user exists
+        jdbcTemplate = new JdbcTemplate(dataSource);
 
+        String query = "SELECT * FROM User WHERE idUser = ?";
+
+        try {
+            User user = jdbcTemplate.queryForObject(query, new Object[]{id}, new UserRowMapper());
+
+            if (BCrypt.checkpw(password, user.getPassword())) {
+                System.out.println("It matches");
+                // If it matches return JWT token !
+                // Save the token to a dictionary (user,token)
+                return true;
+            } else {
+                System.out.println("It does not match");
+                return false;
+            }
+        } catch (EmptyResultDataAccessException e) {
+            return false;
+        }
+    }
 }
