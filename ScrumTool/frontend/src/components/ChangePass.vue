@@ -87,7 +87,20 @@ export default {
   },
   methods: {
     updatePass(){
-
+      axios.post(this.$url +'matches/' + localStorage.getItem('userId'), {
+        headers: {"auth": localStorage.getItem('auth_token')}
+      })
+        .then(function (response) {
+          if (response.data.error) {
+            if (response.data.error === "Unauthorized user") console.log("Unauthorized user");
+            else console.log(response.data.error);
+          }
+          else if (response.data.results) self.userInfos = response.data.results;
+          else console.log("Unresolved response: " + response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
     }
   }
 
