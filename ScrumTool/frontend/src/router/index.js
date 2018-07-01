@@ -62,12 +62,12 @@ export default new Router({
       component: OldSprints
     },
     {
-      path:'/:id',
+      path:'/users/:id',
       name: 'Profile',
       component: Profile
     },
     {
-      path:'/editprofile/:id',
+      path:'/editprofile',
       name: 'EditProfile',
       component: EditProfile
     }

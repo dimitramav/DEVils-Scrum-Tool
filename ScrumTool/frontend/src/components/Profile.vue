@@ -16,7 +16,7 @@
           <p>Number of projects: <b>{{userInfos.numProjects}}</b></p>
         </div>
       <b-button variant="primary" v-show="loggedin_userId===userInfos.idUser" @click="gotoEdit">Edit Information</b-button>
-    </b-card> 
+    </b-card>
   </b-container>
 </template>
 
@@ -45,30 +45,24 @@
 
     methods: {
       gotoEdit() {
-        this.$router.push({path: '/editprofile/' + this.current_username});
+        this.$router.push({path: '/editprofile'});
       },
       getProfile() {
-        //evt.preventDefault();
         const self = this;
         axios.get(this.$url +'users/' + localStorage.getItem('userId') + '/profile/' + self.current_username, {
           headers: {"auth": localStorage.getItem('auth_token')}
         })
           .then(function (response) {
             if (response.data.error) {
-              if (response.data.error === "Unauthorized user") {
-                console.log("Unauthorized user");
-              }
+              if (response.data.error === "Unauthorized user") console.log("Unauthorized user");
+              else console.log(response.data.error);
             }
-            if (response.data.results) {
-              //self.$set(self.userInfos, 'idUser', response.data.results.idUser);
-              self.userInfos = response.data.results;
-              console.log(self.userInfos);
-            }
+            else if (response.data.results) self.userInfos = response.data.results;
+            else console.log("Unresolved response: " + response);
           })
           .catch(function (error) {
             console.log(error);
           });
-        //console.log (typeof (this.loggedin_userId) + typeof (this.userInfos.idUser));
       },
     },
     mounted() {
