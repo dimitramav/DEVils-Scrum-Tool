@@ -232,6 +232,7 @@ DROP TABLE IF EXISTS `User`;
 CREATE TABLE `User` (
   `idUser` int(11) NOT NULL AUTO_INCREMENT,
   `mail` varchar(45) NOT NULL,
+  `username` varchar(45) NOT NULL,
   `firstname` varchar(45) NOT NULL,
   `lastname` varchar(45) NOT NULL,
   `password` varchar(300) NOT NULL,
@@ -254,7 +255,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'orestis@gmail.com','Orestis','Garmpis','$2a$10$2VqiIm8sO1CvA65JXO9O2OWyXtwJK1Cbzj/CfiE6VmOyor.AKWcAu',NULL,NULL,NULL,NULL,NULL,NULL,0,2),(2,'kostas@gmail.com','Kostas','Kotronis','$2a$10$xgAzw4vx19hQxuw7jjFyku/GCT8izH27zKIdjnVZJhZg4lCh2EH1m',NULL,NULL,NULL,NULL,NULL,NULL,0,4),(3,'markos@gmail.com','Markos','Varvagiannis','$2a$10$FFZIXZWNB5chE3QbidHfXe/W1apJon4lMLSp.zh1YEIg5e6mpBfmC',NULL,NULL,NULL,NULL,NULL,NULL,0,3),(4,'dimitra@gmail.com','Dimitra','Mavroforaki','$2a$10$qQ41sciUTZaEVC1eppy32e2IswHg2013Hb3SKibbw74FrEnLRp2UC',NULL,NULL,NULL,NULL,NULL,NULL,0,0);
+INSERT INTO `User` VALUES (1,'orestis@gmail.com','orestisgarmpis','Orestis','Garmpis','$2a$10$2VqiIm8sO1CvA65JXO9O2OWyXtwJK1Cbzj/CfiE6VmOyor.AKWcAu',NULL,NULL,NULL,NULL,NULL,NULL,0,2),(2,'kostas@gmail.com','kostaskotronis','Kostas','Kotronis','$2a$10$xgAzw4vx19hQxuw7jjFyku/GCT8izH27zKIdjnVZJhZg4lCh2EH1m',NULL,NULL,NULL,NULL,NULL,NULL,0,4),(3,'markos@gmail.com','markosvarv','Markos','Varvagiannis','$2a$10$FFZIXZWNB5chE3QbidHfXe/W1apJon4lMLSp.zh1YEIg5e6mpBfmC',NULL,NULL,NULL,NULL,NULL,NULL,0,3),(4,'dimitra@gmail.com','dimitramav','Dimitra','Mavroforaki','$2a$10$qQ41sciUTZaEVC1eppy32e2IswHg2013Hb3SKibbw74FrEnLRp2UC',NULL,NULL,NULL,NULL,NULL,NULL,0,0);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -267,4 +268,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-05  7:39:16
+-- Dump completed on 2018-06-12 20:35:19

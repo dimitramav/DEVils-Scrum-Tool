@@ -1,10 +1,11 @@
 use ScrumTool_db;
-insert into User (password, mail, firstname, lastname, isAdmin, numProjects)
-	values ('$2a$10$2VqiIm8sO1CvA65JXO9O2OWyXtwJK1Cbzj/CfiE6VmOyor.AKWcAu', 'orestis@gmail.com', 'Orestis', 'Garmpis', False, 2);
-insert into User (password, mail, firstname, lastname, isAdmin, numProjects)
-	values ('$2a$10$xgAzw4vx19hQxuw7jjFyku/GCT8izH27zKIdjnVZJhZg4lCh2EH1m', 'kostas@gmail.com', 'Kostas', 'Kotronis', False, 4);
-insert into User (password, mail, firstname, lastname, isAdmin, numProjects)
-	values ('$2a$10$FFZIXZWNB5chE3QbidHfXe/W1apJon4lMLSp.zh1YEIg5e6mpBfmC', 'markos@gmail.com', 'Markos', 'Varvagiannis', False, 3);
+insert into User (password, mail, username, firstname, lastname, isAdmin, numProjects)
+	values ('$2a$10$2VqiIm8sO1CvA65JXO9O2OWyXtwJK1Cbzj/CfiE6VmOyor.AKWcAu', 'orestis@gmail.com', 'orestisgarmpis', 'Orestis', 'Garmpis', False, 2);
+insert into User (password, mail, username, firstname, lastname, isAdmin, numProjects)
+	values ('$2a$10$xgAzw4vx19hQxuw7jjFyku/GCT8izH27zKIdjnVZJhZg4lCh2EH1m', 'kostas@gmail.com', 'kostaskotronis', 'Kostas', 'Kotronis', False, 4);
+insert into User (password, mail, username, firstname, lastname, isAdmin, numProjects)
+	values ('$2a$10$FFZIXZWNB5chE3QbidHfXe/W1apJon4lMLSp.zh1YEIg5e6mpBfmC', 'markos@gmail.com', 'markosvarv', 'Markos', 'Varvagiannis', False, 3);
+update User set username = 'dimitramav' where firstname = 'Dimitra';
 select * from User;
 insert into Project (title, isDone, deadlineDate) values ('Twitter', FALSE, '2019-11-17');
 insert into Project (title, isDone, deadlineDate) values ('Scrum', FALSE, '2018-07-15');
@@ -53,7 +54,6 @@ select * from Issue where Task_id in (select idTask from Task where PBI_id in (s
 update Sprint set deadlineDate = '2018-07-10' where idSprint = 2;
 select idUser, mail, firstname, lastname, photo from User where idUser in (select User_id from Project_has_User where Project_id = 2);
 select role from Project_has_User where User_id = 3 and Project_id = 2;
-
 
 
 

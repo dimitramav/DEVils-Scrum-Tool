@@ -36,7 +36,7 @@ public class User {
     public User() { }
 
     // Constructor for Sign Up
-    public User(int idUser, String username,String mail, String firstname, String lastname, String password) {
+    public User(int idUser, String username, String mail, String firstname, String lastname, String password) {
       this.idUser = idUser;
       this.username = username;
       this.mail = mail;

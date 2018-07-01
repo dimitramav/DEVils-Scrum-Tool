@@ -89,7 +89,6 @@ public class BacklogResource extends ServerResource {
                 List<PBI> pbis = dataAccess.getProjectPBIs(idProject, isEpic, epicId);
                 map.put("results", pbis);
                 // Set the response headers
-                System.out.println("lll " + pbis.get(0).getPriority());
                 return new JsonMapRepresentation(map);
             }
             else {
@@ -162,7 +161,8 @@ public class BacklogResource extends ServerResource {
                     */
                     Type listType = new TypeToken<ArrayList<PBI>>(){}.getType();
                     List<PBI> pbis = new Gson().fromJson(str, listType);
-                    System.out.println(pbis.get(1).getIdPBI());
+                    //System.out.println(pbis.get(0).getIdPBI());
+                    System.out.println("lolo");
                     dataAccess.updateSprintId(pbis);
                     // Update the
                     // Set the response headers

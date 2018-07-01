@@ -55,13 +55,14 @@ export default {
     onSubmit (evt) {
       evt.preventDefault();
       const self = this;
-      axios.post('http://localhost:8765/app/api/signin', {
+      axios.post(this.$url +'signin', {
         mail: this.form.mail,
         password: this.form.password
       })
         .then(function (response) {
           if (response.data.results) {
             localStorage.setItem('auth_token', response.data.results.auth_token);
+            localStorage.setItem('username', response.data.results.username);
             localStorage.setItem('userId', response.data.results.userId);
             self.$router.push({path: '/'})
           }
@@ -71,8 +72,6 @@ export default {
               self.form.password = '';
             }
           }
-
-
         })
         .catch(function (error) {
           console.log(error);
