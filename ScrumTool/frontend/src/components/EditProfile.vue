@@ -73,6 +73,8 @@
                              v-model="userInfos.description">
             </b-form-textarea>
           </b-form-group>
+          <change_pass></change_pass>
+          <br>
           <!--TODO: bio-->
           <b-button variant="success" size="lg" type="submit">Submit changes</b-button>
         </b-form>
@@ -92,9 +94,11 @@
 <script>
   import axios from 'axios'
   import Navbar from "./Navbar.vue"
+  import ChangePass from "./ChangePass.vue"
   export default {
     components: {
       navbar: Navbar,
+      change_pass: ChangePass,
     },
     data () {
       return {
