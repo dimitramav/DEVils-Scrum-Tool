@@ -1,6 +1,8 @@
 <template>
   <b-col class="text-right">
-    <b-button @click="openModal()">Edit</b-button>
+    <b-button @click="openModal()">
+      <b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px"></b-img>Edit
+    </b-button>
     <b-modal v-model="modalShow" title="Update Epic" @ok="updateEpic()">
       <div class="text-left" id="updateEpic">
         <b-form>

@@ -34,46 +34,46 @@
             <div slot="header">
               <b-row>
                 <b-col class="text-left">
-                  <h5>Epic</h5>
+                  <h4>Epic</h4>
                 </b-col>
 
-
+                <!--New User Story-->
+                <div row>
+                  <b-btn  v-b-modal="'new_story'+cur_pbi.idPBI" >Add User Story</b-btn>
+                  <b-modal :id="'new_story'+cur_pbi.idPBI" title="Add User Story" @ok="newStory(cur_pbi.idPBI,$event)">
+                    <div class="text-left" :id="'new_story'+cur_pbi.idPBI">
+                      <b-form>
+                        <b-form-group label="Title:" :label-for="'addStoryTitle'+cur_pbi.idPBI">
+                          <b-form-input :id="'addStoryTitle'+cur_pbi.idPBI"
+                                        type="text"
+                                        v-model="newStory_form.title"
+                                        required>
+                          </b-form-input>
+                        </b-form-group>
+                        <b-form-group
+                          label="Description:"
+                          :label-for="'addStoryDesc'+cur_pbi.idPBI">
+                          <b-form-input :id="'updateEpicDesc'+cur_pbi.idPBI"
+                                        type="text"
+                                        v-model="newStory_form.desc"
+                                        required>
+                          </b-form-input>
+                        </b-form-group>
+                        <b-form-group label="Priority">
+                          <b-form-radio-group id="new_story_radio" v-model="newStory_form.selected" :options="options">
+                          </b-form-radio-group>
+                        </b-form-group>
+                      </b-form>
+                    </div>
+                  </b-modal>
+                </div>
                 <!--EDIT EPIC-->
                 <edit_pbi v-on:edit_epic="editEpic" :idPBI="cur_pbi.idPBI" :epicId="cur_pbi.idPBI" :idProject="currentProject_id" :title="cur_pbi.title" :desc="cur_pbi.description" :priority="cur_pbi.priority"></edit_pbi>
               </b-row>
             </div>
             <p class=" card-text"> {{cur_pbi.description}} </p>
 
-            <!--New User Story-->
-            <div row>
-              <b-btn  v-b-modal="'new_story'+cur_pbi.idPBI" variant="primary">Add User Story</b-btn>
-              <b-modal :id="'new_story'+cur_pbi.idPBI" title="Add User Story" @ok="newStory(cur_pbi.idPBI,$event)">
-                <div class="text-left" :id="'new_story'+cur_pbi.idPBI">
-                  <b-form>
-                    <b-form-group label="Title:" :label-for="'addStoryTitle'+cur_pbi.idPBI">
-                      <b-form-input :id="'addStoryTitle'+cur_pbi.idPBI"
-                                    type="text"
-                                    v-model="newStory_form.title"
-                                    required>
-                      </b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      label="Description:"
-                      :label-for="'addStoryDesc'+cur_pbi.idPBI">
-                      <b-form-input :id="'updateEpicDesc'+cur_pbi.idPBI"
-                                    type="text"
-                                    v-model="newStory_form.desc"
-                                    required>
-                      </b-form-input>
-                    </b-form-group>
-                    <b-form-group label="Priority">
-                      <b-form-radio-group id="new_story_radio" v-model="newStory_form.selected" :options="options">
-                      </b-form-radio-group>
-                    </b-form-group>
-                  </b-form>
-                </div>
-              </b-modal>
-            </div>
+
 
 
             <!--Get User Stories of each epic-->
@@ -84,7 +84,7 @@
             </div>
             <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2">
               <div>
-                <draggable v-model="currentUserStories" @change="onMove" :options="{group:'people'}">
+                <draggable :list="currentUserStories" @change="onMove" :options="{group:'people'}">
 
                   <b-card-group v-for="cur_us in currentUserStories" :key="cur_us.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
                     <b-card v-if="cur_us.Epic_id===cur_pbi.idPBI" class="mb-1">
@@ -177,11 +177,16 @@ export default {
 
         let temp = something;
         temp.added.element.Epic_id = this.currentUserStories[something.added.newIndex].Epic_id;
-        console.log(temp);
-        this.currentUserStories.push(temp.added.element);
+        //console.log(temp);
+        //this.currentUserStories.push(temp.added.element);
       }
       //something.added.element.Epic_id = this.currentUserStories[something.added.newIndex].Epic_id;
     },
+
+    // onMove ({relatedContext, draggedContext}) {
+    //   console.log(relatedContext);
+    //   //console.log(draggedContext);
+    // },
 
     getPBIS() {
       //evt.preventDefault();

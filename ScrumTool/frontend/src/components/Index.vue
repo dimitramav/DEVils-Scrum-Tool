@@ -158,7 +158,7 @@
 
                     <b-row>
                         <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-                            <b-card :title="cur_project.title" img-top tag="article" style="max-width: 15rem;" img-src="https://picsum.photos/600/300/?image=25" img-alt="Image">
+                            <b-card :title="cur_project.title" img-top tag="article" style="max-width: 15rem;" img-src="https://picsum.photos/600/300/?image=527" img-alt="Image">
                                 <p class="card-text">
                                     Deadline: {{cur_project.deadlineDate}}
                                 </p>
