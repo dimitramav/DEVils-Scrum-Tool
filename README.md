@@ -6,7 +6,7 @@ Web cooperative platform for software management. This platform helps teams to i
     gradle build
 
 ## Build Front End
-   gradle appbuild			
+	gradle appbuild			
 
 ## Run Project
 
