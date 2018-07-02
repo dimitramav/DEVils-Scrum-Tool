@@ -84,10 +84,10 @@
             </div>
             <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2">
               <div>
-                <draggable :list="currentUserStories" @change="onMove" :options="{group:'people'}">
+                <draggable v-model="currentUserStories[cur_pbi.idPBI]" :move="onUserStoryMove" @change="onUserStoryChange" :options="{group:'UserStories'}">
 
-                  <b-card-group v-for="cur_us in currentUserStories" :key="cur_us.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-                    <b-card v-if="cur_us.Epic_id===cur_pbi.idPBI" class="mb-1">
+                  <b-card-group v-for="cur_us in currentUserStories[cur_pbi.idPBI]" :key="cur_us.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
+                    <b-card class="mb-1">
                       <b-card-header header-tag="header" class="p-1" role="tab">
                         <b-btn block href="#" v-b-toggle="'collapse'+cur_us.idPBI" variant="info">{{cur_us.title}}
                         </b-btn>
@@ -106,8 +106,7 @@
                           </p>
                         </b-card-body>
 
-                        <edit_pbi v-on:edit_epic="editStory" :epicId="cur_pbi.idPBI" :idPBI="cur_us.idPBI" :idProject="currentProject_id" :title="cur_us.title" :desc="cur_us.description" :priority="cur_us.priority"></edit_pbi>
-
+                        <!--<edit_pbi v-on:edit_epic="editStory" :epicId="cur_pbi.idPBI" :idPBI="cur_us.idPBI" :idProject="currentProject_id" :title="cur_us.title" :desc="cur_us.description" :priority="cur_us.priority"></edit_pbi>-->
 
                       </b-collapse>
                     </b-card>
@@ -157,36 +156,45 @@ export default {
         { text: 'Medium', value: 'medium' },
         { text: 'Low', value: 'low' },
       ],
-
+      currentEpicId: -1,
       currentProject_id: -1,
       modalShow: false,
-      something: 'high',
 
       currentPbis: [],
-      currentUserStories: [],
-      loadedStory: [],
+      currentUserStories: [[],[]],
     }
   },
   methods: {
-
-    onMove(something){
-      if (something.added) {
-        console.log(something);
-        console.log(this.currentUserStories);
-        console.log(this.currentUserStories[something.added.newIndex].Epic_id);
-
-        let temp = something;
-        temp.added.element.Epic_id = this.currentUserStories[something.added.newIndex].Epic_id;
-        //console.log(temp);
-        //this.currentUserStories.push(temp.added.element);
+    onUserStoryChange(input){
+      console.log(input);
+      if (input.added) {
+        let element = input.added.element;
+        let config = {
+          headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
+        };
+        let data = {
+          title: element.title, description: element.description, priority: this.priorityToNumber(element.priority), Project_id: element.Project_id, idPBI: element.idPBI, Epic_id: this.currentEpicId,
+        };
+        axios.put(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=false', data, config)
+          .then(function (response) {
+            if (response.data.error) {
+              if (response.data.error === "Unauthorized user") console.log("Unauthorized user");
+              else if (response.data.error === "Unauthorized projects") console.log("Unauthorized projects");
+              else if (response.data.error === "null") console.log("Null token");
+              else console.log(error);
+            }
+            else if (response.data.results) console.log(response.data.results);
+            else console.log("Unresolved response: " + response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       }
-      //something.added.element.Epic_id = this.currentUserStories[something.added.newIndex].Epic_id;
     },
 
-    // onMove ({relatedContext, draggedContext}) {
-    //   console.log(relatedContext);
-    //   //console.log(draggedContext);
-    // },
+    onUserStoryMove ({relatedContext, draggedContext}) {
+      this.currentEpicId = relatedContext.element.Epic_id;
+    },
 
     getPBIS() {
       //evt.preventDefault();
@@ -280,26 +288,24 @@ export default {
             }
           }
           else if (response.data.results) {
-            if (!self.loadedStory[epicId]===true) {
+            //if (!self.loadedStory[epicId]===true) {
 
               response.data.results.forEach(function(arrayItem) {
                 arrayItem.priority=self.priorityToString(arrayItem.priority);
-                self.currentUserStories.push(arrayItem);
               });
-              self.loadedStory[epicId]=true;
+              //self.loadedStory[epicId]=true;
               console.log(response.data.results);
-              //Array.prototype.push.apply(self.currentUserStories, response.data.results);
+
               //self.$set()
               console.log(self.currentUserStories);
               //self.currentUserStories = Object.assign({}, self.currentUserStories, response.data.results);
 
-
-
-            }
-            //self.$set(self.currentUserStories,epicId,response.data.results);
-            //console.log(response.data.results);
+            //}
+            self.$set(self.currentUserStories,epicId,response.data.results);
+            console.log(self.currentUserStories);
             //self.currentUserStories = response.data.results;
           }
+          else console.log("Unresolved response: " + response);
         })
         .catch(function (error) {
           console.log(error);
