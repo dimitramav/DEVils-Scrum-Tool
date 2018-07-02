@@ -13,7 +13,7 @@ Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 
-Vue.prototype.$url = 'http://localhost:8765/app/api/'
+Vue.prototype.$url = 'https://localhost:8443/app/api/'
 
 /* eslint-disable no-new */
 new Vue({

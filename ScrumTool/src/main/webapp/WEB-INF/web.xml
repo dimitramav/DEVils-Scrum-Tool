@@ -47,6 +47,18 @@
     </servlet-mapping>
     -->
 
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>securedapp</web-resource-name>
+            <url-pattern>/api/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+
     <listener>
         <listener-class>ys09.conf.Listener</listener-class>
     </listener>
