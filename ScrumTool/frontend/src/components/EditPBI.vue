@@ -62,8 +62,8 @@ export default {
   },
   methods: {
     openModal(){
-      //console.log("idpbi = " + this.idPBI);
-      this.isEpic = (this.idPBI===this.epicId);
+      //console.log(typeof(this.epicId));
+      this.isEpic = (typeof(this.epicId)==="undefined");
       console.log(this.isEpic);
       console.log(this.idPBI);
       console.log(this.priority);

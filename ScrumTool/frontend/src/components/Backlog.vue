@@ -253,7 +253,6 @@ export default {
         })
     },
 
-
     editEpic (idPBI, title, desc, priority) {
       //console.log('mphka sthn synartisi, tittle = ' + idPBI + title + desc, priority);
       let i = this.currentPbis.findIndex(o => o.idPBI === idPBI);
