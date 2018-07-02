@@ -167,6 +167,24 @@
                         </b-card-group>
                     </b-row>
                     <br>
+
+                    ->cur_projects(numProjects): {{numProjects}}
+                    ->done_projects(doneLength): {{doneLength}}
+                    ->current_page: {{currentPage}}
+                    <b-row>
+                      <!--per-page: max number of records per page - total-rows: total number of records in your data-->
+                      <b-col></b-col>
+                      <b-col>
+                        <template>
+                          <div>
+                            <b-pagination size="md" :total-rows="numProjects" v-model="currentPage" :per-page="recordsPerPage">
+                            </b-pagination>
+                          </div>
+                        </template>
+                      </b-col>
+                      <b-col></b-col>
+                    </b-row>
+
                     <div v-if="doneLength !== 0">
                         <b-row style="padding-top:10px;">
                             <b-col class="text-left">
@@ -217,7 +235,9 @@
                 teamData: json.team,
                 numProjects: 0,
                 doneLength: 0,
-                isProject: false
+                isProject: false,
+                currentPage: 1,
+                recordsPerPage:3
             }
         },
         methods: {
@@ -340,50 +360,50 @@
         top: 0;
         left: 0;
     }
-    
+
     .Home {
         position: absolute;
         background-color: #fafaff;
         width: 100%;
         left: 0;
     }
-    
+
     .wordcloud {
         display: block;
         margin-left: auto;
         margin-right: auto;
         width: 51%;
     }
-    
+
     .Features {
         position: absolute;
         top: 540%;
         left: 0;
     }
-    
+
     .stamp {
         border-style: double;
         border-color: grey;
         border-width: 4px;
     }
-    
+
     .About {
         position: absolute;
         top: 960%;
         left: 4px;
     }
-    
+
     .devs {
         height: 50%;
         width: 50%;
     }
-    
+
     .bottom {
         position: absolute;
         left:-5px;
         width: 100%;
     }
-    
+
     .description {
         font-size: 14px;
         width: 500px;
@@ -394,13 +414,13 @@
         text-align: justify;
         letter-spacing: 3px;
     }
-    
+
     .Navigation {
         position: absolute;
         top: 0;
         left: 0;
     }
-    
+
     .line {
         width: 99%;
         font-size: 1px;
@@ -409,12 +429,12 @@
         margin-top: 10px;
         margin-bottom: 10px;
     }
-    
+
     .row {
         margin-right: 0px;
         margin-left: 0px;
     }
-    
+
     .container-fluid {
         padding-right: 0;
         padding-left: 0;
