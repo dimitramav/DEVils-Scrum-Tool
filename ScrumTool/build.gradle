@@ -27,6 +27,12 @@ task frontendRun(type: Exec) {
     workingDir 'frontend'
     commandLine "npm", "run", "dev"
 }
+
+task buildApp(type: Exec) {
+  workingDir 'frontend'
+  commandLine "npm", "run", "build"
+}
+
 repositories {
     mavenCentral()
     maven {

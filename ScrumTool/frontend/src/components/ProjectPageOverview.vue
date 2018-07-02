@@ -2,7 +2,6 @@
   <div>
     <b-container class="Navigation" fluid>
       <navbar :dashboard="true"></navbar>
-      <b-breadcrumb :items="items" style="font-size: 13px;padding-left: 40px;" />
       <!--<sidebar></sidebar>-->
       <br>
       <b-row style="padding-top:10px; margin-bottom: -10px">
@@ -52,60 +51,65 @@
           <div v-if = "(projectOverview.project.isDone == false )" style="height: 100%">
             <b-container fluid>
               <b-jumbotron>
-                <b-row style="margin-top: -5%">
-                  <h2>Current sprint #{{projectOverview.currentSprintNum}}</h2>
-                </b-row>
-                <br>
-                <b-row>
-                  <b-col>
-                    <b-card title="TODO">
-                      <p class="card-text">{{projectOverview.todo}}</p>
-                    </b-card>
-                  </b-col>
-                  <b-col>
-                    <b-card title="DOING">
-                      <p class="card-text">{{projectOverview.doing}}</p>
-                    </b-card>
-                  </b-col>
-                  <b-col>
-                    <b-card title="DONE">
-                      <p class="card-text">{{projectOverview.done}}</p>
-                    </b-card>
-                  </b-col>
-                </b-row>
-                <br>
-                <b-row>
-                  <b-col>
-                    <b-card no-body class="text-left">
-                      <p class="card-text" style="color: red">Issues: {{issues}}</p>
-                    </b-card>
-                  </b-col>
-                  <b-col></b-col>
-                </b-row>
-                <br>
-                <b-row>
-                  <b-col>
-                    <div v-if= "( diffDays > -1)">
-                      <b-card no-body class="text-left">
-                        <p class="card-text">Days Remaining:  {{diffDays}}</p>
-                      </b-card>
-                    </div>
-                  </b-col>
-                  <b-col></b-col>
-                </b-row>
-                <br><br>
-                <b-row style="padding-top:10px;">
-                  <b-col class="text-left">
-                    <h5>Progress</h5>
-                  </b-col>
-                </b-row>
-                <b-progress :value="donePercentage" show-progress class="mb-3"></b-progress>
-                <br>
-                <div v-if= "( diffDays < 0)">
+                <div v-if = "(projectOverview.currentSprintNum === 0)">
                   <b-button variant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}"> Create new Sprint! </b-button>
                 </div>
                 <div v-else>
-                  <b-button variant="primary"> Go to Sprint Page </b-button>
+                  <b-row style="margin-top: -5%">
+                    <h2>Current sprint #{{projectOverview.currentSprintNum}}</h2>
+                  </b-row>
+                  <br>
+                  <b-row>
+                    <b-col>
+                      <b-card title="TODO">
+                        <p class="card-text">{{projectOverview.todo}}</p>
+                      </b-card>
+                    </b-col>
+                    <b-col>
+                      <b-card title="DOING">
+                        <p class="card-text">{{projectOverview.doing}}</p>
+                      </b-card>
+                    </b-col>
+                    <b-col>
+                      <b-card title="DONE">
+                        <p class="card-text">{{projectOverview.done}}</p>
+                      </b-card>
+                    </b-col>
+                  </b-row>
+                  <br>
+                  <b-row>
+                    <b-col>
+                      <b-card no-body class="text-left">
+                        <p class="card-text" style="color: red">Issues: {{issues}}</p>
+                      </b-card>
+                    </b-col>
+                    <b-col></b-col>
+                  </b-row>
+                  <br>
+                  <b-row>
+                    <b-col>
+                      <div v-if= "( diffDays > -1)">
+                        <b-card no-body class="text-left">
+                          <p class="card-text">Days Remaining:  {{diffDays}}</p>
+                        </b-card>
+                      </div>
+                    </b-col>
+                    <b-col></b-col>
+                  </b-row>
+                  <br><br>
+                  <b-row style="padding-top:10px;">
+                    <b-col class="text-left">
+                      <h5>Progress</h5>
+                    </b-col>
+                  </b-row>
+                  <b-progress :value="donePercentage" show-progress class="mb-3"></b-progress>
+                  <br>
+                  <div v-if= "( diffDays < 0)">
+                    <b-button variant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}"> Create new Sprint! </b-button>
+                  </div>
+                  <div v-else>
+                    <b-button variant="primary"> Go to Sprint Page </b-button>
+                  </div>
                 </div>
               </b-jumbotron>
             </b-container>
@@ -147,7 +151,7 @@
               <template>
                 <div v-if = "(projectOverview.project.isDone === false )">
                   <b-form inline @submit="addMembers">
-                    Add User &nbsp;
+                    Add User&nbsp;
                     <b-form-group id="emailForm"
                                   label-for="email"
                                   :invalid-feedback="validEmail===false ? 'Invalid User' : ''">
@@ -160,15 +164,22 @@
                                         placeholder="email" required>
                        </b-form-input>
                     </b-form-group>
-                    as &nbsp;
-                    <b-form-select class="mb-2 mr-sm-2 mb-sm-0"
+                    as&nbsp;
+                    <!--<b-form-select class="mb-2 mr-sm-2 mb-sm-0"
                                    :value="null"
                                    :options="{ '1': 'Scrum Master', '2': 'Developer'}"
                                    v-model="newMember.role"
                                    id="inlineFormCustomSelectPref">
                       <option slot="first" :value="null"> </option>
+                    </b-form-select>-->
+                    <b-form-select v-model="newMember.role" :options="opts" class="mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelectPref">
+                      <template slot="first">
+                        <!-- this slot appears above the options from 'options' prop -->
+                        <option :value="null" disabled>- Select role -</option>
+                      </template>
                     </b-form-select>
-                    <b-button type="submit" variant="primary" :disabled="validEmail===false" >Invite</b-button>
+                    <br>
+                    <b-button type="submit" variant="primary" :disabled="validEmail===false" >Invite!</b-button>
                   </b-form>
                 </div>
               </template>
@@ -195,6 +206,11 @@
     },
     data() {
       return {
+        sel: null,
+        opts: [
+          { value: '1', text: 'Scrum Master' },
+          { value: '2', text: 'Developer' }
+        ],
         projectOverview: {
           project: {
             idProject: 0,
@@ -229,7 +245,7 @@
 
         newMember: {
           mail: '',
-          role: ''
+          role: null
         },
 
         form: {
@@ -401,7 +417,7 @@
         // Check if the user is among the members already in project
         var i;
         for (i = 0; i < self.Team.length; i++){
-          if (self.Team[i].mail == self.newMember.mail){
+          if (self.Team[i].mail === self.newMember.mail){
             this.validEmail=false;
             return;
           }

@@ -7,7 +7,7 @@
                 </b-row>
                 <b-row>
                     <b-col>
-                        <b-img style="width: 30%" v-on:click="gotoIndex" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
+                        <b-img style="width: 30%;min-width:29%;min-height: 29%;max-width:30%;min-height:30%;" v-on:click="gotoIndex" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
                     </b-col>
                     <b-col cols="8">
                         <h1 align="center" class="text-enhancement" style="margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
@@ -167,6 +167,24 @@
                         </b-card-group>
                     </b-row>
                     <br>
+
+                    ->cur_projects(numProjects): {{numProjects}}
+                    ->done_projects(doneLength): {{doneLength}}
+                    ->current_page: {{currentPage}}
+                    <b-row>
+                      <!--per-page: max number of records per page - total-rows: total number of records in your data-->
+                      <b-col></b-col>
+                      <b-col>
+                        <template>
+                          <div>
+                            <b-pagination size="md" :total-rows="numProjects" v-model="currentPage" :per-page="recordsPerPage">
+                            </b-pagination>
+                          </div>
+                        </template>
+                      </b-col>
+                      <b-col></b-col>
+                    </b-row>
+
                     <div v-if="doneLength !== 0">
                         <b-row style="padding-top:10px;">
                             <b-col class="text-left">
@@ -179,7 +197,7 @@
                         <br>
                         <b-row>
                             <b-card-group v-for="done_project in doneProjects" :key="done_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-                                <b-card :title="done_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2" img-src="https://picsum.photos/600/300/?image=25" img-alt="Image">
+                                <b-card :title="done_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2" img-src="https://picsum.photos/600/300/?image=1068" img-alt="Image">
                                     <p class="card-text">
                                         Deadline: {{done_project.deadlineDate}}
                                     </p>
@@ -217,7 +235,9 @@
                 teamData: json.team,
                 numProjects: 0,
                 doneLength: 0,
-                isProject: false
+                isProject: false,
+                currentPage: 1,
+                recordsPerPage:3
             }
         },
         methods: {
@@ -340,50 +360,50 @@
         top: 0;
         left: 0;
     }
-    
+
     .Home {
         position: absolute;
         background-color: #fafaff;
         width: 100%;
         left: 0;
     }
-    
+
     .wordcloud {
         display: block;
         margin-left: auto;
         margin-right: auto;
         width: 51%;
     }
-    
+
     .Features {
         position: absolute;
         top: 540%;
         left: 0;
     }
-    
+
     .stamp {
         border-style: double;
         border-color: grey;
         border-width: 4px;
     }
-    
+
     .About {
         position: absolute;
         top: 960%;
         left: 4px;
     }
-    
+
     .devs {
         height: 50%;
         width: 50%;
     }
-    
+
     .bottom {
         position: absolute;
         left:-5px;
         width: 100%;
     }
-    
+
     .description {
         font-size: 14px;
         width: 500px;
@@ -394,27 +414,27 @@
         text-align: justify;
         letter-spacing: 3px;
     }
-    
+
     .Navigation {
         position: absolute;
         top: 0;
         left: 0;
     }
-    
+
     .line {
         width: 99%;
         font-size: 1px;
         line-height: 2px;
-        background-color: lavender;
+        background-color: #e6edf2;
         margin-top: 10px;
         margin-bottom: 10px;
     }
-    
+
     .row {
         margin-right: 0px;
         margin-left: 0px;
     }
-    
+
     .container-fluid {
         padding-right: 0;
         padding-left: 0;

@@ -5,6 +5,9 @@ Web cooperative platform for software management. This platform helps teams to i
     cd ScrumTool
     gradle build
 
+## Build Front End
+	gradle appbuild			
+
 ## Run Project
 
 ### Run Back-end
@@ -14,6 +17,6 @@ Web cooperative platform for software management. This platform helps teams to i
     gradle frontendRun
 > To successfully run front-end you must have the latest versions of npm and nodeJS
 
-### Add security exception for SSL certificate
+## Add security exception for SSL certificate
 	https://localhost:8443/app/api/users/1/projects (enable backend certificate)
-	https://localhost:8080/#/ 						(frontend)
+	https://localhost:8080/#/ 			(frontend)
