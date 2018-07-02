@@ -23,6 +23,8 @@ public class PasswordResource extends ServerResource {
     protected Representation post(Representation entity) throws ResourceException {
         // Representation object contains the body of the request
         // Handle the exception for the getText
+        System.out.println("hhhhhhh");
+
         Map<String, Object> map = new HashMap<>();
         Map<String, String> mapError = new HashMap<>();
 
@@ -52,7 +54,6 @@ public class PasswordResource extends ServerResource {
                     // Now Create from String the JAVA object
                     Gson gson = new Gson();
                     Password password = gson.fromJson(str, Password.class);
-
                     boolean response = dataAccess.passwordMatches(user,password.getPassword());
 
                     if (response) {

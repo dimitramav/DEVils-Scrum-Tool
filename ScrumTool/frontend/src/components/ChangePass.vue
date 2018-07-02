@@ -55,6 +55,7 @@ export default {
       },
       verifiedPassword:null,
       validPassword:null,
+      userInfos:'',
     }
   },
   computed: {
@@ -87,6 +88,7 @@ export default {
   },
   methods: {
     updatePass(){
+      const self=this;
       axios.post(this.$url +'matches/' + localStorage.getItem('userId'), {
         headers: {"auth": localStorage.getItem('auth_token')}
       })
@@ -95,7 +97,10 @@ export default {
             if (response.data.error === "Unauthorized user") console.log("Unauthorized user");
             else console.log(response.data.error);
           }
-          else if (response.data.results) self.userInfos = response.data.results;
+          else if (response.data.results) {
+            self.userInfos = response.data.results;
+            console.log("hi " + self.userInfos);
+          }
           else console.log("Unresolved response: " + response);
         })
         .catch(function (error) {
