@@ -5,6 +5,9 @@ Web cooperative platform for software management. This platform helps teams to i
     cd ScrumTool
     gradle build
 
+## Build Front End
+   gradle appbuild			
+
 ## Run Project
 
 ### Run Back-end
