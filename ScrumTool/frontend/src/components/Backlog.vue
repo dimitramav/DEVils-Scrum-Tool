@@ -11,13 +11,13 @@
               <b-form inline style="margin: 10px;" @submit="newEpic">
                 <h4>Title:</h4>
                 <label class="sr-only" for="newEpicName"></label>
-                <b-form-input id="newEpicName" placeholder="New Epic's Name" v-model="newEpic_form.title" required></b-form-input>
+                <b-form-input id="newEpicName" placeholder="New Epic's Name" v-model="newPBI_form.title" required></b-form-input>
                 <h5>Description:</h5>
                 <label class="sr-only" for="newEpicDescription"></label>
-                <b-form-input id="newEpicDescription" placeholder="New Epic's Description" v-model="newEpic_form.desc" required></b-form-input>
+                <b-form-input id="newEpicDescription" placeholder="New Epic's Description" v-model="newPBI_form.desc" required></b-form-input>
 
                 <b-form-group label="Priority">
-                  <b-form-radio-group id="new_epic_radio" v-model="newEpic_form.selected" :options="options" name="radioOpenions">
+                  <b-form-radio-group id="new_epic_radio" v-model="newPBI_form.selected" :options="options" name="radioOpenions">
                   </b-form-radio-group>
                 </b-form-group>
 
@@ -40,13 +40,13 @@
                 <!--New User Story-->
                 <div row>
                   <b-btn  v-b-modal="'new_story'+cur_pbi.idPBI" >Add User Story</b-btn>
-                  <b-modal :id="'new_story'+cur_pbi.idPBI" title="Add User Story" @ok="newStory(cur_pbi.idPBI,$event)">
+                  <b-modal :id="'new_story'+cur_pbi.idPBI" title="Add User Story" @ok="newStory(cur_pbi.idPBI)">
                     <div class="text-left" :id="'new_story'+cur_pbi.idPBI">
                       <b-form>
                         <b-form-group label="Title:" :label-for="'addStoryTitle'+cur_pbi.idPBI">
                           <b-form-input :id="'addStoryTitle'+cur_pbi.idPBI"
                                         type="text"
-                                        v-model="newStory_form.title"
+                                        v-model="newPBI_form.title"
                                         required>
                           </b-form-input>
                         </b-form-group>
@@ -55,12 +55,12 @@
                           :label-for="'addStoryDesc'+cur_pbi.idPBI">
                           <b-form-input :id="'updateEpicDesc'+cur_pbi.idPBI"
                                         type="text"
-                                        v-model="newStory_form.desc"
+                                        v-model="newPBI_form.desc"
                                         required>
                           </b-form-input>
                         </b-form-group>
                         <b-form-group label="Priority">
-                          <b-form-radio-group id="new_story_radio" v-model="newStory_form.selected" :options="options">
+                          <b-form-radio-group id="new_story_radio" v-model="newPBI_form.selected" :options="options">
                           </b-form-radio-group>
                         </b-form-group>
                       </b-form>
@@ -68,7 +68,7 @@
                   </b-modal>
                 </div>
                 <!--EDIT EPIC-->
-                <edit_pbi v-on:edit_epic="editEpic" :idPBI="cur_pbi.idPBI" :epicId="cur_pbi.idPBI" :idProject="currentProject_id" :title="cur_pbi.title" :desc="cur_pbi.description" :priority="cur_pbi.priority"></edit_pbi>
+                <edit_pbi v-on:edit_epic="editEpic" :idPBI="cur_pbi.idPBI" :idProject="currentProject_id" :title="cur_pbi.title" :desc="cur_pbi.description" :priority="cur_pbi.priority"></edit_pbi>
               </b-row>
             </div>
             <p class=" card-text"> {{cur_pbi.description}} </p>
@@ -106,7 +106,7 @@
                           </p>
                         </b-card-body>
 
-                        <!--<edit_pbi v-on:edit_epic="editStory" :epicId="cur_pbi.idPBI" :idPBI="cur_us.idPBI" :idProject="currentProject_id" :title="cur_us.title" :desc="cur_us.description" :priority="cur_us.priority"></edit_pbi>-->
+                        <edit_pbi v-on:edit_epic="editStory" :epicId="cur_pbi.idPBI" :idPBI="cur_us.idPBI" :idProject="currentProject_id" :title="cur_us.title" :desc="cur_us.description" :priority="cur_us.priority"></edit_pbi>
 
                       </b-collapse>
                     </b-card>
@@ -140,14 +140,9 @@ export default {
   },
   data() {
     return {
-      newEpic_form: {
+      newPBI_form: {
         title: '',
         desc: '',
-        selected: '',
-      },
-      newStory_form:{
-        title:'',
-        desc:'',
         selected: '',
       },
 
@@ -231,7 +226,7 @@ export default {
         headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
       };
       let data = {
-        title: this.newEpic_form.title, description: this.newEpic_form.desc, priority: self.priorityToNumber(this.newEpic_form.selected), Project_id: this.currentProject_id,
+        title: this.newPBI_form.title, description: this.newPBI_form.desc, priority: self.priorityToNumber(this.newPBI_form.selected), Project_id: this.currentProject_id,
       };
       axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
         .then(function (response) {
@@ -250,6 +245,7 @@ export default {
             response.data.results.priority=self.priorityToString(response.data.results.priority);
             console.log(response.data.results);
             self.currentPbis.push(response.data.results);
+            self.newPBI_form.selected='';self.newPBI_form.desc='';self.newPBI_form.title='';
           }
         })
         .catch(function (error) {
@@ -268,12 +264,12 @@ export default {
     },
 
     editStory(idPBI, title, desc, priority, epicId) {
-      //console.log (v1, v2, v3, v4, v5);
-      let i = this.currentUserStories.findIndex(o => o.idPBI === idPBI);
+      console.log (idPBI, title, desc, priority, epicId);
+      let i = this.currentUserStories[epicId].findIndex(o => o.idPBI === idPBI);
 
-      this.currentUserStories[i].title=title;
-      this.currentUserStories[i].description=desc;
-      this.currentUserStories[i].priority=priority;
+      this.currentUserStories[epicId][i].title=title;
+      this.currentUserStories[epicId][i].description=desc;
+      this.currentUserStories[epicId][i].priority=priority;
     },
 
     getEpicUserStories(epicId) {
@@ -314,12 +310,13 @@ export default {
 
     newStory (current_epicId) {
       //evt.preventDefault();
+      console.log(current_epicId);
       const self = this;
       let config = {
         headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
       };
       let data = {
-        title: this.newStory_form.title, description: this.newStory_form.desc, priority: self.priorityToNumber(this.newStory_form.selected), Project_id: this.currentProject_id, Epic_id: current_epicId ,
+        title: this.newPBI_form.title, description: this.newPBI_form.desc, priority: self.priorityToNumber(this.newPBI_form.selected), Project_id: this.currentProject_id, Epic_id: current_epicId ,
       };
       axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis', data, config)
         .then(function (response) {
@@ -332,7 +329,9 @@ export default {
           if (response.data.results) {
             console.log(response.data.results);
             response.data.results.priority=self.priorityToString(response.data.results.priority);
-            //self.currentUserStories.push(response.data.results);
+            self.currentUserStories[current_epicId].push(response.data.results);
+            self.newPBI_form.selected='';self.newPBI_form.desc='';self.newPBI_form.title='';
+            //self.$set(self.currentUserStories,current_epicId,response.data.results);
           }
         })
         .catch(function (error) {
