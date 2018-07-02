@@ -18,13 +18,13 @@
                   <b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px"/> Edit Project
                 </template>
                 <template>
-                  <div style="margin-right: 10px; margin-left: 10px">
+                  <b-form inline style="margin: 10px;" @submit="updateProject">
                     <p> New Project's Title</p>
-                    <b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
+                    <b-form-input type="text" placeholder=" " style="margin-top: -10px" v-model="form.newTitle" required></b-form-input>
                     <p style="margin-top: 5px">New Project's Deadline</p>
-                    <b-form-input v-model="text1" type="text" placeholder=" " style="margin-top: -10px"></b-form-input>
-                    <b-button variant="success" style="margin-top: 10px; width: 100%;">Save changes</b-button>
-                  </div>
+                    <b-form-input type="date" placeholder=" " style="margin-top: -10px" v-model="form.deadlineDate" required></b-form-input>
+                    <b-button variant="success" type="submit" style="margin-top: 10px; width: 100%;">Save changes</b-button>
+                  </b-form>
                 </template>
               </b-dropdown>
             </b-col>
@@ -232,6 +232,13 @@
           role: ''
         },
 
+        form: {
+            idProject: 0,
+            newTitle: '',
+            deadlineDate: '',
+            isDone: false
+        },
+
         validEmail: null,
         diffDays: 0,
         issues: 0,
@@ -266,6 +273,33 @@
             self.issues = self.projectOverview.todoIssues + self.projectOverview.doingIssues + self.projectOverview.doneIssues;
             self.calcDeadline ();
             console.log("Got the results");
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+      },
+
+      updateProject () {
+        const self = this;
+        let data = { idProject: this.projectOverview.project.idProject, title: this.form.newTitle, isDone: this.form.isDone, deadlineDate: this.form.deadlineDate }
+        axios.put(this.$url+'users/'+ localStorage.getItem('userId') +'/projects/'+ this.$route.params.id, data, {
+          headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
+        })
+        .then(function (response) {
+          if (response.data.error) {
+            if (response.data.error === "Unauthorized user") {
+              console.log("Unauthorized user");
+            }
+            else if (response.data.error === "Unauthorized projects") {
+              console.log("Unauthorized projects");
+            }
+            else if (response.data.error === "null") {
+              console.log("Null token");
+            }
+          }
+          if (response.data.results) {
+            self.projectOverview.project = response.data.results;
           }
         })
         .catch(function (error) {

@@ -198,6 +198,34 @@ public class DataAccess {
 
 
 
+    public Project updateCurrentProject(Project projectItem) {
+        // Update an existing PBI
+        String query = "update Project set title = ?, deadlineDate = ? where idProject = ?;";
+        jdbcTemplate = new JdbcTemplate(dataSource);
+
+        try {
+            jdbcTemplate.update(new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                    PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                    java.sql.Date sqlDate = new java.sql.Date(projectItem.getDeadlineDate().getTime());
+                    statement.setString(1, projectItem.getTitle());
+                    statement.setDate(2, sqlDate);
+                    statement.setInt(3, projectItem.getId());
+                    return statement;
+                }
+            });
+            // PBI's id is already in pbi class (as returned from frontend)
+            return projectItem;
+        // Error in update of jdbcTemplate
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
     // Find the PBIs (Epics or Stories)
     public List<PBI> getProjectPBIs(int idProject, Boolean isEpic, int epicId) {
         // Return the pbis asked for the current project
@@ -591,6 +619,7 @@ public class DataAccess {
         User profile = jdbcTemplate.queryForObject(query,new Object[]{username},new UserRowMapper());
         return profile;
     }
+
 
     public boolean passwordMatches(int id,String password) {
         // Query to find if user exists

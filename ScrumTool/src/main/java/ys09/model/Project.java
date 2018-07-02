@@ -41,7 +41,7 @@ public class Project {
     public void setIsDone(boolean isDone) {
         this.isDone = isDone;
     }
-    public void setDeadlineDate(Date deadlineDatee) {
+    public void setDeadlineDate(Date deadlineDate) {
         this.deadlineDate = deadlineDate;
     }
 }

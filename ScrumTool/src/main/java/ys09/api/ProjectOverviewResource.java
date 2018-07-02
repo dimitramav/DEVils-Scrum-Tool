@@ -119,6 +119,72 @@ public class ProjectOverviewResource extends ServerResource {
 
 
 
+    // Update the project information
+    @Override
+    protected Representation put(Representation entity) throws ResourceException {
+
+       // New map string (which is the json name) and objects
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> mapError = new HashMap<>();
+
+        // Unauthorized access if user is not the product owner
+        // Get UserId
+        String userId = getRequestAttributes().get("userId").toString();
+        if (userId.equals("null")) {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+        int user = Integer.parseInt(userId);
+
+        // Get projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        if (projectIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized project");
+            return new JsonMapRepresentation(mapError);
+        }
+        int projectId = Integer.parseInt(projectIdStr);
+
+        // Access the headers of the request !
+        Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
+        String token = requestHeaders.getFirstValue("auth");
+
+        if (token == null) {
+            mapError.put("error", "null");
+            return new JsonMapRepresentation(mapError);
+        }
+        CustomAuth customAuth = new CustomAuth();
+
+        if(customAuth.checkAuthToken(token)) {
+            // Get Project Overview Information
+            if(customAuth.userValidation(token, userId)) {
+                // Update project information
+                try {
+                    String str = entity.getText();
+                    // Now Create from String the JAVA object
+                    Gson gson = new Gson();
+                    Project projectItem = gson.fromJson(str, Project.class);
+                    // Update
+                    Project response = dataAccess.updateCurrentProject(projectItem);
+                    // Set the response headers
+                    map.put("results", response);
+                    return new JsonMapRepresentation(map);
+                }
+                catch(IOException e) {
+                    mapError.put("error", "System Exception");
+                    return new JsonMapRepresentation(mapError);
+                }
+            }
+            else {
+                mapError.put("error", "Unauthorized projects");
+                return new JsonMapRepresentation(mapError);
+            }
+        }
+        else {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+    }
+
 
     // Post Representation
     /*@Override
