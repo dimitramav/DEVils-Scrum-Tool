@@ -1,77 +1,83 @@
 <template>
-
-  <b-container class="Navigation" fluid>
-    <navbar></navbar>
-    <b-breadcrumb :items="items"/>
-    <b-row>
-      <b-col></b-col>
-      <b-col cols="10">
-        <b-jumbotron class="form-frame">
-          <b-row class="text-center">
-            <b-col></b-col>
-            <b-col>
-              <h1 class="text-enhancement">Create New Sprint</h1>
+    <b-container class="Navigation" fluid>
+        <navbar :dashboard="true"></navbar>
+                <b-row>
+            <p></p>
+        </b-row>        <b-row>
+            <p></p>
+        </b-row>
+        <b-row>
+            <b-col align-self="start">
+                <h3 class="text-enhancement">Create New Sprint</h3>
             </b-col>
-            <b-col></b-col>
-          </b-row>
-          <b-row>
-            <b-col cols="6">
-              <b-form>
-                <label class="text-enhancement">Plan:</label>
-                <b-form-input class="input-style" v-model="sprint.plan" type="text" placeholder="Type the project's plan"></b-form-input>
-
-                <label class="text-enhancement">Goal:</label>
-                <b-form-input class="input-style" v-model="sprint.goal" type="text" placeholder="Type the project's goal"></b-form-input>
-
-                <label class="text-enhancement">Deadline Date:</label>
-                <b-form-input class="input-style" v-model="sprint.deadlineDate" type="date"></b-form-input>
-              </b-form>
+        </b-row>
+        <b-row>
+            <p></p>
+        </b-row>
+        <b-row>
+            <p></p>
+        </b-row>
+        <b-row>
+            <b-col cols="1">
             </b-col>
-            <b-col></b-col>
-            <b-col></b-col>
-          </b-row>
-          <hr>
-          <b-row>
-            <b-col>
-
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col>
-              <h5 class="text-enhancement">Select an Epic: </h5>
-              <select v-model="selectedValue" @click="loadStories(selectedValue.idPBI, selectedValue.title)">
-                <option disabled value="">Please select one</option>
-                <option v-for="item in epics" :value="item">{{item.title}}</option>
-              </select>
+            <b-col cols="4" class="text-center">
+                <b-form>
+                    <label class="text-enhancement">Plan:</label>
+                    <b-form-input class="input-style" v-model="sprint.plan" type="text" placeholder="Type the project's plan"></b-form-input>
+                    <b-row>
+                        <p></p>
+                    </b-row>
+                    <label class="text-enhancement">Goal:</label>
+                    <b-form-input class="input-style" v-model="sprint.goal" type="text" placeholder="Type the project's goal"></b-form-input>
+                    <b-row>
+                        <p></p>
+                    </b-row>
+                    <label class="text-enhancement">Deadline Date:</label>
+                    <b-form-input class="input-style" v-model="sprint.deadlineDate" type="date"></b-form-input>
+                </b-form>
             </b-col>
             <b-col>
-              <div>
-                <h5 class="text-enhancement">Click to add a user story: </h5>
-                <b-form-select v-model="selected" :options="stories_options" class="mb-3" :select-size="4">
-                </b-form-select>
-              </div>
+                <b-row>
+                    <b-col cols="4">
+                        <h5 class="text-enhancement">Select an Epic: </h5>
+                        <select v-model="selectedValue" @click="loadStories(selectedValue.idPBI, selectedValue.title)">
+                            <option disabled value="">Please select one</option>
+                            <option v-for="item in epics" :value="item">{{item.title}}</option>
+                        </select>
+                    </b-col>
+                    <b-col cols="6">
+                        <div>
+                            <h5 class="text-enhancement">Click to add a user story: </h5>
+                            <b-form-select v-model="selected" :options="stories_options" class="mb-3" :select-size="4">
+                            </b-form-select>
+                        </div>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <p></p>
+                </b-row>
+                <b-row>
+                    <p></p>
+                </b-row>
+                <b-row>
+                    <b-col cols="4">
+                    </b-col>
+                    <b-col cols="6">
+                        <h5 class="text-enhancement">User Stories for the new sprint: </h5>
+                        <b-form-select :options="selected_stories" class="mb-3" :select-size="4">
+                        </b-form-select>
+                    </b-col>
+                </b-row>
             </b-col>
-            <b-col>
-              <h5 class="text-enhancement">User Stories for the new sprint: </h5>
-              <b-form-select :options="selected_stories" class="mb-3" :select-size="4">
-              </b-form-select>
+        </b-row>
+        <b-row>
+            <b-col class="text-center">
+                <b-button style="margin-top: 40px; padding-left:100px; padding-right: 100px;" type="submit" size="md" variant="danger" @click="submit">
+                    Submit
+                </b-button>
             </b-col>
-          </b-row>
-          <b-row>
-            <b-col></b-col>
-            <b-col>
-              <b-button style="margin-top: 50px; padding-left:200px; padding-right: 200px;" type="submit" size="lg" variant="danger" @click="submit">
-                Submit
-              </b-button>
-            </b-col>
-            <b-col></b-col>
-          </b-row>
-        </b-jumbotron>
-      </b-col>
-      <b-col></b-col>
-    </b-row>
-  </b-container>
-
+        </b-row>
+    </b-container>
 </template>
 
 <script>
@@ -105,9 +111,6 @@
         items: [{
           text: 'Home',
           href: '/#/'
-        }, {
-          text: 'Incurance App',
-          href: '/#/projectpageoverview'
         }, {
           text: 'Create New Sprint',
           active: true

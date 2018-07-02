@@ -7,7 +7,7 @@
                 </b-row>
                 <b-row>
                     <b-col>
-                        <b-img style="width: 30%" v-on:click="gotoIndex" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
+                        <b-img style="width: 30%;min-width:29%;min-height: 29%;max-width:30%;min-height:30%;" v-on:click="gotoIndex" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
                     </b-col>
                     <b-col cols="8">
                         <h1 align="center" class="text-enhancement" style="margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
@@ -179,7 +179,7 @@
                         <br>
                         <b-row>
                             <b-card-group v-for="done_project in doneProjects" :key="done_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-                                <b-card :title="done_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2" img-src="https://picsum.photos/600/300/?image=25" img-alt="Image">
+                                <b-card :title="done_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2" img-src="https://picsum.photos/600/300/?image=1068" img-alt="Image">
                                     <p class="card-text">
                                         Deadline: {{done_project.deadlineDate}}
                                     </p>
@@ -405,7 +405,7 @@
         width: 99%;
         font-size: 1px;
         line-height: 2px;
-        background-color: lavender;
+        background-color: #e6edf2;
         margin-top: 10px;
         margin-bottom: 10px;
     }

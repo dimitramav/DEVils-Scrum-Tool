@@ -2,7 +2,6 @@
   <b-container class="Navigation" fluid>
 
     <navbar :dashboard="false"></navbar>
-    <b-breadcrumb :items="items"> </b-breadcrumb>
     <br>
     <!--User Infos-->
     <b-row>

@@ -2,7 +2,6 @@
   <div>
     <b-container class="Navigation" fluid>
       <navbar :dashboard="true"></navbar>
-      <b-breadcrumb :items="items" style="font-size: 13px;padding-left: 40px;" />
       <!--<sidebar></sidebar>-->
       <br>
       <b-row style="padding-top:10px; margin-bottom: -10px">
