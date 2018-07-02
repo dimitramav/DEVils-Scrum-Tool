@@ -58,7 +58,7 @@
                           </p>
                           <p class="card-text">
                             <b-row>
-                              <i class="text-muted">{{cur_us.priority}}</i>
+                              <i class="text-muted">{{priorityToString(cur_us.priority)}}</i>
                             </b-row>
                           </p>
                         </b-card-body>
@@ -73,7 +73,7 @@
             </b-collapse>
 
             <div slot="footer">
-              <h6 class="text-muted">{{cur_pbi.priority}}</h6>
+              <h6 class="text-muted">{{priorityToString(cur_pbi.priority)}}</h6>
             </div>
           </b-card>
         </b-card-group>
@@ -100,9 +100,9 @@ export default {
   data() {
     return {
       options: [
-        { text: 'High', value: 'high' },
-        { text: 'Medium', value: 'medium' },
-        { text: 'Low', value: 'low' },
+        { text: 'High', value: 0 },
+        { text: 'Medium', value: 1 },
+        { text: 'Low', value: 2 },
       ],
       currentEpicId: -1,
       currentProject_id: -1,
@@ -121,7 +121,7 @@ export default {
           headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
         };
         let data = {
-          title: element.title, description: element.description, priority: this.priorityToNumber(element.priority), Project_id: element.Project_id, idPBI: element.idPBI, Epic_id: this.currentEpicId,
+          title: element.title, description: element.description, priority: element.priority, Project_id: element.Project_id, idPBI: element.idPBI, Epic_id: this.currentEpicId,
         };
         axios.put(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=false', data, config)
           .then(function (response) {
@@ -158,11 +158,6 @@ export default {
           }
           if (response.data.results) {
             //prepei na to spasw se synartisi
-            response.data.results.forEach(function(arrayItem)
-            {
-              arrayItem.priority=self.priorityToString(arrayItem.priority);
-              //self.modalShow[arrayItem.idPBI]=false;
-            });
             self.currentPbis = response.data.results;
             //console.log(self.currentPbis);
           }
@@ -170,6 +165,24 @@ export default {
         .catch(function (error) {
           console.log(error);
         })
+    },
+
+    priorityToString(priority) {
+      let str_priority;
+      switch(priority) {
+        case 1:
+          str_priority="high";
+          break;
+        case 2:
+          str_priority="medium";
+          break;
+        case 3:
+          str_priority="low";
+          break;
+        default:
+          console.log ("Unknown value" + priority);
+      }
+      return str_priority;
     },
 
     editEpic (idPBI, title, desc, priority) {
@@ -205,7 +218,7 @@ export default {
             //if (!self.loadedStory[epicId]===true) {
 
               response.data.results.forEach(function(arrayItem) {
-                arrayItem.priority=self.priorityToString(arrayItem.priority);
+                arrayItem.priority=arrayItem.priority;
               });
               //self.loadedStory[epicId]=true;
               console.log(response.data.results);
@@ -227,7 +240,8 @@ export default {
     },
 
     newUserStory(data) {
-      //console.log(data);
+      console.log(data);
+      console.log(this.currentUserStories);
       this.currentUserStories[data.Epic_id].push(data);
     },
 
@@ -235,43 +249,6 @@ export default {
       //console.log(data);
       this.currentPbis.unshift(data);
     },
-
-    priorityToNumber(priority) {
-      let num_priority;
-      switch(priority) {
-        case "high":
-          num_priority=1;
-          break;
-        case "medium":
-          num_priority=2;
-          break;
-        case "low":
-          num_priority=3;
-          break;
-        default:
-          console.log ("Unknown value" + priority);
-      }
-      return num_priority;
-    },
-    priorityToString(priority) {
-      let str_priority;
-      switch(priority) {
-        case 1:
-          str_priority="high";
-          break;
-        case 2:
-          str_priority="medium";
-          break;
-        case 3:
-          str_priority="low";
-          break;
-        default:
-          console.log ("Unknown value" + priority);
-      }
-      return str_priority;
-    },
-
-
   },
   mounted() {
     if (localStorage.getItem('auth_token') === 'null' || localStorage.getItem('userId') === 'null') return;

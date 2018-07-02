@@ -39,12 +39,12 @@ export default {
       newPBI_form: {
         title: '',
         desc: '',
-        selected: '',
+        selected: -1,
       },
       options: [
-        { text: 'High', value: 'high' },
-        { text: 'Medium', value: 'medium' },
-        { text: 'Low', value: 'low' },
+        { text: 'High', value: 1 },
+        { text: 'Medium', value: 2 },
+        { text: 'Low', value: 3 },
       ],
       isEpic: null,
     }
@@ -63,7 +63,7 @@ export default {
         headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
       };
       let data = {
-        title: this.newPBI_form.title, description: this.newPBI_form.desc, priority: self.priorityToNumber(this.newPBI_form.selected), Project_id: this.idProject, Epic_id: current_epicId ,
+        title: this.newPBI_form.title, description: this.newPBI_form.desc, priority: this.newPBI_form.selected, Project_id: this.idProject, Epic_id: current_epicId ,
       };
       //console.log(data);
       axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.idProject + '/pbis?isEpic=' + this.isEpic, data, config)
@@ -76,7 +76,7 @@ export default {
           }
           if (response.data.results) {
             console.log(response.data.results);
-            response.data.results.priority=self.priorityToString(response.data.results.priority);
+            //response.data.results.priority=self.priorityToString(response.data.results.priority);
             //self.currentUserStories[current_epicId].push(response.data.results);
             self.newPBI_form.selected='';self.newPBI_form.desc='';self.newPBI_form.title='';
             self.$emit('new_epic', response.data.results);
@@ -88,40 +88,6 @@ export default {
         })
     },
 
-    priorityToNumber(priority) {
-      let num_priority;
-      switch(priority) {
-        case "high":
-          num_priority=1;
-          break;
-        case "medium":
-          num_priority=2;
-          break;
-        case "low":
-          num_priority=3;
-          break;
-        default:
-          console.log ("Unknown value" + priority);
-      }
-      return num_priority;
-    },
-    priorityToString(priority) {
-      let str_priority;
-      switch(priority) {
-        case 1:
-          str_priority="high";
-          break;
-        case 2:
-          str_priority="medium";
-          break;
-        case 3:
-          str_priority="low";
-          break;
-        default:
-          console.log ("Unknown value" + priority);
-      }
-      return str_priority;
-    },
   }
 }
 </script>

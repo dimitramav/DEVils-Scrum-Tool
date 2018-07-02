@@ -42,21 +42,21 @@ export default {
     idProject: Number,
     title: String,
     desc: String,
-    priority: String,
+    priority: Number,
   },
   data: function() {
     return {
       updateEpic_form:{
         title: '',
         desc: '',
-        selected: '',
+        selected: -1,
       },
       modalShow: false,
       isEpic: null,
       options: [
-        { text: 'High', value: 'high' },
-        { text: 'Medium', value: 'medium'},
-        { text: 'Low', value: 'low' },
+        { text: 'High', value: 1 },
+        { text: 'Medium', value: 2},
+        { text: 'Low', value: 3 },
       ],
     }
   },
@@ -74,40 +74,6 @@ export default {
       this.modalShow = !this.modalShow;
     },
 
-    priorityToNumber(priority) {
-      let num_priority;
-      switch(priority) {
-        case "high":
-          num_priority=1;
-          break;
-        case "medium":
-          num_priority=2;
-          break;
-        case "low":
-          num_priority=3;
-          break;
-        default:
-          console.log ("Unknown value" + priority);
-      }
-      return num_priority;
-    },
-    priorityToString(priority) {
-      let str_priority;
-      switch(priority) {
-        case 1:
-          str_priority="high";
-          break;
-        case 2:
-          str_priority="medium";
-          break;
-        case 3:
-          str_priority="low";
-          break;
-        default:
-          console.log ("Unknown value" + priority);
-      }
-      return str_priority;
-    },
 
     updateEpic() {
       //console.log("current_id = " + current_id);
@@ -117,7 +83,7 @@ export default {
         headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
       };
       let data = {
-        title: this.updateEpic_form.title, description: this.updateEpic_form.desc, priority: self.priorityToNumber(this.updateEpic_form.selected), Project_id: this.idProject, idPBI: this.idPBI, Epic_id: this.epicId,
+        title: this.updateEpic_form.title, description: this.updateEpic_form.desc, priority: this.updateEpic_form.selected, Project_id: this.idProject, idPBI: this.idPBI, Epic_id: this.epicId,
       };
       //console.log(data);
 
@@ -131,7 +97,7 @@ export default {
           }
           else if (response.data.results) {
             console.log(response.data.results);
-            self.$emit('edit_epic', self.idPBI, response.data.results.title, response.data.results.description, self.priorityToString(response.data.results.priority), self.epicId);
+            self.$emit('edit_epic', self.idPBI, response.data.results.title, response.data.results.description, response.data.results.priority, self.epicId);
           }
         })
         .catch(function (error) {

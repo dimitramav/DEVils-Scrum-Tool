@@ -1,7 +1,6 @@
 <template>
   <b-container class="Navigation" fluid>
     <navbar :dashboard="false"></navbar>
-    <b-breadcrumb :items="items" style="font-size: 14px;padding-left: 40px;" />
     <br>
     <b-card img-src="https://picsum.photos/600/300?image=445"
             img-alt="Image"
