@@ -7,24 +7,9 @@
       <b-row>
         <b-col class="text-right">
           <div>
-            <b-dropdown id="ddown1" size="lg" variant ="info" text="Create New Epic" class="m-md-2">
-              <b-form inline style="margin: 10px;" @submit="newEpic">
-                <h4>Title:</h4>
-                <label class="sr-only" for="newEpicName"></label>
-                <b-form-input id="newEpicName" placeholder="New Epic's Name" v-model="newPBI_form.title" required></b-form-input>
-                <h5>Description:</h5>
-                <label class="sr-only" for="newEpicDescription"></label>
-                <b-form-input id="newEpicDescription" placeholder="New Epic's Description" v-model="newPBI_form.desc" required></b-form-input>
+            <b-btn  v-b-modal="'new_storyundefined'" size="lg" variant ="success" class="m-md-2" >Create New Epic</b-btn>
+            <new_pbi v-on:new_epic="newEpic" :idProject="currentProject_id"></new_pbi>
 
-                <b-form-group label="Priority">
-                  <b-form-radio-group id="new_epic_radio" v-model="newPBI_form.selected" :options="options" name="radioOpenions">
-                  </b-form-radio-group>
-                </b-form-group>
-
-                <b-button variant="success" type="submit" style="margin-top: 10px; width: 100%;">Add to Epics</b-button>
-              </b-form>
-
-            </b-dropdown>
           </div>
         </b-col>
       </b-row>
@@ -34,47 +19,19 @@
             <div slot="header">
               <b-row>
                 <b-col class="text-left">
-                  <h4>Epic</h4>
+                  <!--<h4>Epic</h4>-->
                 </b-col>
 
                 <!--New User Story-->
                 <div row>
                   <b-btn  v-b-modal="'new_story'+cur_pbi.idPBI" >Add User Story</b-btn>
-                  <b-modal :id="'new_story'+cur_pbi.idPBI" title="Add User Story" @ok="newStory(cur_pbi.idPBI)">
-                    <div class="text-left" :id="'new_story'+cur_pbi.idPBI">
-                      <b-form>
-                        <b-form-group label="Title:" :label-for="'addStoryTitle'+cur_pbi.idPBI">
-                          <b-form-input :id="'addStoryTitle'+cur_pbi.idPBI"
-                                        type="text"
-                                        v-model="newPBI_form.title"
-                                        required>
-                          </b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                          label="Description:"
-                          :label-for="'addStoryDesc'+cur_pbi.idPBI">
-                          <b-form-input :id="'updateEpicDesc'+cur_pbi.idPBI"
-                                        type="text"
-                                        v-model="newPBI_form.desc"
-                                        required>
-                          </b-form-input>
-                        </b-form-group>
-                        <b-form-group label="Priority">
-                          <b-form-radio-group id="new_story_radio" v-model="newPBI_form.selected" :options="options">
-                          </b-form-radio-group>
-                        </b-form-group>
-                      </b-form>
-                    </div>
-                  </b-modal>
+                  <new_pbi v-on:new_epic="newUserStory" :idProject="currentProject_id" :Epic_id="cur_pbi.idPBI"></new_pbi>
                 </div>
                 <!--EDIT EPIC-->
                 <edit_pbi v-on:edit_epic="editEpic" :idPBI="cur_pbi.idPBI" :idProject="currentProject_id" :title="cur_pbi.title" :desc="cur_pbi.description" :priority="cur_pbi.priority"></edit_pbi>
               </b-row>
             </div>
             <p class=" card-text"> {{cur_pbi.description}} </p>
-
-
-
 
             <!--Get User Stories of each epic-->
             <div row style="padding-top: 2px">
@@ -132,20 +89,16 @@
 import Navbar from "./Navbar.vue"
 import EditPBI from "./EditPBI.vue"
 import draggable from 'vuedraggable'
+import NewPBI from './NewPBI.vue'
 export default {
   components: {
     navbar: Navbar,
     edit_pbi: EditPBI,
     draggable,
+    new_pbi: NewPBI,
   },
   data() {
     return {
-      newPBI_form: {
-        title: '',
-        desc: '',
-        selected: '',
-      },
-
       options: [
         { text: 'High', value: 'high' },
         { text: 'Medium', value: 'medium' },
@@ -161,7 +114,7 @@ export default {
   },
   methods: {
     onUserStoryChange(input){
-      console.log(input);
+      //console.log(input);
       if (input.added) {
         let element = input.added.element;
         let config = {
@@ -219,40 +172,6 @@ export default {
         })
     },
 
-    newEpic (evt) {
-      evt.preventDefault();
-      const self = this;
-      let config = {
-        headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
-      };
-      let data = {
-        title: this.newPBI_form.title, description: this.newPBI_form.desc, priority: self.priorityToNumber(this.newPBI_form.selected), Project_id: this.currentProject_id,
-      };
-      axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=true', data, config)
-        .then(function (response) {
-          if (response.data.error) {
-            if (response.data.error === "Unauthorized user") {
-              console.log("Unauthorized user");
-            }
-            else if (response.data.error === "Unauthorized projects") {
-              console.log("Unauthorized projects");
-            }
-            else if (response.data.error === "null") {
-              console.log("Null token");
-            }
-          }
-          if (response.data.results) {
-            response.data.results.priority=self.priorityToString(response.data.results.priority);
-            console.log(response.data.results);
-            self.currentPbis.push(response.data.results);
-            self.newPBI_form.selected='';self.newPBI_form.desc='';self.newPBI_form.title='';
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-    },
-
     editEpic (idPBI, title, desc, priority) {
       //console.log('mphka sthn synartisi, tittle = ' + idPBI + title + desc, priority);
       let i = this.currentPbis.findIndex(o => o.idPBI === idPBI);
@@ -263,7 +182,7 @@ export default {
     },
 
     editStory(idPBI, title, desc, priority, epicId) {
-      console.log (idPBI, title, desc, priority, epicId);
+      //console.log (idPBI, title, desc, priority, epicId);
       let i = this.currentUserStories[epicId].findIndex(o => o.idPBI === idPBI);
 
       this.currentUserStories[epicId][i].title=title;
@@ -292,12 +211,12 @@ export default {
               console.log(response.data.results);
 
               //self.$set()
-              console.log(self.currentUserStories);
+              //console.log(self.currentUserStories);
               //self.currentUserStories = Object.assign({}, self.currentUserStories, response.data.results);
 
             //}
             self.$set(self.currentUserStories,epicId,response.data.results);
-            console.log(self.currentUserStories);
+            //console.log(self.currentUserStories);
             //self.currentUserStories = response.data.results;
           }
           else console.log("Unresolved response: " + response);
@@ -307,35 +226,14 @@ export default {
         })
     },
 
-    newStory (current_epicId) {
-      //evt.preventDefault();
-      console.log(current_epicId);
-      const self = this;
-      let config = {
-        headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
-      };
-      let data = {
-        title: this.newPBI_form.title, description: this.newPBI_form.desc, priority: self.priorityToNumber(this.newPBI_form.selected), Project_id: this.currentProject_id, Epic_id: current_epicId ,
-      };
-      axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis', data, config)
-        .then(function (response) {
-          if (response.data.error) {
-            if (response.data.error === "Unauthorized user") console.log("Unauthorized user");
-            else if (response.data.error === "Unauthorized projects") console.log("Unauthorized projects");
-            else if (response.data.error === "null") console.log("Null token");
-            else console.log(error);
-          }
-          if (response.data.results) {
-            console.log(response.data.results);
-            response.data.results.priority=self.priorityToString(response.data.results.priority);
-            self.currentUserStories[current_epicId].push(response.data.results);
-            self.newPBI_form.selected='';self.newPBI_form.desc='';self.newPBI_form.title='';
-            //self.$set(self.currentUserStories,current_epicId,response.data.results);
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
+    newUserStory(data) {
+      //console.log(data);
+      this.currentUserStories[data.Epic_id].push(data);
+    },
+
+    newEpic(data) {
+      //console.log(data);
+      this.currentPbis.unshift(data);
     },
 
     priorityToNumber(priority) {

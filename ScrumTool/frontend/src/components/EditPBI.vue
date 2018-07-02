@@ -3,7 +3,7 @@
     <b-button @click="openModal()">
       <b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px"></b-img>Edit
     </b-button>
-    <b-modal v-model="modalShow" title="Update Epic" @ok="updateEpic()">
+    <b-modal v-model="modalShow" title="Edit" @ok="updateEpic()">
       <div class="text-left" id="updateEpic">
         <b-form>
           <b-form-group
