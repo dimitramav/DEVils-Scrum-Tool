@@ -58,7 +58,7 @@ public class RestfulApp extends Application {
 		// POST
 		router.attach("/signin", SignInResource.class);
 		//GET
-		router.attach("/matches", PasswordResource.class);
+		router.attach("/matches/{userId}", PasswordResource.class);
 		// POST
 		router.attach("/exists", UserExistsResource.class);
 		// GET
