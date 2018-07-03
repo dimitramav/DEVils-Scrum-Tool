@@ -72,7 +72,7 @@ export default new Router({
       component: EditProfile
     },
     {
-      path:'/sprintbacklog',
+      path:'/sprintbacklog/:id',
       name: 'SprintBacklog',
       component: SprintBacklog
     }
