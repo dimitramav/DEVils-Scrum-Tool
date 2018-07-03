@@ -3,7 +3,7 @@ package ys09.data;
 
 public class Limits {
 
-    public static final int DEFAULT_COUNT = 2;         // Records per page
+    public static final int DEFAULT_COUNT = 10;         // Records per page
     public static final int TOTAL_NOT_FETCHED = -1;
 
     private final int start;
