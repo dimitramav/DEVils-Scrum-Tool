@@ -12,6 +12,7 @@ import OldSprints from '@/components/OldSprints'
 import Profile from '@/components/Profile'
 import EditProfile from '@/components/EditProfile'
 import SprintBacklog from '@/components/SprintBacklog'
+import PageNotFound from '@/components/PageNotFound'
 Vue.use(Router)
 
 export default new Router({
@@ -75,6 +76,11 @@ export default new Router({
       path:'/sprintbacklog/:id',
       name: 'SprintBacklog',
       component: SprintBacklog
+    },
+    {
+      path:'*',
+      name: 'PageNotFound',
+      component: PageNotFound
     }
   ]
 })
