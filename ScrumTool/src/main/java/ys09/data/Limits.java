@@ -1,38 +1,37 @@
 package ys09.data;
 
-import java.util.Date;
-
 
 public class Limits {
 
-    public static final int DEFAULT_COUNT = 10;
+    public static final int DEFAULT_COUNT = 2;         // Records per page
     public static final int TOTAL_NOT_FETCHED = -1;
 
-    private final Date start;
-    private final int  count;
+    private final int start;
+    private final int end;
     private long total = TOTAL_NOT_FETCHED;
 
     //public Limits(String start) {
     //    this(start, DEFAULT_COUNT);
     //}
 
-    public Limits(int count, Date start) {
-        this.start = start;
-        this.count = count;
+    public Limits(int currentPage) {
+        if (currentPage <= 0)
+            currentPage = 1000000;
+        this.start = ((currentPage-1) * DEFAULT_COUNT);
+        this.end   = this.start + DEFAULT_COUNT;
     }
 
-    public Date getStart() {
+    public int getStart() {
         return start;
     }
 
-    public int getCount() {
-        return count;
+    public int getEnd() {
+        return end;
     }
 
     public long getTotal() {
         return total;
     }
-
     void setTotal(long total) {
         this.total = total;
     }

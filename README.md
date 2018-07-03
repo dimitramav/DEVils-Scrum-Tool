@@ -20,3 +20,4 @@ Web cooperative platform for software management. This platform helps teams to i
 ## Add security exception for SSL certificate
 	https://localhost:8443/app/api/users/1/projects (enable backend certificate)
 	https://localhost:8080/#/ 			(frontend)
+> May require Log Out and then Log In when first run frontend url
