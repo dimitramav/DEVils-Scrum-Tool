@@ -2,7 +2,8 @@
   <b-container class="Navigation" fluid>
     <navbar :dashboard="false"></navbar>
     <br>
-    <b-card img-src="https://picsum.photos/600/300?image=445"
+    <b-card v-if="userInfos.mail != null"
+            img-src="https://picsum.photos/600/300?image=445"
             img-alt="Image"
             img-top
             tag="article"
@@ -22,6 +23,17 @@
             <b-button variant="primary" v-show="loggedin_userId===userInfos.idUser" @click="gotoEdit">Edit Information</b-button>
             <b-row> <p></p></b-row>
             <b-card-footer class="text-muted" > {{userInfos.description}} </b-card-footer>
+    </b-card>
+    <b-card v-else
+            img-src="https://picsum.photos/600/300?image=1062"
+            img-alt="Image"
+            img-top
+            tag="article"
+            style="max-width:19rem;margin: 0 auto;float: none; margin-bottom: 50%;"
+            class="mb-2">        
+              <div style="text-align: left;">
+                <h2 class="card-title"> User Not Found</h2>
+              </div>
     </b-card>
   </b-container>
 </template>

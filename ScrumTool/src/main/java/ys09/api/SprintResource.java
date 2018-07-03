@@ -149,6 +149,7 @@ public class SprintResource extends ServerResource {
                             // Get the current sprint info !
                             SprintDB sprintDB = new SprintDB();
                             Sprint currentSprint = sprintDB.getProjectCurrentSprint(project);
+                            System.out.println(currentSprint);
                             map.put("sprint", currentSprint);
                             return new JsonMapRepresentation(map);
                         }

@@ -1,208 +1,190 @@
 <template>
-  <div>
-    <b-container class="Navigation" fluid>
-      <navbar :dashboard="true"></navbar>
-      <!--<sidebar></sidebar>-->
-      <br>
-      <b-row style="padding-top:10px; margin-bottom: -10px">
-        <b-col>
-        	<b-row>
-        		<b-col class="text-left">
-				      <h2>{{projectOverview.project.title}}</h2>
-			      </b-col>
-            <b-col></b-col><b-col></b-col><b-col></b-col><b-col></b-col>
-            <b-col v-if = "(projectOverview.project.isDone == false )" class="text-right">
-              <b-dropdown style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
-                <template slot="button-content">
-                  <b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px"/> Edit Project
-                </template>
-                <template>
-                  <b-form inline style="margin: 10px;" @submit="updateProject">
-                    <p> Project's New Title</p>
-                    <b-form-input type="text" placeholder=" " style="margin-top: -10px" v-model="form.newTitle" required></b-form-input>
-                    <p style="margin-top: 5px">Project's New Deadline</p>
-                    <b-form-input type="date" placeholder=" " style="margin-top: -10px" v-model="form.deadlineDate" required></b-form-input>
-                    <b-button variant="success" type="submit" style="margin-top: 10px; width: 100%;">Save changes</b-button>
-                  </b-form>
-                </template>
-              </b-dropdown>
-            </b-col>
-            <b-col></b-col>
-            <br><br>
-          </b-row>
-        </b-col>
-      </b-row>
-      <b-row>
-        <div class="line">.</div>
-      </b-row>
+    <div>
+        <b-container class="Navigation" fluid>
+            <navbar :dashboard="true"></navbar>
+            <!--<sidebar></sidebar>-->
+            <br>
+            <b-row style="padding-top:10px; margin-bottom: -10px">
+                <b-col>
+                    <b-row>
+                        <b-col class="text-left">
+                            <h2 class="ptitle">{{projectOverview.project.title}}</h2>
+                        </b-col>
+                        <b-col></b-col>
+                        <b-col></b-col>
+                        <b-col>
+                            <p class="pdeadline">Project End:</p>
+                        </b-col>
+                        <b-col>
+                            <p class="pdeadline"> {{projectOverview.project.deadlineDate}} </p>
+                        </b-col>
+                        <b-col></b-col>
+                        <b-col v-if="(projectOverview.project.isDone == false )" class="text-right">
+                            <b-dropdown style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
+                                <template slot="button-content">
+                                    <b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px" /> Edit Project
+                                </template>
+                                <template>
+                                    <b-form inline style="margin: 10px;" @submit="updateProject">
+                                        <p> New Project's Title</p>
+                                        <b-form-input type="text" placeholder=" " style="margin-top: -10px" v-model="form.newTitle" required></b-form-input>
+                                        <p style="margin-top: 5px">New Project's Deadline</p>
+                                        <b-form-input type="date" placeholder=" " style="margin-top: -10px" v-model="form.deadlineDate" required></b-form-input>
+                                        <b-button variant="success" type="submit" style="margin-top: 10px; width: 100%;">Save changes</b-button>
+                                    </b-form>
+                                </template>
+                            </b-dropdown>
+                        </b-col>
+                        <b-col></b-col>
+                        <br>
+                        <br>
+                    </b-row>
+                </b-col>
+            </b-row>
 
-      <b-row style="background-color: #d1d7e0; margin-left: 1.2%; margin-right: 1.2%">
-        <b-col>
-			    <p style="font-size: 130%; margin-top: 2%"> Deadline Date: {{projectOverview.project.deadlineDate}}</p>
-		    </b-col>
-      </b-row>
-      <b-row>
-        <div class="line">.</div>
-      </b-row>
+            <b-row>
+                <div class="line">.</div>
+            </b-row>
+            <b-row>
+                <b-col>
 
-      <b-row>
-        <b-col>
+                    <div v-if="(projectOverview.project.isDone == false )" style="height: 100%">
+                        <b-container fluid>
+                            <b-jumbotron style="background-color: #f7f7f7;">
+                                <div v-if="(projectOverview.currentSprintNum === 0)">
+                                    <b-button variant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}"> Create New Sprint ! </b-button>
+                                </div>
+                                <div v-else>
+                                    <b-row style="margin-top: -5%">
+                                        <h2 class="pcsprint">Current sprint #{{projectOverview.currentSprintNum}}</h2>
+                                    </b-row>
+                                    <br>
+                                    <b-row>
+                                        <b-col>
+                                            <b-card title="TODO" class="pcsprint">
+                                                <p class="card-text">{{projectOverview.todo}}</p>
+                                            </b-card>
+                                        </b-col>
+                                        <b-col>
+                                            <b-card title="DOING" class="pcsprint">
+                                                <p class="card-text">{{projectOverview.doing}}</p>
+                                            </b-card>
+                                        </b-col>
+                                        <b-col>
+                                            <b-card title="DONE" class="pcsprint">
+                                                <p class="card-text">{{projectOverview.done}}</p>
+                                            </b-card>
+                                        </b-col>
+                                    </b-row>
+                                    <br>
+                                    <b-row style="padding-top:10px;">
+                                        <b-col class="text-left">
+                                            <h5 class="pcsprint">Progress </h5>
+                                            <b-progress :value="donePercentage" :max="max" class="mb-3"></b-progress>
+                                        </b-col>
+                                        <b-col md="4" class="py-4">
+                                            <b-btn id="exButton1" variant="outline-danger">Issues</b-btn>
+                                            <b-tooltip target="exButton1"> {{issues}}</b-tooltip>
+                                        </b-col>
+                                    </b-row>
 
-          <div v-if = "(projectOverview.project.isDone == false )" style="height: 100%">
-            <b-container fluid>
-              <b-jumbotron>
-                <div v-if = "(projectOverview.currentSprintNum === 0)">
-                  <b-button variant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}"> Create new Sprint! </b-button>
-                </div>
-                <div v-else>
-                  <b-row style="margin-top: -5%">
-                    <h2>Current sprint #{{projectOverview.currentSprintNum}}</h2>
-                  </b-row>
-                  <br>
-                  <b-row>
-                    <b-col>
-                      <b-card title="TODO">
-                        <p class="card-text">{{projectOverview.todo}}</p>
-                      </b-card>
-                    </b-col>
-                    <b-col>
-                      <b-card title="DOING">
-                        <p class="card-text">{{projectOverview.doing}}</p>
-                      </b-card>
-                    </b-col>
-                    <b-col>
-                      <b-card title="DONE">
-                        <p class="card-text">{{projectOverview.done}}</p>
-                      </b-card>
-                    </b-col>
-                  </b-row>
-                  <br>
-                  <b-row>
-                    <b-col>
-                      <b-card no-body class="text-left">
-                        <p class="card-text" style="color: red">Issues: {{issues}}</p>
-                      </b-card>
-                    </b-col>
-                    <b-col></b-col>
-                  </b-row>
-                  <br>
-                  <b-row>
-                    <b-col>
-                      <div v-if= "( diffDays > -1)">
-                        <b-card no-body class="text-left">
-                          <p class="card-text">Days Remaining:  {{diffDays}}</p>
-                        </b-card>
-                      </div>
-                    </b-col>
-                    <b-col></b-col>
-                  </b-row>
-                  <br><br>
-                  <b-row style="padding-top:10px;">
-                    <b-col class="text-left">
-                      <h5>Progress</h5>
-                    </b-col>
-                  </b-row>
-                  <b-progress :value="donePercentage" show-progress class="mb-3"></b-progress>
-                  <br>
-                  <div v-if= "( diffDays < 0)">
-                    <b-button variant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}"> Create new Sprint! </b-button>
-                  </div>
-                  <div v-else>
-                    <b-button variant="primary"> Go to Sprint Page </b-button>
-                  </div>
-                </div>
-              </b-jumbotron>
-            </b-container>
-          </div>
-          <div v-else style="height: 100%">
-            <b-container fluid>
-              <b-jumbotron>
-                <b-row>
-                  <p style="font-size: 180%; color: #264d73"> This Project has finished... Go back to Home Page to create a new one! </p>
-                </b-row>
-                <b-button variant="primary" href="#/"  style="margin-top: 10%"> Home Page </b-button>
-              </b-jumbotron>
-            </b-container>
-          </div>
+                                    <b-row>
 
-        </b-col>
-        <b-col>
+                                        <b-col></b-col>
+                                    </b-row>
+                                    <br>
+                                    <b-row>
+                                        <b-col>
+                                            <p class="pdeadline">Sprint End: {{sdeadline}}</p>
+                                        </b-col>
+                                        <b-col>
+                                            <div v-if="( diffDays > -1)">
+                                                <p class="pdeadline">Days Remaining: {{diffDays}}</p>
+                                            </div>
+                                        </b-col>
+                                    </b-row>
+                                    <br>
+                                    <br>
+                                    <div v-if="( diffDays < 0)">
+                                        <b-button variant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}"> Create New Sprint! </b-button>
+                                    </div>
+                                    <div v-else>
+                                        <b-button variant="success"> Go to Sprint Page </b-button>
+                                    </div>
+                                </div>
+                            </b-jumbotron>
+                        </b-container>
+                    </div>
+                    <div v-else style="height: 100%">
+                        <b-container fluid>
+                            <b-jumbotron>
+                                <b-row>
+                                    <p style="font-size: 180%; color: #264d73"> This Project has finished... Go back to Home Page to create a new one! </p>
+                                </b-row>
+                                <b-button variant="primary" href="#/" style="margin-top: 10%"> Home Page </b-button>
+                            </b-jumbotron>
+                        </b-container>
+                    </div>
 
-          <b-container fluid>
-            <b-jumbotron>
-              <b-row style="margin-top: -5%">
-                <h2>Team</h2>
-              </b-row>
-              <br>
+                </b-col>
+                <b-col>
+                    <b-container fluid>
+                        <b-jumbotron style="background-color: #f7f9fc;">
+                            <b-row style="margin-top: -5%">
+                                <h2 class="pcsprint">Team</h2>
+                            </b-row>
+                            <br>
 
+                            <b-container fluid>
+                                <b-row>
 
-			<b-container fluid>
-				<b-row>
-					<b-col cols="8">
-						<div id="scrollspy-nested" style="position:relative;height:328px;overflow-y:auto">
-							
-							<b-list-group v-for="teamMember in Team" v-bind:data="teamMember"
-							v-bind:key="teamMember.mail">
-								<b-list-group-item class="flex-column align-items-start">
-									<div class="d-flex w-100 justify-content-between">
-										<h5 class="mb-1">{{teamMember.role}}</h5>
-									</div>
-									<p align="left">
-										Name: {{teamMember.lastname}} {{teamMember.firstname}}
-										<br>
-										Email: {{teamMember.mail}}
-									</p>
-								</b-list-group-item>
-							</b-list-group>
-							
-						</div>
-					</b-col>
-				</b-row>
-			</b-container>
+                                    <b-col cols="11">
+                                        <div id="scrollspy-nested" style="position:relative;height:328px;overflow-y:auto">
 
-              <br>
-              <template>
-                <div v-if = "(projectOverview.project.isDone === false )">
-                  <b-form inline @submit="addMembers">
-                    Add User&nbsp;
-                    <b-form-group id="emailForm"
-                                  label-for="email"
-                                  :invalid-feedback="validEmail===false ? 'Invalid User' : ''">
-                      <b-form-input class="mb-2 mr-sm-2 mb-sm-0"
-                                        id="emailInput"
-                                        type="email"
-                                        v-model="newMember.mail"
-                                        @change="checkEmail"
-                                        :state="validEmail"
-                                        placeholder="email" required>
-                       </b-form-input>
-                    </b-form-group>
-                    as&nbsp;
-                    <!--<b-form-select class="mb-2 mr-sm-2 mb-sm-0"
-                                   :value="null"
-                                   :options="{ '1': 'Scrum Master', '2': 'Developer'}"
-                                   v-model="newMember.role"
-                                   id="inlineFormCustomSelectPref">
-                      <option slot="first" :value="null"> </option>
-                    </b-form-select>-->
-                    <b-form-select v-model="newMember.role" :options="opts" class="mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelectPref">
-                      <template slot="first">
-                        <!-- this slot appears above the options from 'options' prop -->
-                        <option :value="null" disabled>- Select role -</option>
-                      </template>
-                    </b-form-select>
-                    <br>
-                    <b-button type="submit" variant="primary" :disabled="validEmail===false" >Invite!</b-button>
-                  </b-form>
-                </div>
-              </template>
-            </b-jumbotron>
-          </b-container>
-        </b-col>
-      </b-row>
+                                            <b-list-group v-for="teamMember in Team" v-bind:data="teamMember" v-bind:key="teamMember.mail">
+                                                <b-list-group-item class="flex-column align-items-start">
+                                                    <div class="d-flex w-100 justify-content-between pcsprint">
+                                                        <h5 class="mb-1" style="font-weight: normal;">{{teamMember.role}}</h5>
+                                                    </div>
+                                                    <p align="left" class="pcsprint">
+                                                        Name: {{teamMember.lastname}} {{teamMember.firstname}}
+                                                        <br> Email: {{teamMember.mail}}
+                                                    </p>
+                                                </b-list-group-item>
+                                            </b-list-group>
 
-    </b-container>
-  </div>
+                                        </div>
+                                    </b-col>
+                                </b-row>
+                            </b-container>
+
+                            <br>
+                            <template>
+                                <div v-if="(projectOverview.project.isDone === false )">
+                                    <b-form inline @submit="addMembers">
+                                        Add User&nbsp;
+                                        <b-form-group id="emailForm" label-for="email" :invalid-feedback="validEmail===false ? 'Invalid User' : ''">
+                                            <b-form-input class="mb-2 mr-sm-2 mb-sm-0" id="emailInput" type="email" v-model="newMember.mail" @change="checkEmail" :state="validEmail" placeholder="email" required>
+                                            </b-form-input>
+                                        </b-form-group>
+                                        as&nbsp;
+                                        <b-form-select v-model="newMember.role" :options="opts" class="mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelectPref">
+                                            <template slot="first">
+                                                <!-- this slot appears above the options from 'options' prop -->
+                                                <option :value="null" disabled>- Select role -</option>
+                                            </template>
+                                        </b-form-select>
+                                        <br>
+                                        <b-button type="submit" variant="primary" :disabled="validEmail===false">Invite!</b-button>
+                                    </b-form>
+                                </div>
+                            </template>
+                        </b-jumbotron>
+                    </b-container>
+                </b-col>
+            </b-row>
+        </b-container>
+    </div>
 </template>
 
 
@@ -269,6 +251,7 @@
         },
         
         validEmail: null,
+        sdeadline: null,
         diffDays: 0,
         issues: 0,
         Team: [],
@@ -354,6 +337,7 @@
         //var jsDate=new Date(Date.parse(self.projectOverview.currentSprintExpDate.replace ('-', '/', 'g')));
         var oneDay = 24*60*60*1000;
         self.diffDays=Math.floor((d.getTime() - today.getTime())/(oneDay));
+        self.sdeadline=self.projectOverview.currentSprintExpDate;
         // Check the days interval
         //self.diffDays += 2
       },
@@ -458,6 +442,21 @@
 
 
 <style scoped>
+    @import url('https://fonts.googleapis.com/css?family=Merienda');
+    @import url('https://fonts.googleapis.com/css?family=VT323');
+    @import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+  .ptitle{
+    font-family: Merienda;
+  }
+
+  .pdeadline{
+    font-family: VT323;font-size:24px; margin-top: 1%;
+  }
+
+  .pcsprint{
+    font-family: Quicksand;
+  }
 
   .Navigation {
     position: absolute;
@@ -468,7 +467,7 @@
     width: 99%;
     font-size: 1px;
     line-height: 2px;
-    background-color: lavender;
+    background-color: #e6edf2;
     margin-top: 9px;
     margin-bottom: 9px;
     margin-left: 1.2%;
