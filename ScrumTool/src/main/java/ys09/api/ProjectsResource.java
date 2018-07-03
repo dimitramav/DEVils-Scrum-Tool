@@ -50,21 +50,23 @@ public class ProjectsResource extends ServerResource {
         }
         int user = Integer.parseInt(userId);
 
-        // Read the values of url (limit and nearestDeadline) for pagination
-        String strcount = getQuery().getValues("limit");
-        if (strcount == null) {
-            strcount = "0";
-        }
-        String strstart = getQuery().getValues("nearestDeadline");
+        // Read the values of url (limit and page) for pagination
+        //String strRecordsPerPage = getQuery().getValues("recordsPerPage");
+        //if (strRecordsPerPage == null) {
+        //    strRecordsPerPage = "0";
+        //}
+        String strCurrentPage = getQuery().getValues("currentPage");
         String isDone = getQuery().getValues("isDone");
 
-        DateFormat format = new SimpleDateFormat("yyyy-M-d");
-        Date expDate = new Date(0L);
-        try { expDate = format.parse(strstart); }
-        catch (Exception e) { System.out.println("No date"); }
-        System.out.println(expDate);
-        System.out.println(strcount);
-        Limits limit = new Limits(Integer.parseInt(strcount), expDate);
+        //DateFormat format = new SimpleDateFormat("yyyy-M-d");
+        //Date expDate = new Date(0L);
+        //try { expDate = format.parse(strstart); }
+        //catch (Exception e) { System.out.println("No date"); }
+        //System.out.println(expDate);
+        //System.out.println(strcount);
+
+        // Calculate the indexes of projects asked in sql base, which will be ordered by deadlineDate
+        Limits limit = new Limits(Integer.parseInt(strCurrentPage));
 
         // Access the headers of the request !
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");

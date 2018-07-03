@@ -11,6 +11,7 @@ insert into Project (title, isDone, deadlineDate) values ('Twitter', FALSE, '201
 insert into Project (title, isDone, deadlineDate) values ('Scrum', FALSE, '2018-07-15');
 insert into Project (title, isDone, deadlineDate) values ('Facebook', FALSE, '2018-09-16');
 insert into Project (title, isDone, deadlineDate) values ('Trivaggos', TRUE, '2017-09-30');
+update Project set title = 'ScrumTool', deadlineDate = '2018-08-07' where idProject = 2;
 select * from Project;
 insert into Project_has_User (Project_id, User_id, role) values (4, 1, 'Product Owner');
 insert into Project_has_User (Project_id, User_id, role) values (2, 1, 'Developer');

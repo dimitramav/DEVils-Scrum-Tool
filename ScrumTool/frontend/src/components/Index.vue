@@ -87,7 +87,7 @@
                             <b-card :img-src="teamMember.img" img-alt="Img" style="max-width: 9rem" class="mb-2">
                                 <h5 style="font-family:Courier New, Courier, monospace;font-size:18px"> {{teamMember.name}} <br><br>  </h5>
                                 <p class="card-text" style="font-family:Trebuchet MS, Helvetica, sans-serif;font-style: italic;">
-                                    {{teamMember.dev}} </p> 
+                                    {{teamMember.dev}} </p>
                                 <p class="lang">{{teamMember.lang}}</p>
                                 <p> <i style="color: rgba(47,75,72,0.85);font-size:13px;"> '{{teamMember.phrase}}'</i></p>
                                 <b-card-footer style="font-size:14px">
@@ -276,7 +276,7 @@
                 getProjects() {
                     //evt.preventDefault();
                     const self = this;
-                    axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=false&limit=22&offset=0', {
+                    axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=false&currentPage=1', {
                             headers: {
                                 "auth": localStorage.getItem('auth_token')
                             }
