@@ -13,22 +13,25 @@
                         <h1 align="center" class="text-enhancement" style="margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
                     </b-col>
                     <b-col>
-                        <button type="button" class="btn btn-primary" v-on:click="gotoSignIn">Log In</button>
+                        <button type="button" class="btn btn-primary" v-on:click="gotoSignIn" style="margin-right:5px">Log In</button>
                         <button type="button" class="btn btn-primary" v-on:click="gotoSignUp">Sign Up</button>
                     </b-col>
                 </b-row>
                 <b-row align-h="center">
                     <p  class="text-enhancement" style="color:white; font-style: italic;font-weight:normal;" align="center">Be agile together! </p>
                 </b-row>
+                <b-row>
+                    <p></p>
+                </b-row>
                 <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
                     <b-col col lg="1">
-                        <a class="active" href="#home" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;font-weight:450;" align="center">home</a>
+                        <a class="active anchors" href="#home" align="center">home</a>
                     </b-col>
                     <b-col col lg="1">
-                        <a href="#features" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;font-weight:450;" align="center">features</a>
+                        <a href="#features" class="anchors" align="center">features</a>
                     </b-col>
                     <b-col col lg="1">
-                        <a href="#about" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;font-weight:450;" align="center">about</a>
+                        <a href="#about" class="anchors" align="center">about</a>
                     </b-col>
                 </b-row>
 
@@ -48,17 +51,21 @@
                         <p></p>
                     </b-row>
                     <b-row>
-                        <b-col>
-                            <b-list-group class="text-enhancement" style="text-align:center; font-weight: normal;color:#2d2d2d;">
+                        <p></p>
+                    </b-row>
+                    <b-row>
+                        <b-col cols="1"></b-col>
+                        <b-col cols="4">
+                            <b-list-group class="text-enhancement" style="text-align:center; font-weight: normal;color:#2d2d2d;font-size: 13px">
                                 <b-list-group-item>Implement scrum methodology</b-list-group-item>
                                 <b-list-group-item>Free of charge forever</b-list-group-item>
                                 <b-list-group-item>Variety of tools to choose by</b-list-group-item>
-                                <b-list-group-item>Create , participate , communicate in projects</b-list-group-item>
+                                <b-list-group-item>Create & Participate in projects</b-list-group-item>
                                 <b-list-group-item>Update Product and Sprint Backlogs</b-list-group-item>
                                 <b-list-group-item>Manage your sprints and deadlines</b-list-group-item>
                                 <b-list-group-item>Review old and current sprints </b-list-group-item>
                                 <b-list-group-item>Edit profiles and view others</b-list-group-item>
-                                <b-list-group-item>Invite members , assign roless</b-list-group-item>
+                                <b-list-group-item>Invite members , assign roles</b-list-group-item>
                                 <b-list-group-item>Create Epics , Tasks , Stories</b-list-group-item>
                             </b-list-group>
                         </b-col>
@@ -77,11 +84,15 @@
                     </b-row>
                     <b-row>
                         <b-card-group v-for="teamMember in teamData" :key="teamMember.member" deck style="margin: 0 auto;float: none; margin-bottom: 10px;">
-                            <b-card :title="teamMember.name" :img-src="teamMember.img" img-alt="Img" style="max-width: 9rem" class="mb-2">
-                                <p class="card-text" style="font-style: italic;">
-                                    {{teamMember.dev}}, {{teamMember.lang}}
-                                    <br>
-                                    <br> <i style="color: rgba(47,75,72,0.85)"> Phrase:<br>{{teamMember.phrase}}</i></p>
+                            <b-card :img-src="teamMember.img" img-alt="Img" style="max-width: 9rem" class="mb-2">
+                                <h5 style="font-family:Courier New, Courier, monospace;font-size:18px"> {{teamMember.name}} <br><br>  </h5>
+                                <p class="card-text" style="font-family:Trebuchet MS, Helvetica, sans-serif;font-style: italic;">
+                                    {{teamMember.dev}} </p> 
+                                <p class="lang">{{teamMember.lang}}</p>
+                                <p> <i style="color: rgba(47,75,72,0.85);font-size:13px;"> '{{teamMember.phrase}}'</i></p>
+                                <b-card-footer style="font-size:14px">
+                                    <b-link v-b-tooltip.hover :title="teamMember.email"> E-mail </b-link>
+                                </b-card-footer>
                             </b-card>
                         </b-card-group>
                     </b-row>
@@ -89,7 +100,7 @@
                         <p></p>
                     </b-row>
                     <b-row align-h="center">
-                        <p class="description">
+                        <p class="description who">
                             - We are a team of junior developers , developing our first project , implementing a web cooperative platform for software management. This platform helps teams to implement software projects based on agile methodology (SCRUM) via backlogs, issues, epics and sprints.
                         </p>
                     </b-row>
@@ -100,22 +111,25 @@
                         </b-row>
                         <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
                             <b-col col lg="1">
-                                <a class="active" href="#home" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;font-weight:450;" align="center">home</a>
+                                <a class="active anchors" href="#home" align="center">home</a>
                             </b-col>
                             <b-col col lg="1">
-                                <a href="#features" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;font-weight:450;" align="center">features</a>
+                                <a href="#features" class="anchors" align="center">features</a>
                             </b-col>
                             <b-col col lg="1">
-                                <a href="#about" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;font-weight:450;" align="center">about</a>
+                                <a href="#about" class="anchors" align="center">about</a>
                             </b-col>
                         </b-row>
+                        <b-row><p></p></b-row>
                         <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
-                            <b-col col lg="2">
-                                <a class="active" href="#home" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;" align="right"> terms of use</a>
+                            <b-col cols="12"></b-col>
+                            <b-col align-self="end" lg="2">
+                                <a class="activ anchors" href="#home" style="font-size:13px;" > terms of use</a>
                             </b-col>
-                            <b-col col lg="2">
-                                <a href="#features" style="font-family:Comic Sans MS, Comic Sans, cursive; color:white; font-style: italic;" align="center">privacy policy</a>
+                            <b-col align-self="end" lg="2">
+                                <a href="#features" class="anchors" style="font-size:13px;" >privacy policy</a>
                             </b-col>
+                            <b-col cols="12"><p></p></b-col>
                         </b-row>
                     </b-container>
                 </b-container>
@@ -355,6 +369,9 @@
 
 <style scoped>
     @import url('https://fonts.googleapis.com/css?family=Merienda');
+    @import url('https://fonts.googleapis.com/css?family=VT323');
+    @import url('https://fonts.googleapis.com/css?family=Antic');
+
     .Title {
         position: absolute;
         top: 0;
@@ -442,5 +459,17 @@
 
     .text-enhancement {
         font-family: 'Merienda', cursive;
+    }
+
+    .anchors{
+        font-family:'Merienda',cursive; color:white; font-style: italic;font-weight:450;
+    }
+
+    .lang{
+        font-family: VT323;font-size:25px;
+    }
+
+    .who{
+        font-family:Antic;
     }
 </style>
