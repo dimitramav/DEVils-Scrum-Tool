@@ -11,7 +11,7 @@ import Backlog from '@/components/Backlog/'
 import OldSprints from '@/components/OldSprints'
 import Profile from '@/components/Profile'
 import EditProfile from '@/components/EditProfile'
-
+import SprintBacklog from '@/components/SprintBacklog'
 Vue.use(Router)
 
 export default new Router({
@@ -70,6 +70,11 @@ export default new Router({
       path:'/editprofile',
       name: 'EditProfile',
       component: EditProfile
+    },
+    {
+      path:'/sprintbacklog',
+      name: 'SprintBacklog',
+      component: SprintBacklog
     }
   ]
 })
