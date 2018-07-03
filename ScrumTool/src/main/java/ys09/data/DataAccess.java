@@ -37,7 +37,7 @@ public class DataAccess {
     private static final int MAX_IDLE_CONNECTIONS = 8;
 
     private DataSource dataSource;
-    private JdbcTemplate jdbcTemplate;
+    private static JdbcTemplate jdbcTemplate;
 
 
     public void setup(String driverClass, String url, String user, String pass) throws SQLException {
@@ -64,6 +64,11 @@ public class DataAccess {
         dataSource = bds;
     }
 
+    // Singleton !
+
+    public static JdbcTemplate getInstance(){
+        return jdbcTemplate;
+    }
 
     //@Transactional
     public Project insertProject(Project project, int idUser, String role) throws SQLException {
@@ -336,72 +341,6 @@ public class DataAccess {
             return null;
         }
     }
-
-
-    // Update PBI's Sprint_id field
-    public void updateSprintId(List<PBI> pbis) {
-
-        String sql = "UPDATE PBI SET Sprint_id = ? WHERE idPBI = ?";
-        JdbcTemplate template = new JdbcTemplate(dataSource);
-        System.out.println("updateSprint");
-
-        template.batchUpdate(sql, new BatchPreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement ps, int i) throws SQLException {
-                PBI singlePbi = pbis.get(i);
-                ps.setInt(1, singlePbi.getSprint_id());
-                ps.setInt(2, singlePbi.getIdPBI());
-            }
-            @Override
-            public int getBatchSize() {
-                return pbis.size();
-            }
-        });
-    }
-
-
-    
-    public Sprint getProjectCurrentSprint(int projectId) {
-        // Get the current sprint of a project
-        String query = "select * from Sprint where Project_id = ? and isCurrent = TRUE;";
-        try {
-            Sprint sprintItem = jdbcTemplate.queryForObject(query, new Object[]{projectId}, new SprintRowMapper());
-            return sprintItem;
-        } catch (EmptyResultDataAccessException e) {
-            Sprint sprintItem = new Sprint();
-            return sprintItem;
-        } 
-    }
-
-
-    // Create new sprint
-    // Insert User
-    public int createNewSprint(Sprint sprint) {
-
-        String query = "INSERT INTO Sprint(deadlineDate, goal, plan, isCurrent, numSprint, Project_id) VALUES (?, ?, ?, ?, ?, ?);";
-
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        java.sql.Date sqlDate = new java.sql.Date(sprint.getDeadlineDate().getTime());
-
-        jdbcTemplate = new JdbcTemplate(dataSource);
-
-        jdbcTemplate.update(new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-                statement.setDate(1, sqlDate);
-                statement.setString(2, sprint.getGoal());
-                statement.setString(3, sprint.getPlan());
-                statement.setBoolean(4, sprint.getCurrent());
-                statement.setInt(5, sprint.getNumSprint());
-                statement.setInt(6, sprint.getProject_id());
-                return statement;
-            }
-        }, keyHolder);
-        // Return the new generated id for user
-        return keyHolder.getKey().intValue();
-    }
-
 
     // Check if User exists into the database (either checking email or username)
     public boolean userExists(String mail) {

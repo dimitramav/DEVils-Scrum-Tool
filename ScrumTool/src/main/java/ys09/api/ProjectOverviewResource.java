@@ -19,6 +19,7 @@ import org.restlet.engine.header.Header;
 import org.restlet.util.Series;
 import java.io.IOException;
 
+import ys09.data.SprintDB;
 import ys09.model.*;
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +76,8 @@ public class ProjectOverviewResource extends ServerResource {
             if(customAuth.userValidation(token, userId)) {
                 // Get project and its current sprint Information information
                 Project project = dataAccess.getCurrentProject(projectId);
-                Sprint  sprint  = dataAccess.getProjectCurrentSprint(projectId);
+                SprintDB sprintDB = new SprintDB();
+                Sprint  sprint  = sprintDB.getProjectCurrentSprint(projectId);
                 // Create a ProjectOverview item to store the data needed for overview page
                 ProjectOverview projectOverviewItem = new ProjectOverview();
                 projectOverviewItem.project = project;

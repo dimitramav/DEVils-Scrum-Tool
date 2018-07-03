@@ -11,6 +11,7 @@ import org.restlet.util.Series;
 import ys09.auth.CustomAuth;
 import ys09.conf.Configuration;
 import ys09.data.DataAccess;
+import ys09.data.SprintDB;
 import ys09.exceptions.ErrorMessage;
 import ys09.model.PBI;
 import ys09.model.Project;
@@ -163,7 +164,8 @@ public class BacklogResource extends ServerResource {
                     List<PBI> pbis = new Gson().fromJson(str, listType);
                     //System.out.println(pbis.get(0).getIdPBI());
                     System.out.println("lolo");
-                    dataAccess.updateSprintId(pbis);
+                    SprintDB sprintDB = new SprintDB();
+                    sprintDB.updateSprintId(pbis);
                     // Update the
                     // Set the response headers
                     map.put("PBI Update", "result");
