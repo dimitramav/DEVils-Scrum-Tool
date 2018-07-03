@@ -18,9 +18,9 @@
                 </template>
                 <template>
                   <b-form inline style="margin: 10px;" @submit="updateProject">
-                    <p> New Project's Title</p>
+                    <p> Project's New Title</p>
                     <b-form-input type="text" placeholder=" " style="margin-top: -10px" v-model="form.newTitle" required></b-form-input>
-                    <p style="margin-top: 5px">New Project's Deadline</p>
+                    <p style="margin-top: 5px">Project's New Deadline</p>
                     <b-form-input type="date" placeholder=" " style="margin-top: -10px" v-model="form.deadlineDate" required></b-form-input>
                     <b-button variant="success" type="submit" style="margin-top: 10px; width: 100%;">Save changes</b-button>
                   </b-form>
