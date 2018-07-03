@@ -19,6 +19,7 @@ import org.restlet.engine.header.Header;
 import org.restlet.util.Series;
 import java.io.IOException;
 
+import ys09.data.TeamDB;
 import ys09.model.*;
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +73,8 @@ public class TeamResource extends ServerResource {
             // Get Project Team Members
             if(customAuth.userValidation(token, userId)) {
                 // Get project and its current sprint Information information
-                List<Team> teamList = dataAccess.getTeamMembers(projectId);
+                TeamDB teamDB = new TeamDB();
+                List<Team> teamList = teamDB.getTeamMembers(projectId);
                 // Find the role that each member has in project
                 for (int i = 0; i < teamList.size(); i++){
                     String role = dataAccess.getMemberRole(teamList.get(i).getIdUser(), projectId);
@@ -137,7 +139,8 @@ public class TeamResource extends ServerResource {
                     Gson gson = new Gson();
                     Team member = gson.fromJson(str, Team.class);
                     // Insert
-                    Team response = dataAccess.insertNewMember(member, projectId);
+                    TeamDB teamDB = new TeamDB();
+                    Team response = teamDB.insertNewMember(member, projectId);
                     // Set the response headers
                     map.put("results", response);
                     return new JsonMapRepresentation(map);

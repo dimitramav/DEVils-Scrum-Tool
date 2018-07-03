@@ -72,6 +72,8 @@ public class RestfulApp extends Application {
 		router.attach("/users/{userId}/projects/{projectId}/sprints", SprintResource.class);
 		//GET user information for profile
 		router.attach("/users/{userId}/profile/{username}", UsersResource.class);
+		// GET stories of a sprint
+		router.attach("/users/{userId}/projects/{projectId}/stories", StoriesResource.class);
 		//router.attach("users/{userId}/projects/{projectId}/sprints");
 		return corsFilter;
 	}
