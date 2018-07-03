@@ -134,19 +134,32 @@
                 <h2>Team</h2>
               </b-row>
               <br>
-              <b-list-group v-for="teamMember in Team" v-bind:data="teamMember"
-                            v-bind:key="teamMember.mail">
-                <b-list-group-item class="flex-column align-items-start">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{teamMember.role}}</h5>
-                  </div>
-                  <p align="left">
-                    Name: {{teamMember.lastname}} {{teamMember.firstname}}
-                    <br>
-                    Email: {{teamMember.mail}}
-                  </p>
-                </b-list-group-item>
-              </b-list-group>
+
+
+			<b-container fluid>
+				<b-row>
+					<b-col cols="8">
+						<div id="scrollspy-nested" style="position:relative;height:328px;overflow-y:auto">
+							
+							<b-list-group v-for="teamMember in Team" v-bind:data="teamMember"
+							v-bind:key="teamMember.mail">
+								<b-list-group-item class="flex-column align-items-start">
+									<div class="d-flex w-100 justify-content-between">
+										<h5 class="mb-1">{{teamMember.role}}</h5>
+									</div>
+									<p align="left">
+										Name: {{teamMember.lastname}} {{teamMember.firstname}}
+										<br>
+										Email: {{teamMember.mail}}
+									</p>
+								</b-list-group-item>
+							</b-list-group>
+							
+						</div>
+					</b-col>
+				</b-row>
+			</b-container>
+
               <br>
               <template>
                 <div v-if = "(projectOverview.project.isDone === false )">
@@ -254,7 +267,7 @@
             deadlineDate: '',
             isDone: false
         },
-
+        
         validEmail: null,
         diffDays: 0,
         issues: 0,
