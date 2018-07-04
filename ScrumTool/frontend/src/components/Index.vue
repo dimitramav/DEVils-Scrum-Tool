@@ -151,7 +151,7 @@
             </b-col>
             <b-col class="text-right">
               <div>
-                <b-dropdown id="ddown1" variant="info" text="Create a New Project" class="m-md-2">
+                <b-dropdown id="ddown1" variant="info" text="Create a New Project" class="m-md-2 pcsprint">
                   <b-form inline style="margin: 10px;" @submit="newProject">
                     <h4>Title:</h4>
                     <label class="sr-only" for="newProjectName"></label>
@@ -172,11 +172,12 @@
 
           <b-row>
             <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-              <b-card :title="cur_project.title" img-top tag="article" style="max-width: 15rem;" img-src="https://picsum.photos/600/300/?image=527" img-alt="Image">
-                <p class="card-text">
+              <b-card img-top tag="article" style="max-width: 15rem;" img-src="https://picsum.photos/600/300/?image=527" img-alt="Image">
+                <h3 class="pcsprint"> {{cur_project.title}}</h3>
+                <p class="card-text pcsprint">
                   Deadline: {{cur_project.deadlineDate}}
                 </p>
-                <router-link tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:cur_project.idProject}}">Proceed</router-link>
+                <router-link class="pcsprint" tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:cur_project.idProject}}"> Proceed  </router-link>
               </b-card>
             </b-card-group>
           </b-row>
@@ -208,11 +209,12 @@
             <br>
             <b-row>
               <b-card-group v-for="done_project in doneProjects" :key="done_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-                <b-card :title="done_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2" img-src="https://picsum.photos/600/300/?image=1068" img-alt="Image">
-                  <p class="card-text">
+                <b-card img-top tag="article" style="max-width: 15rem;" class="mb-2" img-src="https://picsum.photos/600/300/?image=1068" img-alt="Image">
+                  <h3 class="pcsprint"> {{done_project.title}} </h3>
+                  <p class="card-text pcsprint">
                     Deadline: {{done_project.deadlineDate}}
                   </p>
-                  <router-link tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:done_project.idProject}}">Proceed</router-link>
+                  <router-link class="pcsprint" tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:done_project.idProject}}">Proceed</router-link>
                 </b-card>
               </b-card-group>
             </b-row>
@@ -430,7 +432,19 @@
   @import url('https://fonts.googleapis.com/css?family=Merienda');
   @import url('https://fonts.googleapis.com/css?family=VT323');
   @import url('https://fonts.googleapis.com/css?family=Antic');
+  @import url('https://fonts.googleapis.com/css?family=Quicksand');
 
+  .ptitle{
+    font-family: Merienda;
+  }
+
+  .pdeadline{
+    font-family: VT323;font-size:24px; margin-top: 1%;
+  }
+
+  .pcsprint{
+    font-family: Quicksand;
+  }
   .Title {
     position: absolute;
     top: 0;
