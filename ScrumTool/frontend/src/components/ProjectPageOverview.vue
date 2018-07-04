@@ -424,7 +424,6 @@
               }
             }
             if (response.data.results) {
-              self.Team.push(response.data.results);
               console.log("Invitation send");
               self.newMember.mail='';
               self.validEmail=null;
