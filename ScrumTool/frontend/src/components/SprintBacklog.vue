@@ -32,7 +32,7 @@
           <!--user stories card-->
           <b-card-group v-for="cur_story in currentStories" :key="cur_story.idPBI" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
           <b-card :title="cur_story.title" img-top tag="article" class="mb-2">
-            
+
             <div slot="header"  >
               <b-row>
 
@@ -75,6 +75,7 @@
   export default {
     components: {
       navbar: Navbar,
+      name: "SprintBacklog"
     },
     data() {
       return {

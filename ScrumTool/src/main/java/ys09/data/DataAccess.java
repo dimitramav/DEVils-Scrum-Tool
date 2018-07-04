@@ -435,6 +435,12 @@ public class DataAccess {
         return jdbcTemplate.query(query, new Object[]{sprintId}, new PBIRowMapper());
     }
 
+    public List<PBI> getOnlySprintStories(int sprintId) {
+        // Find the Stories that belong to a specific Sprint
+        String query = "select * from PBI where Sprint_id = ? and isEpic = false";
+        return jdbcTemplate.query(query, new Object[]{sprintId}, new PBIRowMapper());
+    }
+
 
     public List<Task> getSprintTasks(int sprintId) {
         // Find the Tasks belong to a specific Sprint
@@ -448,12 +454,6 @@ public class DataAccess {
         String query = "select * from Issue where Task_id in (select idTask from Task where PBI_id in (select idPBI from PBI where Sprint_id = ?));";
         return jdbcTemplate.query(query, new Object[]{sprintId}, new IssueRowMapper());
     }
-
-
-
-
-
-
 
     public String getMemberRole(int userId, int projectId) {
         // Find the role of a specific member in project
