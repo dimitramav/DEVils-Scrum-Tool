@@ -53,6 +53,7 @@
   export default {
     components: {
       navbar: Navbar,
+      name: "SprintBacklog"
     },
     data() {
       return {
@@ -74,7 +75,7 @@
             }
             if (response.data.results) {
               self.currentSprint = response.data.results;
-              console.log(self.currentSprint);
+              console.log(response.data.results);
             }
           })
           .catch(function (error) {

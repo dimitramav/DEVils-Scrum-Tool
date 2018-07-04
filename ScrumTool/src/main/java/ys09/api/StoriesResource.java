@@ -90,7 +90,7 @@ public class StoriesResource extends ServerResource {
                             // find the id of the current sprint
                             int currentSprintId = currentSprint.getIdSprint();
                             // Find the pbi's
-                            List<PBI> stories = dataAccess.getSprintStories(currentSprintId);
+                            List<PBI> stories = dataAccess.getOnlySprintStories(currentSprintId);
                             map.put("stories", stories);
                             return new JsonMapRepresentation(map);
                         }

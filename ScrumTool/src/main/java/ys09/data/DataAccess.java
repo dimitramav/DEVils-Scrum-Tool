@@ -427,6 +427,12 @@ public class DataAccess {
         return jdbcTemplate.query(query, new Object[]{sprintId}, new PBIRowMapper());
     }
 
+    public List<PBI> getOnlySprintStories(int sprintId) {
+        // Find the Stories that belong to a specific Sprint
+        String query = "select * from PBI where Sprint_id = ? and isEpic = false";
+        return jdbcTemplate.query(query, new Object[]{sprintId}, new PBIRowMapper());
+    }
+
 
     public List<Task> getSprintTasks(int sprintId) {
         // Find the Tasks belong to a specific Sprint
