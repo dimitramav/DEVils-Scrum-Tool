@@ -59,13 +59,19 @@
           </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
-    </b-navbar>
+    </b-navbar>s
 
   </b-container>
 </template>
 
 <script>
+
   export default {
+    data() {
+      return {
+        Notifications: [],
+      }
+    },
     name: "Navbar",
     methods: {
       logout() {
@@ -87,6 +93,15 @@
       editprofile() {
         this.$router.push({path: '/editprofile'});
       },
+      getNotifications () {
+        const self = this;
+        self.Notifications = [{"idNotification": 1, "Project_id": 5, "projectTitle": "Steam", "role": "Developer", "FromUsername": "vaggosGar", "ToUserEmail": "kostas@gmail.com", "type": "0"},
+          {"idNotification": 2, "Project_id": 6, "projectTitle": "Origin", "role": "Scrum Master", "FromUsername": "kostaskotronis", "ToUserEmail": "orestis@gmail.com", "type": "0"}];
+      },
+    },
+    mounted () {
+      console.log("aaaaaaaaaaaaaaaa");
+      this.getNotifications();
     },
     props: {
       dashboard: Boolean,
