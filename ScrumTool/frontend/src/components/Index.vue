@@ -258,21 +258,16 @@
     components: {
       navbar: Navbar,
     },
-
     computed: {
-
     dateState () {
     var mindate = new Date();
         var dd = ("0" + mindate.getDate()).slice(-2);
         var mm = ("0" + (mindate.getMonth()+1)).slice(-2);
         var yyyy = mindate.getFullYear();
         mindate=yyyy+"-"+mm+"-"+dd;
-
     return this.form.deadlineDate>mindate ? true : false
       }  
-
     },
-
     data() {
       return {
         form: {
@@ -454,15 +449,12 @@
   @import url('https://fonts.googleapis.com/css?family=VT323');
   @import url('https://fonts.googleapis.com/css?family=Antic');
   @import url('https://fonts.googleapis.com/css?family=Quicksand');
-
   .ptitle{
     font-family: Merienda;
   }
-
   .pdeadline{
     font-family: VT323;font-size:24px; margin-top: 1%;
   }
-
   .pcsprint{
     font-family: Quicksand;
   }
@@ -471,50 +463,42 @@
     top: 0;
     left: 0;
   }
-
   .Home {
     position: absolute;
     background-color: #fafaff;
     width: 100%;
     left: 0;
   }
-
   .wordcloud {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 51%;
   }
-
   .Features {
     position: absolute;
     top: 540%;
     left: 0;
   }
-
   .stamp {
     border-style: double;
     border-color: grey;
     border-width: 4px;
   }
-
   .About {
     position: absolute;
     top: 960%;
     left: 4px;
   }
-
   .devs {
     height: 50%;
     width: 50%;
   }
-
   .bottom {
     position: absolute;
     left:-5px;
     width: 100%;
   }
-
   .description {
     font-size: 14px;
     width: 500px;
@@ -525,13 +509,11 @@
     text-align: justify;
     letter-spacing: 3px;
   }
-
   .Navigation {
     position: absolute;
     top: 0;
     left: 0;
   }
-
   .line {
     width: 99%;
     font-size: 1px;
@@ -540,29 +522,23 @@
     margin-top: 10px;
     margin-bottom: 10px;
   }
-
   .row {
     margin-right: 0px;
     margin-left: 0px;
   }
-
   .container-fluid {
     padding-right: 0;
     padding-left: 0;
   }
-
   .text-enhancement {
     font-family: 'Merienda', cursive;
   }
-
   .anchors{
     font-family:'Merienda',cursive; color:white; font-style: italic;font-weight:450;
   }
-
   .lang{
     font-family: VT323;font-size:25px;
   }
-
   .who{
     font-family:Antic;
   }

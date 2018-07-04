@@ -10,7 +10,8 @@
       <b-col>
         <b-alert variant="success" :show="showAlert" >Changes saved!</b-alert>
         <b-form style="text-align: left" @submit="updateProfile">
-          <b-form-group id="firstname"
+          <b-form-group class="pcsprint"
+                        id="firstname"
                         label="First Name"
                         label-for="firstname">
             <b-form-input id="firstname"
@@ -18,7 +19,8 @@
                           v-model="userInfos.firstname">
             </b-form-input>
           </b-form-group>
-          <b-form-group id="lastname"
+          <b-form-group class="pcsprint"
+                        id="lastname"
                         label="Last Name"
                         label-for="lastname">
             <b-form-input id="lastname"
@@ -26,7 +28,8 @@
                           v-model="userInfos.lastname">
             </b-form-input>
           </b-form-group>
-          <b-form-group id="emailForm"
+          <b-form-group class="pcsprint"
+                        id="emailForm"
                         label="Email address"
                         label-for="email">
             <b-form-input id="email"
@@ -35,7 +38,8 @@
             </b-form-input>
 
           </b-form-group>
-          <b-form-group id="JobId"
+          <b-form-group class="pcsprint"
+                        id="JobId"
                         label="Job"
                         label-for="job">
             <b-form-input id="job"
@@ -44,7 +48,8 @@
             </b-form-input>
 
           </b-form-group>
-          <b-form-group id="CompanyId"
+          <b-form-group class="pcsprint"
+                        id="CompanyId"
                         label="Company"
                         label-for="company">
             <b-form-input id="company"
@@ -53,7 +58,8 @@
             </b-form-input>
 
           </b-form-group>
-          <b-form-group id="CountryId"
+          <b-form-group class="pcsprint"
+                        id="CountryId"
                         label="Country"
                         label-for="Country">
             <b-form-input id="Country"
@@ -62,7 +68,8 @@
             </b-form-input>
 
           </b-form-group>
-          <b-form-group id="descriptionId"
+          <b-form-group class="pcsprint"
+                        id="descriptionId"
                         label="About me"
                         label-for="description">
             <b-form-textarea id="description"
@@ -75,7 +82,7 @@
           <change_pass></change_pass>
           <br>
           <!--TODO: bio-->
-          <b-button variant="success" size="lg" type="submit">Submit changes</b-button>
+          <b-button class="pcsprint" variant="success" size="md" type="info">Submit changes</b-button>
         </b-form>
 
       </b-col>
@@ -165,6 +172,20 @@
   }
 </script>
 <style scoped>
+  @import url('https://fonts.googleapis.com/css?family=Merienda');
+  @import url('https://fonts.googleapis.com/css?family=VT323');
+  @import url('https://fonts.googleapis.com/css?family=Antic');
+  @import url('https://fonts.googleapis.com/css?family=Quicksand');
+  
+  .ptitle{
+    font-family: Merienda;
+  }
+  .pdeadline{
+    font-family: VT323;font-size:24px; margin-top: 1%;
+  }
+  .pcsprint{
+    font-family: Quicksand;
+  }
 
   .Navigation {
     position: absolute;
