@@ -179,4 +179,63 @@ public class TasksResource extends ServerResource {
         }
     }
 
+    @Override
+    protected Representation put(Representation entity) throws ResourceException {
+
+        // New map string (which is the json name) and objects
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> mapError = new HashMap<>();
+        //System.out.println("Inside post");
+
+        // Get UserId
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized projects");
+            return new JsonMapRepresentation(mapError);
+        }
+        int userId = Integer.parseInt(userIdStr);
+        // Convert it to boolean
+
+        // Access the headers of the request!
+        Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
+        String token = requestHeaders.getFirstValue("auth");
+
+        if (token == null) {
+            mapError.put("error", "null");
+            return new JsonMapRepresentation(mapError);
+        }
+        CustomAuth customAuth = new CustomAuth();
+
+        if(customAuth.checkAuthToken(token)) {
+            // Insert the pbi given (either epic or story)
+            if(customAuth.userValidation(token, userIdStr)) {
+                // Get the whole json body representation
+                try {
+                    String str = entity.getText();
+                    // Now Create from String the JAVA object
+                    Gson gson = new Gson();
+                    Task task = gson.fromJson(str, Task.class);
+                    TaskDB taskDB = new TaskDB();
+                    // Update
+                    Task response = taskDB.update(task);
+                    // Set the response headers
+                    map.put("task", response);
+                    return new JsonMapRepresentation(map);
+                }
+                catch(IOException e) {
+                    mapError.put("error", "System Exception");
+                    return new JsonMapRepresentation(mapError);
+                }
+            }
+            else {
+                mapError.put("error", "Unauthorized projects");
+                return new JsonMapRepresentation(mapError);
+            }
+        }
+        else {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+    }
+
 }

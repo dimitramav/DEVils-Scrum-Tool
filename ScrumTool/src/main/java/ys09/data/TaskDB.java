@@ -17,7 +17,6 @@ public class TaskDB implements TaskInterface {
     public Task insert(Task task) {
 
         DataAccess dataAccess = new DataAccess();
-
         JdbcTemplate jdbcTemplate = dataAccess.getInstance();
 
         // Insert a pbi into PBI table
@@ -43,6 +42,34 @@ public class TaskDB implements TaskInterface {
             task.setId(idTask);
             return task;
 
+            // Error in update of jdbcTemplate
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Task update(Task task) {
+
+        DataAccess dataAccess = new DataAccess();
+        JdbcTemplate jdbcTemplate = dataAccess.getInstance();
+        // Update an existing PBI
+        String query = "update Task set description=?, state=?, PBI_id=? where idTask=?;";
+        try {
+            jdbcTemplate.update(new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                    PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                    statement.setString(1, task.getDescription());
+                    statement.setInt(2, task.getState());
+                    statement.setInt(3, task.getPBI_id());
+                    statement.setInt(4, task.getId());
+                    return statement;
+                }
+            });
+            // PBI's id is already in pbi class (as returned from frontend)
+            return task;
             // Error in update of jdbcTemplate
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
