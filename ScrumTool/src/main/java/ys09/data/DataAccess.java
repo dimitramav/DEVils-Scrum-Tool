@@ -455,12 +455,6 @@ public class DataAccess {
         return jdbcTemplate.query(query, new Object[]{sprintId}, new IssueRowMapper());
     }
 
-
-
-
-
-
-
     public String getMemberRole(int userId, int projectId) {
         // Find the role of a specific member in project
         String query = "select role from Project_has_User where User_id = ? and Project_id = ?;";

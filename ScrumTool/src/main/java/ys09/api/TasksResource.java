@@ -1,5 +1,6 @@
 package ys09.api;
 
+import com.google.gson.Gson;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
@@ -8,12 +9,12 @@ import ys09.auth.CustomAuth;
 import ys09.conf.Configuration;
 import ys09.data.DataAccess;
 import ys09.data.SprintDB;
+import ys09.data.TaskDB;
 import ys09.data.TeamDB;
-import ys09.model.PBI;
-import ys09.model.Sprint;
-import ys09.model.Task;
-import ys09.model.Team;
+import ys09.model.*;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,6 +118,65 @@ public class TasksResource extends ServerResource {
             return new JsonMapRepresentation(mapError);
         }
         return new JsonMapRepresentation(mapError);
+    }
+
+    @Override
+    protected Representation post(Representation entity) throws ResourceException {
+
+        // New map string (which is the json name) and objects
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> mapError = new HashMap<>();
+        //System.out.println("Inside post");
+
+        // Get UserId
+        String userId = getRequestAttributes().get("userId").toString();
+        if (userId.equals("null")) {
+            mapError.put("error", "Unauthorized projects");
+            return new JsonMapRepresentation(mapError);
+        }
+        int user = Integer.parseInt(userId);
+
+        // Access the headers of the request!
+        Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
+        String token = requestHeaders.getFirstValue("auth");
+
+        if (token == null) {
+            mapError.put("error", "null");
+            return new JsonMapRepresentation(mapError);
+        }
+        CustomAuth customAuth = new CustomAuth();
+
+        if(customAuth.checkAuthToken(token)) {
+            // Insert a project only for the current user (Product Owner)
+            if(customAuth.userValidation(token, userId)) {
+                // Get the whole json body representation
+                try {
+                    String str = entity.getText();
+                    // Now Create from String the JAVA object
+                    Gson gson = new Gson();
+                    Task newTask = gson.fromJson(str, Task.class);
+                    // Insert Task
+                    TaskDB taskDB = new TaskDB();
+                    Task task = taskDB.insert(newTask);
+                    //Project response = dataAccess.insertProject(newProject, user, "Product Owner");
+                    // Set the response headers
+                    map.put("task", task);
+                    return new JsonMapRepresentation(map);
+                }
+                catch(IOException e) {
+                    mapError.put("error", "System Exception");
+                    return new JsonMapRepresentation(mapError);
+                }
+            }
+            else {
+                mapError.put("error", "Unauthorized projects");
+                return new JsonMapRepresentation(mapError);
+            }
+        }
+        else {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
     }
 
 }
