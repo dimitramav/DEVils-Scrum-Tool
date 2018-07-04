@@ -376,7 +376,7 @@
       },
       getNumOfCurProjects() {
         const self = this;
-        axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=false', 
+        axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=false',
             { headers: { "auth": localStorage.getItem('auth_token') }
         })
           .then(function(response) {
@@ -394,7 +394,7 @@
       },
       getNumOfDoneProjects() {
         const self = this;
-        axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=true', 
+        axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=true',
             { headers: { "auth": localStorage.getItem('auth_token') }
         })
           .then(function(response) {
