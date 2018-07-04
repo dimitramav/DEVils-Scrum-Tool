@@ -5,9 +5,13 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.restlet.util.Series;
 import ys09.auth.CustomAuth;
+import ys09.conf.Configuration;
+import ys09.data.DataAccess;
 import ys09.data.SprintDB;
 import ys09.data.TeamDB;
+import ys09.model.PBI;
 import ys09.model.Sprint;
+import ys09.model.Task;
 import ys09.model.Team;
 
 import java.util.HashMap;
@@ -15,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 public class TasksResource extends ServerResource {
+    private final DataAccess dataAccess = Configuration.getInstance().getDataAccess();
+
     // Story has multiple tasks
     // We want sprint id
     protected Representation get() throws ResourceException {
@@ -83,8 +89,13 @@ public class TasksResource extends ServerResource {
                             // Get the current sprint info !
                             SprintDB sprintDB = new SprintDB();
                             Sprint currentSprint = sprintDB.getProjectCurrentSprint(project);
-                            System.out.println(currentSprint);
-                            map.put("sprint", currentSprint);
+
+                            // find the id of the current sprint
+                            int currentSprintId = currentSprint.getIdSprint();
+                            System.out.println(currentSprintId);
+                            // Find the tasks of the current sprint
+                            List<Task> tasks = dataAccess.getSprintTasks(currentSprintId);
+                            map.put("tasks", tasks);
                             return new JsonMapRepresentation(map);
                         }
                     }
