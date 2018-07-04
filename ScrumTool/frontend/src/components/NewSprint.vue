@@ -123,8 +123,10 @@
         console.log(self.sprint);
         let new_sprint = {deadlineDate: self.sprint.deadlineDate, Project_id: self.sprint.Project_id,
           goal: self.sprint.goal, plan: self.sprint.plan
-          , isCurrent: self.sprint.isCurrent, numSprint: self.sprint.numSprint};
-
+          , isCurrent: self.sprint.isCurrent, numSprint: self.sprint.numSprint+1};
+        console.log("paparia");
+        console.log(self.sprint.numSprint);
+       
         let config = {
           headers: { "auth": localStorage.getItem('auth_token'), "Content-Type":'application/json' }
         }
@@ -231,6 +233,10 @@
       this.sprint.Project_id = this.$route.params.id;      // Receive projectId from url parameters
       //this.sprint.Project_id = 5;
       this.sprint.numSprint  = this.$route.query.newSprintNum;   // Receive new numSprint (+1 from the previous one)
+      if( isNaN(this.sprint.numSprint)){
+        console.log("dada");
+        this.sprint.numSprint=0;
+      }
       //this.sprint.numSprint = 8;
       if (this.sprint.Project_id == null || this.sprint.numSprint == null) {
         console.log("Error: Add correct parameters (projectId and newSprintNum) in url");

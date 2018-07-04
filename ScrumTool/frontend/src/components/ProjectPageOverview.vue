@@ -13,10 +13,10 @@
                         <b-col></b-col>
                         <b-col></b-col>
                         <b-col>
-                            <p class="pdeadline">Project End:</p>
+                            <p class="pcsprint" style="font-weight:bold;">Project End:</p>
                         </b-col>
                         <b-col>
-                            <p class="pdeadline"> {{projectOverview.project.deadlineDate}} </p>
+                            <p class="pcsprint"> {{projectOverview.project.deadlineDate}} </p>
                         </b-col>
                         <b-col></b-col>
                         <b-col v-if="(projectOverview.project.isDone == false )" class="text-right">
@@ -95,11 +95,11 @@
                                     <br>
                                     <b-row>
                                         <b-col>
-                                            <p class="pdeadline">Sprint End: {{sdeadline}}</p>
+                                            <p class="pcsprint" style="font-weight:bold;">Sprint End: {{sdeadline}}</p>
                                         </b-col>
                                         <b-col>
                                             <div v-if="( diffDays > -1)">
-                                                <p class="pdeadline">Days Remaining: {{diffDays}}</p>
+                                                <p class="pcsprint" style="font-weight:bold;">Days Remaining: {{diffDays}}</p>
                                             </div>
                                         </b-col>
                                     </b-row>
