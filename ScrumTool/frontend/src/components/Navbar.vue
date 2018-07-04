@@ -18,19 +18,14 @@
                 <img src="https://support.rocketchatlauncher.com/wp-content/uploads/2017/03/bell.png" style="width:20px;">
               </em>
             </template>
-            <b-dropdown-item disabled>
-              Mark Zuckerberg invited you as Scrum Master in Facebook .
-              <br>
-              <b-button variant="primary" type="submit">Accept</b-button>
-              <b-button variant="secondary" type="submit">Decline</b-button>
-            </b-dropdown-item>
-            <b-dropdown-item disabled>
-              Bill Gates invited you as Scrum Master in Microsoft .
-              <br>
-              <b-button variant="primary" type="submit">Accept</b-button>
-              <b-button variant="secondary" type="submit">Decline</b-button>
-            </b-dropdown-item>
-
+            <div  v-for="notification in Notifications">
+              <b-dropdown-item disabled>
+                {{notification.FromUsername}} invited you as {{notification.role}} in {{notification.projectTitle}}.
+                <br>
+                <b-button variant="primary" type="submit">Accept</b-button>
+                <b-button variant="secondary" type="submit">Decline</b-button>
+              </b-dropdown-item>
+            </div>
           </b-nav-item-dropdown>
           <!-- Setting notifications -->
           <b-nav-item-dropdown right>
@@ -59,7 +54,7 @@
           </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
-    </b-navbar>s
+    </b-navbar>
 
   </b-container>
 </template>
@@ -100,7 +95,6 @@
       },
     },
     mounted () {
-      console.log("aaaaaaaaaaaaaaaa");
       this.getNotifications();
     },
     props: {
