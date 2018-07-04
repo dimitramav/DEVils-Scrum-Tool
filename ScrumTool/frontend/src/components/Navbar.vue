@@ -28,7 +28,7 @@
             </div>
             <div v-else v-for="notification in Notifications">
               <b-dropdown-item disabled>
-                {{notification.FromUsername}} invited you as {{notification.role}} in {{notification.projectTitle}}.
+                User {{notification.FromUsername}} invited you as {{notification.role}} in {{notification.projectTitle}}.
                 <br>
                 <b-button variant="primary" type="submit">Accept</b-button>
                 <b-button variant="secondary" type="submit">Decline</b-button>
@@ -100,6 +100,30 @@
         const self = this;
         self.Notifications = [{"idNotification": 1, "Project_id": 5, "projectTitle": "Steam", "role": "Developer", "FromUsername": "vaggosGar", "ToUserEmail": "kostas@gmail.com", "type": "0"},
           {"idNotification": 2, "Project_id": 6, "projectTitle": "Origin", "role": "Scrum Master", "FromUsername": "kostaskotronis", "ToUserEmail": "orestis@gmail.com", "type": "0"}];
+        /*
+        axios.get(this.$url+ 'users/'+ localStorage.getItem('userId') +'/projects/' + this.$route.params.id + '/members', {
+          headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
+        })
+          .then(function (response) {
+            if (response.data.error) {
+              if (response.data.error === "Unauthorized user") {
+                console.log("Unauthorized user");
+              }
+              else if (response.data.error === "Unauthorized notifications") {
+                console.log("Unauthorized notifications");
+              }
+              else if (response.data.error === "null") {
+                console.log("Null token");
+              }
+            }
+            if (response.data.results) {
+              self.Notifications = response.data.results;
+              console.log("Got the notifications");
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })*/
       },
     },
     mounted () {
