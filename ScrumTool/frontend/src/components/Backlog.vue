@@ -7,7 +7,7 @@
       <b-row>
         <b-col class="text-right">
           <div>
-            <b-btn  v-b-modal="'new_storyundefined'" size="lg" variant ="success" class="m-md-2" >Create New Epic</b-btn>
+            <b-btn  v-b-modal="'new_storyundefined'" size="md" variant ="success" class="m-md-2 pcsprint" >Create New Epic</b-btn>
             <new_pbi v-on:new_epic="newEpic" :idProject="currentProject_id"></new_pbi>
 
           </div>
@@ -24,47 +24,47 @@
 
                 <!--New User Story-->
                 <div row>
-                  <b-btn  v-b-modal="'new_story'+cur_pbi.idPBI" >Add User Story</b-btn>
+                  <b-btn class="pcsprint" v-b-modal="'new_story'+cur_pbi.idPBI" >Add User Story</b-btn>
                   <new_pbi v-on:new_epic="newUserStory" :idProject="currentProject_id" :Epic_id="cur_pbi.idPBI"></new_pbi>
                 </div>
                 <!--EDIT EPIC-->
-                <edit_pbi v-on:edit_epic="editEpic" :idPBI="cur_pbi.idPBI" :idProject="currentProject_id" :title="cur_pbi.title" :desc="cur_pbi.description" :priority="cur_pbi.priority"></edit_pbi>
+                <edit_pbi class="pcsprint" v-on:edit_epic="editEpic" :idPBI="cur_pbi.idPBI" :idProject="currentProject_id" :title="cur_pbi.title" :desc="cur_pbi.description" :priority="cur_pbi.priority"></edit_pbi>
               </b-row>
             </div>
-            <p class=" card-text"> {{cur_pbi.description}} </p>
+            <p class="card-text pcsprint" style="color: grey;"> {{cur_pbi.description}} </p>
 
             <!--Get User Stories of each epic-->
             <div row style="padding-top: 2px">
-              <b-btn v-b-toggle="'collapse'+cur_pbi.idPBI" v-on:click="getEpicUserStories(cur_pbi.idPBI)"
-                     variant="primary"> User Stories
+              <b-btn class="pcsprint" v-b-toggle="'collapse'+cur_pbi.idPBI" v-on:click="getEpicUserStories(cur_pbi.idPBI)"
+                     variant="primary" style="background-color: #333333;"> User Stories
               </b-btn>
             </div>
-            <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2">
+            <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2 pcsprint">
               <div>
                 <draggable v-model="currentUserStories[cur_pbi.idPBI]" :move="onUserStoryMove" @change="onUserStoryChange" :options="{group:'UserStories'}">
 
                   <b-card-group v-for="cur_us in currentUserStories[cur_pbi.idPBI]" :key="cur_us.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
                     <b-card class="mb-1">
                       <b-card-header header-tag="header" class="p-1" role="tab">
-                        <b-btn block href="#" v-b-toggle="'collapse'+cur_us.idPBI" variant="info">{{cur_us.title}}
+                        <b-btn block href="#" v-b-toggle="'collapse'+cur_us.idPBI" variant="info" style="">{{cur_us.title}}
                         </b-btn>
                       </b-card-header>
                       <b-collapse :id="'collapse'+cur_us.idPBI" visible accordion="my-accordion" role="tabpanel">
                         <b-card-body>
-                          <p class="card-text">
+                          <p class="card-text pcsprint" style="color: grey;">
                             <b-row>
                               {{cur_us.description}}
                             </b-row>
                           </p>
+                        </b-card-body>
+                        <b-footer>
                           <p class="card-text">
                             <b-row>
                               <i class="text-muted">{{priorityToString(cur_us.priority)}}</i>
                             </b-row>
                           </p>
-                        </b-card-body>
-
-                        <edit_pbi v-on:edit_epic="editStory" :epicId="cur_pbi.idPBI" :idPBI="cur_us.idPBI" :idProject="currentProject_id" :title="cur_us.title" :desc="cur_us.description" :priority="cur_us.priority"></edit_pbi>
-
+                        </b-footer>
+                        <edit_pbi class="pcsprint" v-on:edit_epic="editStory" :epicId="cur_pbi.idPBI" :idPBI="cur_us.idPBI" :idProject="currentProject_id" :title="cur_us.title" :desc="cur_us.description" :priority="cur_us.priority"></edit_pbi>
                       </b-collapse>
                     </b-card>
                   </b-card-group>
@@ -73,7 +73,7 @@
             </b-collapse>
 
             <div slot="footer">
-              <h6 class="text-muted">{{priorityToString(cur_pbi.priority)}}</h6>
+              <h6 class="text-muted pcsprint">{{priorityToString(cur_pbi.priority)}}</h6>
             </div>
           </b-card>
         </b-card-group>
@@ -260,6 +260,21 @@ export default {
 
 
 <style scoped>
+  @import url('https://fonts.googleapis.com/css?family=Merienda');
+  @import url('https://fonts.googleapis.com/css?family=VT323');
+  @import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+  .ptitle{
+    font-family: Merienda;
+  }
+
+  .pdeadline{
+    font-family: VT323;font-size:24px; margin-top: 1%;
+  }
+
+  .pcsprint{
+    font-family: Quicksand;
+  }
 
   .Navigation {
     position: absolute;
