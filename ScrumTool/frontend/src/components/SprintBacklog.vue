@@ -116,7 +116,7 @@
         },
         currentProject_id:'',
         today:'',
-        currentTasks:[],
+        currentTasks:[[],[]],
       }
     },
     computed:{
@@ -170,6 +170,7 @@
             }
             if (response.data.stories) {
               self.currentStories = response.data.stories;
+
             }
 
           })
@@ -188,9 +189,22 @@
                 console.log("Unauthorized user");
               }
             }
-            if (response.data.tasks) {
-              self.currentTasks = response.data.tasks;
+            else if (response.data.tasks) {
+              //console.log(response.data.tasks);
+              let result = response.data.tasks.reduce(function (r, a) {
+                r[a.PBI_id] = r[a.PBI_id] || [];
+                r[a.PBI_id].push(a);
+                return r;
+              }, Object.create(null));
+              //console.log(result);
+
+              self.currentTasks = Object.values(result);
               console.log(self.currentTasks);
+
+              //self.currentTasks = result;
+              //console.log(self.currentTasks);
+              // self.currentTasks = JSON.parse(JSON.stringify(result));
+              // console.log(self.currentTasks);
             }
 
           })
@@ -217,7 +231,6 @@
               else console.log(error);
             }
             if (response.data.task) {
-              response.data.task.state=1;   //allagi
               self.currentTasks.push(response.data.task);
             }
           })

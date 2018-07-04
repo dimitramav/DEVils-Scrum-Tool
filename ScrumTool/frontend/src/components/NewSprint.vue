@@ -33,7 +33,14 @@
                         <p></p>
                     </b-row>
                     <label class="text-enhancement">Deadline Date:</label>
-                    <b-form-input class="input-style" v-model="sprint.deadlineDate" type="date"></b-form-input>
+                    <div>
+                      <b-form-input class="input-style" id="inputLive" v-model.trim="sprint.deadlineDate" type="date" :state="dateState"></b-form-input>
+                      <b-form-invalid-feedback id="inputLiveFeedback">
+                      Sprint's Deadline cannot be a past or current date.
+                      </b-form-invalid-feedback>
+                    </div>
+                    
+                    <!--<b-form-input class="input-style" v-model="sprint.deadlineDate" type="date"></b-form-input>-->
                 </b-form>
             </b-col>
             <b-col>
@@ -72,7 +79,7 @@
         </b-row>
         <b-row>
             <b-col class="text-center">
-                <b-button style="margin-top: 40px; padding-left:100px; padding-right: 100px;" type="submit" size="md" variant="danger" @click="submit">
+                <b-button style="margin-top: 40px; padding-left:100px; padding-right: 100px;" type="submit" size="md" variant="danger" @click="submit" :disabled="dateState===false">
                     Submit
                 </b-button>
             </b-col>
@@ -89,6 +96,21 @@
     components: {
       navbar: Navbar,
     },
+
+    computed: {
+
+    dateState () {
+    var mindate = new Date();
+        var dd = ("0" + mindate.getDate()).slice(-2);
+        var mm = ("0" + (mindate.getMonth()+1)).slice(-2);
+        var yyyy = mindate.getFullYear();
+        mindate=yyyy+"-"+mm+"-"+dd;
+
+    return this.sprint.deadlineDate>mindate ? true : false
+      }  
+
+    },
+
     data() {
       return {
         sprint: {
