@@ -7,7 +7,7 @@
         </b-row>
         <b-row>
           <b-col>
-            <b-img style="width: 30%;min-width:29%;min-height: 29%;max-width:30%;min-height:30%;" v-on:click="gotoIndex" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
+            <b-img style="min-width:50px; max-width:35%; margin-top: 3px; margin-bottom: -60px" v-on:click="gotoIndex" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
           </b-col>
           <b-col cols="8">
             <h1 align="center" class="text-enhancement" style="margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
@@ -23,7 +23,7 @@
         <b-row>
           <p></p>
         </b-row>
-        <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
+        <b-row class="justify-content-md-center" style="margin: 0 auto;float: none; padding-bottom: 2px; padding-top: 2px; background: #464668">
           <b-col col lg="1">
             <a class="active anchors" href="#home" align="center">home</a>
           </b-col>
@@ -151,15 +151,22 @@
             </b-col>
             <b-col class="text-right">
               <div>
-                <b-dropdown id="ddown1" variant="info" text="Create a New Project" class="m-md-2">
+                <b-dropdown id="ddown1" variant="info" size="lg" text="Create a New Project" class="m-md-2 pcsprint">
                   <b-form inline style="margin: 10px;" @submit="newProject">
-                    <h4>Title:</h4>
+                    <h4 style="margin-top: -13px">Title:</h4>
                     <label class="sr-only" for="newProjectName"></label>
-                    <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle" required/>
-                    <h5>Deadline:</h5>
+                    <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle" required style="margin-top: -7px"/>
+                    <h5 style="margin-top: 5px">Deadline:</h5>
                     <label class="sr-only" for="newProjectDate"></label>
-                    <b-form-input id="newProjectDate" type="date" v-model="form.deadlineDate" required/>
-                    <b-button variant="success" type="submit" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
+
+                    <div>
+                      <b-form-input id="inputLive" v-model.trim="form.deadlineDate" type="date" :state="dateState" required></b-form-input>
+                      <b-form-invalid-feedback id="inputLiveFeedback">
+                        Project's Deadline cannot be a past or current date.
+                      </b-form-invalid-feedback>
+                    </div>
+                    <!--<b-form-input id="newProjectDate" type="date" v-model="form.deadlineDate" required style="margin-top: -3px"/>-->
+                    <b-button variant="success" size="lg" type="submit" :disabled="dateState===false" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
                   </b-form>
                 </b-dropdown>
               </div>
@@ -172,11 +179,12 @@
 
           <b-row>
             <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-              <b-card :title="cur_project.title" img-top tag="article" style="max-width: 15rem;" img-src="https://picsum.photos/600/300/?image=527" img-alt="Image">
-                <p class="card-text">
+              <b-card img-top tag="article" style="max-width: 15rem;" img-src="https://picsum.photos/600/300/?image=527" img-alt="Image">
+                <h3 class="pcsprint"> {{cur_project.title}}</h3>
+                <p class="card-text pcsprint">
                   Deadline: {{cur_project.deadlineDate}}
                 </p>
-                <router-link tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:cur_project.idProject}}">Proceed</router-link>
+                <router-link class="pcsprint" tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:cur_project.idProject}}"> Proceed  </router-link>
               </b-card>
             </b-card-group>
           </b-row>
@@ -208,11 +216,12 @@
             <br>
             <b-row>
               <b-card-group v-for="done_project in doneProjects" :key="done_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-                <b-card :title="done_project.title" img-top tag="article" style="max-width: 15rem;" class="mb-2" img-src="https://picsum.photos/600/300/?image=1068" img-alt="Image">
-                  <p class="card-text">
+                <b-card img-top tag="article" style="max-width: 15rem;" class="mb-2" img-src="https://picsum.photos/600/300/?image=1068" img-alt="Image">
+                  <h3 class="pcsprint"> {{done_project.title}} </h3>
+                  <p class="card-text pcsprint">
                     Deadline: {{done_project.deadlineDate}}
                   </p>
-                  <router-link tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:done_project.idProject}}">Proceed</router-link>
+                  <router-link class="pcsprint" tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:done_project.idProject}}">Proceed</router-link>
                 </b-card>
               </b-card-group>
             </b-row>
@@ -248,6 +257,18 @@
   export default {
     components: {
       navbar: Navbar,
+    },
+    computed: {
+
+      dateState () {
+        let mindate = new Date();
+        let dd = ("0" + mindate.getDate()).slice(-2);
+        let mm = ("0" + (mindate.getMonth()+1)).slice(-2);
+        let yyyy = mindate.getFullYear();
+        mindate=yyyy+"-"+mm+"-"+dd;
+        if (this.form.deadlineDate==='') return null;
+        else return this.form.deadlineDate>mindate
+      },
     },
     data() {
       return {
@@ -334,12 +355,12 @@
             "auth": localStorage.getItem('auth_token'),
             "Content-Type": 'application/json'
           }
-        }
+        };
         let data = {
           title: this.form.newTitle,
           isDone: this.form.isDone,
           deadlineDate: this.form.deadlineDate
-        }
+        };
         axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects', data, config)
           .then(function(response) {
             if (response.data.error) {
@@ -371,11 +392,11 @@
       getNumOfCurProjects() {
         const self = this;
         axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=false',
-            { headers: { "auth": localStorage.getItem('auth_token') }
-        })
+          { headers: { "auth": localStorage.getItem('auth_token') }
+          })
           .then(function(response) {
             if (response.data.error) {
-                console.log(response.data.error);
+              console.log(response.data.error);
             }
             if (response.data.results) {
               self.totalNumOfCurProjects = response.data.results;
@@ -389,11 +410,11 @@
       getNumOfDoneProjects() {
         const self = this;
         axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=true',
-            { headers: { "auth": localStorage.getItem('auth_token') }
-        })
+          { headers: { "auth": localStorage.getItem('auth_token') }
+          })
           .then(function(response) {
             if (response.data.error) {
-                console.log(response.data.error);
+              console.log(response.data.error);
             }
             if (response.data.results) {
               self.totalNumOfDoneProjects = response.data.results;
@@ -427,56 +448,57 @@
   @import url('https://fonts.googleapis.com/css?family=Merienda');
   @import url('https://fonts.googleapis.com/css?family=VT323');
   @import url('https://fonts.googleapis.com/css?family=Antic');
-
+  @import url('https://fonts.googleapis.com/css?family=Quicksand');
+  .ptitle{
+    font-family: Merienda;
+  }
+  .pdeadline{
+    font-family: VT323;font-size:24px; margin-top: 1%;
+  }
+  .pcsprint{
+    font-family: Quicksand;
+  }
   .Title {
     position: absolute;
     top: 0;
     left: 0;
   }
-
   .Home {
     position: absolute;
     background-color: #fafaff;
     width: 100%;
     left: 0;
   }
-
   .wordcloud {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 51%;
   }
-
   .Features {
     position: absolute;
     top: 540%;
     left: 0;
   }
-
   .stamp {
     border-style: double;
     border-color: grey;
     border-width: 4px;
   }
-
   .About {
     position: absolute;
     top: 960%;
     left: 4px;
   }
-
   .devs {
     height: 50%;
     width: 50%;
   }
-
   .bottom {
     position: absolute;
     left:-5px;
     width: 100%;
   }
-
   .description {
     font-size: 14px;
     width: 500px;
@@ -487,13 +509,11 @@
     text-align: justify;
     letter-spacing: 3px;
   }
-
   .Navigation {
     position: absolute;
     top: 0;
     left: 0;
   }
-
   .line {
     width: 99%;
     font-size: 1px;
@@ -502,29 +522,23 @@
     margin-top: 10px;
     margin-bottom: 10px;
   }
-
   .row {
     margin-right: 0px;
     margin-left: 0px;
   }
-
   .container-fluid {
     padding-right: 0;
     padding-left: 0;
   }
-
   .text-enhancement {
     font-family: 'Merienda', cursive;
   }
-
   .anchors{
     font-family:'Merienda',cursive; color:white; font-style: italic;font-weight:450;
   }
-
   .lang{
     font-family: VT323;font-size:25px;
   }
-
   .who{
     font-family:Antic;
   }
