@@ -301,8 +301,7 @@
             }
             if (response.data.results) {
               self.currentProjects = response.data.results;
-              //self.recordsPerPageCurrent = self.currentProjects.length;
-              console.log(self.currentProjects.length);
+              //console.log(self.currentProjects.length);
             }
           })
           .catch(function(error) {
@@ -321,7 +320,6 @@
             }
             if (response.data.results) {
               self.doneProjects = response.data.results;
-              //self.recordsPerPageDone = self.doneProjects.length;
             }
           })
           .catch(function(error) {
@@ -381,7 +379,7 @@
             }
             if (response.data.results) {
               self.totalNumOfCurProjects = response.data.results;
-              console.log(self.totalNumOfCurProjects);
+              //console.log(self.totalNumOfCurProjects);
             }
           })
           .catch(function(error) {
@@ -399,7 +397,7 @@
             }
             if (response.data.results) {
               self.totalNumOfDoneProjects = response.data.results;
-              console.log(self.totalNumOfDoneProjects);
+              //console.log(self.totalNumOfDoneProjects);
             }
           })
           .catch(function(error) {

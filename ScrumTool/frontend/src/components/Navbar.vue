@@ -18,7 +18,7 @@
                     <img src="https://support.rocketchatlauncher.com/wp-content/uploads/2017/03/bell.png" style="width:20px;">
                   </em>
                   <em v-else>
-                    <img src="https://cdn0.iconfinder.com/data/icons/basic-ui-elements-colored/700/08_heart-2-512.png" style="width:20px;">
+                    <img src="http://www.iconsplace.com/icons/preview/red/appointment-reminders-256.png" style="width:20px;">
                   </em>
             </template>
             <div v-if="Notifications.length === 0">
@@ -27,12 +27,19 @@
               </b-dropdown-item>
             </div>
             <div v-else v-for="notification in Notifications">
-              <b-dropdown-item disabled>
-                User {{notification.FromUsername}} invited you as {{notification.role}} in {{notification.projectTitle}}.
-                <br>
-                <b-button variant="primary" type="submit">Accept</b-button>
-                <b-button variant="secondary" type="submit">Decline</b-button>
-              </b-dropdown-item>
+                <b-dropdown-item disabled>
+                  <div v-if="notification.type === 'Accept/Decline'">
+                    User {{notification.FromUsername}} invited you as {{notification.role}} in {{notification.projectTitle}}.
+                    <br>
+                    <b-button variant="primary" v-on:click="watchedNotification('accept', notification)">Accept</b-button>
+                    <b-button variant="secondary" v-on:click="watchedNotification('decline', notification)">Decline</b-button>
+                  </div>
+                  <div v-else>
+                    {{notification.text}}
+                    <br>
+                    <b-button variant="primary" v-on:click="watchedNotification('decline', notification)">OK</b-button>
+                  </div>
+                </b-dropdown-item>
             </div>
           </b-nav-item-dropdown>
           <!-- Setting notifications -->
@@ -43,7 +50,7 @@
               </em>
             </template>
             <b-dropdown-item-button v-on:click="profile">Profile</b-dropdown-item-button>
-            <b-dropdown-item-button v-on:click="editprofile">Edit Profile</b-dropdown-item-button>
+            <!--<b-dropdown-item-button v-on:click="editprofile">Edit Profile</b-dropdown-item-button>-->
             <b-dropdown-item-button v-on:click="logout">Sign out</b-dropdown-item-button>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -68,7 +75,8 @@
 </template>
 
 <script>
-
+  import axios from 'axios'
+  import json from '../assets/team.json'
   export default {
     data() {
       return {
@@ -93,15 +101,12 @@
           }
         });
       },
-      editprofile() {
+      /*editprofile() {
         this.$router.push({path: '/editprofile'});
-      },
+      },*/
       getNotifications () {
         const self = this;
-        self.Notifications = [{"idNotification": 1, "Project_id": 5, "projectTitle": "Steam", "role": "Developer", "FromUsername": "vaggosGar", "ToUserEmail": "kostas@gmail.com", "type": "0"},
-          {"idNotification": 2, "Project_id": 6, "projectTitle": "Origin", "role": "Scrum Master", "FromUsername": "kostaskotronis", "ToUserEmail": "orestis@gmail.com", "type": "0"}];
-        /*
-        axios.get(this.$url+ 'users/'+ localStorage.getItem('userId') +'/projects/' + this.$route.params.id + '/members', {
+        axios.get(this.$url+ 'users/'+ localStorage.getItem('userId') +'/notifications', {
           headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
         })
           .then(function (response) {
@@ -123,7 +128,85 @@
           })
           .catch(function (error) {
             console.log(error);
-          })*/
+          })
+      },
+      watchedNotification (functionality, notificationItem) {
+        const self = this;
+        if (functionality === 'accept') {
+          axios.put(this.$url+ 'users/'+ localStorage.getItem('userId') +'/notifications', notificationItem.idNotification,
+            { headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
+          })
+            .then(function (response) {
+              if (response.data.error) {
+                   console.log(response.data.error);
+              }
+              if (response.data.results) {
+                if (response.data.results == 1){
+                  var index = -1;
+                  for (var x in self.Notifications){
+                    if (self.Notifications[x].idNotification == notificationItem.idNotification){
+                      index = x;
+                      break;
+                    }
+                  }
+                  if (index >= 0) {
+                    self.Notifications.splice(index,1);
+                    console.log("Notification removed");
+                  }
+                }
+                else { console.log("Notification did not delete"); }
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
+          let data = { mail: notificationItem.ToUserEmail, role: notificationItem.role }
+          axios.post(this.$url +'users/'+ localStorage.getItem('userId') +'/projects/'+ notificationItem.Project_id + '/members', data, { headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
+          })
+            .then(function (response) {
+              if (response.data.error) {
+                console.log(response.data.error);
+              }
+              if (response.data.results) {
+                console.log("User inserted as member in the project");
+                //self.$router.push({path: '/'});
+                location.reload(true);
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
+          console.log(functionality);
+        }
+        else if (functionality === 'decline') {
+          axios.put(this.$url+ 'users/'+ localStorage.getItem('userId') +'/notifications', notificationItem.idNotification,
+            { headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
+          })
+            .then(function (response) {
+              if (response.data.error) {
+                   console.log(response.data.error);
+              }
+              if (response.data.results) {
+                if (response.data.results == 1){
+                  var index = -1;
+                  for (var x in self.Notifications){
+                    if (self.Notifications[x].idNotification == notificationItem.idNotification){
+                      index = x;
+                      break;
+                    }
+                  }
+                  if (index >= 0) {
+                    self.Notifications.splice(index,1);
+                    console.log("Notification removed");
+                  }
+                }
+                else { console.log("Notification did not delete"); }
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
+        }
       },
     },
     mounted () {

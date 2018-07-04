@@ -53,6 +53,7 @@ insert into Issue (description, Task_id) values ('They ask for more money', 1);
 select * from Issue;
 insert into Notification (Project_id, projectTitle, role, FromUsername, ToUserEmail, type)
 	values (5, 'Steam', 'Developer', 'vaggosGar', 'kostas@gmail.com', 'Accept/Decline');
+insert into Notification (ToUserEmail, type, text) values ('kostas@gmail.com', 'Text', 'Good morning sir!');
 select * from Notification;
 
 

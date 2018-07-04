@@ -266,6 +266,16 @@
           role: null
         },
 
+        invitation: {
+          idNotification: null,
+          Project_id: 0,
+          projectTitle: null,
+          role: null,
+          FromUsername: null,
+          ToUserEmail: '',
+          type: ''
+        },
+
         form: {
             idProject: 0,
             newTitle: '',
@@ -396,12 +406,17 @@
       addMembers () {
         const self = this;
         if (self.newMember.role === '1'){
-          self.newMember.role = "Scrum Master";
+          self.invitation.role = "Scrum Master";
         }
         else if (self.newMember.role === '2'){
-          self.newMember.role = "Developer";
+          self.invitation.role = "Developer";
         }
-        axios.post(this.$url+ 'users/'+ localStorage.getItem('userId') +'/projects/' + this.$route.params.id + '/members', self.newMember, {
+        self.invitation.Project_id = this.$route.params.id;
+        self.invitation.projectTitle = self.projectOverview.project.title;
+        self.invitation.FromUsername = localStorage.getItem('username');
+        self.invitation.ToUserEmail = self.newMember.mail;
+        self.invitation.type = "Accept/Decline";
+        axios.post(this.$url+ 'users/'+ localStorage.getItem('userId') +'/notifications', self.invitation, {
           headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
         })
         .then(function (response) {
@@ -417,8 +432,7 @@
             }
           }
           if (response.data.results) {
-            self.Team.push(response.data.results);
-            console.log("New member inserted");
+            console.log("Invitation send");
             self.newMember.mail='';
             self.validEmail=null;
           }

@@ -493,7 +493,7 @@ public class DataAccess {
 
     public List<Notification> getUserNotifications(int userId){
         // Get current project Information
-        String query = "select * from Notification where ToUserEmail in (select mail from User where idUser = ?) and type = 'Accept/Decline';";
+        String query = "select * from Notification where ToUserEmail in (select mail from User where idUser = ?);";
         return jdbcTemplate.query(query, new Object[]{userId}, new NotificationRowMapper());
     }
 

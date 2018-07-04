@@ -185,7 +185,7 @@ public class NotificationsResource extends ServerResource {
                 }
             }
             else {
-                mapError.put("error", "Unauthorized projects");
+                mapError.put("error", "Unauthorized notifications");
                 return new JsonMapRepresentation(mapError);
             }
         }
