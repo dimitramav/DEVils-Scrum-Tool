@@ -7,7 +7,7 @@
         </b-row>
         <b-row>
           <b-col>
-            <b-img style="min-width:50px; max-width:30%" v-on:click="gotoIndex" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
+            <b-img style="min-width:50px; max-width:35%; margin-top: 3px; margin-bottom: -60px" v-on:click="gotoIndex" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
           </b-col>
           <b-col cols="8">
             <h1 align="center" class="text-enhancement" style="margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
@@ -23,7 +23,7 @@
         <b-row>
           <p></p>
         </b-row>
-        <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
+        <b-row class="justify-content-md-center" style="margin: 0 auto;float: none; padding-bottom: 2px; padding-top: 2px; background: #464668">
           <b-col col lg="1">
             <a class="active anchors" href="#home" align="center">home</a>
           </b-col>
