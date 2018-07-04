@@ -1,6 +1,6 @@
 <template>
   <b-container fluid>
-    <b-navbar toggleable="md" class="navbar navbar-expand-lg bg-dark navbar-dark navbar-static-top" variant="info" fluid>
+    <b-navbar fixed="top" toggleable="md" class="navbar navbar-expand-lg bg-dark navbar-dark navbar-static-top" variant="info" fluid>
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
       <b-navbar variant="faded" type="light">
         <b-navbar-brand href="/#/">
@@ -49,7 +49,7 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-
+    <br><br><br>
     <b-navbar v-if="dashboard" toggleable="md" class="navbar navbar-expand-lg navbar-static-top subnav" variant="primary" type="dark" fluid>
       <b-navbar-toggle target="subnav_collapse"></b-navbar-toggle>
       <b-collapse is-nav id="subnav_collapse">
