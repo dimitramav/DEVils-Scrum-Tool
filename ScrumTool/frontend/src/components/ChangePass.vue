@@ -7,10 +7,14 @@
         <b-form style="text-align: left" >
           <b-form-group id="currentpass"
                         label="Current password"
+                        :invalid-feedback="currentPassword===false ? 'Please insert your correct password' : ''"
                         label-for="currentpass">
             <b-form-input id="currentpass"
                           type="password"
-                          v-model="form.currentpass">
+                          @change="passwordMatch"
+                          :state="currentPassword"
+                          v-model="form.password"
+                          autocomplete="off" required>
             </b-form-input>
           </b-form-group>
           <b-form-group id="newpass"
@@ -48,13 +52,15 @@ export default {
   name: "ChangePass",
   data(){
     return {
+      validEmail: null,
       form: {
-        currentpass: '',
+        password: '',
         newpass: '',
         verifypass: '',
       },
       verifiedPassword:null,
       validPassword:null,
+      currentPassword: null,
       userInfos:'',
     }
   },
@@ -88,23 +94,44 @@ export default {
   },
   methods: {
     updatePass(){
+      const self = this;
+      axios.patch(this.$url + 'matches/' + localStorage.getItem('userId'),{
+        password: this.form.newpass
+      }, {
+        headers: {"auth": localStorage.getItem('auth_token')}
+      })
+        .then(function(response) {
+          if(response.data.result === true) {
+             // Notify User
+          }
+          else {
+
+          }
+        })
+        .catch(function(error){
+
+        })
+
+    },
+    passwordMatch() {
       const self=this;
       axios.post(this.$url +'matches/' + localStorage.getItem('userId'), {
+        password: this.form.password,
+      },{
         headers: {"auth": localStorage.getItem('auth_token')}
       })
         .then(function (response) {
-          if (response.data.error) {
-            if (response.data.error === "Unauthorized user") console.log("Unauthorized user");
-            else console.log(response.data.error);
+          console.log(response.data.exists);
+          if(response.data.exists) {
+            self.currentPassword = true;
           }
-          else if (response.data.results) {
-            self.userInfos = response.data.results;
-            console.log("hi " + self.userInfos);
+          else {
+            self.currentPassword = false;
           }
-          else console.log("Unresolved response: " + response);
         })
         .catch(function (error) {
           console.log(error);
+          //self.validPassword = false;
         })
     }
   }
