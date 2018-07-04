@@ -2,6 +2,7 @@
 <div>
   <b-btn v-b-toggle.changepass class="m-1">Change Password</b-btn>
   <b-collapse id="changepass" class="mt-2">
+    <b-alert show variant="success" v-if=ok>You have successfully changed your password !</b-alert>
     <b-card>
       <p class="card-text">
         <b-form style="text-align: left" >
@@ -53,6 +54,7 @@ export default {
   data(){
     return {
       validEmail: null,
+      ok: false,
       form: {
         password: '',
         newpass: '',
@@ -103,6 +105,8 @@ export default {
         .then(function(response) {
           if(response.data.result === true) {
              // Notify User
+            console.log("xoxo");
+            self.ok = true;
           }
           else {
 

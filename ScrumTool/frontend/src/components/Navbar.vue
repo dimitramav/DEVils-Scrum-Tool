@@ -14,23 +14,26 @@
           <!-- Project notifications -->
           <b-nav-item-dropdown right>
             <template slot="button-content">
-              <em>
-                <img src="https://support.rocketchatlauncher.com/wp-content/uploads/2017/03/bell.png" style="width:20px;">
-              </em>
+                  <em v-if="Notifications.length === 0">
+                    <img src="https://support.rocketchatlauncher.com/wp-content/uploads/2017/03/bell.png" style="width:20px;">
+                  </em>
+                  <em v-else>
+                    <img src="https://cdn0.iconfinder.com/data/icons/basic-ui-elements-colored/700/08_heart-2-512.png" style="width:20px;">
+                  </em>
             </template>
-            <b-dropdown-item disabled>
-              Mark Zuckerberg invited you as Scrum Master in Facebook .
-              <br>
-              <b-button variant="primary" type="submit">Accept</b-button>
-              <b-button variant="secondary" type="submit">Decline</b-button>
-            </b-dropdown-item>
-            <b-dropdown-item disabled>
-              Bill Gates invited you as Scrum Master in Microsoft .
-              <br>
-              <b-button variant="primary" type="submit">Accept</b-button>
-              <b-button variant="secondary" type="submit">Decline</b-button>
-            </b-dropdown-item>
-
+            <div v-if="Notifications.length === 0">
+              <b-dropdown-item disabled>
+                You don't have any notifications...
+              </b-dropdown-item>
+            </div>
+            <div v-else v-for="notification in Notifications">
+              <b-dropdown-item disabled>
+                User {{notification.FromUsername}} invited you as {{notification.role}} in {{notification.projectTitle}}.
+                <br>
+                <b-button variant="primary" type="submit">Accept</b-button>
+                <b-button variant="secondary" type="submit">Decline</b-button>
+              </b-dropdown-item>
+            </div>
           </b-nav-item-dropdown>
           <!-- Setting notifications -->
           <b-nav-item-dropdown right>
@@ -65,7 +68,13 @@
 </template>
 
 <script>
+
   export default {
+    data() {
+      return {
+        Notifications: [],
+      }
+    },
     name: "Navbar",
     methods: {
       logout() {
@@ -87,6 +96,38 @@
       editprofile() {
         this.$router.push({path: '/editprofile'});
       },
+      getNotifications () {
+        const self = this;
+        self.Notifications = [{"idNotification": 1, "Project_id": 5, "projectTitle": "Steam", "role": "Developer", "FromUsername": "vaggosGar", "ToUserEmail": "kostas@gmail.com", "type": "0"},
+          {"idNotification": 2, "Project_id": 6, "projectTitle": "Origin", "role": "Scrum Master", "FromUsername": "kostaskotronis", "ToUserEmail": "orestis@gmail.com", "type": "0"}];
+        /*
+        axios.get(this.$url+ 'users/'+ localStorage.getItem('userId') +'/projects/' + this.$route.params.id + '/members', {
+          headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
+        })
+          .then(function (response) {
+            if (response.data.error) {
+              if (response.data.error === "Unauthorized user") {
+                console.log("Unauthorized user");
+              }
+              else if (response.data.error === "Unauthorized notifications") {
+                console.log("Unauthorized notifications");
+              }
+              else if (response.data.error === "null") {
+                console.log("Null token");
+              }
+            }
+            if (response.data.results) {
+              self.Notifications = response.data.results;
+              console.log("Got the notifications");
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })*/
+      },
+    },
+    mounted () {
+      this.getNotifications();
     },
     props: {
       dashboard: Boolean,
