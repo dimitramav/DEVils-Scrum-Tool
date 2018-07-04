@@ -29,6 +29,11 @@ insert into PBI (title, description, priority, isEpic, Project_id, Epic_id)
 	values ('Bad Telegram Reputation', 'Pay websites to write negative reviews for our enemy', 2, FALSE, 3, 2);
 update PBI set description = 'Return token', Epic_id = 5 where idPBI = 5;
 select * from PBI;
+select * from Issue where Task_id in (select idTask from Task where PBI_id in (select idPBI from PBI where Sprint_id = 2));
+update Sprint set deadlineDate = '2018-07-10' where idSprint = 2;
+select idUser, mail, firstname, lastname, photo from User where idUser in (select User_id from Project_has_User where Project_id = 2);
+select role from Project_has_User where User_id = 3 and Project_id = 2;
+select * from Notification where ToUserEmail in (select mail from User where idUser = 2) and type = 'Accept/Decline';
 
 
 

@@ -51,10 +51,9 @@ select * from Task where PBI_id in (select idPBI from PBI where Sprint_id = 1);
 insert into Issue (description, Task_id) values ('Rumors in England', 2);
 insert into Issue (description, Task_id) values ('They ask for more money', 1);
 select * from Issue;
-select * from Issue where Task_id in (select idTask from Task where PBI_id in (select idPBI from PBI where Sprint_id = 2));
-update Sprint set deadlineDate = '2018-07-10' where idSprint = 2;
-select idUser, mail, firstname, lastname, photo from User where idUser in (select User_id from Project_has_User where Project_id = 2);
-select role from Project_has_User where User_id = 3 and Project_id = 2;
+insert into Notification (Project_id, projectTitle, role, FromUsername, ToUserEmail, type)
+	values (5, 'Steam', 'Developer', 'vaggosGar', 'kostas@gmail.com', 'Accept/Decline');
+select * from Notification;
 
 
 

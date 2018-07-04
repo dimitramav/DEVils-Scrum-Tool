@@ -64,6 +64,8 @@ public class RestfulApp extends Application {
 		// GET
 		// Pagination for projects
         router.attach("/users/{userId}/projects", ProjectsResource.class);
+        // Notifications for new members
+        router.attach("/users/{userId}/notifications", NotificationsResource.class);
         // Team Data get and post
         router.attach("/users/{userId}/projects/{projectId}/members", TeamResource.class);
         // GET PBIS
