@@ -425,7 +425,6 @@
       currentPageDone: function () {
         this.getDoneProjects();
       }
-
     }
   }
 </script>
