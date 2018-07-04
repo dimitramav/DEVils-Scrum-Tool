@@ -50,25 +50,11 @@ public class ProjectsResource extends ServerResource {
         }
         int user = Integer.parseInt(userId);
 
-        // Read the values of url (limit and page) for pagination
-        //String strRecordsPerPage = getQuery().getValues("recordsPerPage");
-        //if (strRecordsPerPage == null) {
-        //    strRecordsPerPage = "0";
-        //}
+        // Read the values of url for pagination
         String strCurrentPage = getQuery().getValues("currentPage");
         String isDone = getQuery().getValues("isDone");
 
-        //DateFormat format = new SimpleDateFormat("yyyy-M-d");
-        //Date expDate = new Date(0L);
-        //try { expDate = format.parse(strstart); }
-        //catch (Exception e) { System.out.println("No date"); }
-        //System.out.println(expDate);
-        //System.out.println(strcount);
-
-        // Calculate the indexes of projects asked in sql base, which will be ordered by deadlineDate
-        Limits limit = new Limits(Integer.parseInt(strCurrentPage));
-
-        // Access the headers of the request !
+        // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
         String token = requestHeaders.getFirstValue("auth");
 
@@ -82,8 +68,16 @@ public class ProjectsResource extends ServerResource {
             // Get Projects only for the current user
             // Show them in the index page
             if(customAuth.userValidation(token, userId)) {
-                List<Project> projects = dataAccess.getUserProjects(user, limit, Boolean.parseBoolean(isDone));
-                map.put("results", projects);
+                // Return either the number of total projects, or the num of projects asked (pagination)
+                if (strCurrentPage == null) {
+                    int totalNumOfCurrentProjects = dataAccess.getUserProjectsNumber(user, Boolean.parseBoolean(isDone));
+                    map.put("results", totalNumOfCurrentProjects);
+                }
+                else {  // Calculate the indexes of projects asked in sql base, which will be ordered by deadlineDate
+                    Limits limit = new Limits(Integer.parseInt(strCurrentPage));
+                    List<Project> projects = dataAccess.getUserProjects(user, limit, Boolean.parseBoolean(isDone));
+                    map.put("results", projects);
+                }
                 // Set the response headers
                 return new JsonMapRepresentation(map);
             }
