@@ -173,10 +173,18 @@ public class DataAccess {
     }
 
 
+    public int getUserProjectsNumber(int idUser, Boolean isDone) {
+        //TODO: Support limits SOS
+        // Creates the id
+        String query = "select count(*) from Project where idProject in (select Project_id from Project_has_User where User_id = ?) and isDone = ?;";
+        return jdbcTemplate.queryForObject(query, new Object[]{idUser, isDone}, Integer.class);
+    }
+
+
     public List<Project> getUserProjects(int idUser, Limits limit, Boolean isDone){
         // Return all the projects belong to user with the above id
         String query = "select * from Project where idProject in (select Project_id from Project_has_User where User_id = ?) and isDone = ? order by deadlineDate limit ?, ?;";
-        return jdbcTemplate.query(query, new Object[]{idUser, isDone, limit.getStart(), limit.getEnd()}, new ProjectRowMapper());
+        return jdbcTemplate.query(query, new Object[]{idUser, isDone, limit.getStart(), limit.getCount()}, new ProjectRowMapper());
     }
 
 

@@ -191,14 +191,14 @@
             <b-col>
               <template>
                 <div>
-                  <b-pagination size="md" :total-rows=totalNumOfCurProjects v-model="currentPage" :per-page="recordsPerPage">
+                  <b-pagination size="md" :total-rows=totalNumOfCurProjects v-model="currentPageCurrent" :per-page="recordsPerPageCurrent">
                   </b-pagination>
                 </div>
               </template>
             </b-col>
           </b-row>
 
-          <div v-if="doneLength !== 0">
+          <div v-if="totalNumOfDoneProjects !== 0">
             <b-row style="padding-top:10px;">
               <b-col class="text-left">
                 <h2 class="text-enhancement">Done Projects</h2>
@@ -229,7 +229,7 @@
               <b-col>
                 <template>
                   <div>
-                    <b-pagination size="md" :total-rows=totalNumOfDoneProjects v-model="currentPage1" :per-page="recordsPerPage1">
+                    <b-pagination size="md" :total-rows=totalNumOfDoneProjects v-model="currentPageDone" :per-page="recordsPerPageDone">
                     </b-pagination>
                   </div>
                 </template>
@@ -248,6 +248,7 @@
   import axios from 'axios'
   import Navbar from "./Navbar.vue"
   import json from '../assets/team.json'
+  import constVars from '../router/constants.js'
   export default {
     components: {
       navbar: Navbar,
@@ -263,15 +264,13 @@
         currentProjects: [],
         doneProjects: [],
         teamData: json.team,
-        numProjects: 0,
-        doneLength: 0,
         isProject: false,
-        totalNumOfCurProjects: 6,
-        currentPage: 1,
-        recordsPerPage:4,
-        totalNumOfDoneProjects: 1,
-        currentPage1: 1,
-        recordsPerPage1:4
+        totalNumOfCurProjects: 0,
+        currentPageCurrent: 1,
+        recordsPerPageCurrent: constVars.recordsPerPage,
+        totalNumOfDoneProjects: 0,
+        currentPageDone: 1,
+        recordsPerPageDone: constVars.recordsPerPage
       }
     },
     methods: {
@@ -293,13 +292,10 @@
       notLoggedIn() {
         return (localStorage.getItem('auth_token') === 'null' || localStorage.getItem('userId') === 'null' || this.logOut);
       },
-      getProjects() {
+      getCurrentProjects() {
         //evt.preventDefault();
         const self = this;
-        axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=false&currentPage=' + this.currentPage, {
-          headers: {
-            "auth": localStorage.getItem('auth_token')
-          }
+        axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=false&currentPage=' + self.currentPageCurrent, { headers: { "auth": localStorage.getItem('auth_token') }
         })
           .then(function(response) {
             if (response.data.error) {
@@ -309,19 +305,17 @@
             }
             if (response.data.results) {
               self.currentProjects = response.data.results;
-              self.numProjects = self.currentProjects.length;
-              this.recordPerPage = response.data.results.length;
-              console.log(self.numProjects);
+              //self.recordsPerPageCurrent = self.currentProjects.length;
+              console.log(self.currentProjects.length);
             }
           })
           .catch(function(error) {
             console.log(error);
           })
-
-        axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=true&currentPage=' + this.currentPage1, {
-          headers: {
-            "auth": localStorage.getItem('auth_token')
-          }
+      },
+      getDoneProjects() {
+        const self = this;
+        axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=true&currentPage=' + self.currentPageDone, { headers: { "auth": localStorage.getItem('auth_token') }
         })
           .then(function(response) {
             if (response.data.error) {
@@ -331,8 +325,7 @@
             }
             if (response.data.results) {
               self.doneProjects = response.data.results;
-              self.doneLength = self.doneProjects.length;
-              this.recordPerPage1 = response.data.results.length;
+              //self.recordsPerPageDone = self.doneProjects.length;
             }
           })
           .catch(function(error) {
@@ -382,24 +375,55 @@
         this.logOut = true;
       },
       getNumOfCurProjects() {
-        this.totalNumOfCurProjects = 6;
+        const self = this;
+        axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=false', 
+            { headers: { "auth": localStorage.getItem('auth_token') }
+        })
+          .then(function(response) {
+            if (response.data.error) {
+                console.log(response.data.error);
+            }
+            if (response.data.results) {
+              self.totalNumOfCurProjects = response.data.results;
+              console.log(self.totalNumOfCurProjects);
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          })
       },
       getNumOfDoneProjects() {
-        this.totalNumOfDoneProjects = 1;
+        const self = this;
+        axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=true', 
+            { headers: { "auth": localStorage.getItem('auth_token') }
+        })
+          .then(function(response) {
+            if (response.data.error) {
+                console.log(response.data.error);
+            }
+            if (response.data.results) {
+              self.totalNumOfDoneProjects = response.data.results;
+              console.log(self.totalNumOfDoneProjects);
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          })
       }
     },
     mounted() {
       if (localStorage.getItem('auth_token') === 'null' || localStorage.getItem('userId') === 'null') return;
       this.getNumOfCurProjects();
       this.getNumOfDoneProjects();
-      this.getProjects();
+      this.getCurrentProjects();
+      this.getDoneProjects();
     },
     watch: {
-      currentPage: function () {
-        this.getProjects();
+      currentPageCurrent: function () {
+        this.getCurrentProjects();
       },
-      currentPage1: function () {
-        this.getProjects();
+      currentPageDone: function () {
+        this.getDoneProjects();
       }
 
     }
