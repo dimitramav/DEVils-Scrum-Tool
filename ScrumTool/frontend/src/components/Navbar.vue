@@ -14,11 +14,19 @@
           <!-- Project notifications -->
           <b-nav-item-dropdown right>
             <template slot="button-content">
-              <em>
-                <img src="https://support.rocketchatlauncher.com/wp-content/uploads/2017/03/bell.png" style="width:20px;">
-              </em>
+                  <em v-if="Notifications.length === 0">
+                    <img src="https://support.rocketchatlauncher.com/wp-content/uploads/2017/03/bell.png" style="width:20px;">
+                  </em>
+                  <em v-else>
+                    <img src="https://cdn0.iconfinder.com/data/icons/basic-ui-elements-colored/700/08_heart-2-512.png" style="width:20px;">
+                  </em>
             </template>
-            <div  v-for="notification in Notifications">
+            <div v-if="Notifications.length === 0">
+              <b-dropdown-item disabled>
+                You don't have any notifications...
+              </b-dropdown-item>
+            </div>
+            <div v-else v-for="notification in Notifications">
               <b-dropdown-item disabled>
                 {{notification.FromUsername}} invited you as {{notification.role}} in {{notification.projectTitle}}.
                 <br>
