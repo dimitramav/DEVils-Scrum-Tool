@@ -22,7 +22,7 @@
                         <b-col v-if="(projectOverview.project.isDone == false )" class="text-right">
                             <b-dropdown v-if="isProductOwner()===true" style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
                                 <template slot="button-content">
-                                    <b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px" /> Edit Project
+                                    <b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px;"/> Edit Project
                                 </template>
                                 <template>
                                     <b-form inline style="margin: 10px;" @submit="updateProject">
@@ -57,7 +57,7 @@
                         <b-container fluid>
                             <b-jumbotron style="background-color: #f7f7f7;">
                                 <div v-if="(projectOverview.currentSprintNum === 0)">
-                                    <b-button variant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}"> Create New Sprint ! </b-button>
+                                    <b-button class="pcsprint" variant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}"> Create New Sprint </b-button>
                                 </div>
                                 <div v-else>
                                     <b-row style="margin-top: -5%">
@@ -180,7 +180,7 @@
                                             </template>
                                         </b-form-select>
                                         <br>
-                                        <b-button type="submit" variant="primary" :disabled="validEmail===false">Invite!</b-button>
+                                        <b-button class="pcsprint" type="submit" variant="primary" :disabled="validEmail===false">Invite</b-button>
                                     </b-form>
                                 </div>
                             </template>
