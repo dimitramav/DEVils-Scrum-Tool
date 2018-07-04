@@ -97,7 +97,7 @@ export default {
           }
           else if (response.data.results) {
             console.log(response.data.results);
-            self.$emit('edit_epic', self.idPBI, response.data.results.title, response.data.results.description, response.data.results.priority, self.epicId);
+            self.$emit('edit_pbi', self.idPBI, response.data.results.title, response.data.results.description, response.data.results.priority, self.epicId);
           }
         })
         .catch(function (error) {

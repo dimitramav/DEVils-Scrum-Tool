@@ -6,14 +6,22 @@
     <b-container>
       <b-row>
         <b-col class="text-right">
-          <div>
-            <b-btn  v-b-modal="'new_storyundefined'" size="md" variant ="success" class="m-md-2 pcsprint" >Create New Epic</b-btn>
-            <new_pbi v-on:new_epic="newEpic" :idProject="currentProject_id"></new_pbi>
-
+          <div v-if="gotPBIS && currentPbis.length>0">
+            <b-btn  v-b-modal="'new_storyundefined'" size="lg" variant ="success" class="m-md-2 pcsprint" >Create New Epic</b-btn>
+            <new_pbi v-on:new_pbi="newEpic" :idProject="currentProject_id"></new_pbi>
           </div>
         </b-col>
       </b-row>
+
+      <b-jumbotron v-if="gotPBIS && currentPbis.length===0">
+        <h1>No Epics in Product Backlog</h1>
+        <b>Start creating!</b><br><br>
+        <b-btn  v-b-modal="'new_storyundefined'" size="lg" variant ="success" class="m-md-2 pcsprint" >Create New Epic</b-btn>
+        <new_pbi v-on:new_pbi="newEpic" :idProject="currentProject_id"></new_pbi>
+      </b-jumbotron>
+
       <b-row>
+
         <b-card-group v-for="cur_pbi in currentPbis" :key="cur_pbi.idPBI" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
           <b-card :title="cur_pbi.title" img-top tag="article" class="mb-2">
             <div slot="header">
@@ -25,10 +33,10 @@
                 <!--New User Story-->
                 <div row>
                   <b-btn class="pcsprint" v-b-modal="'new_story'+cur_pbi.idPBI" >Add User Story</b-btn>
-                  <new_pbi v-on:new_epic="newUserStory" :idProject="currentProject_id" :Epic_id="cur_pbi.idPBI"></new_pbi>
+                  <new_pbi v-on:new_pbi="newUserStory" :idProject="currentProject_id" :Epic_id="cur_pbi.idPBI"></new_pbi>
                 </div>
                 <!--EDIT EPIC-->
-                <edit_pbi class="pcsprint" v-on:edit_epic="editEpic" :idPBI="cur_pbi.idPBI" :idProject="currentProject_id" :title="cur_pbi.title" :desc="cur_pbi.description" :priority="cur_pbi.priority"></edit_pbi>
+                <edit_pbi class="pcsprint" v-on:edit_pbi="editEpic" :idPBI="cur_pbi.idPBI" :idProject="currentProject_id" :title="cur_pbi.title" :desc="cur_pbi.description" :priority="cur_pbi.priority"></edit_pbi>
               </b-row>
             </div>
             <p class="card-text pcsprint" style="color: grey;"> {{cur_pbi.description}} </p>
@@ -66,7 +74,7 @@
                             </p>
                           </b-card-body>
 
-                          <edit_pbi v-on:edit_epic="editStory" :epicId="cur_pbi.idPBI" :idPBI="cur_us.idPBI" :idProject="currentProject_id" :title="cur_us.title" :desc="cur_us.description" :priority="cur_us.priority"></edit_pbi>
+                          <edit_pbi v-on:edit_pbi="editStory" :epicId="cur_pbi.idPBI" :idPBI="cur_us.idPBI" :idProject="currentProject_id" :title="cur_us.title" :desc="cur_us.description" :priority="cur_us.priority"></edit_pbi>
 
                         </b-collapse>
                       </b-card>
@@ -116,7 +124,7 @@ export default {
       ],
       currentEpicId: -1,
       currentProject_id: -1,
-      modalShow: false,
+      gotPBIS: false,
 
       currentPbis: [],
       currentUserStories: [[],[]],
@@ -187,7 +195,10 @@ export default {
               console.log("Unauthorized user");
             }
           }
-          else if (response.data.results) self.currentPbis = response.data.results;
+          else if (response.data.results) {
+            self.gotPBIS=true;
+            self.currentPbis = response.data.results;
+          }
           else (console.log("Unresolved response: " + response));
         })
         .catch(function (error) {
@@ -271,6 +282,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.currentPbis);
     if (localStorage.getItem('auth_token') === 'null' || localStorage.getItem('userId') === 'null') return;
     this.currentProject_id=parseInt(this.$route.params.id);
     this.getPBIS();

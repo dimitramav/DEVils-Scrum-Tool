@@ -79,7 +79,7 @@ export default {
             //response.data.results.priority=self.priorityToString(response.data.results.priority);
             //self.currentUserStories[current_epicId].push(response.data.results);
             self.newPBI_form.selected='';self.newPBI_form.desc='';self.newPBI_form.title='';
-            self.$emit('new_epic', response.data.results);
+            self.$emit('new_pbi', response.data.results);
             //self.$set(self.currentUserStories,current_epicId,response.data.results);
           }
         })

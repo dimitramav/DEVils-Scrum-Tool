@@ -151,7 +151,7 @@
             </b-col>
             <b-col class="text-right">
               <div>
-                <b-dropdown id="ddown1" variant="info" text="Create a New Project" class="m-md-2 pcsprint">
+                <b-dropdown id="ddown1" variant="info" size="lg" text="Create a New Project" class="m-md-2 pcsprint">
                   <b-form inline style="margin: 10px;" @submit="newProject">
                     <h4 style="margin-top: -13px">Title:</h4>
                     <label class="sr-only" for="newProjectName"></label>
@@ -160,13 +160,13 @@
                     <label class="sr-only" for="newProjectDate"></label>
 
                     <div>
-                      <b-form-input id="inputLive" v-model.trim="form.deadlineDate" type="date" :state="dateState"></b-form-input>
+                      <b-form-input id="inputLive" v-model.trim="form.deadlineDate" type="date" :state="dateState" required></b-form-input>
                       <b-form-invalid-feedback id="inputLiveFeedback">
-                      Project's Deadline cannot be a past or current date.
+                        Project's Deadline cannot be a past or current date.
                       </b-form-invalid-feedback>
                     </div>
                     <!--<b-form-input id="newProjectDate" type="date" v-model="form.deadlineDate" required style="margin-top: -3px"/>-->
-                    <b-button variant="success" type="submit" :disabled="dateState===false" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
+                    <b-button variant="success" size="lg" type="submit" :disabled="dateState===false" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
                   </b-form>
                 </b-dropdown>
               </div>
@@ -260,17 +260,15 @@
     },
 
     computed: {
-
-    dateState () {
-    var mindate = new Date();
-        var dd = ("0" + mindate.getDate()).slice(-2);
-        var mm = ("0" + (mindate.getMonth()+1)).slice(-2);
-        var yyyy = mindate.getFullYear();
+      dateState () {
+        let mindate = new Date();
+        let dd = ("0" + mindate.getDate()).slice(-2);
+        let mm = ("0" + (mindate.getMonth()+1)).slice(-2);
+        let yyyy = mindate.getFullYear();
         mindate=yyyy+"-"+mm+"-"+dd;
-
-    return this.form.deadlineDate>mindate ? true : false
-      }  
-
+        if (this.form.deadlineDate==='') return null;
+        else return this.form.deadlineDate>mindate
+      }
     },
 
     data() {
@@ -360,12 +358,12 @@
             "auth": localStorage.getItem('auth_token'),
             "Content-Type": 'application/json'
           }
-        }
+        };
         let data = {
           title: this.form.newTitle,
           isDone: this.form.isDone,
           deadlineDate: this.form.deadlineDate
-        }
+        };
         axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects', data, config)
           .then(function(response) {
             if (response.data.error) {
@@ -397,11 +395,11 @@
       getNumOfCurProjects() {
         const self = this;
         axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=false',
-            { headers: { "auth": localStorage.getItem('auth_token') }
-        })
+          { headers: { "auth": localStorage.getItem('auth_token') }
+          })
           .then(function(response) {
             if (response.data.error) {
-                console.log(response.data.error);
+              console.log(response.data.error);
             }
             if (response.data.results) {
               self.totalNumOfCurProjects = response.data.results;
@@ -415,11 +413,11 @@
       getNumOfDoneProjects() {
         const self = this;
         axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects?isDone=true',
-            { headers: { "auth": localStorage.getItem('auth_token') }
-        })
+          { headers: { "auth": localStorage.getItem('auth_token') }
+          })
           .then(function(response) {
             if (response.data.error) {
-                console.log(response.data.error);
+              console.log(response.data.error);
             }
             if (response.data.results) {
               self.totalNumOfDoneProjects = response.data.results;
