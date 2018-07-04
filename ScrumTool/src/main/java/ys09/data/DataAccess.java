@@ -429,6 +429,33 @@ public class DataAccess {
         }
     }
 
+    // Let's add a new password
+    public boolean updatePassword(String password, int userId) {
+        String pw_hash = BCrypt.hashpw(password, BCrypt.gensalt());
+
+        // Update an existing PBI
+        String query = "update User set password=? where idUser=?;";
+        jdbcTemplate = new JdbcTemplate(dataSource);
+
+        try {
+            jdbcTemplate.update(new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                    PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                    statement.setString(1, pw_hash);
+                    statement.setInt(2, userId);
+                    return statement;
+                }
+            });
+            // PBI's id is already in pbi class (as returned from frontend)
+            return true;
+            // Error in update of jdbcTemplate
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     public List<PBI> getSprintStories(int sprintId) {
         // Find the Stories that belong to a specific Sprint
