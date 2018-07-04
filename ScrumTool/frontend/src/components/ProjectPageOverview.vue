@@ -29,16 +29,13 @@
                                         <p> New Project's Title</p>
                                         <b-form-input type="text" style="margin-top: -10px" v-model="form.newTitle" required></b-form-input>
                                         <p style="margin-top: 5px">New Project's Deadline</p>
-                                        
                                         <div>
-											<b-form-input id="inputLive" v-model.trim="dlvalid" type="date" :state="dateState"></b-form-input>
+											<b-form-input id="inputLive" v-model.trim="form.deadlineDate" type="date" :state="dateState"></b-form-input>
 											<b-form-invalid-feedback id="inputLiveFeedback">
 											Project's Deadline cannot be a past or current date.
 											</b-form-invalid-feedback>
 										</div>
-
-                                        <!--<b-form-input type="date" style="margin-top: -10px" v-model="form.deadlineDate" required></b-form-input>-->
-                                        <b-button variant="success" type="submit" style="margin-top: 10px; width: 100%;">Save changes</b-button>
+                                        <b-button variant="success" type="submit" :disabled="dateState===false" style="margin-top: 10px; width: 100%;">Save changes</b-button>
                                     </b-form>
                                 </template>
                             </b-dropdown>
@@ -217,7 +214,7 @@
         var yyyy = mindate.getFullYear();
         mindate=yyyy+"-"+mm+"-"+dd;
 
-		return this.dlvalid>mindate ? true : false
+		return this.form.deadlineDate>mindate ? true : false
     	}  
 
     },
@@ -277,9 +274,7 @@
         sdeadline: null,
         diffDays: 0,
         issues: 0,
-        Team: [],
-        text1: null,
-        dlvalid: null
+        Team: []
       }
     },
 

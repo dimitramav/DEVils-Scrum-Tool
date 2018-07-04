@@ -153,13 +153,20 @@
               <div>
                 <b-dropdown id="ddown1" variant="info" text="Create a New Project" class="m-md-2">
                   <b-form inline style="margin: 10px;" @submit="newProject">
-                    <h4>Title:</h4>
+                    <h4 style="margin-top: -13px">Title:</h4>
                     <label class="sr-only" for="newProjectName"></label>
-                    <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle" required/>
-                    <h5>Deadline:</h5>
+                    <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle" required style="margin-top: -7px"/>
+                    <h5 style="margin-top: 5px">Deadline:</h5>
                     <label class="sr-only" for="newProjectDate"></label>
-                    <b-form-input id="newProjectDate" type="date" v-model="form.deadlineDate" required/>
-                    <b-button variant="success" type="submit" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
+
+                    <div>
+                      <b-form-input id="inputLive" v-model.trim="form.deadlineDate" type="date" :state="dateState"></b-form-input>
+                      <b-form-invalid-feedback id="inputLiveFeedback">
+                      Project's Deadline cannot be a past or current date.
+                      </b-form-invalid-feedback>
+                    </div>
+                    <!--<b-form-input id="newProjectDate" type="date" v-model="form.deadlineDate" required style="margin-top: -3px"/>-->
+                    <b-button variant="success" type="submit" :disabled="dateState===false" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
                   </b-form>
                 </b-dropdown>
               </div>
@@ -253,6 +260,21 @@
     components: {
       navbar: Navbar,
     },
+
+    computed: {
+
+    dateState () {
+    var mindate = new Date();
+        var dd = ("0" + mindate.getDate()).slice(-2);
+        var mm = ("0" + (mindate.getMonth()+1)).slice(-2);
+        var yyyy = mindate.getFullYear();
+        mindate=yyyy+"-"+mm+"-"+dd;
+
+    return this.form.deadlineDate>mindate ? true : false
+      }  
+
+    },
+
     data() {
       return {
         form: {
