@@ -41,36 +41,7 @@
             </div>
             <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2 pcsprint">
               <div>
-<<<<<<< HEAD
-                <draggable v-model="currentUserStories[cur_pbi.idPBI]" :move="onUserStoryMove" @change="onUserStoryChange" :options="{group:'UserStories'}">
 
-                  <b-card-group v-for="cur_us in currentUserStories[cur_pbi.idPBI]" :key="cur_us.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
-                    <b-card class="mb-1">
-                      <b-card-header header-tag="header" class="p-1" role="tab">
-                        <b-btn block href="#" v-b-toggle="'collapse'+cur_us.idPBI" variant="info" style="">{{cur_us.title}}
-                        </b-btn>
-                      </b-card-header>
-                      <b-collapse :id="'collapse'+cur_us.idPBI" visible accordion="my-accordion" role="tabpanel">
-                        <b-card-body>
-                          <p class="card-text pcsprint" style="color: grey;">
-                            <b-row>
-                              {{cur_us.description}}
-                            </b-row>
-                          </p>
-                        </b-card-body>
-                        <b-footer>
-                          <p class="card-text">
-                            <b-row>
-                              <i class="text-muted">{{priorityToString(cur_us.priority)}}</i>
-                            </b-row>
-                          </p>
-                        </b-footer>
-                        <edit_pbi class="pcsprint" v-on:edit_epic="editStory" :epicId="cur_pbi.idPBI" :idPBI="cur_us.idPBI" :idProject="currentProject_id" :title="cur_us.title" :desc="cur_us.description" :priority="cur_us.priority"></edit_pbi>
-                      </b-collapse>
-                    </b-card>
-                  </b-card-group>
-                </draggable>
-=======
                 <b-jumbotron>
 
                   <draggable v-model="currentUserStories[cur_pbi.idPBI]" :move="onUserStoryMove" @change="onUserStoryChange" :options="{group:'UserStories'}">
@@ -108,7 +79,6 @@
                   </draggable>
                 </b-jumbotron>
 
->>>>>>> 8af5e3f037966b9cc410c66c050fd3018980ae28
               </div>
             </b-collapse>
 
