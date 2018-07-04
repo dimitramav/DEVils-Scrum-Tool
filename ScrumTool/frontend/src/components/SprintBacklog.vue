@@ -24,77 +24,102 @@
         </b-col>
       </b-row>
       <hr style="margin-bottom:0px">
+      <br>
       <!--board-->
-      <b-row >
-        <b-col class="w-25 bg-light" >
-          <br>
-          <h2>User Stories</h2>
-          <!--user stories card-->
-          <b-card-group v-for="cur_story in currentStories" :key="cur_story.idPBI" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-          <b-card :title="cur_story.title" img-top tag="article" class="mb-2">
+      <b-container class="bv-example-row bv-example-row-flex-cols">
+        <b-row>
+          <b-col>
+            <h2>User Stories</h2>
+          </b-col>
+          <b-col>
+            <h2>TO DO</h2>
+          </b-col>
+          <b-col>
+            <h2>DOING</h2>
+          </b-col>
+          <b-col>
+            <h2>DONE</h2>
+          </b-col>
+        </b-row>
+      <div v-for="cur_story in currentStories" :key="cur_story.idPBI" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+        <b-row>
+          <b-col>
+            <b-card :title="cur_story.title" img-top tag="article" class="mb-2" >
 
-            <div slot="header"  >
-              <b-row>
-
-                <!--New Task-->
-                <div>
-                  <b-btn  v-b-modal="'new_task'+cur_story.idPBI">Add Task</b-btn>
-                  <b-modal @ok="addTask(cur_story.idPBI)" class="text-left" :id="'new_task'+cur_story.idPBI" title="Add new task">
-                    <b-form>
-                      <b-form-group label="Description:" :label-for="'addTask'+cur_story.idPBI">
-                        <b-form-input :id="'addTask'+cur_story.idPBI"
-                                      type="text"
-                                      v-model="newTask_form.desc"
-                                      required>
-                        </b-form-input>
-                      </b-form-group>
-                    </b-form>
-                  </b-modal>
-
-                </div>
-              </b-row>
-            </div>
-            <p class=" card-text"> {{cur_story.description}} </p>
-          </b-card>
-          </b-card-group>
-        </b-col>
-        <b-col >
-          <br>
-          <h2>TO DO</h2>
-          <b-card-group v-for="cur_task in todoTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-            <b-card img-top tag="article" class="mb-2">
               <div slot="header"  >
                 <b-row>
 
-                  <!--Edit Task-->
+                  <!--New Task-->
                   <div>
-                    <b-btn  v-b-modal="'edit_task'+cur_task.idTask">Edit Task</b-btn>
+                    <b-btn  v-b-modal="'new_task'+cur_story.idPBI">Add Task</b-btn>
+                    <b-modal @ok="addTask(cur_story.idPBI)" class="text-left" :id="'new_task'+cur_story.idPBI" title="Add new task">
+                      <b-form>
+                        <b-form-group label="Description:" :label-for="'addTask'+cur_story.idPBI">
+                          <b-form-input :id="'addTask'+cur_story.idPBI"
+                                        type="text"
+                                        v-model="newTask_form.desc"
+                                        required>
+                          </b-form-input>
+                        </b-form-group>
+                      </b-form>
+                    </b-modal>
                   </div>
                 </b-row>
               </div>
-              <p class=" card-text"> {{cur_task.description}} </p>
             </b-card>
-          </b-card-group>
-        </b-col>
-        <b-col class="w-25 bg-light" >
-          <br>
-          <h2>DOING</h2>
-          <b-card-group v-for="cur_task in doingTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-            <b-card img-top tag="article" class="mb-2">
-              <p class=" card-text"> {{cur_task.description}}</p>
-            </b-card>
-          </b-card-group>
-        </b-col>
-        <b-col>
-          <br>
-          <h2>DONE</h2>
-          <b-card-group v-for="cur_task in doneTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-            <b-card img-top tag="article" class="mb-2">
-              <p class=" card-text"> {{cur_task.description}} </p>
-            </b-card>
-          </b-card-group>
-        </b-col>
-      </b-row>
+          </b-col>
+          <b-col class="w-25 bg-light">
+            <b-card-group v-for="cur_task in currentTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+              <div v-if="cur_task.state===1 && cur_task.PBI_id===cur_story.idPBI">
+              <b-card img-top tag="article" class="mb-2">
+                <div slot="header"  >
+                  <b-row>
+                    <div>
+                      <b-btn  v-b-modal="'edit_task'+cur_task.idTask">Edit Task</b-btn>
+                    </div>
+                  </b-row>
+                </div>
+                <p class="card-text">{{cur_task.description}}</p>
+              </b-card>
+               </div>
+            </b-card-group>
+          </b-col>
+          <b-col>
+            <b-card-group v-for="cur_task in currentTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+              <div v-if="cur_task.state===2 && cur_task.PBI_id===cur_story.idPBI">
+                <b-card img-top tag="article" class="mb-2">
+                  <div slot="header"  >
+                    <b-row>
+                      <div>
+                        <b-btn  v-b-modal="'edit_task'+cur_task.idTask">Edit Task</b-btn>
+                      </div>
+                    </b-row>
+                  </div>
+                  <p class="card-text">{{cur_task.description}}</p>
+                </b-card>
+              </div>
+            </b-card-group>
+          </b-col>
+          <b-col class="w-25 bg-light">
+            <b-card-group v-for="cur_task in currentTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+              <div v-if="cur_task.state===3 && cur_task.PBI_id===cur_story.idPBI">
+                <b-card img-top tag="article" class="mb-2">
+                  <div slot="header"  >
+                    <b-row>
+                      <div>
+                        <b-btn  v-b-modal="'edit_task'+cur_task.idTask">Edit Task</b-btn>
+                      </div>
+                    </b-row>
+                  </div>
+                  <p class="card-text">{{cur_task.description}}</p>
+                </b-card>
+              </div>
+            </b-card-group>
+          </b-col>
+        </b-row>
+        <hr>
+      </div>
+      </b-container>
     </b-container>
   </b-container>
 </template>
@@ -116,12 +141,14 @@
         },
         currentProject_id:'',
         today:'',
-        currentTasks:[[],[]],
+        currentTasks:[],
       }
     },
     computed:{
-      todoTasks(){
-        return this.currentTasks.filter(function(u) {
+      todoTasks(id){
+        console.log(id);
+        const self=this;
+        return self.currentTasks[id].filter(function(u) {
           return u.state===1;
         })
       },
@@ -191,7 +218,7 @@
             }
             else if (response.data.tasks) {
               //console.log(response.data.tasks);
-              let result = response.data.tasks.reduce(function (r, a) {
+             /* let result = response.data.tasks.reduce(function (r, a) {
                 r[a.PBI_id] = r[a.PBI_id] || [];
                 r[a.PBI_id].push(a);
                 return r;
@@ -204,7 +231,8 @@
               //self.currentTasks = result;
               //console.log(self.currentTasks);
               // self.currentTasks = JSON.parse(JSON.stringify(result));
-              // console.log(self.currentTasks);
+              // console.log(self.currentTasks);*/
+             self.currentTasks=response.data.tasks;
             }
 
           })
