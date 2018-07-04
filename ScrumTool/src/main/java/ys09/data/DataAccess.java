@@ -430,6 +430,39 @@ public class DataAccess {
     }
 
 
+    public List<PBI> getSprintStories(int sprintId) {
+        // Find the Stories that belong to a specific Sprint
+        String query = "select * from PBI where Sprint_id = ?";
+        return jdbcTemplate.query(query, new Object[]{sprintId}, new PBIRowMapper());
+    }
+
+    public List<PBI> getOnlySprintStories(int sprintId) {
+        // Find the Stories that belong to a specific Sprint
+        String query = "select * from PBI where Sprint_id = ? and isEpic = false";
+        return jdbcTemplate.query(query, new Object[]{sprintId}, new PBIRowMapper());
+    }
+
+
+    public List<Task> getSprintTasks(int sprintId) {
+        // Find the Tasks belong to a specific Sprint
+        String query = "select * from Task where PBI_id in (select idPBI from PBI where Sprint_id = ?);";
+        return jdbcTemplate.query(query, new Object[]{sprintId}, new TaskRowMapper());
+    }
+
+
+    public List<Issue> getSprintIssues(int sprintId) {
+        // Find the Issues of current sprint's tasks
+        String query = "select * from Issue where Task_id in (select idTask from Task where PBI_id in (select idPBI from PBI where Sprint_id = ?));";
+        return jdbcTemplate.query(query, new Object[]{sprintId}, new IssueRowMapper());
+    }
+
+    public String getMemberRole(int userId, int projectId) {
+        // Find the role of a specific member in project
+        String query = "select role from Project_has_User where User_id = ? and Project_id = ?;";
+        return jdbcTemplate.queryForObject(query, new Object[]{userId, projectId}, String.class);
+    }
+
+
 
     public List<Notification> getUserNotifications(int userId){
         // Get current project Information
@@ -487,40 +520,6 @@ public class DataAccess {
         String query = "delete from Notification where idNotification = ?;";
         return jdbcTemplate.update(query, new Object[]{idNotification});
 
-    }
-
-
-
-    public List<PBI> getSprintStories(int sprintId) {
-        // Find the Stories that belong to a specific Sprint
-        String query = "select * from PBI where Sprint_id = ?";
-        return jdbcTemplate.query(query, new Object[]{sprintId}, new PBIRowMapper());
-    }
-
-    public List<PBI> getOnlySprintStories(int sprintId) {
-        // Find the Stories that belong to a specific Sprint
-        String query = "select * from PBI where Sprint_id = ? and isEpic = false";
-        return jdbcTemplate.query(query, new Object[]{sprintId}, new PBIRowMapper());
-    }
-
-
-    public List<Task> getSprintTasks(int sprintId) {
-        // Find the Tasks belong to a specific Sprint
-        String query = "select * from Task where PBI_id in (select idPBI from PBI where Sprint_id = ?);";
-        return jdbcTemplate.query(query, new Object[]{sprintId}, new TaskRowMapper());
-    }
-
-
-    public List<Issue> getSprintIssues(int sprintId) {
-        // Find the Issues of current sprint's tasks
-        String query = "select * from Issue where Task_id in (select idTask from Task where PBI_id in (select idPBI from PBI where Sprint_id = ?));";
-        return jdbcTemplate.query(query, new Object[]{sprintId}, new IssueRowMapper());
-    }
-
-    public String getMemberRole(int userId, int projectId) {
-        // Find the role of a specific member in project
-        String query = "select role from Project_has_User where User_id = ? and Project_id = ?;";
-        return jdbcTemplate.queryForObject(query, new Object[]{userId, projectId}, String.class);
     }
 
 

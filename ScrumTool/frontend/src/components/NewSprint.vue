@@ -64,7 +64,7 @@
                     </b-col>
                     <b-col cols="6">
                         <h5 class="text-enhancement">User Stories for the new sprint: </h5>
-                        <b-form-select :options="selected_stories" class="mb-3" :select-size="4">
+                        <b-form-select v-model="toremove" :options="selected_stories" class="mb-3" :select-size="4">
                         </b-form-select>
                     </b-col>
                 </b-row>
@@ -99,7 +99,7 @@
           numSprint: 0,
           Project_id: 0
         },
-
+        toremove: null,
         selected: null,
         selectedValue: null,
         selectedvalue: null,
@@ -227,6 +227,22 @@
         if (find_pbi == undefined) {
           self.selected_stories.push({value: value, text: result[0].text});
         }
+      },
+      removeStory(value){
+        const self = this;
+        console.log(value);
+        console.log("deselected");
+        for ( var x in self.selected_stories){
+          if ( self.selected_stories[x].value == value){
+            var index = x;
+            break;
+          }
+        }
+        console.log("position");
+        console.log(index);
+        if( index >= 0){
+          self.selected_stories.splice(index,1);
+        }
       }
     },
     mounted() {
@@ -247,6 +263,10 @@
       selected: function (value) {
         this.selectedStories(value);
         console.log(value);
+      },
+      toremove: function (value) {
+        this.removeStory(value);
+        console.log(value);    
       }
     }
   }

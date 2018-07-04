@@ -38,14 +38,20 @@
 
                 <!--New Task-->
                 <div>
-                  <b-btn  v-b-modal="'new_task'+cur_story.idPBI" >Add Task</b-btn>
-                  <!--
-                  <new_pbi v-on:new_epic="newUserStory" :idProject="currentProject_id" :Epic_id="cur_pbi.idPBI"></new_pbi>!-->
+                  <b-btn  v-b-modal="'new_task'+cur_story.idPBI">Add Task</b-btn>
+                  <b-modal @ok="addTask(cur_story.idPBI)" class="text-left" :id="'new_task'+cur_story.idPBI" title="Add new task">
+                    <b-form>
+                      <b-form-group label="Description:" :label-for="'addTask'+cur_story.idPBI">
+                        <b-form-input :id="'addTask'+cur_story.idPBI"
+                                      type="text"
+                                      v-model="newTask_form.desc"
+                                      required>
+                        </b-form-input>
+                      </b-form-group>
+                    </b-form>
+                  </b-modal>
+
                 </div>
-                <!--EDIT STORY-->
-                <!--
-                <edit_pbi v-on:edit_epic="editEpic" :idPBI="cur_pbi.idPBI" :idProject="currentProject_id" :title="cur_pbi.title" :desc="cur_pbi.description" :priority="cur_pbi.priority"></edit_pbi>
-                -->
               </b-row>
             </div>
             <p class=" card-text"> {{cur_story.description}} </p>
@@ -55,14 +61,38 @@
         <b-col >
           <br>
           <h2>TO DO</h2>
+          <b-card-group v-for="cur_task in todoTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+            <b-card img-top tag="article" class="mb-2">
+              <div slot="header"  >
+                <b-row>
+
+                  <!--Edit Task-->
+                  <div>
+                    <b-btn  v-b-modal="'edit_task'+cur_task.idTask">Edit Task</b-btn>
+                  </div>
+                </b-row>
+              </div>
+              <p class=" card-text"> {{cur_task.description}} </p>
+            </b-card>
+          </b-card-group>
         </b-col>
         <b-col class="w-25 bg-light" >
           <br>
           <h2>DOING</h2>
+          <b-card-group v-for="cur_task in doingTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+            <b-card img-top tag="article" class="mb-2">
+              <p class=" card-text"> {{cur_task.description}}</p>
+            </b-card>
+          </b-card-group>
         </b-col>
         <b-col>
           <br>
           <h2>DONE</h2>
+          <b-card-group v-for="cur_task in doneTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+            <b-card img-top tag="article" class="mb-2">
+              <p class=" card-text"> {{cur_task.description}} </p>
+            </b-card>
+          </b-card-group>
         </b-col>
       </b-row>
     </b-container>
@@ -81,9 +111,30 @@
       return {
         currentSprint:[],
         currentStories:[],
+        newTask_form:{
+          desc:'',
+        },
         currentProject_id:'',
         today:'',
+        currentTasks:[[],[]],
       }
+    },
+    computed:{
+      todoTasks(){
+        return this.currentTasks.filter(function(u) {
+          return u.state===1;
+        })
+      },
+      doingTasks(){
+        return this.currentTasks.filter(function(u) {
+          return u.state===2;
+        })
+      },
+      doneTasks(){
+        return this.currentTasks.filter(function(u) {
+          return u.state===3;
+        })
+      },
     },
     methods: {
       getSprintInfos() {
@@ -117,9 +168,9 @@
                 console.log("Unauthorized user");
               }
             }
-            if (response.data.stories) {;
+            if (response.data.stories) {
               self.currentStories = response.data.stories;
-              console.log(self.currentStories);
+
             }
 
           })
@@ -127,12 +178,66 @@
             console.log(error);
           })
       },
+      getTasks() {
+        const self = this;
+        axios.get(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/tasks?isCurrent=true', {
+          headers: {"auth": localStorage.getItem('auth_token')}
+        })
+          .then(function (response) {
+            if (response.data.error) {
+              if (response.data.error === "Unauthorized user") {
+                console.log("Unauthorized user");
+              }
+            }
+            if (response.data.tasks) {
+              let result = response.data.tasks.reduce(function (r, a) {
+                r[a.PBI_id] = r[a.PBI_id] || [];
+                r[a.PBI_id].push(a);
+                return r;
+              }, Object.create(null));
+              self.currentTasks = JSON.parse(JSON.stringify(result));
+              console.log(self.currentTasks);
+            }
+
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
+      addTask(storyId)
+      {
+        const self = this;
+        let config = {
+          headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
+        };
+        let data = {
+          description: this.newTask_form.desc, Project_id: this.currentProject_id, PBI_id: storyId ,
+        };
+        //console.log(data);
+        axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.idProject + '/tasks?isCurrent=true', data, config)
+          .then(function (response) {
+            if (response.data.error) {
+              if (response.data.error === "Unauthorized user") console.log("Unauthorized user");
+              else if (response.data.error === "Unauthorized projects") console.log("Unauthorized projects");
+              else if (response.data.error === "null") console.log("Null token");
+              else console.log(error);
+            }
+            if (response.data.task) {
+              self.currentTasks.push(response.data.task);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      }
 
     },
+
     mounted(){
       this.currentProject_id=parseInt(this.$route.params.id);
       this.getSprintInfos();
       this.getSprintStories();
+      this.getTasks();
     },
   }
 

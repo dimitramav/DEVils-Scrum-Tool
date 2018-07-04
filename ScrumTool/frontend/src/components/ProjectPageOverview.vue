@@ -20,7 +20,7 @@
                         </b-col>
                         <b-col></b-col>
                         <b-col v-if="(projectOverview.project.isDone == false )" class="text-right">
-                            <b-dropdown style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
+                            <b-dropdown v-if="isProductOwner()===true" style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
                                 <template slot="button-content">
                                     <b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px" /> Edit Project
                                 </template>
@@ -169,7 +169,7 @@
                             <br>
                             <template>
                                 <div v-if="(projectOverview.project.isDone === false )">
-                                    <b-form inline @submit="addMembers">
+                                    <b-form v-if="isProductOwner()===true" inline @submit="addMembers">
                                         Add User&nbsp;
                                         <b-form-group id="emailForm" label-for="email" :invalid-feedback="validEmail===false ? 'Invalid User' : ''">
                                             <b-form-input class="mb-2 mr-sm-2 mb-sm-0" id="emailInput" type="email" v-model="newMember.mail" @change="checkEmail" :state="validEmail" placeholder="email" required>
@@ -428,7 +428,28 @@
           console.log(error);
         })
       },
-
+        isProductOwner(){
+            const self = this;
+            var loggedUserID = localStorage.getItem('userId');
+            console.log("IS PRODUCT OWNER?");
+            console.log(loggedUserID);
+            var teamMember;
+            var i=0;
+            for(teamMember in self.Team){
+                if (self.Team[i].idUser == loggedUserID){
+                    console.log("Role in project:");
+                    if(self.Team[i].role == "Product Owner"){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+                i++;
+            }
+            return false;
+        }
+       ,
       checkEmail () {
         if (this.newMember.mail==='') {
           this.validEmail=null;
@@ -454,8 +475,8 @@
             console.log(error);
           })
       },
-    },
-
+    }
+    ,
     mounted () {
       this.getSprintInfo();
       this.getMembers();
