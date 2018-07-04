@@ -7,7 +7,7 @@
         </b-row>
         <b-row>
           <b-col>
-            <b-img style="width: 30%;min-width:29%;min-height: 29%;max-width:30%;min-height:30%;" v-on:click="gotoIndex" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
+            <b-img style="min-width:50px; max-width:30%" v-on:click="gotoIndex" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png"></b-img>
           </b-col>
           <b-col cols="8">
             <h1 align="center" class="text-enhancement" style="margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
