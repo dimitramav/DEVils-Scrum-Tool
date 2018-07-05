@@ -80,6 +80,7 @@
           <b-nav-item :to="{name: 'ProjectPageOverview', params: {id:$route.params.id}}">
             <p class="text-enhancement2"> Overview </p>
           </b-nav-item>
+          <b-col></b-col>
           <b-nav-item :to="{name: 'Backlog', params: {id:$route.params.id}}">
             <p class="text-enhancement2"> Backlog </p>
           </b-nav-item>
@@ -245,7 +246,7 @@
 
 <style scoped>
   @import url('https://fonts.googleapis.com/css?family=Merienda');
-  @import url('https://fonts.googleapis.com/css?family=Shrikhand');
+  @import url('https://fonts.googleapis.com/css?family=Quicksand');
   .Navigation {
     position: absolute;
     top: 0;
@@ -274,8 +275,9 @@
   }
 
   .text-enhancement2 {
-    font-family: 'Shrikhand', cursive;
-    font-size: 15px;
+    font-family: 'Quicksand', cursive;
+    font-size: 17px;
+    font-weight: normal;
     color: white;
     margin-top: 5px;
     margin-bottom: 5px;

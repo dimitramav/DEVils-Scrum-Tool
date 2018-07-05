@@ -20,7 +20,7 @@
             </b-col>
             <b-col></b-col>
             <b-col v-if="(projectOverview.project.isDone === false )" class="text-right">
-              <b-dropdown v-if="isProductOwner()===true" style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
+              <b-dropdown v-if="isProductOwner()===true" class="pcsprint" style="margin-left: 45px; height: 35px; width: 35%; left:10%" size="mr-sm-2" right>
                 <template slot="button-content" class="pcsprint">
                   <b-img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Edit.png" style="width:20px; margin-right: 5px;"/> Edit Project
                 </template>
