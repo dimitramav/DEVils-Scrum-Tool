@@ -90,7 +90,7 @@
                 <p class="lang" style="font-size: 16px;">{{teamMember.dev}}</p>
                 <p> <i style="color: rgba(47,75,72,0.85);font-size:13px;"> '{{teamMember.phrase}}'</i></p>
                 <b-card-footer style="font-size:14px">
-                  <b-link v-b-tooltip.hover :title="teamMember.email"> E-mail </b-link>
+                  <b-img style ="width: 50%" src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" v-on:click="gotoGithub(teamMember.github)" ></b-img>
                 </b-card-footer>
               </b-card>
             </b-card-group>
@@ -318,6 +318,12 @@
           path: '/signup'
         });
       },
+      gotoGithub(github) {
+        console.log(github);
+        var win = window.open(github, '_blank');
+        win.focus();
+      }   
+      ,
       notLoggedIn() {
         return (localStorage.getItem('auth_token') === 'null' || localStorage.getItem('userId') === 'null' || this.logOut);
       },
