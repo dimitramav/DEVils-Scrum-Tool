@@ -37,21 +37,7 @@ export default new Router({
     {
       path: '/logout',
       name: 'Logout',
-      component: Logout,
-      beforeEnter: (to, from, next) => {
-        if(localStorage.getItem('auth_token')==='null') {
-          console.log("hey router")
-          // redirect to 401 Unauthorized Access
-          next({
-            path: '/unauthorized'
-          })
-        }
-        else {
-          next(vm => {
-            // Go to the overview page
-          })
-        }
-      }
+      component: Logout
     },
     {
       path: '/overview/:id',
