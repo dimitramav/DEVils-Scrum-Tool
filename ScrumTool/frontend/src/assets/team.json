@@ -6,7 +6,8 @@
       "lang": "Java/ SQL",
       "dev": "back-end developer",
       "phrase": "Ax, sa skata tha ginei",
-      "email": "yolanda.kokkinou@gmail.com"
+      "email": "yolanda.kokkinou@gmail.com",
+      "github": "https://github.com/YolandaKok"
     },
     "member2": {
       "name": "Orestis G",
@@ -14,7 +15,8 @@
       "lang": "Java/ SQL",
       "dev": "back-end developer",
       "phrase": "Arakste paidia, exoume xrono",
-      "email": "orestispgarmpis@gmail.com"
+      "email": "orestispgarmpis@gmail.com",
+      "github": "https://github.com/Pantokratoras7"
     },
     "member3": {
       "name": "Dimitra M",
@@ -22,7 +24,8 @@
       "lang": "Java/ SQL",
       "dev": "back-end developer",
       "phrase": "Elaaaa re oxi twra auto",
-      "email": "dmavrof@gmail.com"
+      "email": "dmavrof@gmail.com",
+      "github": "https://github.com/dimitramav"
     },
     "member4": {
       "name": "Markos V",
@@ -30,7 +33,8 @@
       "lang": "VueJS",
       "dev": "front-end developer",
       "phrase": "Kai to netflix etsi to kanei!",
-      "email": "markosvarv@gmail.com"
+      "email": "markosvarv@gmail.com",
+      "github": "https://github.com/markosvarv"
     },
     "member5": {
       "name": "Vagelis G",
@@ -38,7 +42,8 @@
       "lang": "VueJS",
       "dev": "front-end developer",
       "phrase": "Re file akou pws to exw skeftei",
-      "email": "vaggelhs.gkaragkanhs@gmail.com"
+      "email": "vaggelhs.gkaragkanhs@gmail.com",
+      "github": "https://github.com/VagelisGkara"
     },
     "member6": {
       "name": "Kostas K",
@@ -46,7 +51,8 @@
       "lang": "Javascript",
       "dev": "back end developer",
       "phrase": "Paidia ena ena mou ta lete",
-      "email": "kostaskotronis1996@gmail.com"
+      "email": "kostaskotronis1996@gmail.com",
+      "github": "https://github.com/KostasKotronis"
     },
     "member7": {
       "name": "Vagelis K",
@@ -54,7 +60,8 @@
       "lang": "Javascript",
       "dev": "front-end developer",
       "phrase": "Tha vrethoume telika simera?",
-      "email": "vaggelis.klits.7@gmail.com"
+      "email": "vaggelis.klits.7@gmail.com",
+      "github": "https://github.com/vag-klits"
     }
   }
 }
