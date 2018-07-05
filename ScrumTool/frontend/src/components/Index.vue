@@ -388,6 +388,7 @@
             if (response.data.results) {
               console.log(response.data.results);
               self.currentProjects.push(response.data.results);
+              self.totalNumOfCurProjects = self.getNumOfCurProjects();
             }
           })
           .catch(function(error) {
