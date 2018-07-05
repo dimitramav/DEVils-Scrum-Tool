@@ -6,7 +6,7 @@
         <b-col>
           <h1 class="notfound-style">404</h1>
           <h1>Oops! Page not found</h1>
-          <h1><a href="/#/">Back to homepage</a></h1>
+          <h1><router-link :to="{name: 'Index'}">Back to Homepage</router-link></h1>
         </b-col>
         <b-col></b-col>
       </b-row>

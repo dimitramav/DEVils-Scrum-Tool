@@ -3,10 +3,16 @@
     <b-navbar fixed="top" toggleable="md" class="navbar navbar-expand-lg bg-dark navbar-dark navbar-static-top" variant="info" fluid>
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
       <b-navbar variant="faded" type="light">
-        <b-navbar-brand href="/#/">
-          <img src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" width="30" height="30" alt="BV">
+        <b-navbar-brand>
+          <router-link :to="{name: 'Index'}">
+            <img src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" width="30" height="30" alt="BV">
+          </router-link>
         </b-navbar-brand>
-        <span class="text-enhancement"><a href="/#/" style="text-decoration: none; color:white;">Scrum Tool</a></span>
+        <span class="text-enhancement">
+          <router-link :to="{name: 'Index'}" style="text-decoration: none; color:white;">
+            ScrumTool
+          </router-link>
+        </span>
       </b-navbar>
       <b-collapse is-nav id="nav_collapse" v-if="logout_prop===false">
         <!-- Right aligned nav items -->

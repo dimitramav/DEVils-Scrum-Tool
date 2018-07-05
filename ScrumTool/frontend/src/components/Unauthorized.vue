@@ -7,7 +7,7 @@
         <h1 class="notfound-style">401</h1>
         <h1>Oops! Unauthorized Access </h1>
         <p>You don't have permission to access this page</p>
-        <h1><a href="/#/">Back to homepage</a></h1>
+        <h1><router-link :to="{name: 'Index'}">Back to Homepage</router-link></h1>
       </b-col>
       <b-col></b-col>
     </b-row>
