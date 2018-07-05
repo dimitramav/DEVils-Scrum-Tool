@@ -70,10 +70,10 @@
 
 
         <b-col class="w-25 bg-light">
-          <draggable v-model="todoTasks[cur_story.idPBI]" @change="addToTodo" :options="{group:'UserStories'}">
+          <draggable v-model="todoTasks[cur_story.idPBI]" @change="addToTodo" :move=onMove :options="{group:'UserStories'}">
             <transition-group name="markos1" class="list-group">
               <b-card-group v-for="cur_task in todoTasks[cur_story.idPBI]"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-                <div v-show="cur_task.state===1">
+                <div v-if="cur_task.state===1">
                   <b-card img-top tag="article" class="mb-2">
                     <div slot="header"  >
                       <b-row>
@@ -91,11 +91,11 @@
         </b-col>
         <b-col>
 
-          <draggable v-model="doingTasks[cur_story.idPBI]" @change="addToDoing" :options="{group:'UserStories'}">
+          <draggable v-model="doingTasks[cur_story.idPBI]" @change="addToDoing" :move=onMove :options="{group:'UserStories'}">
             <transition-group name="markos" class="list-group">
               <b-card-group v-for="cur_task in doingTasks[cur_story.idPBI]"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
 
-                <div v-show="cur_task.state===2">
+                <div v-if="cur_task.state===2">
                   <b-card img-top tag="article" class="mb-2">
                     <div slot="header"  >
                       <b-row>
@@ -114,11 +114,11 @@
         <b-col class="w-25 bg-light">
 
 
-          <draggable v-model="doneTasks[cur_story.idPBI]" @change="addToDone" :options="{group:'UserStories'}">
+          <draggable v-model="doneTasks[cur_story.idPBI]" @change="addToDone" :move=onMove :options="{group:'UserStories'}">
             <transition-group name="yolanda" class="list-group">
 
               <b-card-group v-for="cur_task in doneTasks[cur_story.idPBI]"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-                <div v-show="cur_task.state===3">
+                <div v-if="cur_task.state===3">
                   <b-card img-top tag="article" class="mb-2">
                     <div slot="header"  >
                       <b-row>
@@ -161,45 +161,12 @@
         },
         currentProject_id:'',
         today:'',
-        //currentTasks:[[3],[]],
         todoTasks: [],
         doingTasks:[],
         doneTasks: [],
-        lastItemNull: null,
       }
     },
 
-    // watch: {
-    //   todoTasks: function (val) {
-    //     console.log(val);
-    //   },
-    //   doingTasks: function (val) {
-    //     console.log(val);
-    //   },
-    //   doneTasks: function (val) {
-    //     console.log(val);
-    //   },
-    // },
-
-    // computed:{
-    //   todoTasks(id){
-    //     console.log(id);
-    //     const self=this;
-    //     return self.currentTasks[id].filter(function(u) {
-    //       return u.state===1;
-    //     })
-    //   },
-    //   doingTasks(){
-    //     return this.currentTasks.filter(function(u) {
-    //       return u.state===2;
-    //     })
-    //   },
-    //   doneTasks(){
-    //     return this.currentTasks.filter(function(u) {
-    //       return u.state===3;
-    //     })
-    //   },
-    // },
     methods: {
       getSprintInfos() {
         const self = this;
@@ -336,6 +303,17 @@
             console.log(error);
           })
       },
+
+
+      onMove ({relatedContext, draggedContext}) {
+        //console.log (relatedContext);
+        //console.log(draggedContext);
+
+        draggedContext.element.state=null;
+
+        //this.currentEpicId = relatedContext.element.Epic_id;
+      },
+
 
       addToTodo(dragged) {
         console.log(dragged);
