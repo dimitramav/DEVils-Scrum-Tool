@@ -205,6 +205,8 @@
           <b-row>
             <!--per-page: max number of records per page - total-rows: total number of records in your data-->
             <b-col></b-col>
+            <b-col></b-col>
+            <b-col></b-col>
             <b-col>
               <template>
                 <div>
@@ -213,7 +215,6 @@
                 </div>
               </template>
             </b-col>
-            <b-col></b-col>
           </b-row>
 
           <div v-if="totalNumOfDoneProjects !== 0">
@@ -242,6 +243,8 @@
             <b-row>
               <!--per-page: max number of records per page - total-rows: total number of records in your data-->
               <b-col></b-col>
+              <b-col></b-col>
+              <b-col></b-col>
               <b-col>
                 <template>
                   <div>
@@ -250,7 +253,6 @@
                   </div>
                 </template>
               </b-col>
-              <b-col></b-col>
             </b-row>
 
           </div>
