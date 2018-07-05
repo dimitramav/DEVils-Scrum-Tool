@@ -70,7 +70,7 @@
         </b-col>
 
 
-        <b-col class="w-25 bg-light">
+        <b-col class="bg-light">
           <draggable v-model="todoTasks" @change="addToTodo" :move=onMove :options="{group:'UserStories'}">
             <transition-group name="markos1" class="list-group">
               <b-card-group v-for="cur_task in todoTasks" :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
@@ -78,9 +78,7 @@
                   <b-card img-top tag="article" class="mb-2">
                     <div slot="header"  >
                       <b-row>
-                        <div>
-                          <b-btn  v-b-modal="'edit_task'+cur_task.idTask">Edit Task</b-btn>
-                        </div>
+                        <edit_task v-if="gotTasks" v-on:editTask="editTask" :desc="cur_task.description" :PBI_id="cur_task.PBI_id" :state="cur_task.state" :Task_id="cur_task.idTask" ></edit_task>
                       </b-row>
                     </div>
                     <p class="card-text">{{cur_task.description}}</p>
@@ -103,9 +101,8 @@
                   <b-card img-top tag="article" class="mb-2">
                     <div slot="header"  >
                       <b-row>
-                        <div>
-                          <b-btn  v-b-modal="'edit_task'+cur_task.idTask">Edit Task</b-btn>
-                        </div>
+                        <edit_task v-if="gotTasks" v-on:editTask="editTask" :desc="cur_task.description" :PBI_id="cur_task.PBI_id" :state="cur_task.state" :Task_id="cur_task.idTask" ></edit_task>
+
                       </b-row>
                     </div>
                     <p class="card-text">{{cur_task.description}}</p>
@@ -119,9 +116,7 @@
 
 
         </b-col>
-        <b-col class="w-25 bg-light">
-
-
+        <b-col class="bg-light">
           <draggable v-model="doneTasks" @change="addToDone" :move=onMove :options="{group:'UserStories'}">
             <transition-group name="yolanda" class="list-group">
 
@@ -130,9 +125,7 @@
                   <b-card img-top tag="article" class="mb-2">
                     <div slot="header"  >
                       <b-row>
-                        <div>
-                          <b-btn  v-b-modal="'edit_task'+cur_task.idTask">Edit Task</b-btn>
-                        </div>
+                        <edit_task v-if="gotTasks" v-on:editTask="editTask" :desc="cur_task.description" :PBI_id="cur_task.PBI_id" :state="cur_task.state" :Task_id="cur_task.idTask" ></edit_task>
                       </b-row>
                     </div>
                     <p class="card-text">{{cur_task.description}}</p>
@@ -158,6 +151,7 @@
   import Navbar from "./Navbar.vue"
   import draggable from 'vuedraggable'
   import TaskLane from "./TaskLane.vue"
+  import EditTask from "./EditTask.vue"
 
   export default {
     name: "SprintBacklog",
@@ -165,6 +159,7 @@
       navbar: Navbar,
       draggable,
       tasklane: TaskLane,
+      edit_task: EditTask,
     },
     data() {
       return {
@@ -289,6 +284,27 @@
           .catch(function (error) {
             console.log(error);
           })
+      },
+
+      editTask(task) {
+        console.log(task);
+        let i;
+        switch(task.state) {
+          case 1:
+            i = this.todoTasks.findIndex(o => o.idTask === task.idTask);
+            this.todoTasks[i].description=task.description;
+            break;
+          case 2:
+            i = this.doingTasks.findIndex(o => o.idTask === task.idTask);
+            this.doingTasks[i].description=task.description;
+            break;
+          case 3:
+            i = this.doneTasks.findIndex(o => o.idTask === task.idTask);
+            this.doneTasks[i].description=task.description;
+            break;
+          default:
+            console.log ("Unknown value " + task.state);
+        }
       },
 
       onMove ({relatedContext, draggedContext}) {
