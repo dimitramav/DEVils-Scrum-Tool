@@ -43,17 +43,17 @@ export default new Router({
       component: Sidebar
     },
     {
-      path: '/overview/:id',
+      path: '/project/:id/overview',
       name: 'ProjectPageOverview',
       component: ProjectPageOverview
     },
     {
-      path: '/newsprint/:id',
+      path: '/project/:id/newsprint',
       name: 'NewSprint',
       component: NewSprint
     },
     {
-      path: '/backlog/:id',
+      path: '/project/:id/backlog',
       name: 'Backlog',
       component: Backlog
     },
@@ -73,7 +73,7 @@ export default new Router({
       component: EditProfile
     },
     {
-      path:'/sprintbacklog/:id',
+      path:'/project/:id/sprintbacklog',
       name: 'SprintBacklog',
       component: SprintBacklog
     },

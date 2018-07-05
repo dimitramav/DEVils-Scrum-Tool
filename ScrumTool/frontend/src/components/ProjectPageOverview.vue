@@ -115,7 +115,7 @@
                     <b-button letiant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}"> Create New Sprint! </b-button>
                   </div>
                   <div v-else>
-                    <b-button letiant="success"> Go to Sprint Page </b-button>
+                    <b-button letiant="success" :to="{name: 'SprintBacklog', params: {id:$route.params.id}}"> Go to Sprint Page </b-button>
                   </div>
                 </div>
               </b-jumbotron>
