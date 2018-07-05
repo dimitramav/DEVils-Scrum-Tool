@@ -189,7 +189,7 @@
                 </b-row>
                 <b-row>
                   <b-col cols="11">
-                    <b-alert class="pcsprint" variant="success" :show="showAlert" dismissible  >Invitation send!</b-alert>
+                    <b-alert class="pcsprint" variant="success" :show="projectOverview.showAlert" dismissible  >Invitation send!</b-alert>
                   </b-col>
                 </b-row>
               </template>
@@ -443,18 +443,18 @@
           .catch(function (error) {
             console.log(error);
           })
-          self.showAlert=true;
+          self.projectOverview.showAlert=true;
       },
       isProductOwner(){
         const self = this;
         let loggedUserID = localStorage.getItem('userId');
-        console.log("IS PRODUCT OWNER?");
-        console.log(loggedUserID);
+        //console.log("IS PRODUCT OWNER?");
+        //console.log(loggedUserID);
         let teamMember;
         let i=0;
         for(teamMember in self.Team){
           if (self.Team[i].idUser == loggedUserID){
-            console.log("Role in project:");
+            //console.log("Role in project:");
             if(self.Team[i].role === "Product Owner"){
               return true;
             }
