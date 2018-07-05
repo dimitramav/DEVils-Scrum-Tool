@@ -1,3 +1,4 @@
+
 -- MySQL dump 10.13  Distrib 5.7.22, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: ScrumTool_db
