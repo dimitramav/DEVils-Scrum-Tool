@@ -89,9 +89,12 @@
               </b-card-group>
             </transition-group>
           </draggable>
-        </b-col>
-        <b-col>
 
+          <!--<tasklane v-if="gotTasks" :state="1" :list="todoTasks" :story_id="cur_story.idPBI"> </tasklane>-->
+
+        </b-col>
+
+        <b-col>
           <draggable v-model="doingTasks" @change="addToDoing" :move=onMove :options="{group:'UserStories'}">
             <transition-group name="markos" class="list-group">
               <b-card-group v-for="cur_task in doingTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
@@ -111,6 +114,10 @@
               </b-card-group>
             </transition-group>
           </draggable>
+
+          <!--<tasklane v-if="gotTasks" :state="2" :list="doingTasks" :story_id="cur_story.idPBI"> </tasklane>-->
+
+
         </b-col>
         <b-col class="w-25 bg-light">
 
@@ -134,6 +141,10 @@
               </b-card-group>
             </transition-group>
           </draggable>
+
+          <!--<tasklane v-if="gotTasks" :state="3" :list="doneTasks" :story_id="cur_story.idPBI"> </tasklane>-->
+
+
         </b-col>
       </b-row>
       <hr>
@@ -146,12 +157,14 @@
   import axios from 'axios'
   import Navbar from "./Navbar.vue"
   import draggable from 'vuedraggable'
+  import TaskLane from "./TaskLane.vue"
 
   export default {
     name: "SprintBacklog",
     components: {
       navbar: Navbar,
       draggable,
+      tasklane: TaskLane,
     },
     data() {
       return {
@@ -162,6 +175,7 @@
         todoTasks: [],
         doingTasks:[],
         doneTasks: [],
+        gotTasks: false,
       }
     },
 
@@ -222,12 +236,6 @@
             else if (response.data.tasks) {
               console.log(response.data.tasks);
 
-              // response.data.tasks.forEach(function(element) {
-              //   self.todoTasks[element.PBI_id]=[];
-              //   self.doingTasks[element.PBI_id]=[];
-              //   self.doneTasks[element.PBI_id]=[];
-              // });
-
               response.data.tasks.forEach(function(element) {
                 switch(element.state) {
                   case 1:
@@ -248,24 +256,7 @@
               console.log(self.todoTasks);
               console.log(self.doingTasks);
               console.log(self.doneTasks);
-
-              //console.log(response.data.tasks);
-              /* let result = response.data.tasks.reduce(function (r, a) {
-                 r[a.PBI_id] = r[a.PBI_id] || [];
-                 r[a.PBI_id].push(a);
-                 return r;
-               }, Object.create(null));
-               //console.log(result);
-
-               self.currentTasks = Object.values(result);
-               console.log(self.currentTasks);
-
-               //self.currentTasks = result;
-               //console.log(self.currentTasks);
-               // self.currentTasks = JSON.parse(JSON.stringify(result));
-               // console.log(self.currentTasks);*/
-              //self.currentTasks=response.data.tasks;
-              //console.log(self.currentTasks);
+              self.gotTasks=true;
             }
 
           })
@@ -300,34 +291,66 @@
           })
       },
 
-
       onMove ({relatedContext, draggedContext}) {
-        //console.log (relatedContext);
-        //console.log(draggedContext);
-
         draggedContext.element.state=null;
-
-        //this.currentEpicId = relatedContext.element.Epic_id;
       },
-
 
       addToTodo(dragged) {
         console.log(dragged);
         if (dragged.added) {
           dragged.added.element.state = 1;
+          this.updateDB(1, dragged.added.element);
         }
+
       },
+
       addToDoing(dragged) {
         console.log(dragged);
         if (dragged.added) {
           dragged.added.element.state = 2;
+          this.updateDB(2, dragged.added.element);
+
         }
       },
       addToDone(dragged) {
         console.log(dragged);
         if (dragged.added) {
           dragged.added.element.state = 3;
+          this.updateDB(3, dragged.added.element);
+
         }
+      },
+
+      updateDB(state, element) {
+        let config = {
+          headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
+        };
+        let data = {
+          PBI_id: element.PBI_id,
+          description: element.description,
+          state: state,
+          idTask: element.idTask,
+        };
+        //console.log(data);
+
+        axios.put(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/tasks', data, config)
+          .then(function (response) {
+            //console.log(response);
+            if (response.data.error) {
+              if (response.data.error === "Unauthorized user") console.log("Unauthorized user");
+              else if (response.data.error === "Unauthorized projects") console.log("Unauthorized projects");
+              else if (response.data.error === "null") console.log("Null token");
+              else console.log(error);
+            }
+            else if (response.data.task) {
+              console.log(response.data.task);
+              //self.$emit('edit_pbi', self.idPBI, response.data.results.title, response.data.results.description, response.data.results.priority, self.epicId);
+            }
+            else console.log ("Unresolved response: " + response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       },
 
     },
