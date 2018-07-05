@@ -13,6 +13,7 @@ import Profile from '@/components/Profile'
 import EditProfile from '@/components/EditProfile'
 import SprintBacklog from '@/components/SprintBacklog'
 import PageNotFound from '@/components/PageNotFound'
+import Unauthorized from '@/components/Unauthorized'
 Vue.use(Router)
 
 export default new Router({
@@ -20,7 +21,8 @@ export default new Router({
     {
       path: '/',
       name: 'Index',
-      component: Index
+      component: Index,
+
     },
     {
       path: '/signup',
@@ -45,42 +47,145 @@ export default new Router({
     {
       path: '/project/:id/overview',
       name: 'ProjectPageOverview',
-      component: ProjectPageOverview
+      component: ProjectPageOverview,
+      beforeEnter: (to, from, next) => {
+        if(localStorage.getItem('auth_token')==='null') {
+          console.log("hey router")
+          // redirect to 401 Unauthorized Access
+          next({
+            path: '/unauthorized'
+          })
+        }
+        else {
+          next(vm => {
+            // Go to the overview page
+          })
+        }
+      }
     },
     {
       path: '/project/:id/newsprint',
       name: 'NewSprint',
-      component: NewSprint
+      component: NewSprint,
+      beforeEnter: (to, from, next) => {
+        if(localStorage.getItem('auth_token')==='null') {
+          console.log("hey router")
+          // redirect to 401 Unauthorized Access
+          next({
+            path: '/unauthorized'
+          })
+        }
+        else {
+          next(vm => {
+            // Go to the overview page
+          })
+        }
+      }
     },
     {
       path: '/project/:id/backlog',
       name: 'Backlog',
-      component: Backlog
+      component: Backlog,
+      beforeEnter: (to, from, next) => {
+        if(localStorage.getItem('auth_token')==='null') {
+          console.log("hey router")
+          // redirect to 401 Unauthorized Access
+          next({
+            path: '/unauthorized'
+          })
+        }
+        else {
+          next(vm => {
+            // Go to the overview page
+          })
+        }
+      }
     },
     {
       path: '/oldsprints/:id',
       name: 'OldSprints',
-      component: OldSprints
+      component: OldSprints,
+      beforeEnter: (to, from, next) => {
+        if(localStorage.getItem('auth_token')==='null') {
+          console.log("hey router")
+          // redirect to 401 Unauthorized Access
+          next({
+            path: '/unauthorized'
+          })
+        }
+        else {
+          next(vm => {
+            // Go to the overview page
+          })
+        }
+      }
     },
     {
       path:'/users/:id',
       name: 'Profile',
-      component: Profile
+      component: Profile,
+      beforeEnter: (to, from, next) => {
+        if(localStorage.getItem('auth_token')==='null') {
+          console.log("hey router")
+          // redirect to 401 Unauthorized Access
+          next({
+            path: '/unauthorized'
+          })
+        }
+        else {
+          next(vm => {
+            // Go to the overview page
+          })
+        }
+      }
     },
     {
       path:'/editprofile',
       name: 'EditProfile',
-      component: EditProfile
+      component: EditProfile,
+      beforeEnter: (to, from, next) => {
+        if(localStorage.getItem('auth_token')==='null') {
+          console.log("hey router")
+          // redirect to 401 Unauthorized Access
+          next({
+            path: '/unauthorized'
+          })
+        }
+        else {
+          next(vm => {
+            // Go to the overview page
+          })
+        }
+      }
     },
     {
       path:'/project/:id/sprintbacklog',
       name: 'SprintBacklog',
-      component: SprintBacklog
+      component: SprintBacklog,
+      beforeEnter: (to, from, next) => {
+        if(localStorage.getItem('auth_token')==='null') {
+          console.log("hey router")
+          // redirect to 401 Unauthorized Access
+          next({
+            path: '/unauthorized'
+          })
+        }
+        else {
+          next(vm => {
+            // Go to the overview page
+          })
+        }
+      }
     },
     {
       path:'*',
       name: 'PageNotFound',
       component: PageNotFound
+    },
+    {
+      path:'/unauthorized',
+      name: 'Unauthorized',
+      component: Unauthorized
     }
   ]
 })

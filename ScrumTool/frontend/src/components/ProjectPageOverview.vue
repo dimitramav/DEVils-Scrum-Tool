@@ -472,7 +472,7 @@
           }
         }
         // Now check the users in database
-        axios.post('http://localhost:8765/app/api/exists', {
+        axios.post(this.$url + 'exists', {
           mail: self.newMember.mail,
         })
           .then(function (response) {
