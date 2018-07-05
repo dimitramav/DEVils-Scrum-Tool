@@ -1,5 +1,5 @@
 <template>
-  <b-modal :id="'new_story'+Epic_id" title="Create" @ok="newStory(Epic_id)">
+  <b-modal :id="'new_story'+Epic_id" title="Create" @ok="newStory(Epic_id)" class="pcsprint">
     <div class="text-left" :id="'new_story'+Epic_id">
       <b-form>
         <b-form-group label="Title:" :label-for="'addStoryTitle'+Epic_id">
@@ -93,5 +93,19 @@ export default {
 </script>
 
 <style scoped>
+  @import url('https://fonts.googleapis.com/css?family=Merienda');
+  @import url('https://fonts.googleapis.com/css?family=VT323');
+  @import url('https://fonts.googleapis.com/css?family=Quicksand');
 
+  .ptitle{
+    font-family: Merienda;
+  }
+
+  .pdeadline{
+    font-family: VT323;font-size:24px; margin-top: 1%;
+  }
+
+  .pcsprint{
+    font-family: Quicksand;
+  }
 </style>

@@ -145,8 +145,11 @@
             <p></p>
           </b-row>
           <b-row>
+            <p></p>
+          </b-row>
+          <b-row>
             <b-col v-show="totalNumOfCurProjects" class="text-left" style="padding-top:10px;">
-              <h2 class="text-enhancement"> Current Projects</h2>
+              <h2 class="pcsprint" style="font-weight:normal;"> Current Projects</h2>
             </b-col>
             <b-col class="text-right">
               <div>
@@ -216,7 +219,7 @@
           <div v-if="totalNumOfDoneProjects !== 0">
             <b-row style="padding-top:10px;">
               <b-col class="text-left">
-                <h2 class="text-enhancement">Done Projects</h2>
+                <h2 class="pcsprint" style="font-weight:normal;">Done Projects</h2>
               </b-col>
             </b-row>
             <b-row>
