@@ -32,7 +32,7 @@
 
                 <!--New User Story-->
                 <div row>
-                  <b-btn class="pcsprint" v-b-modal="'new_story'+cur_pbi.idPBI" >Add User Story</b-btn>
+                  <b-btn class="pcsprint" v-b-modal="'new_story'+cur_pbi.idPBI" style="height:98%">Add User Story</b-btn>
                   <new_pbi v-on:new_pbi="newUserStory" :idProject="currentProject_id" :Epic_id="cur_pbi.idPBI"></new_pbi>
                 </div>
                 <!--EDIT EPIC-->
@@ -94,7 +94,7 @@
               <h6 class="text-muted pcsprint">{{priorityToString(cur_pbi.priority)}}</h6>
             </div>
           </b-card>
-        </b-card-group>
+        </b-card-group> 
       </b-row>
     </b-container>
 

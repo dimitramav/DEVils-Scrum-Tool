@@ -11,16 +11,9 @@
                 <h3 class="text-enhancement">Create New Sprint</h3>
             </b-col>
         </b-row>
-        <b-row>
-            <p></p>
-        </b-row>
-        <b-row>
-            <p></p>
-        </b-row>
-        <b-row>
-            <b-col cols="1">
-            </b-col>
-            <b-col cols="4" class="text-center">
+        <br> <br>
+        <b-row style="padding-right: 30px; padding-left: 30px">  
+            <b-col  class="text-center">
                 <b-form>
                     <label class="text-enhancement">Plan:</label>
                     <b-form-input class="input-style" v-model="sprint.plan" type="text" placeholder="Type the project's plan"></b-form-input>
@@ -45,17 +38,17 @@
             </b-col>
             <b-col>
                 <b-row>
-                    <b-col cols="4">
+                    <b-col >
                         <h5 class="text-enhancement">Select an Epic: </h5>
                         <select v-model="selectedValue" @click="loadStories(selectedValue.idPBI, selectedValue.title)">
                             <option disabled value="">Please select one</option>
                             <option v-for="item in epics" :value="item">{{item.title}}</option>
                         </select>
                     </b-col>
-                    <b-col cols="6">
+                    <b-col>
                         <div>
-                            <h5 class="text-enhancement">Click to add a user story: </h5>
-                            <b-form-select v-model="selected" :options="stories_options" class="mb-3" :select-size="4">
+                            <h5 class="text-enhancement" style="margin-top: 5px">Click to add a user story: </h5>
+                            <b-form-select v-model="selected" :options="stories_options" class="mb-3" :select-size="4" style="min-width: 280px">
                             </b-form-select>
                         </div>
                     </b-col>
@@ -67,16 +60,16 @@
                     <p></p>
                 </b-row>
                 <b-row>
-                    <b-col cols="4">
+                    <b-col >
                     </b-col>
-                    <b-col cols="6">
-                        <h5 class="text-enhancement">User Stories for the new sprint: </h5>
-                        <b-form-select v-model="toremove" :options="selected_stories" class="mb-3" :select-size="4">
+                    <b-col class="text-right">
+                        <h5 class="text-enhancement" style="font-size: 110%">User Stories for the new sprint: </h5>
+                        <b-form-select v-model="toremove" :options="selected_stories" class="mb-3" :select-size="4" style="min-width: 280px">
                         </b-form-select>
                     </b-col>
                 </b-row>
             </b-col>
-        </b-row>
+          </b-row>
         <b-row>
             <b-col class="text-center">
                 <b-button style="margin-top: 40px; padding-left:100px; padding-right: 100px;" type="submit" size="md" variant="danger" @click="submit" :disabled="dateState===false">

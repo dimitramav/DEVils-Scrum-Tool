@@ -156,7 +156,7 @@
                     <h4 style="margin-top: -13px">Title:</h4>
                     <label class="sr-only" for="newProjectName"></label>
                     <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle" required style="margin-top: -7px"/>
-                    <h5 style="margin-top: 5px">Deadline:</h5>
+                    <h5 style="margin-top: 5px">Deadline: &nbsp &nbsp &nbsp</h5>
                     <label class="sr-only" for="newProjectDate"></label>
 
                     <div>
@@ -165,7 +165,6 @@
                         Project's Deadline cannot be a past or current date.
                       </b-form-invalid-feedback>
                     </div>
-                    <!--<b-form-input id="newProjectDate" type="date" v-model="form.deadlineDate" required style="margin-top: -3px"/>-->
                     <b-button variant="success" size="lg" type="submit" :disabled="dateState===false" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
                   </b-form>
                 </b-dropdown>
