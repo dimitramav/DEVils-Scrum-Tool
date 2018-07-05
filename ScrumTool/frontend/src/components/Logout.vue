@@ -1,6 +1,6 @@
 <template>
   <b-container class="Navigation" fluid>
-    <navbar :logout_prop="true"></navbar>
+    <navbar :logout_prop="true" class="pcsprint"></navbar>
   <b-jumbotron class="pcsprint" header="Thank you for using Scrum Tool!" lead="We hope to see you again!" >
   </b-jumbotron>
   </b-container>

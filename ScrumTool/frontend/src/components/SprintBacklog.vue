@@ -6,51 +6,52 @@
     <!--Sprint Infos-->
     <b-row>
       <b-col class="center">
-        <h1>Sprint #{{currentSprint.numSprint}}</h1>
+        <h3 class="ptitle">Sprint #{{currentSprint.numSprint}}</h3>
       </b-col>
     </b-row>
     <hr>
-    <br>
     <b-row>
       <b-col>
-        <h4><i class="text-muted">Sprint Goal: </i>{{currentSprint.goal}}</h4>
+        <h5 class="pcsprint"><i class="text-muted pcsprint">Sprint Goal: </i>{{currentSprint.goal}}</h5>
       </b-col>
       <b-col>
-        <h4><i class="text-muted">Sprint Plan: </i>{{currentSprint.plan}}</h4>
+        <h5 class="pcsprint"><i class="text-muted pcsprint">Sprint Plan: </i>{{currentSprint.plan}}</h5>
       </b-col>
       <b-col>
-        <h4><i class="text-muted">Deadline Date: </i>{{currentSprint.deadlineDate}} </h4>
+        <h5 class="pcsprint"><i class="text-muted">Deadline Date: </i>{{currentSprint.deadlineDate}} </h5>
       </b-col>
     </b-row>
     <hr style="margin-bottom:0px">
-    <br>
     <!--board-->
     <!--<b-container class="bv-example-row bv-example-row-flex-cols">-->
     <b-row>
+      <p></p>
+    </b-row>
+    <b-row>
       <b-col>
-        <h2>User Stories</h2>
+        <h4 class="pcsprint">User Stories</h4>
       </b-col>
       <b-col>
-        <h2>TO DO</h2>
+        <h4 class="pcsprint">TO DO</h4>
       </b-col>
       <b-col>
-        <h2>DOING</h2>
+        <h4 class="pcsprint">DOING</h4>
       </b-col>
       <b-col>
-        <h2>DONE</h2>
+        <h4 class="pcsprint">DONE</h4>
       </b-col>
     </b-row>
     <div v-for="cur_story in currentStories" :key="cur_story.idPBI" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
       <b-row>
         <b-col>
-          <b-card :title="cur_story.title" img-top tag="article" class="mb-2" >
+          <b-card :title="cur_story.title" img-top tag="article" class="mb-2 pcsprint" >
 
             <div slot="header"  >
               <b-row>
 
                 <!--New Task-->
                 <div>
-                  <b-btn  v-b-modal="'new_task'+cur_story.idPBI">Add Task</b-btn>
+                  <b-btn v-b-modal="'new_task'+cur_story.idPBI" class="sm">Add Task</b-btn>
                   <b-modal @ok="addTask(cur_story.idPBI)" class="text-left" :id="'new_task'+cur_story.idPBI" title="Add new task">
                     <b-form>
                       <b-form-group label="Description:" :label-for="'addTask'+cur_story.idPBI">
@@ -347,6 +348,21 @@
 
 </script>
 <style scoped>
+  @import url('https://fonts.googleapis.com/css?family=Merienda');
+  @import url('https://fonts.googleapis.com/css?family=VT323');
+  @import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+  .ptitle{
+    font-family: Merienda;
+  }
+
+  .pdeadline{
+    font-family: VT323;font-size:24px; margin-top: 1%;
+  }
+
+  .pcsprint{
+    font-family: Quicksand;
+  }
 
   .Navigation {
     position: absolute;

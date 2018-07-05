@@ -5,7 +5,7 @@
     <b-col class="w-100">
       <b-img style ="width: 50%" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" v-on:click="gotoIndex"></b-img>
       <br><br>
-    <b-form @submit="onSubmit">
+    <b-form @submit="onSubmit" class="pcsprint">
 
       <b-form-group id="emailForm"
                     label="Email address"
@@ -208,6 +208,21 @@ export default {
 </script>
 
 <style scoped>
+  @import url('https://fonts.googleapis.com/css?family=Merienda');
+  @import url('https://fonts.googleapis.com/css?family=VT323');
+  @import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+  .ptitle{
+    font-family: Merienda;
+  }
+
+  .pdeadline{
+    font-family: VT323;font-size:24px; margin-top: 1%;
+  }
+
+  .pcsprint{
+    font-family: Quicksand;
+  }
 </style>
 
 

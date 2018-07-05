@@ -5,7 +5,7 @@
       <b-col class="w-100">
         <b-img style ="width: 50%" src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png" v-on:click="gotoIndex" ></b-img>
         <br><br>
-        <b-form @submit="onSubmit">
+        <b-form class="pcsprint" @submit="onSubmit">
           <b-alert show variant="warning" v-if="wrongLogin===true">Invalid email or password</b-alert>
 
           <b-form-group id="mail_group">
@@ -27,7 +27,7 @@
                           placeholder="Enter password">
             </b-form-input>
           </b-form-group>
-          <b-button size = "sm" variant="link">Forgot your password?</b-button>
+          <b-button size = "sm" variant="link" v-on:click="gotoForgotPass">Forgot your password?</b-button>
           <br><br>
           <b-button size="lg" type="submit" variant="primary"> Sign in</b-button>
           <br><br><br>
@@ -84,6 +84,10 @@ export default {
     gotoSignUp () {
       this.$router.push({path: '/signup'});
     },
+    gotoForgotPass(){
+      this.$router.push({path: '/forgotpass'});      
+    }
+    ,
   },
   mounted (){
     //redirect to user homepage if user is already logged in
@@ -92,5 +96,20 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped>  
+  @import url('https://fonts.googleapis.com/css?family=Merienda');
+  @import url('https://fonts.googleapis.com/css?family=VT323');
+  @import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+  .ptitle{
+    font-family: Merienda;
+  }
+
+  .pdeadline{
+    font-family: VT323;font-size:24px; margin-top: 1%;
+  }
+
+  .pcsprint{
+    font-family: Quicksand;
+  }
 </style>

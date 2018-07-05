@@ -13,8 +13,8 @@
             <h1 align="center" class="text-enhancement" style="margin: 0;padding: 0;color: white;"> Scrum Tool </h1>
           </b-col>
           <b-col>
-            <button type="button" class="btn btn-primary" v-on:click="gotoSignIn" style="margin-right:5px">Log In</button>
-            <button type="button" class="btn btn-primary" v-on:click="gotoSignUp">Sign Up</button>
+            <button type="button" class="btn btn-primary pcsprint" v-on:click="gotoSignIn" style="margin-right:5px">Log In</button>
+            <button type="button" class="btn btn-primary pcsprint" v-on:click="gotoSignUp">Sign Up</button>
           </b-col>
         </b-row>
         <b-row align-h="center">
@@ -37,7 +37,7 @@
 
         <div id="home" class="Home">
           <img src="../assets/ScrumWordCloud.jpg" class="wordcloud">
-          <b-button variant="primary" size="lg" type="button" v-on:click="gotoSignUp">Join Free Now</b-button>
+          <b-button variant="primary" size="lg" type="button" v-on:click="gotoSignUp" class="pcsprint">Join Free Now</b-button>
           <p>
             <br/>
           </p>
@@ -45,7 +45,7 @@
 
         <b-container class="Features" id="features" style="background-color: #ffffff;" fluid>
           <b-row align-h="center">
-            <h2 style="font-family:Courier New;"> Features </h2>
+            <h2 class="pcsprint" style="font-family:Courier New;"> Features </h2>
           </b-row>
           <b-row>
             <p></p>
@@ -56,7 +56,7 @@
           <b-row>
             <b-col cols="1"></b-col>
             <b-col cols="4">
-              <b-list-group class="text-enhancement" style="text-align:center; font-weight: normal;color:#2d2d2d;font-size: 13px">
+              <b-list-group class="pcsprint" style="text-align:center; font-weight: normal;color:#2d2d2d;font-size: 13px">
                 <b-list-group-item>Implement scrum methodology</b-list-group-item>
                 <b-list-group-item>Free of charge forever</b-list-group-item>
                 <b-list-group-item>Variety of tools to choose by</b-list-group-item>
@@ -86,9 +86,8 @@
             <b-card-group v-for="teamMember in teamData" :key="teamMember.member" deck style="margin: 0 auto;float: none; margin-bottom: 10px;">
               <b-card :img-src="teamMember.img" img-alt="Img" style="max-width: 9rem" class="mb-2">
                 <h5 style="font-family:Courier New, Courier, monospace;font-size:18px"> {{teamMember.name}} <br><br>  </h5>
-                <p class="card-text" style="font-family:Trebuchet MS, Helvetica, sans-serif;font-style: italic;">
-                  {{teamMember.dev}} </p>
                 <p class="lang">{{teamMember.lang}}</p>
+                <p class="lang" style="font-size: 16px;">{{teamMember.dev}}</p>
                 <p> <i style="color: rgba(47,75,72,0.85);font-size:13px;"> '{{teamMember.phrase}}'</i></p>
                 <b-card-footer style="font-size:14px">
                   <b-link v-b-tooltip.hover :title="teamMember.email"> E-mail </b-link>
@@ -487,6 +486,7 @@
     width: 51%;
   }
   .Features {
+    font-family: Quicksand;
     position: absolute;
     top: 540%;
     left: 0;
@@ -497,6 +497,7 @@
     border-width: 4px;
   }
   .About {
+    font-family: Quicksand;
     position: absolute;
     top: 960%;
     left: 4px;
@@ -551,6 +552,6 @@
     font-family: VT323;font-size:25px;
   }
   .who{
-    font-family:Antic;
+    font-family:Quicksand;
   }
 </style>

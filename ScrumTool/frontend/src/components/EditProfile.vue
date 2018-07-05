@@ -8,7 +8,7 @@
       <b-col>
       </b-col>
       <b-col>
-        <b-alert variant="success" :show="showAlert" >Changes saved!</b-alert>
+        <b-alert class="pcsprint" variant="success" :show="showAlert" >Changes saved!</b-alert>
         <b-form style="text-align: left" @submit="updateProfile">
           <b-form-group class="pcsprint"
                         id="firstname"

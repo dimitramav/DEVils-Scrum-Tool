@@ -14,6 +14,7 @@ import EditProfile from '@/components/EditProfile'
 import SprintBacklog from '@/components/SprintBacklog'
 import PageNotFound from '@/components/PageNotFound'
 import Unauthorized from '@/components/Unauthorized'
+import ForgotPass from '@/components/ForgotPass'
 Vue.use(Router)
 
 export default new Router({
@@ -39,6 +40,12 @@ export default new Router({
       name: 'Logout',
       component: Logout
     },
+    {
+      path: '/forgotpass',
+      name: 'ForgotPass',
+      component: ForgotPass
+    }    
+    ,
     {
       path: '/sidebar',
       name: 'Sidebar',
