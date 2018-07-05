@@ -105,11 +105,11 @@
             </p>
           </b-row>
 
-          <b-container class="bottom" style="background-color:#2d2d2d;" fluid>
+          <b-container class="bottom" style="background-color:#2d2d2d; margin-top: 5px" fluid>
             <b-row>
               <p></p>
             </b-row>
-            <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
+            <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;"> <!--margin-bottom: 10px;-->
               <b-col col lg="1">
                 <a class="active anchors" href="#home" align="center">home</a>
               </b-col>
@@ -121,7 +121,7 @@
               </b-col>
             </b-row>
             <b-row><p></p></b-row>
-            <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;margin-bottom: 10px;">
+            <b-row class="justify-content-md-center" style="margin: 0 auto;float: none;"> <!--margin-bottom: 10px;-->
               <b-col cols="12"></b-col>
               <b-col align-self="end" lg="2">
                 <a class="activ anchors" href="#home" style="font-size:13px;" > terms of use</a>

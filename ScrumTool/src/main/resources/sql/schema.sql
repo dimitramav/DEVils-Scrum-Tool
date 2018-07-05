@@ -45,6 +45,36 @@ INSERT INTO `Issue` VALUES (1,'Rumors in England',2,2),(2,'They ask for more mon
 UNLOCK TABLES;
 
 --
+-- Table structure for table `Notification`
+--
+
+DROP TABLE IF EXISTS `Notification`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Notification` (
+  `idNotification` int(11) NOT NULL AUTO_INCREMENT,
+  `Project_id` int(11) DEFAULT NULL,
+  `projectTitle` varchar(45) DEFAULT NULL,
+  `role` varchar(20) DEFAULT NULL,
+  `FromUsername` varchar(45) DEFAULT NULL,
+  `ToUserEmail` varchar(45) NOT NULL,
+  `type` varchar(45) NOT NULL,
+  `text` varchar(400) DEFAULT NULL,
+  PRIMARY KEY (`idNotification`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Notification`
+--
+
+LOCK TABLES `Notification` WRITE;
+/*!40000 ALTER TABLE `Notification` DISABLE KEYS */;
+INSERT INTO `Notification` VALUES (1,5,'Steam','Developer','vaggosGar','kostas@gmail.com','Accept/Decline',NULL);
+/*!40000 ALTER TABLE `Notification` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `PBI`
 --
 
@@ -245,7 +275,8 @@ CREATE TABLE `User` (
   `isAdmin` tinyint(1) NOT NULL,
   `numProjects` int(11) NOT NULL,
   PRIMARY KEY (`idUser`),
-  UNIQUE KEY `mail_UNIQUE` (`mail`)
+  UNIQUE KEY `mail_UNIQUE` (`mail`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -268,4 +299,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-12 20:35:19
+-- Dump completed on 2018-07-05 13:05:47
