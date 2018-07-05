@@ -14,8 +14,8 @@
       </b-row>
 
       <b-jumbotron v-if="gotPBIS && currentPbis.length===0">
-        <h1>No Epics in Product Backlog</h1>
-        <b>Start creating!</b><br><br>
+        <h1 class="pcsprint">No Epics in Product Backlog</h1>
+        <b class="pcsprint">Start creating!</b><br><br>
         <b-btn  v-b-modal="'new_storyundefined'" size="lg" variant ="success" class="m-md-2 pcsprint" >Create New Epic</b-btn>
         <new_pbi v-on:new_pbi="newEpic" :idProject="currentProject_id"></new_pbi>
       </b-jumbotron>

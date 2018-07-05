@@ -125,9 +125,9 @@
             <b-container fluid>
               <b-jumbotron>
                 <b-row>
-                  <p style="font-size: 180%; color: #264d73"> This Project has finished... Go back to Home Page to create a new one! </p>
+                  <p class="pcsprint" style="font-size: 180%; color: #264d73"> This Project has finished... Go back to Home Page to create a new one! </p>
                 </b-row>
-                <b-button letiant="primary" href="#/" style="margin-top: 10%"> Home Page </b-button>
+                <b-button class="pcsprint" letiant="primary" href="#/" style="margin-top: 10%"> Home Page </b-button>
               </b-jumbotron>
             </b-container>
           </div>
@@ -184,6 +184,14 @@
                     <b-button class="pcsprint" type="submit" letiant="primary" :disabled="validEmail===false">Invite</b-button>
                   </b-form>
                 </div>
+                <b-row>
+                  <p></p>
+                </b-row>
+                <b-row>
+                  <b-col cols="11">
+                    <b-alert class="pcsprint" variant="success" :show="showAlert" dismissible  >Invitation send!</b-alert>
+                  </b-col>
+                </b-row>
               </template>
             </b-jumbotron>
           </b-container>
@@ -240,7 +248,8 @@
           done: 0,
           todoIssues: 0,
           doingIssues: 0,
-          doneIssues: 0
+          doneIssues: 0,
+          showAlert: false,
         },
 
         donePercentage: 0,
@@ -434,6 +443,7 @@
           .catch(function (error) {
             console.log(error);
           })
+          self.showAlert=true;
       },
       isProductOwner(){
         const self = this;
