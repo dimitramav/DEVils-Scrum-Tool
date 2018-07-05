@@ -8,26 +8,26 @@
         </b-row>
         <b-row>
             <b-col align-self="start">
-                <h3 class="text-enhancement">Create New Sprint</h3>
+                <h3 class="pcsprint">Create New Sprint</h3>
             </b-col>
         </b-row>
         <br> <br>
         <b-row style="padding-right: 30px; padding-left: 30px">  
             <b-col  class="text-center">
                 <b-form>
-                    <label class="text-enhancement">Plan:</label>
-                    <b-form-input class="input-style" v-model="sprint.plan" type="text" placeholder="Type the project's plan"></b-form-input>
+                    <label class="pcsprint">Plan:</label>
+                    <b-form-input class="input-style pcsprint" v-model="sprint.plan" type="text" placeholder="Type the project's plan"></b-form-input>
                     <b-row>
                         <p></p>
                     </b-row>
-                    <label class="text-enhancement">Goal:</label>
-                    <b-form-input class="input-style" v-model="sprint.goal" type="text" placeholder="Type the project's goal"></b-form-input>
+                    <label class="pcsprint">Goal:</label>
+                    <b-form-input class="input-style pcsprint" v-model="sprint.goal" type="text" placeholder="Type the project's goal"></b-form-input>
                     <b-row>
                         <p></p>
                     </b-row>
-                    <label class="text-enhancement">Deadline Date:</label>
+                    <label class="pcsprint">Deadline Date:</label>
                     <div>
-                      <b-form-input class="input-style" id="inputLive" v-model.trim="sprint.deadlineDate" type="date" :state="dateState"></b-form-input>
+                      <b-form-input class="input-style pcsprint" id="inputLive" v-model.trim="sprint.deadlineDate" type="date" :state="dateState"></b-form-input>
                       <b-form-invalid-feedback id="inputLiveFeedback">
                       Sprint's Deadline cannot be a past or current date.
                       </b-form-invalid-feedback>
@@ -39,16 +39,16 @@
             <b-col>
                 <b-row>
                     <b-col >
-                        <h5 class="text-enhancement">Select an Epic: </h5>
-                        <select v-model="selectedValue" @click="loadStories(selectedValue.idPBI, selectedValue.title)">
+                        <h5 class="pcsprint">Select an Epic: </h5>
+                        <select class="pcsprint" v-model="selectedValue" @click="loadStories(selectedValue.idPBI, selectedValue.title)">
                             <option disabled value="">Please select one</option>
                             <option v-for="item in epics" :value="item">{{item.title}}</option>
                         </select>
                     </b-col>
                     <b-col>
                         <div>
-                            <h5 class="text-enhancement" style="margin-top: 5px">Click to add a user story: </h5>
-                            <b-form-select v-model="selected" :options="stories_options" class="mb-3" :select-size="4" style="min-width: 280px">
+                            <h5 class="pcsprint" style="margin-top: 5px">Click to add a user story: </h5>
+                            <b-form-select v-model="selected" :options="stories_options" class="mb-3 pcsprint" :select-size="4" style="min-width: 280px">
                             </b-form-select>
                         </div>
                     </b-col>
@@ -63,15 +63,15 @@
                     <b-col >
                     </b-col>
                     <b-col class="text-right">
-                        <h5 class="text-enhancement" style="font-size: 110%">User Stories for the new sprint: </h5>
-                        <b-form-select v-model="toremove" :options="selected_stories" class="mb-3" :select-size="4" style="min-width: 280px">
+                        <h5 class="pcsprint" style="font-size: 110%">User Stories for the new sprint: </h5>
+                        <b-form-select v-model="toremove" :options="selected_stories" class="mb-3 pcsprint" :select-size="4" style="min-width: 280px">
                         </b-form-select>
                     </b-col>
                 </b-row>
             </b-col>
           </b-row>
         <b-row>
-            <b-col class="text-center">
+            <b-col class="text-center pcsprint">
                 <b-button style="margin-top: 40px; padding-left:100px; padding-right: 100px;" type="submit" size="md" variant="danger" @click="submit" :disabled="dateState===false">
                     Submit
                 </b-button>
@@ -289,7 +289,20 @@
 
 <style scoped>
   @import url('https://fonts.googleapis.com/css?family=Merienda');
+  @import url('https://fonts.googleapis.com/css?family=VT323');
+  @import url('https://fonts.googleapis.com/css?family=Quicksand');
 
+  .ptitle{
+    font-family: Merienda;
+  }
+
+  .pdeadline{
+    font-family: VT323;font-size:24px; margin-top: 1%;
+  }
+
+  .pcsprint{
+    font-family: Quicksand;
+  }
   .line {
     width: 99%;
     font-size: 1px;

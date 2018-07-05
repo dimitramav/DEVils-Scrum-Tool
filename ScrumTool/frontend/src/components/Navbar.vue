@@ -18,7 +18,7 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <!-- Project notifications -->
-          <b-nav-item-dropdown right>
+          <b-nav-item-dropdown class="pcsprint" right>
             <template slot="button-content">
                   <em v-if="Notifications.length === 0">
                     <img src="https://support.rocketchatlauncher.com/wp-content/uploads/2017/03/bell.png" style="width:20px;">
@@ -49,7 +49,7 @@
             </div>
           </b-nav-item-dropdown>
           <!-- Setting notifications -->
-          <b-nav-item-dropdown right>
+          <b-nav-item-dropdown class="pcsprint" right>
             <template slot="button-content">
               <em>
                 <img src="https://www.mindvoize.com/images/userImage.png" style="width:23px; position: relative; bottom: 0.5px">
@@ -254,7 +254,21 @@
 
 <style scoped>
   @import url('https://fonts.googleapis.com/css?family=Merienda');
+  @import url('https://fonts.googleapis.com/css?family=VT323');
   @import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+  .ptitle{
+    font-family: Merienda;
+  }
+
+  .pdeadline{
+    font-family: VT323;font-size:24px; margin-top: 1%;
+  }
+
+  .pcsprint{
+    font-family: Quicksand;
+  }
+
   .Navigation {
     position: absolute;
     top: 0;

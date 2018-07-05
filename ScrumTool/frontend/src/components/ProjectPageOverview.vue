@@ -8,7 +8,7 @@
         <b-col>
           <b-row>
             <b-col class="text-left">
-              <h2 class="ptitle">{{projectOverview.project.title}}</h2>
+              <h2 class="pcsprint" style="font-weight:normal;">{{projectOverview.project.title}}</h2>
             </b-col>
             <b-col></b-col>
             <b-col></b-col>
