@@ -40,7 +40,12 @@ export default new Router({
       component: Logout
     },
     {
-      path: '/overview/:id',
+      path: '/sidebar',
+      name: 'Sidebar',
+      component: Sidebar
+    },
+    {
+      path: '/project/:id/overview',
       name: 'ProjectPageOverview',
       component: ProjectPageOverview,
       beforeEnter: (to, from, next) => {
@@ -59,7 +64,7 @@ export default new Router({
       }
     },
     {
-      path: '/newsprint/:id',
+      path: '/project/:id/newsprint',
       name: 'NewSprint',
       component: NewSprint,
       beforeEnter: (to, from, next) => {
@@ -78,7 +83,7 @@ export default new Router({
       }
     },
     {
-      path: '/backlog/:id',
+      path: '/project/:id/backlog',
       name: 'Backlog',
       component: Backlog,
       beforeEnter: (to, from, next) => {
@@ -154,7 +159,7 @@ export default new Router({
       }
     },
     {
-      path:'/sprintbacklog/:id',
+      path:'/project/:id/sprintbacklog',
       name: 'SprintBacklog',
       component: SprintBacklog,
       beforeEnter: (to, from, next) => {
