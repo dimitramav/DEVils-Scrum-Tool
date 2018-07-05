@@ -4,6 +4,7 @@ plugins {
     id 'war'                                //for genarating war files
     id 'org.akhikhl.gretty' version '2.0.0' //web app development plugin
 }
+//apply plugin: 'war'
 
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"

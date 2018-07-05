@@ -48,11 +48,11 @@ insert into Task (description, state, PBI_id) values ('Find the users with open 
 insert into Task (description, state, PBI_id) values ('Show the results to the Republican Party', 1, 1);
 select * from Task;
 select * from Task where PBI_id in (select idPBI from PBI where Sprint_id = 1);
-insert into Issue (description, Task_id) values ('Rumors in England', 2);
-insert into Issue (description, Task_id) values ('They ask for more money', 1);
+insert into Issue (description, state, Task_id) values ('Rumors in England', 2, 2);
+insert into Issue (description, state, Task_id) values ('They ask for more money', 3, 1);
 select * from Issue;
 insert into Notification (Project_id, projectTitle, role, FromUsername, ToUserEmail, type)
-	values (5, 'Steam', 'Developer', 'vaggosGar', 'kostas@gmail.com', 'Accept/Decline');
+	values (7, 'Kostas Project', 'Scrum Master', 'kostaskotronis', 'orestis@gmail.com', 'Accept/Decline');
 insert into Notification (ToUserEmail, type, text) values ('kostas@gmail.com', 'Text', 'Good morning sir!');
 select * from Notification;
 

@@ -493,12 +493,45 @@ public class DataAccess {
         return jdbcTemplate.query(query, new Object[]{sprintId}, new IssueRowMapper());
     }
 
+
     public String getMemberRole(int userId, int projectId) {
         // Find the role of a specific member in project
         String query = "select role from Project_has_User where User_id = ? and Project_id = ?;";
         return jdbcTemplate.queryForObject(query, new Object[]{userId, projectId}, String.class);
     }
 
+
+    public List<Issue> getTaskIssues(int taskId) {
+        // Find the Issues of current sprint's tasks
+        String query = "select * from Issue where Task_id = ?;";
+        return jdbcTemplate.query(query, new Object[]{taskId}, new IssueRowMapper());
+    }
+
+
+    // Insert Issue
+    public Issue insertTaskIssue(Issue issue, int taskId) {
+        // Insert into table with jdbc template
+        // Avoid SQL injections
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        String query = "insert into Issue (description, state, Task_id) values (?, ?, ?);";
+        jdbcTemplate = new JdbcTemplate(dataSource);
+
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, issue.getDescription());
+                statement.setInt(2, 1);
+                statement.setInt(3, taskId);
+                return statement;
+            }
+        }, keyHolder);
+        // Return issue with the new generated id
+        issue.setId(keyHolder.getKey().intValue());
+        issue.setState(1);
+        return issue;
+    }
 
 
     public List<Notification> getUserNotifications(int userId){
@@ -556,7 +589,6 @@ public class DataAccess {
         // Insert a notification (the invitation) in notification table
         String query = "delete from Notification where idNotification = ?;";
         return jdbcTemplate.update(query, new Object[]{idNotification});
-
     }
 
 
