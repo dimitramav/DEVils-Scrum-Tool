@@ -8,7 +8,7 @@
         </b-navbar-brand>
         <span class="text-enhancement"><a href="/#/" style="text-decoration: none; color:white;">Scrum Tool</a></span>
       </b-navbar>
-      <b-collapse is-nav id="nav_collapse">
+      <b-collapse is-nav id="nav_collapse" v-if="logout_prop===false">
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <!-- Project notifications -->
@@ -55,6 +55,16 @@
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
+      <b-navbar-nav class="ml-auto" v-if="logout_prop===true">
+        <b-row>
+          <b-col></b-col>
+          <b-col cols="8"></b-col>
+          <b-col>
+            <button type="button" class="btn btn-primary" v-on:click="gotoSignIn" style="margin-right:5px">Log In</button>
+            <button type="button" class="btn btn-primary" v-on:click="gotoSignUp">Sign Up</button>
+          </b-col>
+        </b-row>
+      </b-navbar-nav>
     </b-navbar>
     <br><br><br>
     <b-navbar v-if="dashboard" toggleable="md" class="navbar navbar-expand-lg navbar-static-top subnav" variant="primary" type="dark" fluid>
@@ -70,7 +80,6 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-
   </b-container>
 </template>
 
@@ -104,6 +113,15 @@
       /*editprofile() {
         this.$router.push({path: '/editprofile'});
       },*/
+      gotoSignIn() {
+        this.$router.push({path: '/signin'});
+      },
+      gotoIndex() {
+        this.$router.push({path: '/'});
+      },
+      gotoSignUp() {
+        this.$router.push({path: '/signup'});
+      },
       getNotifications () {
         const self = this;
         axios.get(this.$url+ 'users/'+ localStorage.getItem('userId') +'/notifications', {
@@ -214,6 +232,7 @@
     },
     props: {
       dashboard: Boolean,
+      logout_prop : Boolean,
     },
   }
 </script>
