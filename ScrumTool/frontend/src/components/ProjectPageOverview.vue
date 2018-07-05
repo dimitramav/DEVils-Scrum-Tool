@@ -89,7 +89,7 @@
                       <b-progress :value="donePercentage" :max="max" class="mb-3"></b-progress>
                     </b-col>
                     <b-col md="4" class="py-4">
-                      <b-btn id="exButton1" letiant="outline-danger">Issues</b-btn>
+                      <b-btn class="pcsprint" id="exButton1" letiant="outline-danger">Issues</b-btn>
                       <b-tooltip target="exButton1"> {{issues}}</b-tooltip>
                     </b-col>
                   </b-row>
@@ -115,7 +115,7 @@
                     <b-button letiant="primary" :to="{name: 'NewSprint', params: {id:$route.params.id}}"> Create New Sprint! </b-button>
                   </div>
                   <div v-else>
-                    <b-button letiant="success" :to="{name: 'SprintBacklog', params: {id:$route.params.id}}"> Go to Sprint Page </b-button>
+                    <b-button class="pcsprint" letiant="success" :to="{name: 'SprintBacklog', params: {id:$route.params.id}}"> Go to Sprint Page </b-button>
                   </div>
                 </div>
               </b-jumbotron>
