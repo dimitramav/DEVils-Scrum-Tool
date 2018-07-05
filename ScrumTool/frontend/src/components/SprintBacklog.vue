@@ -3,11 +3,10 @@
 
     <navbar :dashboard="true"></navbar>
     <br>
-    <b-container fluid>
       <!--Sprint Infos-->
       <b-row>
         <b-col class="center">
-        <h1>Sprint #{{currentSprint.numSprint}}</h1>
+          <h1>Sprint #{{currentSprint.numSprint}}</h1>
         </b-col>
       </b-row>
       <hr>
@@ -26,7 +25,7 @@
       <hr style="margin-bottom:0px">
       <br>
       <!--board-->
-      <b-container class="bv-example-row bv-example-row-flex-cols">
+      <!--<b-container class="bv-example-row bv-example-row-flex-cols">-->
         <b-row>
           <b-col>
             <h2>User Stories</h2>
@@ -41,96 +40,111 @@
             <h2>DONE</h2>
           </b-col>
         </b-row>
-      <div v-for="cur_story in currentStories" :key="cur_story.idPBI" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-        <b-row>
-          <b-col>
-            <b-card :title="cur_story.title" img-top tag="article" class="mb-2" >
+        <div v-for="cur_story in currentStories" :key="cur_story.idPBI" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+          <b-row>
+            <b-col>
+              <b-card :title="cur_story.title" img-top tag="article" class="mb-2" >
 
-              <div slot="header"  >
-                <b-row>
-
-                  <!--New Task-->
-                  <div>
-                    <b-btn  v-b-modal="'new_task'+cur_story.idPBI">Add Task</b-btn>
-                    <b-modal @ok="addTask(cur_story.idPBI)" class="text-left" :id="'new_task'+cur_story.idPBI" title="Add new task">
-                      <b-form>
-                        <b-form-group label="Description:" :label-for="'addTask'+cur_story.idPBI">
-                          <b-form-input :id="'addTask'+cur_story.idPBI"
-                                        type="text"
-                                        v-model="newTask_form.desc"
-                                        required>
-                          </b-form-input>
-                        </b-form-group>
-                      </b-form>
-                    </b-modal>
-                  </div>
-                </b-row>
-              </div>
-            </b-card>
-          </b-col>
-          <b-col class="w-25 bg-light">
-            <b-card-group v-for="cur_task in currentTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-              <div v-if="cur_task.state===1 && cur_task.PBI_id===cur_story.idPBI">
-              <b-card img-top tag="article" class="mb-2">
                 <div slot="header"  >
                   <b-row>
+
+                    <!--New Task-->
                     <div>
-                      <b-btn  v-b-modal="'edit_task'+cur_task.idTask">Edit Task</b-btn>
+                      <b-btn  v-b-modal="'new_task'+cur_story.idPBI">Add Task</b-btn>
+                      <b-modal @ok="addTask(cur_story.idPBI)" class="text-left" :id="'new_task'+cur_story.idPBI" title="Add new task">
+                        <b-form>
+                          <b-form-group label="Description:" :label-for="'addTask'+cur_story.idPBI">
+                            <b-form-input :id="'addTask'+cur_story.idPBI"
+                                          type="text"
+                                          v-model="newTask_form.desc"
+                                          required>
+                            </b-form-input>
+                          </b-form-group>
+                        </b-form>
+                      </b-modal>
                     </div>
                   </b-row>
                 </div>
-                <p class="card-text">{{cur_task.description}}</p>
               </b-card>
-               </div>
-            </b-card-group>
-          </b-col>
-          <b-col>
-            <b-card-group v-for="cur_task in currentTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-              <div v-if="cur_task.state===2 && cur_task.PBI_id===cur_story.idPBI">
-                <b-card img-top tag="article" class="mb-2">
-                  <div slot="header"  >
-                    <b-row>
-                      <div>
-                        <b-btn  v-b-modal="'edit_task'+cur_task.idTask">Edit Task</b-btn>
+            </b-col>
+
+
+            <b-col class="w-25 bg-light">
+              <draggable v-model="todoTasks" @change="addToTodo" :options="{group:'UserStories'}">
+                <p v-if="todoTasks.length===0">Drag here</p>
+                <b-card-group v-for="cur_task in todoTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+                  <div v-show="cur_task.state===1 && cur_task.PBI_id===cur_story.idPBI">
+                    <b-card img-top tag="article" class="mb-2">
+                      <div slot="header"  >
+                        <b-row>
+                          <div>
+                            <b-btn  v-b-modal="'edit_task'+cur_task.idTask">Edit Task</b-btn>
+                          </div>
+                        </b-row>
                       </div>
-                    </b-row>
+                      <p class="card-text">{{cur_task.description}}</p>
+                    </b-card>
                   </div>
-                  <p class="card-text">{{cur_task.description}}</p>
-                </b-card>
-              </div>
-            </b-card-group>
-          </b-col>
-          <b-col class="w-25 bg-light">
-            <b-card-group v-for="cur_task in currentTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-              <div v-if="cur_task.state===3 && cur_task.PBI_id===cur_story.idPBI">
-                <b-card img-top tag="article" class="mb-2">
-                  <div slot="header"  >
-                    <b-row>
-                      <div>
-                        <b-btn  v-b-modal="'edit_task'+cur_task.idTask">Edit Task</b-btn>
+                </b-card-group>
+              </draggable>
+            </b-col>
+            <b-col>
+              <draggable v-model="doingTasks" @change="addToDoing" :options="{group:'UserStories'}">
+                <p v-if="doingTasks.length===0">Drag here</p>
+
+                <b-card-group v-for="cur_task in doingTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+                  <div v-show="cur_task.state===2 && cur_task.PBI_id===cur_story.idPBI">
+                    <b-card img-top tag="article" class="mb-2">
+                      <div slot="header"  >
+                        <b-row>
+                          <div>
+                            <b-btn  v-b-modal="'edit_task'+cur_task.idTask">Edit Task</b-btn>
+                          </div>
+                        </b-row>
                       </div>
-                    </b-row>
+                      <p class="card-text">{{cur_task.description}}</p>
+                    </b-card>
                   </div>
-                  <p class="card-text">{{cur_task.description}}</p>
-                </b-card>
-              </div>
-            </b-card-group>
-          </b-col>
-        </b-row>
-        <hr>
-      </div>
-      </b-container>
-    </b-container>
+                </b-card-group>
+              </draggable>
+            </b-col>
+            <b-col class="w-25 bg-light">
+              <draggable v-model="doneTasks" @change="addToDone" :options="{group:'UserStories'}">
+                <p v-if="doneTasks.length===0">Drag here</p>
+
+                <b-card-group v-for="cur_task in doneTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+                  <div v-show="cur_task.state===3 && cur_task.PBI_id===cur_story.idPBI">
+                    <b-card img-top tag="article" class="mb-2">
+                      <div slot="header"  >
+                        <b-row>
+                          <div>
+                            <b-btn  v-b-modal="'edit_task'+cur_task.idTask">Edit Task</b-btn>
+                          </div>
+                        </b-row>
+                      </div>
+                      <p class="card-text">{{cur_task.description}}</p>
+                    </b-card>
+                  </div>
+                </b-card-group>
+              </draggable>
+            </b-col>
+          </b-row>
+          <hr>
+        </div>
+      <!--</b-container>-->
   </b-container>
 </template>
 
 <script>
   import axios from 'axios'
   import Navbar from "./Navbar.vue"
+  import draggable from 'vuedraggable'
+
   export default {
+    name: "SprintBacklog",
     components: {
       navbar: Navbar,
-      name: "SprintBacklog"
+      draggable,
     },
     data() {
       return {
@@ -141,28 +155,45 @@
         },
         currentProject_id:'',
         today:'',
-        currentTasks:[],
+        //currentTasks:[[3],[]],
+        todoTasks:[],
+        doingTasks:[],
+        doneTasks: [],
+        draggedTask: null,
       }
     },
-    computed:{
-      todoTasks(id){
-        console.log(id);
-        const self=this;
-        return self.currentTasks[id].filter(function(u) {
-          return u.state===1;
-        })
-      },
-      doingTasks(){
-        return this.currentTasks.filter(function(u) {
-          return u.state===2;
-        })
-      },
-      doneTasks(){
-        return this.currentTasks.filter(function(u) {
-          return u.state===3;
-        })
-      },
-    },
+
+    // watch: {
+    //   todoTasks: function (val) {
+    //     console.log(val);
+    //   },
+    //   doingTasks: function (val) {
+    //     console.log(val);
+    //   },
+    //   doneTasks: function (val) {
+    //     console.log(val);
+    //   },
+    // },
+
+    // computed:{
+    //   todoTasks(id){
+    //     console.log(id);
+    //     const self=this;
+    //     return self.currentTasks[id].filter(function(u) {
+    //       return u.state===1;
+    //     })
+    //   },
+    //   doingTasks(){
+    //     return this.currentTasks.filter(function(u) {
+    //       return u.state===2;
+    //     })
+    //   },
+    //   doneTasks(){
+    //     return this.currentTasks.filter(function(u) {
+    //       return u.state===3;
+    //     })
+    //   },
+    // },
     methods: {
       getSprintInfos() {
         const self = this;
@@ -218,21 +249,48 @@
             }
             else if (response.data.tasks) {
               //console.log(response.data.tasks);
-             /* let result = response.data.tasks.reduce(function (r, a) {
-                r[a.PBI_id] = r[a.PBI_id] || [];
-                r[a.PBI_id].push(a);
-                return r;
-              }, Object.create(null));
-              //console.log(result);
+              response.data.tasks.forEach(function(element) {
 
-              self.currentTasks = Object.values(result);
-              console.log(self.currentTasks);
+                switch(element.state) {
+                  case 1:
+                    self.todoTasks.push(element);
+                    break;
+                  case 2:
+                    self.doingTasks.push(element);
+                    break;
+                  case 3:
+                    self.doneTasks.push(element);
+                    break;
+                  default:
+                    console.log ("Unknown value " + element.state);
+                }
 
-              //self.currentTasks = result;
+
+                //console.log(element);
+                // if (typeof(self.currentTasks[element.state-1])=== "undefined") self.currentTasks[element.state-1] = [element];
+                // else self.currentTasks[element.state-1].push(element);
+
+              });
+              console.log(self.todoTasks);
+              console.log(self.doingTasks);
+              console.log(self.doneTasks);
+              //console.log(response.data.tasks);
+              /* let result = response.data.tasks.reduce(function (r, a) {
+                 r[a.PBI_id] = r[a.PBI_id] || [];
+                 r[a.PBI_id].push(a);
+                 return r;
+               }, Object.create(null));
+               //console.log(result);
+
+               self.currentTasks = Object.values(result);
+               console.log(self.currentTasks);
+
+               //self.currentTasks = result;
+               //console.log(self.currentTasks);
+               // self.currentTasks = JSON.parse(JSON.stringify(result));
+               // console.log(self.currentTasks);*/
+              //self.currentTasks=response.data.tasks;
               //console.log(self.currentTasks);
-              // self.currentTasks = JSON.parse(JSON.stringify(result));
-              // console.log(self.currentTasks);*/
-             self.currentTasks=response.data.tasks;
             }
 
           })
@@ -240,8 +298,7 @@
             console.log(error);
           })
       },
-      addTask(storyId)
-      {
+      addTask(storyId) {
         const self = this;
         let config = {
           headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
@@ -265,7 +322,26 @@
           .catch(function (error) {
             console.log(error);
           })
-      }
+      },
+
+      addToTodo(dragged) {
+        console.log(dragged);
+        if (dragged.added) {
+          dragged.added.element.state = 1;
+        }
+      },
+      addToDoing(dragged) {
+        console.log(dragged);
+        if (dragged.added) {
+          dragged.added.element.state = 2;
+        }
+      },
+      addToDone(dragged) {
+        console.log(dragged);
+        if (dragged.added) {
+          dragged.added.element.state = 3;
+        }
+      },
 
     },
 

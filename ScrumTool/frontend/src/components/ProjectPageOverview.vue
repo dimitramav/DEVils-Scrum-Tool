@@ -220,6 +220,7 @@
     data() {
       return {
         sel: null,
+        max: 100,
         opts: [
           { value: '1', text: 'Scrum Master' },
           { value: '2', text: 'Developer' }

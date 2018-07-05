@@ -215,7 +215,7 @@
             </b-row>
             <br>
             <b-row>
-              <b-card-group v-for="done_project in doneProjects" :key="done_project.idProject" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
+              <b-card-group v-for="done_project in doneProjects" :key="done_project.idProject" deck>
                 <b-card img-top tag="article" style="max-width: 15rem;" class="mb-2" img-src="https://picsum.photos/600/300/?image=1068" img-alt="Image">
                   <h3 class="pcsprint"> {{done_project.title}} </h3>
                   <p class="card-text pcsprint">
