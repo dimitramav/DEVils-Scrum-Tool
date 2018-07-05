@@ -34,6 +34,6 @@ update Sprint set deadlineDate = '2018-07-10' where idSprint = 2;
 select idUser, mail, firstname, lastname, photo from User where idUser in (select User_id from Project_has_User where Project_id = 2);
 select role from Project_has_User where User_id = 3 and Project_id = 2;
 select * from Notification where ToUserEmail in (select mail from User where idUser = 2) and type = 'Accept/Decline';
-
+update User set numProjects = numProjects + 1 where idUser = 1;
 
 

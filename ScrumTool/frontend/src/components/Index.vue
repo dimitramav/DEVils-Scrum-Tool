@@ -146,7 +146,7 @@
             <p></p>
           </b-row>
           <b-row>
-            <b-col class="text-left" style="padding-top:10px;">
+            <b-col v-show="totalNumOfCurProjects" class="text-left" style="padding-top:10px;">
               <h2 class="text-enhancement"> Current Projects</h2>
             </b-col>
             <b-col class="text-right">
@@ -189,13 +189,24 @@
           </b-row>
           <br>
 
+          <b-row v-show="totalNumOfCurProjects===0" class="text-center">
+            <b-col></b-col>
+            <b-col cols="8">
+            <div>
+              <b-jumbotron class="pcsprint" header="Welcome to ScrumTool" lead="Create a new project now !" >
+              </b-jumbotron>
+            </div>
+            </b-col>
+            <b-col></b-col>
+          </b-row>
+
           <b-row>
             <!--per-page: max number of records per page - total-rows: total number of records in your data-->
             <b-col></b-col>
             <b-col>
               <template>
                 <div>
-                  <b-pagination size="md" :total-rows=totalNumOfCurProjects v-model="currentPageCurrent" :per-page="recordsPerPageCurrent">
+                  <b-pagination v-if="totalNumOfCurProjects" size="md" :total-rows=totalNumOfCurProjects v-model="currentPageCurrent" :per-page="recordsPerPageCurrent">
                   </b-pagination>
                 </div>
               </template>
@@ -376,6 +387,7 @@
             if (response.data.results) {
               console.log(response.data.results);
               self.currentProjects.push(response.data.results);
+              self.totalNumOfCurProjects = self.getNumOfCurProjects();
             }
           })
           .catch(function(error) {
