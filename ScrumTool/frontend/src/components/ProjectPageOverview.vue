@@ -50,6 +50,7 @@
       <b-row>
         <div class="line">.</div>
       </b-row>
+      <!--{{projectOverview}}-->
       <b-row>
         <b-col>
 
@@ -441,12 +442,12 @@
         let teamMember;
         let i=0;
         for(teamMember in self.Team){
-          if (self.Team[i].idUser === loggedUserID){
+          if (self.Team[i].idUser == loggedUserID){
             console.log("Role in project:");
             if(self.Team[i].role === "Product Owner"){
               return true;
             }
-            else{
+            else {
               return false;
             }
           }
