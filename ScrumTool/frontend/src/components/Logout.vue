@@ -1,7 +1,7 @@
 <template>
   <b-container class="Navigation" fluid>
     <navbar :logout_prop="true"></navbar>
-  <b-jumbotron header="Thank you for using Scrum Tool!" lead="We hope to see you again!" >
+  <b-jumbotron class="pcsprint" header="Thank you for using Scrum Tool!" lead="We hope to see you again!" >
   </b-jumbotron>
   </b-container>
 
@@ -22,7 +22,22 @@
     }
 </script>
 
-<style scoped>
+<style scoped>  
+  @import url('https://fonts.googleapis.com/css?family=Merienda');
+  @import url('https://fonts.googleapis.com/css?family=VT323');
+  @import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+  .ptitle{
+    font-family: Merienda;
+  }
+
+  .pdeadline{
+    font-family: VT323;font-size:24px; margin-top: 1%;
+  }
+
+  .pcsprint{
+    font-family: Quicksand;
+  }
   .Title{
     position: absolute;
     top: 0;
