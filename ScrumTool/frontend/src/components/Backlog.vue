@@ -37,7 +37,6 @@
                 </div>
                 <!--EDIT EPIC-->
                 <edit_pbi class="pcsprint" v-on:edit_pbi="editEpic" :idPBI="cur_pbi.idPBI" :idProject="currentProject_id" :title="cur_pbi.title" :desc="cur_pbi.description" :priority="cur_pbi.priority"></edit_pbi>
-                <issue class="pcsprint" v-on:edit_pbi="editEpic" :idPBI="cur_pbi.idPBI" :idProject="currentProject_id" :title="cur_pbi.title" :desc="cur_pbi.description" :priority="cur_pbi.priority"></issue>
               </b-row>
             </div>
             <p class="card-text pcsprint" style="color: grey;"> {{cur_pbi.description}} </p>
@@ -95,7 +94,7 @@
               <h6 class="text-muted pcsprint">{{priorityToString(cur_pbi.priority)}}</h6>
             </div>
           </b-card>
-        </b-card-group> 
+        </b-card-group>
       </b-row>
     </b-container>
 
@@ -109,7 +108,6 @@ import Navbar from "./Navbar.vue"
 import EditPBI from "./EditPBI.vue"
 import draggable from 'vuedraggable'
 import NewPBI from './NewPBI.vue'
-import Issue from './Issue.vue'
 
 export default {
   components: {
@@ -117,7 +115,6 @@ export default {
     edit_pbi: EditPBI,
     draggable,
     new_pbi: NewPBI,
-    issue: Issue,
   },
   data() {
     return {

@@ -191,7 +191,7 @@
           </b-row>
           <br>
 
-          <b-row v-show="totalNumOfCurProjects===0" class="text-center">
+          <b-row v-if="totalNumOfCurProjects===0" class="text-center">
             <b-col></b-col>
             <b-col cols="8">
             <div>
@@ -296,7 +296,7 @@
         doneProjects: [],
         teamData: json.team,
         isProject: false,
-        totalNumOfCurProjects: 0,
+        totalNumOfCurProjects: null,
         currentPageCurrent: 1,
         recordsPerPageCurrent: constVars.recordsPerPage,
         totalNumOfDoneProjects: 0,
@@ -324,7 +324,7 @@
         console.log(github);
         var win = window.open(github, '_blank');
         win.focus();
-      }   
+      }
       ,
       notLoggedIn() {
         return (localStorage.getItem('auth_token') === 'null' || localStorage.getItem('userId') === 'null' || this.logOut);
@@ -342,7 +342,7 @@
             }
             if (response.data.results) {
               self.currentProjects = response.data.results;
-              //console.log(self.currentProjects.length);
+              self.totalNumOfCurProjects = self.currentProjects.length;
             }
           })
           .catch(function(error) {
@@ -421,7 +421,7 @@
             }
             if (response.data.results) {
               self.totalNumOfCurProjects = response.data.results;
-              //console.log(self.totalNumOfCurProjects);
+              console.log(self.totalNumOfCurProjects);
             }
           })
           .catch(function(error) {
