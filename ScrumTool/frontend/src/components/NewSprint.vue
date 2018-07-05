@@ -98,8 +98,8 @@
         var mm = ("0" + (mindate.getMonth()+1)).slice(-2);
         var yyyy = mindate.getFullYear();
         mindate=yyyy+"-"+mm+"-"+dd;
-
-    return this.sprint.deadlineDate>mindate ? true : false
+        if (this.sprint.deadlineDate==='') return null;
+        return this.sprint.deadlineDate>mindate
       }  
 
     },
