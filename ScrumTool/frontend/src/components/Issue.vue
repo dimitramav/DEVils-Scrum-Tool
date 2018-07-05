@@ -3,34 +3,28 @@
     <b-button @click="openModal()" class="pcsprint">
       <b-img src="https://cdn2.iconfinder.com/data/icons/social-productivity-line-art-1/128/alert-triangle-512.png" style="width:20px; margin-right: 5px"></b-img>Issues
     </b-button>
-    <b-modal v-model="modalShow" title="Preview Issues" @ok="updateEpic()">
-      <div class="text-left" id="updateEpic">
+    <b-modal v-model="modalShow" title="Preview Issues" @ok="addIssue()">
+      <div class="text-left" id="addIssue">
         <b-row>
           <b-col> Issues: </b-col>
         </b-row>
         <b-row>
-          <p></p>
+          <p>idProject: {{idProject}} idTask: {{idTask}} loggedUserId: {{loggedUserID}}</p>
         </b-row>
         <div id="scrollspy-nested" style="position:relative;height:250px;overflow-y:auto">
-          <b-list-group>
-            <b-list-group-item>Cras justo odio</b-list-group-item>
-            <b-list-group-item>Dapibus ac facilisis in</b-list-group-item>
-            <b-list-group-item>Morbi leo risus</b-list-group-item>
-                        <b-list-group-item>Cras justo odio</b-list-group-item>
-            <b-list-group-item>Dapibus ac facilisis in</b-list-group-item>
-            <b-list-group-item>Morbi leo risus</b-list-group-item>
-                        <b-list-group-item>Cras justo odio</b-list-group-item>
-            <b-list-group-item>Dapibus ac facilisis in</b-list-group-item>
-            <b-list-group-item>Morbi leo risus</b-list-group-item>
+          <b-list-group v-for="issue in Issues" v-bind:data="issue" v-bind:key="issue.description">
+            <b-list-group-item class="flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between pcsprint">
+                <h5 class="mb-1" style="font-weight: normal;">{{issue.description}}</h5>
+              </div>
+            </b-list-group-item>
           </b-list-group>
         </div>
+
         <br><br>
         <b-form>
           <b-form-group label="Add an issue:">
-            <b-form-input :id="'desc'+idPBI"
-                          type="text"
-                          v-model="updateEpic_form.desc"
-                          required>
+            <b-form-input v-model="newIssue" type="text" placeholder="Description">
             </b-form-input>
           </b-form-group>
         </b-form>
@@ -41,76 +35,90 @@
 
 <script>import axios from 'axios'
 export default {
-  name: "EditEpic",
   props: {
-    idPBI: Number,
-    epicId: Number,
     idProject: Number,
-    title: String,
-    desc: String,
-    priority: Number,
+    idTask: Number,
   },
   data: function() {
     return {
-      updateEpic_form:{
-        title: '',
-        desc: '',
-        selected: -1,
-      },
+      loggedUserID: 0,
+      Issues: [],
+      newIssue: '',
       modalShow: false,
-      isEpic: null,
-      options: [
-        { text: 'High', value: 1 },
-        { text: 'Medium', value: 2},
-        { text: 'Low', value: 3 },
-      ],
+      issueToAdd: {
+        description: '',
+        Task_id: 0,
+      },
     }
   },
   methods: {
     openModal(){
-      //console.log(typeof(this.epicId));
-      this.isEpic = (typeof(this.epicId)==="undefined");
-      console.log(this.isEpic);
-      console.log(this.idPBI);
-      console.log(this.priority);
-      this.updateEpic_form.title = this.title;
-      this.updateEpic_form.desc = this.desc;
-      this.updateEpic_form.selected = this.priority;
-      console.log (this.updateEpic_form);
+      console.log("openModal");
+      this.loggedUserID = localStorage.getItem('userId');
       this.modalShow = !this.modalShow;
+      this.getIssues();
+      //self.Issues = [{"idIssue": 1, "description": "description1"}, {"idIssue": 2, "description": "description2"}, {"idIssue": 3, "description": "description3"}];
     },
 
-
-    updateEpic() {
-      //console.log("current_id = " + current_id);
-      const self = this;
-
-      let config = {
-        headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
-      };
-      let data = {
-        title: this.updateEpic_form.title, description: this.updateEpic_form.desc, priority: this.updateEpic_form.selected, Project_id: this.idProject, idPBI: this.idPBI, Epic_id: this.epicId,
-      };
-      //console.log(data);
-
-      axios.put(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/pbis?isEpic=' + self.isEpic, data, config)
+    getIssues() {
+      console.log("getIssues");
+      const self=this;
+      axios.get(this.$url+ 'users/'+ self.loggedUserID + '/projects/' + self.idProject + '/tasks/' + self.idTask + '/issues', {
+        headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
+      })
         .then(function (response) {
           if (response.data.error) {
-            if (response.data.error === "Unauthorized user") console.log("Unauthorized user");
-            else if (response.data.error === "Unauthorized projects") console.log("Unauthorized projects");
-            else if (response.data.error === "null") console.log("Null token");
-            else console.log(error);
+            if (response.data.error === "Unauthorized user") {
+              console.log("Unauthorized user");
+            }
+            else if (response.data.error === "Unauthorized projects") {
+              console.log("Unauthorized issues");
+            }
+            else if (response.data.error === "null") {
+              console.log("Null token");
+            }
           }
-          else if (response.data.results) {
-            console.log(response.data.results);
-            self.$emit('edit_pbi', self.idPBI, response.data.results.title, response.data.results.description, response.data.results.priority, self.epicId);
+          if (response.data.results) {
+            self.Issues = response.data.results;
+            console.log("Got the issues");
           }
         })
         .catch(function (error) {
           console.log(error);
-        });
-
+        })
     },
+
+    addIssue () {
+      console.log("addIssue");
+      const self = this;
+      self.issueToAdd.description = self.newIssue;
+      self.issueToAdd.Task_id = self.idTask;
+      //app/api/sprint/{sprintId}/pbis/{pbiId}/tasks/{taskId}/issues
+      axios.post(this.$url+ 'users/'+ self.loggedUserID + '/projects/' + self.idProject + '/tasks/' + self.idTask + '/issues', self.issueToAdd, {
+        headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
+      })
+        .then(function (response) {
+          if (response.data.error) {
+            if (response.data.error === "Unauthorized user") {
+              console.log("Unauthorized user");
+            }
+            else if (response.data.error === "Unauthorized projects") {
+              console.log("Unauthorized projects");
+            }
+            else if (response.data.error === "null") {
+              console.log("Null token");
+            }
+          }
+          if (response.data.results) {
+            console.log("Invitation send");
+            self.newIssue='';
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
+
   }
 }
 

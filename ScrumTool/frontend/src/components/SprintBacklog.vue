@@ -1,6 +1,5 @@
 <template>
   <b-container class="Navigation" fluid>
-
     <navbar :dashboard="true"></navbar>
     <br>
     <!--Sprint Infos-->
@@ -79,6 +78,7 @@
                     <div slot="header"  >
                       <b-row>
                         <edit_task v-if="gotTasks" v-on:editTask="editTask" :desc="cur_task.description" :PBI_id="cur_task.PBI_id" :state="cur_task.state" :Task_id="cur_task.idTask" ></edit_task>
+                        <issue class="pcsprint"  :idProject="currentProject_id" :idTask="cur_task.idTask" ></issue>
                       </b-row>
                     </div>
                     <p class="card-text">{{cur_task.description}}</p>
@@ -102,7 +102,7 @@
                     <div slot="header"  >
                       <b-row>
                         <edit_task v-if="gotTasks" v-on:editTask="editTask" :desc="cur_task.description" :PBI_id="cur_task.PBI_id" :state="cur_task.state" :Task_id="cur_task.idTask" ></edit_task>
-
+                        <issue class="pcsprint"  :idProject="currentProject_id" :idTask="cur_task.idTask" ></issue>
                       </b-row>
                     </div>
                     <p class="card-text">{{cur_task.description}}</p>
@@ -126,6 +126,7 @@
                     <div slot="header"  >
                       <b-row>
                         <edit_task v-if="gotTasks" v-on:editTask="editTask" :desc="cur_task.description" :PBI_id="cur_task.PBI_id" :state="cur_task.state" :Task_id="cur_task.idTask" ></edit_task>
+                        <issue class="pcsprint"  :idProject="currentProject_id" :idTask="cur_task.idTask" ></issue>
                       </b-row>
                     </div>
                     <p class="card-text">{{cur_task.description}}</p>
@@ -152,6 +153,7 @@
   import draggable from 'vuedraggable'
   import TaskLane from "./TaskLane.vue"
   import EditTask from "./EditTask.vue"
+  import Issue from './Issue.vue'
 
   export default {
     name: "SprintBacklog",
@@ -160,6 +162,7 @@
       draggable,
       tasklane: TaskLane,
       edit_task: EditTask,
+      issue: Issue,
     },
     data() {
       return {
