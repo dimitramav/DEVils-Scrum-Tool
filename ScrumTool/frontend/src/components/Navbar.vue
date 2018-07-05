@@ -35,7 +35,7 @@
             <div v-else v-for="notification in Notifications">
                 <b-dropdown-item disabled>
                   <div v-if="notification.type === 'Accept/Decline'">
-                    User {{notification.FromUsername}} invited you as {{notification.role}} in {{notification.projectTitle}}.
+                    User <a v-on:click="goToProfile(notification.FromUsername);" href="#" >{{notification.FromUsername}}</a> invited you as {{notification.role}} in {{notification.projectTitle}}.
                     <br>
                     <b-button variant="primary" v-on:click="watchedNotification('accept', notification)">Accept</b-button>
                     <b-button variant="secondary" v-on:click="watchedNotification('decline', notification)">Decline</b-button>
@@ -101,6 +101,14 @@
     },
     name: "Navbar",
     methods: {
+      goToProfile(name) {
+        this.$router.push({
+          name: 'Profile',
+          params: {
+            id: name
+          }
+        });
+      },
       logout() {
         localStorage.setItem('userId', 'null');
         localStorage.setItem('username', 'null');
@@ -166,10 +174,10 @@
                    console.log(response.data.error);
               }
               if (response.data.results) {
-                if (response.data.results == 1){
+                if (response.data.results === 1){
                   var index = -1;
                   for (var x in self.Notifications){
-                    if (self.Notifications[x].idNotification == notificationItem.idNotification){
+                    if (self.Notifications[x].idNotification === notificationItem.idNotification){
                       index = x;
                       break;
                     }
@@ -212,10 +220,10 @@
                    console.log(response.data.error);
               }
               if (response.data.results) {
-                if (response.data.results == 1){
+                if (response.data.results === 1){
                   var index = -1;
                   for (var x in self.Notifications){
-                    if (self.Notifications[x].idNotification == notificationItem.idNotification){
+                    if (self.Notifications[x].idNotification === notificationItem.idNotification){
                       index = x;
                       break;
                     }
