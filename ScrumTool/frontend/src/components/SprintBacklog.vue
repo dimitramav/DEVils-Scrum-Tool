@@ -57,7 +57,7 @@
                       <b-form-group label="Description:" :label-for="'addTask'+cur_story.idPBI">
                         <b-form-input :id="'addTask'+cur_story.idPBI"
                                       type="text"
-                                      v-model="newTask_form.desc"
+                                      v-model="newTask_desc"
                                       required>
                         </b-form-input>
                       </b-form-group>
@@ -71,10 +71,10 @@
 
 
         <b-col class="w-25 bg-light">
-          <draggable v-model="todoTasks[cur_story.idPBI]" @change="addToTodo" :move=onMove :options="{group:'UserStories'}">
+          <draggable v-model="todoTasks" @change="addToTodo" :move=onMove :options="{group:'UserStories'}">
             <transition-group name="markos1" class="list-group">
-              <b-card-group v-for="cur_task in todoTasks[cur_story.idPBI]"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-                <div v-if="cur_task.state===1">
+              <b-card-group v-for="cur_task in todoTasks" :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+                <div v-if="cur_task.state===1 && cur_task.PBI_id===cur_story.idPBI">
                   <b-card img-top tag="article" class="mb-2">
                     <div slot="header"  >
                       <b-row>
@@ -92,11 +92,11 @@
         </b-col>
         <b-col>
 
-          <draggable v-model="doingTasks[cur_story.idPBI]" @change="addToDoing" :move=onMove :options="{group:'UserStories'}">
+          <draggable v-model="doingTasks" @change="addToDoing" :move=onMove :options="{group:'UserStories'}">
             <transition-group name="markos" class="list-group">
-              <b-card-group v-for="cur_task in doingTasks[cur_story.idPBI]"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+              <b-card-group v-for="cur_task in doingTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
 
-                <div v-if="cur_task.state===2">
+                <div v-if="cur_task.state===2 && cur_task.PBI_id===cur_story.idPBI">
                   <b-card img-top tag="article" class="mb-2">
                     <div slot="header"  >
                       <b-row>
@@ -115,11 +115,11 @@
         <b-col class="w-25 bg-light">
 
 
-          <draggable v-model="doneTasks[cur_story.idPBI]" @change="addToDone" :move=onMove :options="{group:'UserStories'}">
+          <draggable v-model="doneTasks" @change="addToDone" :move=onMove :options="{group:'UserStories'}">
             <transition-group name="yolanda" class="list-group">
 
-              <b-card-group v-for="cur_task in doneTasks[cur_story.idPBI]"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-                <div v-if="cur_task.state===3">
+              <b-card-group v-for="cur_task in doneTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+                <div v-if="cur_task.state===3 && cur_task.PBI_id===cur_story.idPBI">
                   <b-card img-top tag="article" class="mb-2">
                     <div slot="header"  >
                       <b-row>
@@ -157,11 +157,8 @@
       return {
         currentSprint:[],
         currentStories:[],
-        newTask_form:{
-          desc:'',
-        },
+        newTask_desc: '',
         currentProject_id:'',
-        today:'',
         todoTasks: [],
         doingTasks:[],
         doneTasks: [],
@@ -225,24 +222,24 @@
             else if (response.data.tasks) {
               console.log(response.data.tasks);
 
-              response.data.tasks.forEach(function(element) {
-                self.todoTasks[element.PBI_id]=[];
-                self.doingTasks[element.PBI_id]=[];
-                self.doneTasks[element.PBI_id]=[];
-              });
+              // response.data.tasks.forEach(function(element) {
+              //   self.todoTasks[element.PBI_id]=[];
+              //   self.doingTasks[element.PBI_id]=[];
+              //   self.doneTasks[element.PBI_id]=[];
+              // });
 
               response.data.tasks.forEach(function(element) {
                 switch(element.state) {
                   case 1:
-                    self.todoTasks[element.PBI_id].push(element);
+                    self.todoTasks.push(element);
                     break;
                   case 2:
                     // if (typeof(self.doingTasks[element.PBI_id])=== "undefined") self.doingTasks[element.PBI_id] = [element];
-                    self.doingTasks[element.PBI_id].push(element);
+                    self.doingTasks.push(element);
                     break;
                   case 3:
                     //if (typeof(self.doneTasks[element.PBI_id])=== "undefined") self.doneTasks[element.PBI_id] = [element];
-                    self.doneTasks[element.PBI_id].push(element);
+                    self.doneTasks.push(element);
                     break;
                   default:
                     console.log ("Unknown value " + element.state);
@@ -282,7 +279,7 @@
           headers: {"auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json'}
         };
         let data = {
-          description: this.newTask_form.desc, Project_id: this.currentProject_id, PBI_id: storyId ,
+          description: this.newTask_desc, Project_id: this.currentProject_id, PBI_id: storyId ,
         };
         //console.log(data);
         axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.idProject + '/tasks?isCurrent=true', data, config)
@@ -294,10 +291,8 @@
               else console.log(error);
             }
             if (response.data.task) {
-              console.log(self.todoTasks);
-              console.log(storyId);
-              console.log(response.data.task);
-              self.todoTasks[storyId].push(response.data.task);
+              self.todoTasks.push(response.data.task);
+              self.newTask_desc='';
             }
           })
           .catch(function (error) {
