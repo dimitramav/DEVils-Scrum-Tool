@@ -157,12 +157,14 @@
               self.userInfos = response.data.result;
               self.showAlert=true;
               console.log(self.userInfos);
+              self.$router.push({path: '/users/' + localStorage.getItem('username')});
             }
             else console.log("Unresolved response: " + response);
           })
           .catch(function (error) {
             console.log(error);
           })
+
       },
     },
     mounted() {
