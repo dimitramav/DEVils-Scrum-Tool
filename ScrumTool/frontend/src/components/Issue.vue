@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button @click="openModal()" class="pcsprint" variant="danger" style="background-color: rgba(210,0,12,0.72)">
+    <b-button @click="openModal()" class="pcsprint" variant="warning" style="background-color: rgba(242,192,0,0.83)">
       <b-img src="https://cdn2.iconfinder.com/data/icons/social-productivity-line-art-1/128/alert-triangle-512.png" style="width:20px; margin-right: 5px"></b-img>Issues
     </b-button>
     <b-modal v-model="modalShow" title="Preview Issues" @ok="addIssue()">
