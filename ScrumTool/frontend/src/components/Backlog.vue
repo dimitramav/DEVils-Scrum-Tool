@@ -272,14 +272,18 @@ export default {
     },
 
     newUserStory(data) {
-      console.log(data);
+      //console.log(data);
       console.log(this.currentUserStories);
-      if (this.currentUserStories[data.Epic_id]) this.currentUserStories[data.Epic_id].push(data);
+      if (this.currentUserStories[data.Epic_id]) {
+        if (this.currentUserStories[data.Epic_id].length=== 1 && this.currentUserStories[data.Epic_id][0].idPBI === -1)
+          this.currentUserStories[data.Epic_id].splice(0,1,data);
+        else this.currentUserStories[data.Epic_id].push(data);
+      }
     },
 
     newEpic(data) {
       //console.log(data);
-      this.currentPbis.unshift(data);
+      this.currentPbis.push(data);
     },
   },
   mounted() {

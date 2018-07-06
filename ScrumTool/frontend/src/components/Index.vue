@@ -141,9 +141,9 @@
 
         <navbar :dashboard="false"></navbar>
 
-        <b-jumbotron v-show="totalNumOfCurProjects!==null && !totalNumOfCurProjects">
-          <h1 class="pcsprint">No Epics in Product Backlog</h1>
-          <b class="pcsprint">Start creating!</b><br><br>
+        <b-jumbotron v-show="gotProjects && !totalNumOfCurProjects">
+          <h1 class="pcsprint">Welcome to ScrumTool!</h1>
+          <b class="pcsprint">No projects yet. Start creating!</b><br><br>
           <b-dropdown id="ddown1" variant="info" size="lg" text="Create a New Project" class="m-md-2 pcsprint">
             <b-form inline style="margin: 10px;" @submit="newProject">
               <h4 style="margin-top: -13px">Title:</h4>
@@ -215,7 +215,7 @@
             </b-row>
             <br>
 
-            <b-row v-if="totalNumOfCurProjects===0" class="text-center">
+            <b-row v-if="totalNumOfCurProjects===0 && totalNumOfCurProjects===null" class="text-center">
               <b-col></b-col>
               <b-col cols="8">
                 <div>
@@ -322,6 +322,8 @@
         teamData: json.team,
         isProject: false,
         totalNumOfCurProjects: null,
+        gotProjects: false,
+
         currentPageCurrent: 1,
         recordsPerPageCurrent: constVars.recordsPerPage,
         totalNumOfDoneProjects: 0,
@@ -367,6 +369,7 @@
             }
             if (response.data.results) {
               self.currentProjects = response.data.results;
+              self.gotProjects=true;
             }
           })
           .catch(function(error) {
@@ -472,7 +475,6 @@
       }
     },
     mounted() {
-      console.log('mphkaaaa');
       if (localStorage.getItem('auth_token') === 'null' || localStorage.getItem('userId') === 'null') return;
       this.getNumOfCurProjects();
       this.getNumOfDoneProjects();
