@@ -82,7 +82,7 @@
           <change_pass></change_pass>
           <br>
           <!--TODO: bio-->
-          <b-button class="pcsprint" variant="success" size="md" type="info">Submit changes</b-button>
+          <b-button class="pcsprint" variant="success" size="lg" type="info">Submit changes</b-button>
         </b-form>
 
       </b-col>
@@ -176,7 +176,7 @@
   @import url('https://fonts.googleapis.com/css?family=VT323');
   @import url('https://fonts.googleapis.com/css?family=Antic');
   @import url('https://fonts.googleapis.com/css?family=Quicksand');
-  
+
   .ptitle{
     font-family: Merienda;
   }

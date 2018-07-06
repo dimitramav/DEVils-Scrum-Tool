@@ -5,7 +5,7 @@
     <!--Sprint Infos-->
     <b-row>
       <b-col class="center">
-        <h3 class="ptitle">Sprint #{{currentSprint.numSprint}}</h3>
+        <h2 class="pcsprint">Sprint #{{currentSprint.numSprint}}</h2>
       </b-col>
     </b-row>
     <hr>
@@ -389,9 +389,6 @@
   @import url('https://fonts.googleapis.com/css?family=VT323');
   @import url('https://fonts.googleapis.com/css?family=Quicksand');
 
-  .ptitle{
-    font-family: Merienda;
-  }
 
   .pdeadline{
     font-family: VT323;font-size:24px; margin-top: 1%;

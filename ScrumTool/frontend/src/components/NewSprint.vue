@@ -12,7 +12,7 @@
             </b-col>
         </b-row>
         <br> <br>
-        <b-row style="padding-right: 30px; padding-left: 30px">  
+        <b-row style="padding-right: 30px; padding-left: 30px">
             <b-col  class="text-center">
                 <b-form>
                     <label class="pcsprint">Plan:</label>
@@ -32,7 +32,7 @@
                       Sprint's Deadline cannot be a past or current date.
                       </b-form-invalid-feedback>
                     </div>
-                    
+
                     <!--<b-form-input class="input-style" v-model="sprint.deadlineDate" type="date"></b-form-input>-->
                 </b-form>
             </b-col>
@@ -100,7 +100,7 @@
         mindate=yyyy+"-"+mm+"-"+dd;
         if (this.sprint.deadlineDate==='') return null;
         return this.sprint.deadlineDate>mindate
-      }  
+      }
 
     },
 
@@ -141,7 +141,7 @@
           , isCurrent: self.sprint.isCurrent, numSprint: self.sprint.numSprint+1};
         console.log("paparia");
         console.log(self.sprint.numSprint);
-       
+
         let config = {
           headers: { "auth": localStorage.getItem('auth_token'), "Content-Type":'application/json' }
         }
@@ -281,7 +281,7 @@
       },
       toremove: function (value) {
         this.removeStory(value);
-        console.log(value);    
+        console.log(value);
       }
     }
   }

@@ -184,8 +184,8 @@
               }
               if (response.data.results) {
                 if (response.data.results === 1){
-                  var index = -1;
-                  for (var x in self.Notifications){
+                  let index = -1;
+                  for (let x in self.Notifications){
                     if (self.Notifications[x].idNotification === notificationItem.idNotification){
                       index = x;
                       break;
@@ -201,7 +201,7 @@
             })
             .catch(function (error) {
               console.log(error);
-            })
+            });
           // Add user in project
           let data = { mail: notificationItem.ToUserEmail, role: notificationItem.role }
           axios.post(this.$url +'users/'+ localStorage.getItem('userId') +'/projects/'+ notificationItem.Project_id + '/members', data, { headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
@@ -216,7 +216,7 @@
             })
             .catch(function (error) {
               console.log(error);
-            })
+            });
           console.log(functionality);
         }
         else if (functionality === 'decline') {
@@ -246,7 +246,7 @@
             })
             .catch(function (error) {
               console.log(error);
-            })
+            });
           console.log(functionality);
         }
         // Send a notification back to product owner
@@ -274,9 +274,10 @@
             })
             .catch(function (error) {
               console.log(error);
-            })
+            });
           if (functionality === 'accept') {
-            location.reload(true);
+            //location.reload(true);
+            this.$router.push({path: '/project/' + notificationItem.Project_id + '/overview'});
           }
         }
       },

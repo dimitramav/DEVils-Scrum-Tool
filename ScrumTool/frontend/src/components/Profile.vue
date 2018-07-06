@@ -9,7 +9,7 @@
             tag="article"
             style="max-width:19rem;margin: 0 auto;float: none; margin-bottom: 10px;"
             class="mb-2">
-            
+
               <div style="text-align: left;">
                 <h2 class="card-title pcsprint"> {{userInfos.firstname}} {{userInfos.lastname}} </h2>
                 <p class="pcsprint"> Username: <b>{{userInfos.username}}</b></p>
@@ -30,7 +30,7 @@
             img-top
             tag="article"
             style="max-width:19rem;margin: 0 auto;float: none; margin-bottom: 50%;"
-            class="mb-2">        
+            class="mb-2">
               <div style="text-align: left;">
                 <h2 class="card-title pcsprint"> User Not Found</h2>
               </div>

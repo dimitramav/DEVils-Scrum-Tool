@@ -1,6 +1,8 @@
 <template>
 <div>
-  <b-btn v-b-toggle.changepass class="m-2 pcsprint">Change Password</b-btn>
+  <b-row align-h="end">
+  <b-btn v-b-toggle.changepass class="m-2 pcsprint"  >Change Password</b-btn>
+  </b-row>
   <b-collapse id="changepass" class="mt-2">
     <b-alert show variant="success" v-if=ok>You have successfully changed your password !</b-alert>
     <b-card>
@@ -42,7 +44,7 @@
         </b-form>
       </p>
       <div class="text-center">
-        <b-btn class="pcsprint" @click="updatePass" size="sm" :disabled=" validPassword===false || verifiedPassword===false || verifiedPassword===null ||validPassword===null ">Update Password</b-btn>
+        <b-btn class="pcsprint" @click="updatePass" size="md" :disabled=" validPassword===false || verifiedPassword===false || verifiedPassword===null ||validPassword===null ">Update Password</b-btn>
       </div>
     </b-card>
   </b-collapse>
@@ -149,7 +151,7 @@ export default {
   @import url('https://fonts.googleapis.com/css?family=VT323');
   @import url('https://fonts.googleapis.com/css?family=Antic');
   @import url('https://fonts.googleapis.com/css?family=Quicksand');
-  
+
   .ptitle{
     font-family: Merienda;
   }
@@ -158,5 +160,5 @@ export default {
   }
   .pcsprint{
     font-family: Quicksand;
-  }  
+  }
 </style>
