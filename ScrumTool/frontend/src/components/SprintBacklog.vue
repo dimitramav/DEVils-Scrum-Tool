@@ -50,7 +50,7 @@
 
                 <!--New Task-->
                 <div>
-                  <b-btn v-b-modal="'new_task'+cur_story.idPBI" class="sm">Add Task</b-btn>
+                  <b-btn v-b-modal="'new_task'+cur_story.idPBI" class="sm" variant="info">Add Task</b-btn>
                   <b-modal @ok="addTask(cur_story.idPBI)" class="text-left" :id="'new_task'+cur_story.idPBI" title="Add new task">
                     <b-form>
                       <b-form-group label="Description:" :label-for="'addTask'+cur_story.idPBI">
@@ -76,11 +76,12 @@
                 <div v-if="cur_task.state===1 && cur_task.PBI_id===cur_story.idPBI">
                   <b-card img-top tag="article" class="mb-2">
                     <div slot="header"  >
-                      <b-row>
-                        <edit_task v-if="gotTasks" v-on:editTask="editTask" :desc="cur_task.description" :PBI_id="cur_task.PBI_id" :state="cur_task.state" :Task_id="cur_task.idTask" ></edit_task>
-                        <issue class="pcsprint"  :idProject="currentProject_id" :idTask="cur_task.idTask" ></issue>
+                      <b-row align-h="start" >
+                          <edit_task v-if="gotTasks" v-on:editTask="editTask" :desc="cur_task.description" :PBI_id="cur_task.PBI_id" :state="cur_task.state" :Task_id="cur_task.idTask" ></edit_task>
+                          <issue class="pcsprint"  :idProject="currentProject_id" :idTask="cur_task.idTask" ></issue>
                       </b-row>
                     </div>
+
                     <p class="card-text">{{cur_task.description}}</p>
                   </b-card>
                 </div>
@@ -123,7 +124,7 @@
               <b-card-group v-for="cur_task in doneTasks"  :key="cur_task.idTask" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
                 <div v-if="cur_task.state===3 && cur_task.PBI_id===cur_story.idPBI">
                   <b-card img-top tag="article" class="mb-2">
-                    <div slot="header"  >
+                    <div slot="header">
                       <b-row>
                         <edit_task v-if="gotTasks" v-on:editTask="editTask" :desc="cur_task.description" :PBI_id="cur_task.PBI_id" :state="cur_task.state" :Task_id="cur_task.idTask" ></edit_task>
                         <issue class="pcsprint"  :idProject="currentProject_id" :idTask="cur_task.idTask" ></issue>

@@ -1,6 +1,6 @@
 <template>
-  <b-col class="text-right">
-    <b-button @click="openModal()" class="pcsprint">
+  <div>
+    <b-button @click="openModal()" class="pcsprint" variant="danger" style="background-color: rgba(210,0,12,0.72)">
       <b-img src="https://cdn2.iconfinder.com/data/icons/social-productivity-line-art-1/128/alert-triangle-512.png" style="width:20px; margin-right: 5px"></b-img>Issues
     </b-button>
     <b-modal v-model="modalShow" title="Preview Issues" @ok="addIssue()">
@@ -29,7 +29,7 @@
         </b-form>
       </div>
     </b-modal>
-  </b-col>
+  </div>
 </template>
 
 <script>import axios from 'axios'
