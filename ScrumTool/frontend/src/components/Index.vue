@@ -140,82 +140,107 @@
       <b-container class="Navigation" fluid>
 
         <navbar :dashboard="false"></navbar>
-        <b-container>
-          <b-row>
-            <p></p>
-          </b-row>
-          <b-row>
-            <p></p>
-          </b-row>
-          <b-row>
-            <b-col v-show="totalNumOfCurProjects" class="text-left" style="padding-top:10px;">
-              <h2 class="pcsprint" style="font-weight:normal;"> Current Projects</h2>
-            </b-col>
-            <b-col class="text-right">
+
+        <b-jumbotron v-show="totalNumOfCurProjects!==null && !totalNumOfCurProjects">
+          <h1 class="pcsprint">No Epics in Product Backlog</h1>
+          <b class="pcsprint">Start creating!</b><br><br>
+          <b-dropdown id="ddown1" variant="info" size="lg" text="Create a New Project" class="m-md-2 pcsprint">
+            <b-form inline style="margin: 10px;" @submit="newProject">
+              <h4 style="margin-top: -13px">Title:</h4>
+              <label class="sr-only" for="newProjectName"></label>
+              <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle" required style="margin-top: -7px"/>
+              <h5 style="margin-top: 5px">Deadline: &nbsp &nbsp &nbsp</h5>
+              <label class="sr-only" for="newProjectDate"></label>
+
               <div>
-                <b-dropdown id="ddown1" variant="info" size="lg" text="Create a New Project" class="m-md-2 pcsprint">
-                  <b-form inline style="margin: 10px;" @submit="newProject">
-                    <h4 style="margin-top: -13px">Title:</h4>
-                    <label class="sr-only" for="newProjectName"></label>
-                    <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle" required style="margin-top: -7px"/>
-                    <h5 style="margin-top: 5px">Deadline: &nbsp &nbsp &nbsp</h5>
-                    <label class="sr-only" for="newProjectDate"></label>
-
-                    <div>
-                      <b-form-input id="inputLive" v-model.trim="form.deadlineDate" type="date" :state="dateState" required></b-form-input>
-                      <b-form-invalid-feedback id="inputLiveFeedback">
-                        Project's Deadline cannot be a past or current date.
-                      </b-form-invalid-feedback>
-                    </div>
-                    <b-button variant="success" size="lg" type="submit" :disabled="dateState===false" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
-                  </b-form>
-                </b-dropdown>
+                <b-form-input id="inputLive" v-model.trim="form.deadlineDate" type="date" :state="dateState" required></b-form-input>
+                <b-form-invalid-feedback id="inputLiveFeedback">
+                  Project's Deadline cannot be a past or current date.
+                </b-form-invalid-feedback>
               </div>
-            </b-col>
-          </b-row>
-          <b-row>
-            <div class="line">.</div>
-          </b-row>
-          <br>
+              <b-button variant="success" size="lg" type="submit" :disabled="dateState===false" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
+            </b-form>
+          </b-dropdown>
+        </b-jumbotron>
 
-          <b-row>
-            <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-              <b-card img-top tag="article" style="max-width: 15rem;" img-src="https://picsum.photos/600/300/?image=527" img-alt="Image">
-                <h3 class="pcsprint"> {{cur_project.title}}</h3>
-                <p class="card-text pcsprint">
-                  Deadline: {{cur_project.deadlineDate}}
-                </p>
-                <router-link class="pcsprint" tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:cur_project.idProject}}"> Proceed  </router-link>
-              </b-card>
-            </b-card-group>
-          </b-row>
-          <br>
-
-          <b-row v-if="totalNumOfCurProjects===0" class="text-center">
-            <b-col></b-col>
-            <b-col cols="8">
-            <div>
-              <b-jumbotron class="pcsprint" header="Welcome to ScrumTool" lead="Create a new project now !" >
-              </b-jumbotron>
-            </div>
-            </b-col>
-            <b-col></b-col>
-          </b-row>
-
-          <b-row>
-            <!--per-page: max number of records per page - total-rows: total number of records in your data-->
-            <b-col></b-col>
-            <b-col></b-col>
-            <b-col></b-col>
-            <b-col>
-              <template>
+        <b-container >
+          <div v-show="totalNumOfCurProjects">
+            <b-row>
+              <p></p>
+            </b-row>
+            <b-row>
+              <p></p>
+            </b-row>
+            <b-row >
+              <b-col  class="text-left" style="padding-top:10px;">
+                <h2 class="pcsprint" style="font-weight:normal;"> Current Projects</h2>
+              </b-col>
+              <b-col class="text-right">
                 <div>
-                  <b-pagination v-if="totalNumOfCurProjects" size="md" :total-rows=totalNumOfCurProjects v-model="currentPageCurrent" :per-page="recordsPerPageCurrent">
-                  </b-pagination>
+                  <b-dropdown id="ddown1" variant="info" size="lg" text="Create a New Project" class="m-md-2 pcsprint">
+                    <b-form inline style="margin: 10px;" @submit="newProject">
+                      <h4 style="margin-top: -13px">Title:</h4>
+                      <label class="sr-only" for="newProjectName"></label>
+                      <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle" required style="margin-top: -7px"/>
+                      <h5 style="margin-top: 5px">Deadline: &nbsp &nbsp &nbsp</h5>
+                      <label class="sr-only" for="newProjectDate"></label>
+
+                      <div>
+                        <b-form-input id="inputLive" v-model.trim="form.deadlineDate" type="date" :state="dateState" required></b-form-input>
+                        <b-form-invalid-feedback id="inputLiveFeedback">
+                          Project's Deadline cannot be a past or current date.
+                        </b-form-invalid-feedback>
+                      </div>
+                      <b-button variant="success" size="lg" type="submit" :disabled="dateState===false" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
+                    </b-form>
+                  </b-dropdown>
                 </div>
-              </template>
-            </b-col>
-          </b-row>
+              </b-col>
+            </b-row>
+            <b-row>
+              <div class="line">.</div>
+            </b-row>
+            <br>
+
+            <b-row>
+              <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+                <b-card img-top tag="article" style="max-width: 15rem;" img-src="https://picsum.photos/600/300/?image=527" img-alt="Image">
+                  <h3 class="pcsprint"> {{cur_project.title}}</h3>
+                  <p class="card-text pcsprint">
+                    Deadline: {{cur_project.deadlineDate}}
+                  </p>
+                  <router-link class="pcsprint" tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:cur_project.idProject}}"> Proceed  </router-link>
+                </b-card>
+              </b-card-group>
+            </b-row>
+            <br>
+
+            <b-row v-if="totalNumOfCurProjects===0" class="text-center">
+              <b-col></b-col>
+              <b-col cols="8">
+                <div>
+                  <b-jumbotron class="pcsprint" header="Welcome to ScrumTool" lead="Create a new project now !" >
+                  </b-jumbotron>
+                </div>
+              </b-col>
+              <b-col></b-col>
+            </b-row>
+
+            <b-row>
+              <!--per-page: max number of records per page - total-rows: total number of records in your data-->
+              <b-col></b-col>
+              <b-col></b-col>
+              <b-col></b-col>
+              <b-col>
+                <template>
+                  <div>
+                    <b-pagination v-if="totalNumOfCurProjects" size="md" :total-rows=totalNumOfCurProjects v-model="currentPageCurrent" :per-page="recordsPerPageCurrent">
+                    </b-pagination>
+                  </div>
+                </template>
+              </b-col>
+            </b-row>
+          </div>
 
           <div v-if="totalNumOfDoneProjects !== 0">
             <b-row style="padding-top:10px;">
@@ -447,6 +472,7 @@
       }
     },
     mounted() {
+      console.log('mphkaaaa');
       if (localStorage.getItem('auth_token') === 'null' || localStorage.getItem('userId') === 'null') return;
       this.getNumOfCurProjects();
       this.getNumOfDoneProjects();
