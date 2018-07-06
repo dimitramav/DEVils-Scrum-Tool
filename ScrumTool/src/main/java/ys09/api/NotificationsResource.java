@@ -115,8 +115,13 @@ public class NotificationsResource extends ServerResource {
                     // Now Create from String the JAVA object
                     Gson gson = new Gson();
                     Notification invitation = gson.fromJson(str, Notification.class);
+                    // Check the type of notification (Mail is username in this case)
+                    if (invitation.getType().equals("Answer-Accept/Decline")) {
+                        User receiver = dataAccess.getUserProfile(invitation.getToUserEmail());
+                        invitation.setToUserEmail(receiver.getEmail());
+                    }
                     // Insert
-                    Boolean response = dataAccess.insertNewNotification(invitation, userId);
+                    Boolean response = dataAccess.insertNewNotification(invitation);
                     // Set the response headers
                     map.put("results", response);
                     return new JsonMapRepresentation(map);

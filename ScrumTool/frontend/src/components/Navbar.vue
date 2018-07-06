@@ -96,6 +96,15 @@
   export default {
     data() {
       return {
+        notificationStruct: {
+          idNotification: null,
+          Project_id: 0,
+          projectTitle: null,
+          role: null,
+          FromUsername: null,
+          ToUserEmail: '',
+          type: ''
+        },
         Notifications: [],
       }
     },
@@ -193,6 +202,7 @@
             .catch(function (error) {
               console.log(error);
             })
+          // Add user in project
           let data = { mail: notificationItem.ToUserEmail, role: notificationItem.role }
           axios.post(this.$url +'users/'+ localStorage.getItem('userId') +'/projects/'+ notificationItem.Project_id + '/members', data, { headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
           })
@@ -202,8 +212,6 @@
               }
               if (response.data.results) {
                 console.log("User inserted as member in the project");
-                //self.$router.push({path: '/'});
-                location.reload(true);
               }
             })
             .catch(function (error) {
@@ -239,6 +247,37 @@
             .catch(function (error) {
               console.log(error);
             })
+          console.log(functionality);
+        }
+        // Send a notification back to product owner
+        if (notificationItem.type === "Accept/Decline") {
+          let answer;
+          if (functionality === 'accept') {
+            answer = notificationItem.ToUserEmail + " accepted";
+          }
+          else if (functionality === 'decline') {
+            answer = notificationItem.ToUserEmail + " declined (!!!)";
+          }
+          self.notificationStruct.ToUserEmail = notificationItem.FromUsername;
+          self.notificationStruct.type = "Answer-Accept/Decline";
+          self.notificationStruct.text = "User " + answer + " invitation to " + notificationItem.projectTitle;
+          axios.post(this.$url+ 'users/'+ localStorage.getItem('userId') +'/notifications', self.notificationStruct, {
+            headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
+          })
+            .then(function (response) {
+              if (response.data.error) {
+                console.log(response.data.error);
+              }
+              if (response.data.results) {
+                console.log("Response Invitation send");
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
+          if (functionality === 'accept') {
+            location.reload(true);
+          }
         }
       },
     },

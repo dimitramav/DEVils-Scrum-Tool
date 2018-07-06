@@ -541,7 +541,7 @@ public class DataAccess {
     }
 
 
-    public Boolean insertNewNotification(Notification invitation, int userId) {
+    public Boolean insertNewNotification(Notification invitation) {
         // Insert a notification (the invitation) in notification table
         String query = "insert into Notification (Project_id, projectTitle, role, FromUsername, ToUserEmail, type, text) values (?, ?, ?, ?, ?, ?, ?);";
         jdbcTemplate = new JdbcTemplate(dataSource);
