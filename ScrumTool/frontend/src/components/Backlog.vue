@@ -19,9 +19,13 @@
         <b-btn  v-b-modal="'new_storyundefined'" size="lg" variant ="success" class="m-md-2 pcsprint" >Create New Epic</b-btn>
         <new_pbi v-on:new_pbi="newEpic" :idProject="currentProject_id"></new_pbi>
       </b-jumbotron>
+      <b-row>
+      <b-col  md="6" offset-md="3">
+      <b-alert variant="success" align-h="center" :show="newEpicAlert" dismissible >Epic created successfully!</b-alert>
+      </b-col>
+      </b-row>
 
       <b-row>
-
         <b-card-group v-for="cur_pbi in currentPbis" :key="cur_pbi.idPBI" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
           <b-card :title="cur_pbi.title" img-top tag="article" class="mb-2">
             <div slot="header">
@@ -44,7 +48,7 @@
             <!--Get User Stories of each epic-->
             <div row style="padding-top: 2px">
               <b-btn class="pcsprint" v-b-toggle="'collapse'+cur_pbi.idPBI" v-on:click="getEpicUserStories(cur_pbi.idPBI)"
-                     variant="primary" style="background-color: #333333;"> User Stories
+                     variant="info"> User Stories
               </b-btn>
             </div>
             <b-collapse :id="'collapse'+cur_pbi.idPBI" class="mt-2 pcsprint">
@@ -57,7 +61,7 @@
                     <b-card-group v-for="cur_us in currentUserStories[cur_pbi.idPBI]" :key="cur_us.idPBI" deck style="margin: 0 auto;float: none;margin-bottom: 10px;">
                       <b-card v-if="cur_us.idPBI>0" class="mb-1">
                         <b-card-header header-tag="header" class="p-1" role="tab">
-                          <b-btn block href="#" v-b-toggle="'collapse'+cur_us.idPBI" variant="info">{{cur_us.title}}
+                          <b-btn block href="#" v-b-toggle="'collapse'+cur_us.idPBI">{{cur_us.title}}
                           </b-btn>
                         </b-card-header>
                         <b-collapse :id="'collapse'+cur_us.idPBI" visible accordion="my-accordion" role="tabpanel">
@@ -126,6 +130,7 @@ export default {
       currentEpicId: -1,
       currentProject_id: -1,
       gotPBIS: false,
+      newEpicAlert: false,
 
       currentPbis: [],
       currentUserStories: [[],[]],
@@ -284,6 +289,7 @@ export default {
     newEpic(data) {
       //console.log(data);
       this.currentPbis.push(data);
+      this.newEpicAlert=true;
     },
   },
   mounted() {

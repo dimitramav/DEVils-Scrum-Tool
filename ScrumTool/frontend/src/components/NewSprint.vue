@@ -8,7 +8,7 @@
         </b-row>
         <b-row>
             <b-col align-self="start">
-                <h3 class="pcsprint">Create New Sprint</h3>
+                <h2 class="pcsprint">Create New Sprint</h2>
             </b-col>
         </b-row>
         <br> <br>
@@ -72,8 +72,8 @@
           </b-row>
         <b-row>
             <b-col class="text-center pcsprint">
-                <b-button style="margin-top: 40px; padding-left:100px; padding-right: 100px;" type="submit" size="md" variant="danger" @click="submit" :disabled="dateState===false">
-                    Submit
+                <b-button style="margin-top: 40px; padding-left:100px; padding-right: 100px;" type="submit" size="lg" variant="success" @click="submit" :disabled="dateState===false">
+                    Create
                 </b-button>
             </b-col>
         </b-row>

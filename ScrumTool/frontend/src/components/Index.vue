@@ -215,16 +215,16 @@
             </b-row>
             <br>
 
-            <b-row v-if="totalNumOfCurProjects===0 && totalNumOfCurProjects===null" class="text-center">
-              <b-col></b-col>
-              <b-col cols="8">
-                <div>
-                  <b-jumbotron class="pcsprint" header="Welcome to ScrumTool" lead="Create a new project now !" >
-                  </b-jumbotron>
-                </div>
-              </b-col>
-              <b-col></b-col>
-            </b-row>
+            <!--<b-row v-if="totalNumOfCurProjects===0 && totalNumOfCurProjects===null" class="text-center">-->
+              <!--<b-col></b-col>-->
+              <!--<b-col cols="8">-->
+                <!--<div>-->
+                  <!--<b-jumbotron class="pcsprint" header="Welcome to ScrumTool" lead="Create a new project now !" >-->
+                  <!--</b-jumbotron>-->
+                <!--</div>-->
+              <!--</b-col>-->
+              <!--<b-col></b-col>-->
+            <!--</b-row>-->
 
             <b-row>
               <!--per-page: max number of records per page - total-rows: total number of records in your data-->
@@ -424,7 +424,7 @@
             if (response.data.results) {
               console.log(response.data.results);
               self.currentProjects.push(response.data.results);
-              self.totalNumOfCurProjects = self.getNumOfCurProjects();
+              self.getNumOfCurProjects();
             }
           })
           .catch(function(error) {
