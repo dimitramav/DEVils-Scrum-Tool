@@ -58,9 +58,6 @@ public class TeamDB implements TeamInterface {
                 member.setLastname(rs.getString("lastname"));
                 member.setPhoto(rs.getString("photo"));
             }
-            //User userInfo = jdbcTemplate.queryForObject(queryInfo, new Object[]{member.getMail()}, new UserRowMapper());
-            //int userId = userInfo.getId();
-
             // Update Project_has_User table
             statement2 = dbConnection.prepareStatement(query2);
             statement2.setInt(1, projectId);
@@ -74,12 +71,6 @@ public class TeamDB implements TeamInterface {
             statement3.executeUpdate();
 
             dbConnection.commit();      // Commit manually for single transaction
-
-            // Return member information
-            //member.setIdUser(userId);
-            //member.setFirstname(rs.getString("firstname"));
-            //member.setLastname(rs.getString("lastname"));
-            //member.setPhoto(rs.getString("photo"));
             return member;
         }
         catch (SQLException e) {      // Error in one of the insert statements

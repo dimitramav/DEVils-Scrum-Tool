@@ -342,7 +342,6 @@
             }
             if (response.data.results) {
               self.currentProjects = response.data.results;
-              self.totalNumOfCurProjects = self.currentProjects.length;
             }
           })
           .catch(function(error) {

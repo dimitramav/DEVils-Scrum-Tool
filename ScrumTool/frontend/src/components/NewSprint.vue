@@ -158,7 +158,7 @@
               .then(function (response) {
                 // Debugging
                 console.log("xoxo")
-                self.$router.push({path: '/overview/' + self.sprint.Project_id})
+                self.$router.push({path: '/project/' + self.sprint.Project_id + '/overview/'})
               })
               .catch(function(error){
                 console.log(error)

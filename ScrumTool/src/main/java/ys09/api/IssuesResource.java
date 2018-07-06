@@ -103,7 +103,7 @@ public class IssuesResource extends ServerResource {
                 }
             }
             else {
-                mapError.put("error", "Unauthorized projects");
+                mapError.put("error", "Unauthorized issues");
                 return new JsonMapRepresentation(mapError);
             }
         }
@@ -178,7 +178,7 @@ public class IssuesResource extends ServerResource {
                 }
             }
             else {
-                mapError.put("error", "Unauthorized projects");
+                mapError.put("error", "Unauthorized issues");
                 return new JsonMapRepresentation(mapError);
             }
         }

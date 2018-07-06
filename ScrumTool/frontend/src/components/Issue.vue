@@ -9,7 +9,6 @@
           <b-col> Issues: </b-col>
         </b-row>
         <b-row>
-          <p>idProject: {{idProject}} idTask: {{idTask}} loggedUserId: {{loggedUserID}}</p>
         </b-row>
         <div id="scrollspy-nested" style="position:relative;height:250px;overflow-y:auto">
           <b-list-group v-for="issue in Issues" v-bind:data="issue" v-bind:key="issue.description">
@@ -57,12 +56,11 @@ export default {
       this.loggedUserID = localStorage.getItem('userId');
       this.modalShow = !this.modalShow;
       this.getIssues();
-      //self.Issues = [{"idIssue": 1, "description": "description1"}, {"idIssue": 2, "description": "description2"}, {"idIssue": 3, "description": "description3"}];
     },
 
     getIssues() {
       console.log("getIssues");
-      const self=this;
+      const self = this;
       axios.get(this.$url+ 'users/'+ self.loggedUserID + '/projects/' + self.idProject + '/tasks/' + self.idTask + '/issues', {
         headers: { "auth": localStorage.getItem('auth_token'), "Content-Type": 'application/json' }
       })
@@ -71,7 +69,7 @@ export default {
             if (response.data.error === "Unauthorized user") {
               console.log("Unauthorized user");
             }
-            else if (response.data.error === "Unauthorized projects") {
+            else if (response.data.error === "Unauthorized issues") {
               console.log("Unauthorized issues");
             }
             else if (response.data.error === "null") {
@@ -102,15 +100,15 @@ export default {
             if (response.data.error === "Unauthorized user") {
               console.log("Unauthorized user");
             }
-            else if (response.data.error === "Unauthorized projects") {
-              console.log("Unauthorized projects");
+            else if (response.data.error === "Unauthorized issues") {
+              console.log("Unauthorized issues");
             }
             else if (response.data.error === "null") {
               console.log("Null token");
             }
           }
           if (response.data.results) {
-            console.log("Invitation send");
+            console.log("Add Issue");
             self.newIssue='';
           }
         })
