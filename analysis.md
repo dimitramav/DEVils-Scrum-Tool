@@ -33,7 +33,7 @@
 | 20 | Add issues on a task                                     | Developer               | Developer links an issue to a task                                                                                        | If a task has a specific issue, a developer can add it by clicking an edit button. It is displayed with a tooltip on the involved task.                                                                                                                                                                                                                                                                                                                                                                                                                                        | Medium   |
 | 21 | Email notifications                                      | All users               | User receives emails for major changes                                                                                    | Send an appropriate mail about: password change, deadlines, membership, billing and invitations.                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Medium   |
 | 22 | Previous Sprints                                      | All users except admin              | User has access to information about the previous sprints                                                                                    | All users that are part of a project can see from sprints' section in project page information about the previous sprints. When user clicks on the Sprints' tab, a list appears and he/she can select a sprint. Then two arrays appears: one for the completed tasks and the other one for the remaining tasks. Arrays have the following fields: (Order, Completed Task or Remaining Task Title and the Title of the epic that is related with it.)                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | High   |
-                                                                                                    
+
 ### Non-Functional Requirements
 
 | #  | Category                    | Title                                                 | Description                                                                                                                                                                                                                                                                                                                                            |
@@ -62,46 +62,46 @@
 ### Navigation flow
 
  ![Navigation Flow](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Navigation%20Flow.png)
- 
+
 ### Index Page
  ![Index Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Index%20Page.png)
- 
+
  ### Sign Up Page
  ![Sign up Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Sign%20up%20page.png)
- 
+
   ### Sign In Page
  ![Sign in Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Sign%20In%20Page.png)
- 
+
  ### Forgot Password Page
  ![Forgot Password Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Forgot%20Password%20page.png)
- 
+
  ### Change Password Page
  ![Change Password Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Change%20Password%20Page.png)
- 
+
  ### User Homepage
  ![User Homepage](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/User%20Homepage.png)
 
  ### Profile Page
  ![Profile Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Profile%20Page.png)
- 
+
  ### Edit Profile Page
  ![Edit Profile Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Edit%20Profile%20Page.png)
- 
+
   ### Project Page - Overview Current Sprint
  ![Project Page - Overview](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Project%20Page%20-%20Overview.png)
- 
+
   ### Project Page - Overview Finished Sprint
  ![Project Page - Finished Sprint](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Project%20Page%20-%20Finished%20sprint.png)
- 
+
    ### Create New Sprint
  ![Create New Sprint](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Project%20Page%20-%20Create%20new%20sprint.png)
- 
+
    ### Project Page - Product Backlog
  ![Product Backlog](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Project%20Page%20-%20Backlog.png)
- 
+
    ### Project Page - Previous Sprints' Page
  ![Previous Sprints' Page](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Project%20Page%20-%20Previous%20Sprints.png)
- 
+
   ### Sprint Page Overview
  ![Sprint Page Overview](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Sprint%20Page%20Overview.png)
 
@@ -125,15 +125,12 @@
 | PUT         | ProjectOverviewResource | app/api/users/{userId}/projects/{projectId}                    | Updates the info of a project                                                                 | json object “results”:{      "idProject": int,       "title": String,       "isDone":boolean,        "deadlineDate":Date}                                                                                                                                                                                                                                 |        | title,  isDone,  deadlineDate                                                                |                                                                                 |
 | GET         | BacklogResource       | app/api/users/{userId}/projects/{projectId}/pbis               | Get all the PBI's                                                                             | json object "results":[{       "idProject: int,     "title": String,       "description" : String}]                                                                                                                                                                                                                                                       |        |                                                                                              |                                                                                 |
 | POST        | BacklogResource       | app/api/users/{userId}/projects/{projectId}/pbis               | Create a new PBI                                                                              |                                                                                                                                                                                                                                                                                                                                                           |        | title,  description,  Project_id                                                             | ?order={order}&isEpic={isEpic} order: int isEpic: boolean                       |
-<<<<<<< HEAD
 | PUT         | BacklogResource       | app/api/users/{userId}/projects/{projectId}/pbis       | Retrieve a backlog item                                                                       |                                                                                                                                                                                                                                                                                                                                                           |        | title, description,  Project_id                                                              | ?order={order}&isEpic={isEpic} order: int isEpic: boolean                       |
 | GET         | ProfileResource       | app/api/profiles/{userId}                                      | Retrieves the information of a user                                                           | json object: “results”:{       “idUser”:int,        ”mail”:String,         “firstname”:String,        ”lastname”: String,         “password”:String,          “country”:String,          “job”:String, “company”:String,          “description”:String,          “bio”: String, “photo”: String,          “isAdmin”: boolean,         “numProjects”: int} |        |                                                                                              |                                                                                 |
 | PUT         | ProfileResource       | app/api/profiles/{userId}                                      | Updates the information of a user                                                             | json object: “results”:{       “idUser”:int,        ”mail”:String,         “firstname”:String,        ”lastname”: String,         “password”:String,         “country”:String,         “job”:String, “company”:String,         “description”:String,         “bio”: String, “photo”: String,         “isAdmin”: boolean,        “numProjects”: int}       |        | mail, firstname, lastname,  password, country,  job, description, bio,  isAdmin, numProjects |                                                                                 |
-=======
 | PUT         | UpdatePBIResource     | app/api/users/{userId}/projects/{projectId}/pbis/{pbiId}       | Retrieve a backlog item                                                                       |                                                                                                                                                                                                                                                                                                                                                           |        | title, description,  Project_id                                                              | ?order={order}&isEpic={isEpic} order: int isEpic: boolean                       |
 | GET         | UsersResource       | app/api/profiles/{userId}                                      | Retrieves the information of a user                                                           | json object: “results”:{       “idUser”:int,        ”mail”:String,         “firstname”:String,        ”lastname”: String,         “password”:String,          “country”:String,          “job”:String, “company”:String,          “description”:String,          “bio”: String, “photo”: String,          “isAdmin”: boolean,         “numProjects”: int} |        |                                                                                              |                                                                                 |
 | PUT         | UsersResource       | app/api/profiles/{userId}                                      | Updates the information of a user                                                             | json object: “results”:{       “idUser”:int,        ”mail”:String,         “firstname”:String,        ”lastname”: String,         “password”:String,         “country”:String,         “job”:String, “company”:String,         “description”:String,         “bio”: String, “photo”: String,         “isAdmin”: boolean,        “numProjects”: int}       |        | mail, firstname, lastname,  password, country,  job, description, bio,  isAdmin, numProjects |                                                                                 |
->>>>>>> d2b8d7852d83754896914de815788a46792164da
 | GET         | TeamResource          | app/api/users/{userId}/projects/{projectId}/members                           | Retrieves tthe team members of a project                                                      | json object  results:[{     “firstname”: String,      “lastname”: String,      “mail”: String,       “role”, String}]                                                                                                                                                                                                                                     |        |                                                                                              |                                                                                 |
 | POST        | TeamResource          | app/api/users/{userId}/projects/{projectId}/members                           | Adds new member to the  project team                                                          |                                                                                                                                                                                                                                                                                                                                                           |        | firstname,  lastname,  mail,  role                                                           |                                                                                 |
 | GET         | SprintResource        | app/api/users/{userId}/projects/{projectId}/sprints                           | Retrieves an array with all the sprints for a project                                         | json object: results:[{"idSprint":int, "deadline": Date, "goal":String, "plan": String, "isCurrent":boolean,  "numSprint": int}]                                                                                                                                                                                                                                          |        |                                                                                              |                                                                                 |
