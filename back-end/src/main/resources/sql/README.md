@@ -2,7 +2,7 @@
 - The database ships on mysql (install mysql-server)
 - Import schema.sql for automatic creation of scrumtool database and data insertion.
 - TestingSQL1.sql (as 2, 3, 4) are testing queries that should not be used
-  (they exist just for debugging reasons when writing code).
+  (they exist just for debugging reasons).
 - There must be a MySQL connection and a user with username:scrumtool and password:scrumtool
   for proper communication (see app.properties in `src/main/resources/scrumtool`).
 

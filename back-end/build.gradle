@@ -18,6 +18,9 @@ targetCompatibility = JavaVersion.VERSION_11
 //project.group = ...
 //project.version = ...
 
+war {
+    archiveBaseName = 'scrumtool'
+}
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
@@ -45,6 +48,9 @@ dependencies {
     implementation "org.apache.commons:commons-dbcp2:2.7.0"            //db connection pool
     implementation "org.springframework:spring-jdbc:5.2.2.RELEASE"     //spring JDBC classes
 
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"       // JAXB API for jwt
+    implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+
     implementation 'org.json:json:20160212'
     implementation 'io.jsonwebtoken:jjwt:0.9.0'                        //  JSON Web Token
 
@@ -67,8 +73,7 @@ gretty {
     httpEnabled = true
     httpsEnabled = false
     httpPort = 8765
-    httpsPort = 8765
-    //httpsport = 8443
+    //httpsPort = 8443
 
     //sslKeyStorePath = './build/ssl/self-signed-cert.key'
     //sslKeyStorePassword = 'devils'

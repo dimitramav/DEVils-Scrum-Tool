@@ -9,7 +9,7 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.impl.crypto.MacProvider;
 
 import javax.crypto.spec.SecretKeySpec;
-//import javax.xml.bind.DatatypeConverter;
+import javax.xml.bind.DatatypeConverter;
 import java.io.UnsupportedEncodingException;
 import java.security.Key;
 import java.util.HashMap;
