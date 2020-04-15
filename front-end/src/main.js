@@ -5,11 +5,12 @@ import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 
-Vue.prototype.$url = 'http://localhost:8765/scrumtool/api/'
+Vue.prototype.$url = 'https://localhost:8443/scrumtool/api/'
 
 new Vue({
     router,

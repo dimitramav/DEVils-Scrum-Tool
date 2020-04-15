@@ -21,10 +21,10 @@
           <b-nav-item-dropdown class="pcsprint" right>
             <template slot="button-content">
                   <em v-if="Notifications.length === 0">
-                    <img src="https://support.rocketchatlauncher.com/wp-content/uploads/2017/03/bell.png" style="width:20px;">
+                    <img src="../assets/notification-Off.png" style="width:25px;">
                   </em>
                   <em v-else>
-                    <img src="http://www.iconsplace.com/icons/preview/red/appointment-reminders-256.png" style="width:20px;">
+                    <img src="../assets/notification-On.png" style="width:30px;">
                   </em>
             </template>
             <div v-if="Notifications.length === 0">
@@ -52,7 +52,7 @@
           <b-nav-item-dropdown class="pcsprint" right>
             <template slot="button-content">
               <em>
-                <img src="https://www.mindvoize.com/images/userImage.png" style="width:23px; position: relative; bottom: 0.5px">
+                <img src="../assets/menu.png" style="width:30px; position: relative; bottom: 0.5px">
               </em>
             </template>
             <b-dropdown-item-button v-on:click="profile">Profile</b-dropdown-item-button>

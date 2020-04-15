@@ -4,7 +4,6 @@ import scrumtool.auth.CustomAuth;
 import scrumtool.conf.Configuration;
 import scrumtool.data.DataAccess;
 import scrumtool.data.entities.SprintDB;
-import scrumtool.exceptions.ErrorMessage;
 import scrumtool.model.PBI;
 import scrumtool.model.Project;
 import scrumtool.api.representation.JsonMapRepresentation;
@@ -159,7 +158,6 @@ public class BacklogResource extends ServerResource {
                         return new JsonMapRepresentation(map);
                     }
                     else {
-                        ErrorMessage errorMessage = new ErrorMessage("Unauthorized", Status.CLIENT_ERROR_UNAUTHORIZED);
                         map.put("error", errorMessage);
                         return new JsonMapRepresentation(map);
                     }

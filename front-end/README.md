@@ -1,6 +1,6 @@
 # Front End Implementation
 The front end of DEVils-Scrum-Tool is created with Vue, so it requires an installation of nodejs.
-The project was developed using Vue CLI (@vue/cli)
+The project was developed using Vue CLI (@vue/cli). Open a new bash instance to run front end:
 
 ## Project setup
 ```
@@ -18,16 +18,21 @@ you can solve it by running the code below, according to https://stackoverflow.c
 
     echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
+### Add security exception for SSL certificate
+	https://localhost:9000/#/
+> May require Log Out (up-right on navbar) when first run frontend url (bug)
 
-### Compiles and minifies for production (optional)
+
+### More configuration (optional)
+#### Compiles and minifies for production (optional)
 ```
 npm run build
 ```
 
-### Run your unit tests
+#### Run your unit tests
 ```
 npm run test:unit
 ```
 
-### Customize configuration
+#### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
