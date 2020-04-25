@@ -1,9 +1,17 @@
 
-const fs = require('fs')
-
 module.exports = {
+    // Proxy does not work for axios (bug)
     devServer: {
-        port: 9000,
-        https: true
+        /*proxy: {
+            '^/api/': {
+                target: 'http://localhost:8765',
+                pathRewrite: { '^/api/': '/api/' },
+                ws: true,
+                changeOrigin: true,
+                logLevel: 'debug',
+            }
+        },*/
+        //https: true,
+        port: 9000
     }
 }

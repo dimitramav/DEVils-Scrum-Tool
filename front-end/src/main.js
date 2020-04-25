@@ -10,11 +10,12 @@ Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 
-Vue.prototype.$url = 'https://localhost:8443/scrumtool/api/'
+Vue.prototype.$url = 'http://localhost:8765/api/'
+
 
 new Vue({
     router,
-    render: function (h) { return h(App) },
+    render: h => h(App)
 }).$mount('#app')
 
 

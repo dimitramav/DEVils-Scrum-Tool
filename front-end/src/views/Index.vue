@@ -8,7 +8,7 @@
             <b-row>
                 <b-col>
                     <b-img style="min-width:50px; max-width:35%; margin-top: 3px; margin-bottom: -60px" v-on:click="gotoIndex"
-                        src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png">
+                            src="https://cdn1.iconfinder.com/data/icons/flat-badges-vol-1/128/kanban-512.png">
                     </b-img>
                 </b-col>
                 <b-col cols="8">
@@ -72,8 +72,8 @@
                         </b-list-group>
                     </b-col>
                     <b-col align-self="center">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/9leSPphzYeI"
-                                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/9leSPphzYeI" frameborder="0"
+                                    allow="autoplay; encrypted-media" allowfullscreen>
                         </iframe>
                     </b-col>
                 </b-row>
@@ -87,7 +87,8 @@
                     <p></p>
                 </b-row>
                 <b-row>
-                    <b-card-group v-for="teamMember in teamData" :key="teamMember.member" deck style="margin: 0 auto;float: none; margin-bottom: 10px;">
+                    <b-card-group v-for="teamMember in teamData" :key="teamMember.member"
+                                    deck style="margin: 0 auto;float: none; margin-bottom: 10px;">
                         <b-card :img-src="teamMember.img" img-alt="Img" style="max-width: 9rem" class="mb-2">
                             <h5 style="font-family:Courier New, Courier, monospace;font-size:18px"> {{teamMember.name}} <br><br> </h5>
                             <p class="lang">{{teamMember.lang}}</p>
@@ -95,7 +96,7 @@
                             <p> <i style="color: rgba(47,75,72,0.85);font-size:13px;"> '{{teamMember.phrase}}'</i></p>
                             <b-card-footer style="font-size:14px">
                                 <b-img style="width: 50%" v-on:click="gotoGithub(teamMember.github)"
-                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/240px-Octicons-mark-github.svg.png">
+                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/240px-Octicons-mark-github.svg.png">
                                 </b-img>
                             </b-card-footer>
                         </b-card>
@@ -149,6 +150,7 @@
         </b-container>
     </template>
 
+
     <!--USER HOMEPAGE-->
     <template v-else>
         <b-container class="Navigation" fluid>
@@ -162,7 +164,8 @@
                     <b-form inline style="margin: 10px;" @submit="newProject">
                         <h4 style="margin-top: -13px">Title:</h4>
                         <label class="sr-only" for="newProjectName"></label>
-                        <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle" required style="margin-top: -7px" />
+                        <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle"
+                                    required style="margin-top: -7px" />
                         <h5 style="margin-top: 5px">Deadline: &nbsp &nbsp &nbsp</h5>
                         <label class="sr-only" for="newProjectDate"></label>
 
@@ -172,7 +175,8 @@
                                 Project's Deadline cannot be a past or current date.
                             </b-form-invalid-feedback>
                         </div>
-                        <b-button variant="success" size="lg" type="submit" :disabled="dateState===false" style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
+                        <b-button variant="success" size="lg" type="submit" :disabled="dateState===false"
+                                    style="margin-top: 10px; width: 100%;">Add to Projects</b-button>
                     </b-form>
                 </b-dropdown>
             </b-jumbotron>
@@ -195,18 +199,20 @@
                                     <b-form inline style="margin: 10px;" @submit="newProject">
                                         <h4 style="margin-top: -13px">Title:</h4>
                                         <label class="sr-only" for="newProjectName"></label>
-                                        <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle" required style="margin-top: -7px" />
+                                        <b-form-input id="newProjectName" placeholder="New Project's Name" v-model="form.newTitle"
+                                                        required style="margin-top: -7px" />
                                         <h5 style="margin-top: 5px">Deadline: &nbsp &nbsp &nbsp</h5>
                                         <label class="sr-only" for="newProjectDate"></label>
 
                                         <div>
-                                            <b-form-input id="inputLive" v-model.trim="form.deadlineDate" type="date" :state="dateState" required></b-form-input>
+                                            <b-form-input id="inputLive" v-model.trim="form.deadlineDate" type="date" :state="dateState"
+                                                            required></b-form-input>
                                             <b-form-invalid-feedback id="inputLiveFeedback">
                                                 Project's Deadline cannot be a past or current date.
                                             </b-form-invalid-feedback>
                                         </div>
                                         <b-button variant="success" size="lg" type="submit" :disabled="dateState===false"
-                                                style="margin-top: 10px; width: 100%;">Add to Projects
+                                                    style="margin-top: 10px; width: 100%;">Add to Projects
                                         </b-button>
                                     </b-form>
                                 </b-dropdown>
@@ -219,13 +225,16 @@
                     <br>
 
                     <b-row>
-                        <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject" deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
-                            <b-card img-top tag="article" style="max-width: 15rem;" img-src="https://picsum.photos/600/300/?image=527" img-alt="Image">
+                        <b-card-group v-for="cur_project in currentProjects" :key="cur_project.idProject"
+                                        deck style="margin-bottom: 10px; padding-left: 10px;" deck class="mb-2">
+                            <b-card img-top tag="article" style="max-width: 15rem;" img-src="https://picsum.photos/600/300/?image=527"
+                                        img-alt="Image">
                                 <h3 class="pcsprint"> {{cur_project.title}}</h3>
                                 <p class="card-text pcsprint">
                                     Deadline: {{cur_project.deadlineDate}}
                                 </p>
-                                <router-link class="pcsprint" tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:cur_project.idProject}}"> Proceed </router-link>
+                                <router-link class="pcsprint" tag="b-button" :to="{name: 'ProjectPageOverview',
+                                            params: {id:cur_project.idProject}}"> Proceed </router-link>
                             </b-card>
                         </b-card-group>
                     </b-row>
@@ -250,7 +259,8 @@
                         <b-col>
                             <template>
                                 <div>
-                                    <b-pagination v-if="totalNumOfCurProjects" size="md" :total-rows=totalNumOfCurProjects v-model="currentPageCurrent" :per-page="recordsPerPageCurrent">
+                                    <b-pagination v-if="totalNumOfCurProjects" size="md"
+                                            :total-rows=totalNumOfCurProjects v-model="currentPageCurrent" :per-page="recordsPerPageCurrent">
                                     </b-pagination>
                                 </div>
                             </template>
@@ -270,12 +280,14 @@
                     <br>
                     <b-row>
                         <b-card-group v-for="done_project in doneProjects" :key="done_project.idProject" deck>
-                            <b-card img-top tag="article" style="max-width: 15rem;" class="mb-2" img-src="https://picsum.photos/600/300/?image=1068" img-alt="Image">
+                            <b-card img-top tag="article" style="max-width: 15rem;" class="mb-2"
+                                        img-src="https://picsum.photos/600/300/?image=1068" img-alt="Image">
                                 <h3 class="pcsprint"> {{done_project.title}} </h3>
                                 <p class="card-text pcsprint">
                                     Deadline: {{done_project.deadlineDate}}
                                 </p>
-                                <router-link class="pcsprint" tag="b-button" :to="{name: 'ProjectPageOverview', params: {id:done_project.idProject}}">Proceed</router-link>
+                                <router-link class="pcsprint" tag="b-button"
+                                        :to="{name: 'ProjectPageOverview', params: {id:done_project.idProject}}">Proceed</router-link>
                             </b-card>
                         </b-card-group>
                     </b-row>
@@ -289,7 +301,8 @@
                         <b-col>
                             <template>
                                 <div>
-                                    <b-pagination size="md" :total-rows=totalNumOfDoneProjects v-model="currentPageDone" :per-page="recordsPerPageDone">
+                                    <b-pagination size="md" :total-rows=totalNumOfDoneProjects v-model="currentPageDone"
+                                                :per-page="recordsPerPageDone">
                                     </b-pagination>
                                 </div>
                             </template>
@@ -303,11 +316,14 @@
 </div>
 </template>
 
+
+
 <script>
 import axios from 'axios'
-import Navbar from "./Navbar.vue"
+import Navbar from "../components/Navbar.vue"
 import json from '../assets/team.json'
 import constVars from '../router/constants.js'
+
 export default {
     components: {
         navbar: Navbar,
@@ -331,7 +347,7 @@ export default {
                 deadlineDate: '',
                 isDone: false
             },
-            logOut: null,
+            logOut: false,
             currentProjects: [],
             doneProjects: [],
             teamData: json.team,
@@ -515,6 +531,8 @@ export default {
     }
 }
 </script>
+
+
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Merienda');

@@ -70,11 +70,10 @@ dependencies {
 
 gretty {
     //scanInterval = 0 //disable hot deployment
-    httpEnabled = false
+    httpEnabled = true
     httpPort = 8765
-    httpsEnabled = true
+    httpsEnabled = false
     httpsPort = 8443
-    //httpsPort = 8443
 
     //sslKeyStorePath = './build/ssl/self-signed-cert.key'
     //sslKeyStorePassword = 'devils'

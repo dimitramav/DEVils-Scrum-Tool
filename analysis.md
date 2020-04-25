@@ -1,4 +1,4 @@
-# DEVils-Scrum-Tool
+./docs# DEVils-Scrum-Tool
 
 ## Users
 
@@ -61,56 +61,56 @@
 ## Scrum Tool Wireframes
 ### Navigation flow
 
- ![Navigation Flow](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Navigation%20Flow.png)
+ ![Navigation Flow](./docs/wireframes/Navigation%20Flow.png)
 
 ### Index Page
- ![Index Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Index%20Page.png)
+ ![Index Wireframe](./docs/wireframes/Index%20Page.png)
 
  ### Sign Up Page
- ![Sign up Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Sign%20up%20page.png)
+ ![Sign up Wireframe](./docs/wireframes/Sign%20up%20page.png)
 
   ### Sign In Page
- ![Sign in Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Sign%20In%20Page.png)
+ ![Sign in Wireframe](./docs/wireframes/Sign%20In%20Page.png)
 
  ### Forgot Password Page
- ![Forgot Password Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Forgot%20Password%20page.png)
+ ![Forgot Password Wireframe](./docs/wireframes/Forgot%20Password%20page.png)
 
  ### Change Password Page
- ![Change Password Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Change%20Password%20Page.png)
+ ![Change Password Wireframe](./docs/wireframes/Change%20Password%20Page.png)
 
  ### User Homepage
- ![User Homepage](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/User%20Homepage.png)
+ ![User Homepage](./docs/wireframes/User%20Homepage.png)
 
  ### Profile Page
- ![Profile Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Profile%20Page.png)
+ ![Profile Wireframe](./docs/wireframes/Profile%20Page.png)
 
  ### Edit Profile Page
- ![Edit Profile Wireframe](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Edit%20Profile%20Page.png)
+ ![Edit Profile Wireframe](./docs/wireframes/Edit%20Profile%20Page.png)
 
   ### Project Page - Overview Current Sprint
- ![Project Page - Overview](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Project%20Page%20-%20Overview.png)
+ ![Project Page - Overview](./docs/wireframes/Project%20Page%20-%20Overview.png)
 
   ### Project Page - Overview Finished Sprint
- ![Project Page - Finished Sprint](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Project%20Page%20-%20Finished%20sprint.png)
+ ![Project Page - Finished Sprint](./docs/wireframes/Project%20Page%20-%20Finished%20sprint.png)
 
    ### Create New Sprint
- ![Create New Sprint](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Project%20Page%20-%20Create%20new%20sprint.png)
+ ![Create New Sprint](./docs/wireframes/Project%20Page%20-%20Create%20new%20sprint.png)
 
    ### Project Page - Product Backlog
- ![Product Backlog](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Project%20Page%20-%20Backlog.png)
+ ![Product Backlog](./docs/wireframes/Project%20Page%20-%20Backlog.png)
 
    ### Project Page - Previous Sprints' Page
- ![Previous Sprints' Page](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Project%20Page%20-%20Previous%20Sprints.png)
+ ![Previous Sprints' Page](./docs/wireframes/Project%20Page%20-%20Previous%20Sprints.png)
 
   ### Sprint Page Overview
- ![Sprint Page Overview](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/wireframes/Sprint%20Page%20Overview.png)
+ ![Sprint Page Overview](./docs/wireframes/Sprint%20Page%20Overview.png)
 
 
 ## Database
-![Database_schema](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/Database/Database_schema.png)
+![Database_schema](./docs/Database/Database_schema.png)
 
 ## UML
-![UML schema](https://github.com/dimitramav/DEVils-Scrum-Tool/blob/master/Design/UML/UMLphoto.jpg)
+![UML schema](./docs/UML/UMLphoto.jpg)
 
 ### RESTful Endpoints
 
