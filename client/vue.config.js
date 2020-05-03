@@ -1,5 +1,6 @@
 // vue configuration file
 module.exports = {
+    //mode: "production",
     // Proxy does not work for axios (bug)
     devServer: {
         /*proxy: {
@@ -14,4 +15,4 @@ module.exports = {
         //https: true,
         port: 9000,
     },
-};
+}
