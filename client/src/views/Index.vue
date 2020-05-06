@@ -484,12 +484,6 @@ export default {
                     console.log(error)
                 })
         },
-        logout() {
-            localStorage.setItem('userId', 'null')
-            localStorage.setItem('auth_token', 'null')
-            localStorage.setItem('username', 'null')
-            this.logOut = true
-        },
         getNumOfCurProjects() {
             const self = this
             axios

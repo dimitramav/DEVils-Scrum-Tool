@@ -123,10 +123,10 @@
                 </b-navbar-nav>
             </b-collapse>
             <b-navbar-nav class="ml-auto" v-if="logout_prop === true">
-                <b-button class="signin" variant="info" v-on:click="gotoSignIn">
+                <b-button class="btn" :to="{ name: 'SignIn' }">
                     Log In
                 </b-button>
-                <b-button class="signup" variant="primary" @click="gotoSignUp">
+                <b-button class="btn" variant="info" :to="{ name: 'SignUp' }">
                     Sign Up
                 </b-button>
             </b-navbar-nav>
@@ -213,9 +213,7 @@ export default {
             localStorage.setItem('userId', 'null')
             localStorage.setItem('username', 'null')
             localStorage.setItem('auth_token', 'null')
-            this.$router.push({
-                path: '/logout',
-            })
+            location.reload()
         },
         profile() {
             this.$router.push({
@@ -228,16 +226,6 @@ export default {
         /*editprofile() {
           this.$router.push({path: '/editprofile'});
         },*/
-        gotoSignIn() {
-            this.$router.push({
-                path: '/signin',
-            })
-        },
-        gotoSignUp() {
-            this.$router.push({
-                path: '/signup',
-            })
-        },
         getNotifications() {
             const self = this
             axios
@@ -467,12 +455,8 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=VT323');
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
 
-.signin {
+.btn {
     margin-right: 5px;
-}
-
-.signup {
-    margin-right: 10px;
 }
 
 .ptitle {

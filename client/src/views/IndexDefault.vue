@@ -7,7 +7,7 @@
                 id="join"
                 variant="primary"
                 size="lg"
-                v-on:click="gotoSignUp"
+                :to="{ name: 'SignUp' }"
                 style="font-family: Quicksand;"
                 >Join Free Now</b-button
             >
@@ -43,7 +43,6 @@
             </b-row>
             <br /><br />
         </b-container>
-
         <b-container id="about" class="About" fluid>
             <b-row><p></p></b-row>
             <b-row align-h="center">
@@ -109,11 +108,6 @@ export default {
         }
     },
     methods: {
-        gotoSignUp() {
-            this.$router.push({
-                path: '/signup',
-            })
-        },
         gotoGithub(github) {
             console.log(github)
             var win = window.open(github, '_blank')
@@ -124,7 +118,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Merienda');
 @import url('https://fonts.googleapis.com/css?family=VT323');
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
 
