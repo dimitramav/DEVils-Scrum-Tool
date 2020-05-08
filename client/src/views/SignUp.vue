@@ -17,6 +17,7 @@
                     <PasswordForm v-on:password="editPassword"></PasswordForm>
                     <br />
                     <b-button
+                        id="signup"
                         size="lg"
                         type="submit"
                         variant="primary"
@@ -134,9 +135,11 @@ export default {
             localStorage.getItem('auth_token') !== 'null' &&
             localStorage.getItem('userId') !== 'null'
         )
-            this.$router.push({
-                path: '/',
-            })
+            this.$router
+                .push({
+                    path: '/',
+                })
+                .catch((err) => err)
     },
 }
 </script>

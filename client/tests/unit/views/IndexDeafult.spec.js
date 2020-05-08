@@ -20,8 +20,22 @@ describe('IndexDefault', () => {
         localVue,
     })
     // Make various tests
-    it('IndexDefault component exists', () => {
-        expect(wrapper.exists()).toBe(true)
+    it('IndexDefault is Vue Instance', () => {
+        expect(wrapper.isVueInstance).toBeTruthy()
+    })
+    it('All b-containers in place', () => {
+        expect(wrapper.contains('#home')).toBeTruthy()
+        expect(wrapper.contains('#features')).toBeTruthy()
+        expect(wrapper.contains('#about')).toBeTruthy()
+        expect(wrapper.contains('#footer')).toBeTruthy()
+    })
+    it('All css classes in place', () => {
+        expect(wrapper.contains('.Home')).toBeTruthy()
+        expect(wrapper.contains('.wordcloud')).toBeTruthy()
+        expect(wrapper.contains('.About')).toBeTruthy()
+        expect(wrapper.contains('.Features')).toBeTruthy()
+        expect(wrapper.contains('.bottom')).toBeTruthy()
+        expect(wrapper.contains('.description')).toBeTruthy()
     })
     it('Json objects loaded correctly', () => {
         expect(wrapper.vm.featuresData).toHaveProperty('item1')
@@ -31,6 +45,16 @@ describe('IndexDefault', () => {
         expect(wrapper.vm.teamData).toHaveProperty('member1.phrase')
     })
     it('Join button exists', () => {
-        wrapper.find('#join').trigger('click')
+        //wrapper.find('#join').trigger('click')
+        expect(wrapper.find('#join').attributes().variant).toBe('primary')
+    })
+    it('ScrumWordCloud image', () => {
+        let imgUrl = wrapper.find('img').attributes().src
+        expect(imgUrl).toBe('@/assets/ScrumWordCloud.jpg')
+        expect(wrapper.find('img').attributes().class).toBe('wordcloud')
+    })
+    it('Scrumtool video from Vaggos', () => {
+        let iframeUrl = wrapper.find('iframe').attributes().src
+        expect(iframeUrl).toBe('https://www.youtube.com/embed/9leSPphzYeI')
     })
 })

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-form-group id="firstname" label="First Name" label-for="firstname">
+        <b-form-group id="first" label="First Name" label-for="firstname">
             <b-form-input
                 id="firstname"
                 type="text"
@@ -10,7 +10,7 @@
             >
             </b-form-input>
         </b-form-group>
-        <b-form-group id="lastname" label="Last Name" label-for="lastname">
+        <b-form-group id="last" label="Last Name" label-for="lastname">
             <b-form-input
                 id="lastname"
                 type="text"

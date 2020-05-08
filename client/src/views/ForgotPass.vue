@@ -61,9 +61,11 @@ export default {
             localStorage.getItem('auth_token') !== 'null' &&
             localStorage.getItem('userId') !== 'null'
         )
-            this.$router.push({
-                path: '/',
-            })
+            this.$router
+                .push({
+                    path: '/',
+                })
+                .catch((err) => err)
     },
 }
 </script>

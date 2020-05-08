@@ -1,21 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/views/Home.vue'
 import Index from '@/views/Index.vue'
 import SignUp from '@/views/SignUp'
 import SignIn from '@/views/SignIn'
 import ForgotPass from '@/views/ForgotPass'
-import PageNotFound from '@/views/PageNotFound'
 import Unauthorized from '@/views/Unauthorized'
+import PageNotFound from '@/views/PageNotFound'
 
 Vue.use(VueRouter)
 
 const routes = [
-    {
-        path: '/home',
-        name: 'Home',
-        component: Home,
-    },
     {
         path: '/',
         name: 'Index',
@@ -37,14 +31,14 @@ const routes = [
         component: ForgotPass,
     },
     {
-        path: '*',
-        name: 'PageNotFound',
-        component: PageNotFound,
-    },
-    {
         path: '/unauthorized',
         name: 'Unauthorized',
         component: Unauthorized,
+    },
+    {
+        path: '*',
+        name: 'PageNotFound',
+        component: PageNotFound,
     },
 ]
 

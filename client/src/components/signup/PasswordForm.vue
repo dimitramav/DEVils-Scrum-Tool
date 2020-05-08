@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-form-group
-            id="password"
+            id="pass"
             label="Password"
             label-for="password"
             description="Password must contain at least 8 characters, at least 1 number and 1 special character"
@@ -16,7 +16,7 @@
             </b-form-input>
         </b-form-group>
         <b-form-group
-            id="verify_password"
+            id="verify"
             label="Verify password"
             label-for="verify_password"
         >

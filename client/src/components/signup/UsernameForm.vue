@@ -1,6 +1,6 @@
 <template>
     <b-form-group
-        id="username"
+        id="user"
         label="Username"
         label-for="username"
         :invalid-feedback="validUsername === false ? 'Invalid username' : ''"

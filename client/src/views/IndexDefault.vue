@@ -85,7 +85,7 @@
                     backlogs, issues, epics and sprints.
                 </p>
             </b-row>
-            <b-container class="bottom" fluid>
+            <b-container id="footer" class="bottom" fluid>
                 <b-row><p></p></b-row>
                 <b-row class="justify-content-md-center">
                     <p style="color: white;">&copy; Under MIT Lisence</p>
@@ -162,11 +162,6 @@ export default {
     text-indent: 50px;
     text-align: justify;
     letter-spacing: 3px;
-}
-
-.row {
-    margin-right: 0px;
-    margin-left: 0px;
 }
 
 .lang {
