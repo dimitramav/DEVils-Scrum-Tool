@@ -8,13 +8,13 @@
                 </router-link>
                 <br /><br />
                 <b-form @submit="onSubmit" class="submit-form">
-                    <EmailForm v-on:email="editEmail"></EmailForm>
-                    <UsernameForm v-on:username="editUsername"></UsernameForm>
+                    <EmailForm v-on:email="editEmail" />
+                    <UsernameForm v-on:username="editUsername" />
                     <NameForm
                         v-on:firstname="editFirstname"
                         v-on:lastname="editLastname"
-                    ></NameForm>
-                    <PasswordForm v-on:password="editPassword"></PasswordForm>
+                    />
+                    <PasswordForm v-on:password="editPassword" />
                     <br />
                     <b-button
                         id="signup"
