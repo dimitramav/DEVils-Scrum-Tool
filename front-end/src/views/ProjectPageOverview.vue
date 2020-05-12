@@ -428,7 +428,8 @@ export default {
                 })
         },
 
-        addMembers() {
+        addMembers(evt) {
+            evt.preventDefault()
             const self = this;
             if (self.newMember.role === '1') {
                 self.invitation.role = "Scrum Master";

@@ -33,7 +33,7 @@
                         </b-dropdown-item>
                     </div>
                     <div v-else v-for="notification in Notifications">
-                        <b-dropdown-item disabled>
+                        <b-dropdown-item>
                             <div v-if="notification.type === 'Accept/Decline'">
                                 User <a v-on:click="goToProfile(notification.FromUsername);" href="#">{{notification.FromUsername}}</a>
                                         invited you as {{notification.role}} in {{notification.projectTitle}}.

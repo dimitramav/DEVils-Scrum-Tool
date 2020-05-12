@@ -3,14 +3,14 @@
         <!--DEFAULT HOMEPAGE-->
         <template v-if="notLoggedIn() === true">
             <b-container class="Navigation" fluid>
-                <Navbar :dashboard="false" :logout_prop="true" />
+                <Navbar :logout_prop="true" />
                 <IndexDefault />
             </b-container>
         </template>
         <!--USER HOMEPAGE-->
         <div v-else>
             <b-container class="Navigation" fluid>
-                <Navbar :dashboard="false" />
+                <Navbar :logout_prop="false" />
                 <b-container>
                     <br /><br />
                     <!--Show jumbotron if no project at all-->
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue'
+import Navbar from '@/components/navbar/Navbar.vue'
 import IndexDefault from '@/components/index/IndexDefault.vue'
 import NewProjectForm from '@/components/index/NewProjectForm.vue'
 import ProjectsPresentation from '@/components/index/ProjectsPresentation.vue'
