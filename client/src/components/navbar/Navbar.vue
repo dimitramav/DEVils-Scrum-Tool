@@ -71,7 +71,10 @@ export default {
         },
     },
     props: {
-        logout_prop: Boolean,
+        logout_prop: {
+            type: Boolean,
+            default: true,
+        },
     },
 }
 </script>

@@ -1,0 +1,175 @@
+<template>
+    <b-container fluid>
+        <Navbar :logout_prop="false" />
+        <b-row>
+            <b-col></b-col>
+            <b-col>
+                <b-form class="text-font" @submit="updateProfile">
+                    <b-form-group label="First Name" label-for="firstname">
+                        <b-form-input
+                            id="firstname"
+                            type="text"
+                            v-model="userInfos.firstname"
+                        >
+                        </b-form-input>
+                    </b-form-group>
+                    <b-form-group label="Last Name" label-for="lastname">
+                        <b-form-input
+                            id="lastname"
+                            type="text"
+                            v-model="userInfos.lastname"
+                        >
+                        </b-form-input>
+                    </b-form-group>
+                    <b-form-group label="Email address" label-for="email">
+                        <b-form-input
+                            id="email"
+                            type="email"
+                            v-model="userInfos.mail"
+                        >
+                        </b-form-input>
+                    </b-form-group>
+                    <b-form-group label="Job" label-for="job">
+                        <b-form-input
+                            id="job"
+                            type="text"
+                            v-model="userInfos.job"
+                        >
+                        </b-form-input>
+                    </b-form-group>
+                    <b-form-group label="Company" label-for="company">
+                        <b-form-input
+                            id="company"
+                            type="text"
+                            v-model="userInfos.company"
+                        >
+                        </b-form-input>
+                    </b-form-group>
+                    <b-form-group label="Country" label-for="Country">
+                        <b-form-input
+                            id="country"
+                            type="text"
+                            v-model="userInfos.country"
+                        >
+                        </b-form-input>
+                    </b-form-group>
+                    <b-form-group label="About me" label-for="description">
+                        <b-form-textarea
+                            id="description"
+                            type="text"
+                            :rows="3"
+                            :max-rows="6"
+                            v-model="userInfos.description"
+                        >
+                        </b-form-textarea>
+                    </b-form-group>
+                    <ChangePass />
+                    <br />
+                    <b-button variant="success" size="lg" type="info"
+                        >Submit changes</b-button
+                    >
+                </b-form>
+            </b-col>
+            <b-col></b-col>
+        </b-row>
+        <br />
+    </b-container>
+</template>
+
+<script>
+import axios from 'axios'
+import Navbar from '@/components/navbar/Navbar.vue'
+import ChangePass from '@/components/profile/ChangePass.vue'
+
+export default {
+    name: 'EditProfile',
+    components: {
+        Navbar,
+        ChangePass,
+    },
+    data() {
+        return {
+            userInfos: [],
+        }
+    },
+    methods: {
+        getProfile() {
+            const self = this
+            axios
+                .get(
+                    this.$url +
+                        'users/' +
+                        localStorage.getItem('userId') +
+                        '/profile/' +
+                        localStorage.getItem('username'),
+                    {
+                        headers: {
+                            auth: localStorage.getItem('auth_token'),
+                        },
+                    }
+                )
+                .then(function (response) {
+                    if (response.data.error) {
+                        console.log(response.data.error)
+                    }
+                    if (response.data.results) {
+                        self.userInfos = response.data.results
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+        },
+        updateProfile(evt) {
+            evt.preventDefault()
+            const self = this
+            axios
+                .put(
+                    this.$url +
+                        'users/' +
+                        localStorage.getItem('userId') +
+                        '/profile/' +
+                        localStorage.getItem('username'),
+                    self.userInfos,
+                    {
+                        headers: {
+                            auth: localStorage.getItem('auth_token'),
+                        },
+                    }
+                )
+                .then(function (response) {
+                    if (response.data.error) {
+                        console.log(response.data.error)
+                    }
+                    if (response.data.result) {
+                        self.userInfos = response.data.result
+                        console.log('info updated')
+                        self.$router.push({
+                            path: '/users/' + localStorage.getItem('username'),
+                        })
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+        },
+    },
+    mounted() {
+        if (
+            localStorage.getItem('auth_token') === 'null' ||
+            localStorage.getItem('userId') === 'null'
+        )
+            return
+        this.getProfile()
+    },
+}
+</script>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+.text-font {
+    font-family: Quicksand;
+    text-align: left;
+}
+</style>
