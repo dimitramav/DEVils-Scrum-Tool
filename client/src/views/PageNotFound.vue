@@ -1,6 +1,6 @@
 <template>
     <b-container fluid>
-        <Navbar :logout_prop="true"></Navbar>
+        <Navbar :logout_prop="logged_out" :dashboard="false"></Navbar>
         <b-row>
             <b-col></b-col>
             <b-col>
@@ -21,10 +21,25 @@
 import Navbar from '@/components/navbar/Navbar.vue'
 
 export default {
+    name: 'PageNotFound',
     components: {
         Navbar,
     },
-    name: 'PageNotFound',
+    data() {
+        return {
+            logged_out: true,
+        }
+    },
+    mounted() {
+        if (
+            localStorage.getItem('auth_token') === 'null' ||
+            localStorage.getItem('userId') === 'null'
+        ) {
+            this.logged_out = true
+        } else {
+            this.logged_out = false
+        }
+    },
 }
 </script>
 

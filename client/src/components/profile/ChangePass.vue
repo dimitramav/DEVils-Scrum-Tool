@@ -6,10 +6,10 @@
             >
         </b-row>
         <b-collapse id="changepass" class="mt-2">
-            <b-alert show variant="success" v-if="ok === true">
-                You have successfully changed your password!</b-alert
-            >
             <b-card class="card-text text-font">
+                <b-alert show variant="success" v-if="ok === true">
+                    You have successfully changed your password!</b-alert
+                >
                 <b-form style="text-align: left;">
                     <b-form-group
                         label="Current password"
@@ -59,7 +59,12 @@
                     <b-btn
                         @click="updatePass"
                         size="md"
-                        :disabled="validPassword === false"
+                        :disabled="
+                            validPassword === false ||
+                            validPassword === null ||
+                            validVerifyPass === false ||
+                            validVerifyPass === null
+                        "
                     >
                         Update Password</b-btn
                     >
@@ -81,12 +86,14 @@ export default {
             password: '',
             newpass: '',
             verifypass: '',
-            validPassword: false,
+            validPassword: null,
+            validVerifyPass: null,
             currentPassword: null,
         }
     },
     computed: {
         verifyPassword() {
+            let verifyCheck = null
             if (this.verifypass === '') {
                 //console.log('p', this.newpass, this.validPassword)
                 return null
@@ -97,10 +104,12 @@ export default {
                 this.validPassword === true
             ) {
                 //console.log('p1', this.newpass, this.validPassword)
-                return true
+                verifyCheck = true
+                return verifyCheck
             } else {
                 //console.log('p2', this.newpass, this.validPassword)
-                return false
+                verifyCheck = false
+                return verifyCheck
             }
         },
         checkPassword() {
@@ -128,6 +137,12 @@ export default {
                 this.validPassword = passCheck
             },
         },
+        verifyPassword: {
+            deep: true,
+            handler: function (verifyCheck) {
+                this.validVerifyPass = verifyCheck
+            },
+        },
     },
     methods: {
         updatePass() {
@@ -153,9 +168,15 @@ export default {
                 .catch(function (error) {
                     console.log(error)
                 })
+            this.password = ''
+            this.newpass = ''
+            this.verifypass = ''
+            this.validPassword = null
+            this.validVerifyPass = null
         },
         passwordMatch() {
             const self = this
+            this.ok = false
             axios
                 .post(
                     this.$url + 'matches/' + localStorage.getItem('userId'),

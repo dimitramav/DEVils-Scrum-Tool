@@ -10,9 +10,9 @@
         <!--USER HOMEPAGE-->
         <div v-else>
             <b-container class="Navigation" fluid>
-                <Navbar :logout_prop="false" />
+                <Navbar :logout_prop="false" :dashboard="false" />
                 <b-container>
-                    <br /><br />
+                    <br />
                     <!--Show jumbotron if no project at all-->
                     <div v-show="!totalNumOfCurProjects">
                         <b-jumbotron class="text-font">

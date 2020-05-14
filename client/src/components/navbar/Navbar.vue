@@ -1,7 +1,9 @@
 <template>
     <b-container fluid>
-        <!--Second Navbar (declared before first navbar)-->
-        <SecondNavbar :logout_prop="logout_prop" />
+        <!--Second Navbar when needed (declared before first navbar)-->
+        <div v-if="dashboard === true">
+            <SecondNavbar :logout_prop="logout_prop" />
+        </div>
         <!--First Navbar (here, in order to show the dropdown items)-->
         <b-navbar id="first-nav" fixed="top" class="bg-dark">
             <b-navbar>
@@ -56,22 +58,42 @@ export default {
     },
     methods: {
         profile() {
-            this.$router.push({
-                name: 'Profile',
-                params: {
-                    id: localStorage.getItem('username'),
-                },
-            })
+            if (this.$router.currentRoute.name == 'Profile') {
+                this.$router.push({
+                    name: 'Profile',
+                    params: {
+                        id: localStorage.getItem('username'),
+                    },
+                })
+                location.reload()
+            } else {
+                this.$router.push({
+                    name: 'Profile',
+                    params: {
+                        id: localStorage.getItem('username'),
+                    },
+                })
+            }
         },
         logout() {
             localStorage.setItem('userId', 'null')
             localStorage.setItem('username', 'null')
             localStorage.setItem('auth_token', 'null')
-            location.reload()
+            if (this.$router.currentRoute.name == 'Index') {
+                location.reload()
+            } else {
+                this.$router.push({
+                    name: 'Index',
+                })
+            }
         },
     },
     props: {
         logout_prop: {
+            type: Boolean,
+            default: true,
+        },
+        dashboard: {
             type: Boolean,
             default: true,
         },

@@ -1,6 +1,6 @@
 <template>
     <b-container fluid>
-        <Navbar :logout_prop="false" />
+        <Navbar :logout_prop="false" :dashboard="false" />
         <b-row>
             <b-col></b-col>
             <b-col>
@@ -72,7 +72,7 @@
             </b-col>
             <b-col></b-col>
         </b-row>
-        <br />
+        <br /><br />
     </b-container>
 </template>
 

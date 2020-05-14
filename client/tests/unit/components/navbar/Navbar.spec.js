@@ -19,6 +19,7 @@ describe('Navbar', () => {
         router,
         propsData: {
             logout_prop: true,
+            dashboard: true,
         },
     })
     // Make various tests
@@ -32,6 +33,7 @@ describe('Navbar', () => {
     it('Check logout_prop', () => {
         expect(wrapper.vm.logout_prop).toBeDefined()
         expect(wrapper.props().logout_prop).toBe(true)
+        expect(wrapper.props().dashboard).toBeTruthy()
     })
     it('Components included', () => {
         expect(wrapper.find({ name: 'SecondNavbar' }).exists()).toBeTruthy()

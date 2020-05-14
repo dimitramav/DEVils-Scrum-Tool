@@ -1,7 +1,6 @@
 <template>
     <b-container fluid>
-        <Navbar :logout_prop="false" />
-        <br />
+        <Navbar :logout_prop="false" :dashboard="false" />
         <b-card
             v-if="userInfos.mail != null"
             class="mb-2 image"

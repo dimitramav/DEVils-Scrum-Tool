@@ -36,7 +36,8 @@ describe('ChangePass', () => {
         expect(wrapper.vm.password).toBe('')
         expect(wrapper.vm.newpass).toBe('')
         expect(wrapper.vm.verifypass).toBe('')
-        expect(wrapper.vm.validPassword).toBeFalsy()
+        expect(wrapper.vm.validPassword).toBeNull()
+        expect(wrapper.vm.validVerifyPass).toBeNull()
         expect(wrapper.vm.currentPassword).toBeNull()
     })
     it('Check Password equality', () => {
