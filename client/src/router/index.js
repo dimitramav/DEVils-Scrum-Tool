@@ -6,6 +6,7 @@ import SignIn from '@/views/SignIn'
 import ForgotPass from '@/views/ForgotPass'
 import Profile from '@/views/Profile'
 import EditProfile from '@/views/EditProfile'
+import ProjectPageOverview from '@/views/ProjectPageOverview'
 import Unauthorized from '@/views/Unauthorized'
 import PageNotFound from '@/views/PageNotFound'
 
@@ -50,6 +51,20 @@ const routes = [
         path: '/editprofile',
         name: 'EditProfile',
         component: EditProfile,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem('auth_token') === 'null') {
+                next({
+                    path: '/unauthorized',
+                })
+            } else {
+                next()
+            }
+        },
+    },
+    {
+        path: '/project/:id/overview',
+        name: 'ProjectPageOverview',
+        component: ProjectPageOverview,
         beforeEnter: (to, from, next) => {
             if (localStorage.getItem('auth_token') === 'null') {
                 next({
