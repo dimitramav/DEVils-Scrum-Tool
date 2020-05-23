@@ -78,6 +78,7 @@
 
 <script>
 import axios from 'axios'
+import config from '@/router/auth.js'
 import Navbar from '@/components/navbar/Navbar.vue'
 import ChangePass from '@/components/profile/ChangePass.vue'
 
@@ -102,11 +103,7 @@ export default {
                         localStorage.getItem('userId') +
                         '/profile/' +
                         localStorage.getItem('username'),
-                    {
-                        headers: {
-                            auth: localStorage.getItem('auth_token'),
-                        },
-                    }
+                    config
                 )
                 .then(function (response) {
                     if (response.data.error) {
@@ -131,11 +128,7 @@ export default {
                         '/profile/' +
                         localStorage.getItem('username'),
                     self.userInfos,
-                    {
-                        headers: {
-                            auth: localStorage.getItem('auth_token'),
-                        },
-                    }
+                    config
                 )
                 .then(function (response) {
                     if (response.data.error) {

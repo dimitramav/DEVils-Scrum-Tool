@@ -7,6 +7,7 @@ import ForgotPass from '@/views/ForgotPass'
 import Profile from '@/views/Profile'
 import EditProfile from '@/views/EditProfile'
 import ProjectPageOverview from '@/views/ProjectPageOverview'
+import NewSprint from '@/views/NewSprint'
 import Unauthorized from '@/views/Unauthorized'
 import PageNotFound from '@/views/PageNotFound'
 
@@ -65,6 +66,20 @@ const routes = [
         path: '/project/:id/overview',
         name: 'ProjectPageOverview',
         component: ProjectPageOverview,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem('auth_token') === 'null') {
+                next({
+                    path: '/unauthorized',
+                })
+            } else {
+                next()
+            }
+        },
+    },
+    {
+        path: '/project/:id/newsprint/:newSprintNum',
+        name: 'NewSprint',
+        component: NewSprint,
         beforeEnter: (to, from, next) => {
             if (localStorage.getItem('auth_token') === 'null') {
                 next({

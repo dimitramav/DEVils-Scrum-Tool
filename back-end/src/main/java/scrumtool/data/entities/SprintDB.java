@@ -24,15 +24,17 @@ public class SprintDB implements SprintInterface {
     // Create new sprint
     // Insert User
     public int createNewSprint(Sprint sprint) {
+        // Update last current sprint
+        DataAccess dataAccess = new DataAccess();
+        JdbcTemplate jdbcTemplate = dataAccess.getInstance();
+
+        String query1 = "UPDATE Sprint SET isCurrent = FALSE WHERE Project_id = ? AND isCurrent = TRUE";
+        jdbcTemplate.update(query1, new Object[]{sprint.getProject_id()});
 
         String query = "INSERT INTO Sprint(deadlineDate, goal, plan, isCurrent, numSprint, Project_id) VALUES (?, ?, ?, ?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         java.sql.Date sqlDate = new java.sql.Date(sprint.getDeadlineDate().getTime());
-
-        DataAccess dataAccess = new DataAccess();
-
-        JdbcTemplate jdbcTemplate = dataAccess.getInstance();
 
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override

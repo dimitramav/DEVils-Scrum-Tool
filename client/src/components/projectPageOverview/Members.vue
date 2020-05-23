@@ -91,6 +91,7 @@
 
 <script>
 import axios from 'axios'
+import config from '@/router/auth.js'
 
 export default {
     name: 'Members',
@@ -152,12 +153,7 @@ export default {
                         localStorage.getItem('userId') +
                         '/notifications',
                     self.invitation,
-                    {
-                        headers: {
-                            auth: localStorage.getItem('auth_token'),
-                            'Content-Type': 'application/json',
-                        },
-                    }
+                    config
                 )
                 .then(function (response) {
                     if (response.data.error) {
@@ -175,6 +171,7 @@ export default {
             self.showAlert = true
         },
         checkEmail() {
+            const self = this
             if (this.newMember.mail === '') {
                 this.validEmail = null
                 return

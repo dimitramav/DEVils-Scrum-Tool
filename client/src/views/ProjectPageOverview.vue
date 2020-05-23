@@ -45,6 +45,7 @@
 
 <script>
 import axios from 'axios'
+import config from '@/router/auth.js'
 import Navbar from '@/components/navbar/Navbar.vue'
 import EditProjectForm from '@/components/projectPageOverview/EditProjectForm'
 import SprintInfo from '@/components/projectPageOverview/SprintInfo'
@@ -94,12 +95,7 @@ export default {
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id,
-                    {
-                        headers: {
-                            auth: localStorage.getItem('auth_token'),
-                            'Content-Type': 'application/json',
-                        },
-                    }
+                    config
                 )
                 .then(function (response) {
                     if (response.data.error) {
@@ -125,12 +121,7 @@ export default {
                         '/projects/' +
                         this.$route.params.id +
                         '/members',
-                    {
-                        headers: {
-                            auth: localStorage.getItem('auth_token'),
-                            'Content-Type': 'application/json',
-                        },
-                    }
+                    config
                 )
                 .then(function (response) {
                     if (response.data.error) {

@@ -17,7 +17,10 @@
                     variant="primary"
                     :to="{
                         name: 'NewSprint',
-                        params: { id: $route.params.id },
+                        params: {
+                            id: $route.params.id,
+                            newSprintNum: 1,
+                        },
                     }"
                 >
                     Create New Sprint
@@ -81,7 +84,11 @@
                         variant="primary"
                         :to="{
                             name: 'NewSprint',
-                            params: { id: $route.params.id },
+                            params: {
+                                id: $route.params.id,
+                                newSprintNum:
+                                    projectOverview.currentSprintNum + 1,
+                            },
                         }"
                     >
                         Create New Sprint!
@@ -138,6 +145,7 @@ export default {
             //console.log(this.projectOverview.currentSprintExpDate);
             let oneDay = 24 * 60 * 60 * 1000
             this.diffDays = Math.floor((d.getTime() - today.getTime()) / oneDay)
+            this.diffDays = this.diffDays + 1 // The last day counts as one
             //console.log(this.diffDays)
             this.sdeadline = this.projectOverview.currentSprintExpDate
         },

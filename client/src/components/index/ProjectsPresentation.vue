@@ -64,6 +64,7 @@
 
 <script>
 import axios from 'axios'
+import config from '@/router/auth.js'
 import NewProjectForm from '@/components/index/NewProjectForm.vue'
 
 export default {
@@ -98,11 +99,7 @@ export default {
                         self.isDone.toString() +
                         '&currentPage=' +
                         self.currentPage,
-                    {
-                        headers: {
-                            auth: localStorage.getItem('auth_token'),
-                        },
-                    }
+                    config
                 )
                 .then(function (response) {
                     if (response.data.error) {
@@ -125,11 +122,7 @@ export default {
                         localStorage.getItem('userId') +
                         '/projects?isDone=' +
                         self.isDone.toString(),
-                    {
-                        headers: {
-                            auth: localStorage.getItem('auth_token'),
-                        },
-                    }
+                    config
                 )
                 .then(function (response) {
                     if (response.data.error) {

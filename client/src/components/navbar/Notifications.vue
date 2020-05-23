@@ -53,6 +53,7 @@
 
 <script>
 import axios from 'axios'
+import config from '@/router/auth.js'
 
 export default {
     name: 'Notifications',
@@ -87,12 +88,7 @@ export default {
                         'users/' +
                         localStorage.getItem('userId') +
                         '/notifications',
-                    {
-                        headers: {
-                            auth: localStorage.getItem('auth_token'),
-                            'Content-Type': 'application/json',
-                        },
-                    }
+                    config
                 )
                 .then(function (response) {
                     if (response.data.error) {
@@ -117,12 +113,7 @@ export default {
                             localStorage.getItem('userId') +
                             '/notifications',
                         notificationItem.idNotification,
-                        {
-                            headers: {
-                                auth: localStorage.getItem('auth_token'),
-                                'Content-Type': 'application/json',
-                            },
-                        }
+                        config
                     )
                     .then(function (response) {
                         if (response.data.error) {
@@ -167,12 +158,7 @@ export default {
                                 notificationItem.Project_id +
                                 '/members',
                             data,
-                            {
-                                headers: {
-                                    auth: localStorage.getItem('auth_token'),
-                                    'Content-Type': 'application/json',
-                                },
-                            }
+                            config
                         )
                         .then(function (response) {
                             if (response.data.error) {
@@ -211,12 +197,7 @@ export default {
                             localStorage.getItem('userId') +
                             '/notifications',
                         self.notificationStruct,
-                        {
-                            headers: {
-                                auth: localStorage.getItem('auth_token'),
-                                'Content-Type': 'application/json',
-                            },
-                        }
+                        config
                     )
                     .then(function (response) {
                         if (response.data.error) {
