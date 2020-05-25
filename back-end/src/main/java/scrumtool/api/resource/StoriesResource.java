@@ -29,14 +29,20 @@ public class StoriesResource extends ServerResource {
         Map<String, String> mapError = new HashMap<>();
 
         // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
             mapError.put("error", "Unauthorized projects");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
 
-        // Get ProjectId
+        // Get the projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        if (projectIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized projects");
+            return new JsonMapRepresentation(mapError);
+        }
+        int projectId = Integer.parseInt(projectIdStr);
 
         // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
@@ -46,27 +52,18 @@ public class StoriesResource extends ServerResource {
             mapError.put("error", "null");
             return new JsonMapRepresentation(mapError);
         }
-
         CustomAuth customAuth = new CustomAuth();
 
         // Check if the token is ok
-        if(customAuth.checkAuthToken(token)) {
-            // Insert a project only for the current user (Product Owner)
-            if(customAuth.userValidation(token, userId)) {
-                // Get the projectId
-                String projectId = getRequestAttributes().get("projectId").toString();
-
-                if (projectId.equals("null")) {
-                    mapError.put("error", "Unauthorized projects");
-                    return new JsonMapRepresentation(mapError);
-                }
-                int project = Integer.parseInt(projectId);
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Insert the pbi given (either epic or story)
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Find the team members
                 boolean flag = false;
                 TeamDB teamDB = new TeamDB();
-                List<Team> teamList = teamDB.getTeamMembers(project);
+                List<Team> teamList = teamDB.getTeamMembers(projectId);
                 for(Team member:teamList) {
-                    if(member.getIdUser() == user) {
+                    if(member.getIdUser() == userId) {
                         flag = true;
                     }
                 }
@@ -89,7 +86,7 @@ public class StoriesResource extends ServerResource {
                         if(current) {
                             // Get the current sprint info !
                             SprintDB sprintDB = new SprintDB();
-                            Sprint currentSprint = sprintDB.getProjectCurrentSprint(project);
+                            Sprint currentSprint = sprintDB.getProjectCurrentSprint(projectId);
                             // find the id of the current sprint
                             int currentSprintId = currentSprint.getIdSprint();
                             // Find the pbi's
@@ -98,20 +95,15 @@ public class StoriesResource extends ServerResource {
                             return new JsonMapRepresentation(map);
                         }
                     }
-
-                }
-                else {
+                } else {
                     mapError.put("error", "Unauthorized sprint access");
                     return new JsonMapRepresentation(mapError);
                 }
-
-            }
-            else {
+            } else {
                 mapError.put("error", "Unauthorized projects");
                 return new JsonMapRepresentation(mapError);
             }
-        }
-        else {
+        } else {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }

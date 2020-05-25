@@ -43,12 +43,12 @@ public class ProjectsResource extends ServerResource {
         Map<String, String> mapError = new HashMap<>();
 
         // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
             mapError.put("error", "Unauthorized projects");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
 
         // Read the values of url for pagination
         String strCurrentPage = getQuery().getValues("currentPage");
@@ -64,27 +64,21 @@ public class ProjectsResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
-            // Get Projects only for the current user
-            // Show them in the index page
-            if(customAuth.userValidation(token, userId)) {
-                // Return either the number of total projects, or the num of projects asked (pagination)
-                if (strCurrentPage == null) {
-                    int totalNumOfCurrentProjects = dataAccess.getUserProjectsNumber(user, Boolean.parseBoolean(isDone));
-                    map.put("results", totalNumOfCurrentProjects);
-                }
-                else {  // Calculate the indexes of projects asked in sql base, which will be ordered by deadlineDate
-                    Limits limit = new Limits(Integer.parseInt(strCurrentPage));
-                    List<Project> projects = dataAccess.getUserProjects(user, limit, Boolean.parseBoolean(isDone));
-                    map.put("results", projects);
-                }
-                // Set the response headers
-                return new JsonMapRepresentation(map);
+        // Get Projects only for the current user
+        // Show them in the index page
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Return either the number of total projects, or the num of projects asked (pagination)
+            if (strCurrentPage == null) {
+                int totalNumOfCurrentProjects = dataAccess.getUserProjectsNumber(userId, Boolean.parseBoolean(isDone));
+                map.put("results", totalNumOfCurrentProjects);
             }
-            else {
-                mapError.put("error", "Unauthorized projects");
-                return new JsonMapRepresentation(mapError);
+            else {  // Calculate the indexes of projects asked in sql base, which will be ordered by deadlineDate
+                Limits limit = new Limits(Integer.parseInt(strCurrentPage));
+                List<Project> projects = dataAccess.getUserProjects(userId, limit, Boolean.parseBoolean(isDone));
+                map.put("results", projects);
             }
+            // Set the response headers
+            return new JsonMapRepresentation(map);
         }
         else {
             mapError.put("error", "Unauthorized user");
@@ -103,12 +97,12 @@ public class ProjectsResource extends ServerResource {
         //System.out.println("Inside post");
 
         // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
             mapError.put("error", "Unauthorized projects");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
 
         // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
@@ -120,39 +114,33 @@ public class ProjectsResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
-            // Insert a project only for the current user (Product Owner)
-            if(customAuth.userValidation(token, userId)) {
-                // Get the whole json body representation
+        // In project post, we do not check for project, as it will never insert
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Get the whole json body representation
+            try {
+                String str = entity.getText();
+                // Now Create from String the JAVA object
+                Gson gson = new Gson();
+                Project newProject = gson.fromJson(str, Project.class);
                 try {
-                    String str = entity.getText();
-                    // Now Create from String the JAVA object
-                    Gson gson = new Gson();
-                    Project newProject = gson.fromJson(str, Project.class);
-                    try {
-                        Project response = dataAccess.insertProject(newProject, user, "Product Owner");
-                        // Set the response headers
-                        if (response == null){
-                            mapError.put("error", "System Exception");
-                            System.out.println("Transaction Error!!!");
-                            return new JsonMapRepresentation(mapError);
-                        }
-                        map.put("results", response);
-                        return new JsonMapRepresentation(map);
-                    }
-                    catch (SQLException e) {
+                    Project response = dataAccess.insertProject(newProject, userId, "Product Owner");
+                    // Set the response headers
+                    if (response == null){
                         mapError.put("error", "System Exception");
-                        System.out.println("Transaction Error!1!1");
+                        System.out.println("Transaction Error!!!");
                         return new JsonMapRepresentation(mapError);
                     }
+                    map.put("results", response);
+                    return new JsonMapRepresentation(map);
                 }
-                catch(IOException e) {
+                catch (SQLException e) {
                     mapError.put("error", "System Exception");
+                    System.out.println("Transaction Error!1!1");
                     return new JsonMapRepresentation(mapError);
                 }
             }
-            else {
-                mapError.put("error", "Unauthorized projects");
+            catch(IOException e) {
+                mapError.put("error", "System Exception");
                 return new JsonMapRepresentation(mapError);
             }
         }

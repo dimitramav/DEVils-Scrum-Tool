@@ -10,6 +10,7 @@ public class ProjectOverview {
     private int currentSprintId;
     private int currentSprintNum;
     private Date currentSprintExpDate;
+    private String currentSprintGoal;
     private int todo;
     private int doing;
     private int done;
@@ -27,6 +28,9 @@ public class ProjectOverview {
     }
     public Date getCurrentSprintExpDate() {
         return currentSprintExpDate;
+    }
+    public String getCurrentSprintGoal() {
+        return currentSprintGoal;
     }
     public int getTodo() {
         return todo;
@@ -56,6 +60,9 @@ public class ProjectOverview {
     }
     public void setCurrentSprintExpDate(Date currentSprintExpDate) {
         this.currentSprintExpDate = currentSprintExpDate;
+    }
+    public void setCurrentSprintGoal(String currentSprintGoal) {
+        this.currentSprintGoal = currentSprintGoal;
     }
     public void setTodo(int todo) {
         this.todo = todo;

@@ -48,13 +48,12 @@ public class ProjectOverviewResource extends ServerResource {
         Map<String, String> mapError = new HashMap<>();
 
         // Unauthorized access if user is not the product owner
-        // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
 
         // Get projectId
         String projectIdStr = getRequestAttributes().get("projectId").toString();
@@ -74,19 +73,20 @@ public class ProjectOverviewResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
             // Get Project Overview Information
-            if(customAuth.userValidation(token, userId)) {
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Get project and its current sprint Information information
                 Project project = dataAccess.getCurrentProject(projectId);
                 SprintDB sprintDB = new SprintDB();
-                Sprint  sprint  = sprintDB.getProjectCurrentSprint(projectId);
+                Sprint sprint = sprintDB.getProjectCurrentSprint(projectId);
                 // Create a ProjectOverview item to store the data needed for overview page
                 ProjectOverview projectOverviewItem = new ProjectOverview();
                 projectOverviewItem.project = project;
                 projectOverviewItem.setCurrentSprintId(sprint.getIdSprint());
                 projectOverviewItem.setCurrentSprintNum(sprint.getNumSprint());
                 projectOverviewItem.setCurrentSprintExpDate(sprint.getDeadlineDate());
+                projectOverviewItem.setCurrentSprintGoal(sprint.getGoal());
                 // Find the tasks and issues belong to this sprint
                 List<Task> sprintTasks = dataAccess.getSprintTasks(sprint.getIdSprint());
                 List<Issue> sprintIssues = dataAccess.getSprintIssues(sprint.getIdSprint());
@@ -133,13 +133,12 @@ public class ProjectOverviewResource extends ServerResource {
         Map<String, String> mapError = new HashMap<>();
 
         // Unauthorized access if user is not the product owner
-        // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
 
         // Get projectId
         String projectIdStr = getRequestAttributes().get("projectId").toString();
@@ -159,9 +158,9 @@ public class ProjectOverviewResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
             // Get Project Overview Information
-            if(customAuth.userValidation(token, userId)) {
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Update project information
                 try {
                     String str = entity.getText();

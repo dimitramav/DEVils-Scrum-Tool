@@ -14,7 +14,7 @@ const $route = {
     params: {
         id: 2,
         newSprintNum: 3,
-    }
+    },
 }
 // bug in vue-test-utils when mount mock object
 if (!process || process.env.NODE_ENV !== 'test') {
@@ -27,8 +27,8 @@ describe('NewSprint', () => {
         localVue,
         router,
         mocks: {
-            $route
-        }
+            $route,
+        },
     })
     // Make various tests
     it('NewSprint is Vue Instance', () => {

@@ -36,12 +36,16 @@ public class SprintResource extends ServerResource {
         //System.out.println("Inside post");
 
         // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
-            mapError.put("error", "Unauthorized projects");
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
+
+        // Get projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        int projectId = Integer.parseInt(projectIdStr);
 
         // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
@@ -53,9 +57,10 @@ public class SprintResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
-            // Insert a project only for the current user (Product Owner)
-            if(customAuth.userValidation(token, userId)) {
+        // Insert a project only for the current user (Product Owner)
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Check if user is a member of project
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Get the whole json body representation
                 try {
                     String str = entity.getText();
@@ -75,7 +80,7 @@ public class SprintResource extends ServerResource {
                 }
             }
             else {
-                mapError.put("error", "Unauthorized projects");
+                mapError.put("error", "Unauthorized project");
                 return new JsonMapRepresentation(mapError);
             }
         }
@@ -85,20 +90,26 @@ public class SprintResource extends ServerResource {
         }
     }
 
+    @Override
     protected Representation get() throws ResourceException {
         Map<String, Object> map = new HashMap<>();
         Map<String, String> mapError = new HashMap<>();
 
         // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
-            mapError.put("error", "Unauthorized projects");
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
 
-        // Get ProjectId
-
+        // Get the projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        if (projectIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized project");
+            return new JsonMapRepresentation(mapError);
+        }
+        int projectId = Integer.parseInt(projectIdStr);
 
         // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
@@ -108,27 +119,18 @@ public class SprintResource extends ServerResource {
             mapError.put("error", "null");
             return new JsonMapRepresentation(mapError);
         }
-
         CustomAuth customAuth = new CustomAuth();
 
-        // Check if the token is ok
-        if(customAuth.checkAuthToken(token)) {
-            // Insert a project only for the current user (Product Owner)
-            if(customAuth.userValidation(token, userId)) {
-                // Get the projectId
-                String projectId = getRequestAttributes().get("projectId").toString();
-
-                if (projectId.equals("null")) {
-                    mapError.put("error", "Unauthorized projects");
-                    return new JsonMapRepresentation(mapError);
-                }
-                int project = Integer.parseInt(projectId);
+        // Insert a project only for the current user (Product Owner)
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Check if user is a member of project
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Find the team members
                 boolean flag = false;
                 TeamDB teamDB = new TeamDB();
-                List<Team> teamList = teamDB.getTeamMembers(project);
+                List<Team> teamList = teamDB.getTeamMembers(projectId);
                 for(Team member:teamList) {
-                    if(member.getIdUser() == user) {
+                    if(member.getIdUser() == userId) {
                         flag = true;
                     }
                 }
@@ -150,26 +152,22 @@ public class SprintResource extends ServerResource {
                         if(current) {
                             // Get the current sprint info !
                             SprintDB sprintDB = new SprintDB();
-                            Sprint currentSprint = sprintDB.getProjectCurrentSprint(project);
+                            Sprint currentSprint = sprintDB.getProjectCurrentSprint(projectId);
                             System.out.println(currentSprint);
                             map.put("sprint", currentSprint);
                             return new JsonMapRepresentation(map);
                         }
                     }
-
                 }
                 else {
                     mapError.put("error", "Unauthorized sprint access");
                     return new JsonMapRepresentation(mapError);
                 }
-
-            }
-            else {
-                mapError.put("error", "Unauthorized projects");
+            } else {
+                mapError.put("error", "Unauthorized project");
                 return new JsonMapRepresentation(mapError);
             }
-        }
-        else {
+        } else {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }

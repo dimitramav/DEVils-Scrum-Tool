@@ -45,7 +45,6 @@
 
 <script>
 import axios from 'axios'
-import config from '@/router/auth.js'
 import Navbar from '@/components/navbar/Navbar.vue'
 import EditProjectForm from '@/components/projectPageOverview/EditProjectForm'
 import SprintInfo from '@/components/projectPageOverview/SprintInfo'
@@ -71,6 +70,7 @@ export default {
                 currentSprintId: 0,
                 currentSprintNum: 0,
                 currentSprintExpDate: '',
+                currentSprintGoal: '',
                 todo: 0,
                 doing: 0,
                 done: 0,
@@ -95,11 +95,19 @@ export default {
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id,
-                    config
+                    {
+                        headers: {
+                            auth: localStorage.getItem('auth_token'),
+                            'Content-Type': 'application/json',
+                        },
+                    }
                 )
                 .then(function (response) {
                     if (response.data.error) {
                         console.log(response.data.error)
+                        self.$router.push({
+                            path: '/unauthorized',
+                        })
                     }
                     if (response.data.results) {
                         self.projectOverview = response.data.results
@@ -121,11 +129,19 @@ export default {
                         '/projects/' +
                         this.$route.params.id +
                         '/members',
-                    config
+                    {
+                        headers: {
+                            auth: localStorage.getItem('auth_token'),
+                            'Content-Type': 'application/json',
+                        },
+                    }
                 )
                 .then(function (response) {
                     if (response.data.error) {
                         console.log(response.data.error)
+                        /*self.$router.push({
+                            path: '/unauthorized',
+                        })*/
                     }
                     if (response.data.results) {
                         self.Team = response.data.results

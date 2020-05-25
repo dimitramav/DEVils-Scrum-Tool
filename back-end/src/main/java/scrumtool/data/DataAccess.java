@@ -616,6 +616,7 @@ public class DataAccess {
                 return null;
             }
         } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -656,7 +657,7 @@ public class DataAccess {
     }
 
 
-    public boolean passwordMatches(int id,String password) {
+    public boolean passwordMatches(int id, String password) {
         // Query to find if user exists
         jdbcTemplate = new JdbcTemplate(dataSource);
 
@@ -675,7 +676,23 @@ public class DataAccess {
                 return false;
             }
         } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
             return false;
         }
+    }
+
+    // Check if User is a member of currentProject
+    public boolean userMemberOfProject(int userId, int projectId) {
+        // Query to find if user exists
+        jdbcTemplate = new JdbcTemplate(dataSource);
+        String query = "SELECT * FROM Project_has_User WHERE User_id = ? AND Project_id = ?;";
+
+        try {          // Member of project
+            Project_has_User phu = jdbcTemplate.queryForObject(query, new Object[]{userId, projectId}, new ProjecthasUserRowMapper());
+            return true;
+        } catch (EmptyResultDataAccessException e) {
+            //e.printStackTrace();
+            return false;
+        }        // Unauthorized project
     }
 }

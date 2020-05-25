@@ -44,7 +44,6 @@
 
 <script>
 import axios from 'axios'
-import config from '@/router/auth.js'
 
 export default {
     name: 'NewProjectForm',
@@ -81,7 +80,12 @@ export default {
                         localStorage.getItem('userId') +
                         '/projects',
                     data,
-                    config
+                    {
+                        headers: {
+                            auth: localStorage.getItem('auth_token'),
+                            'Content-Type': 'application/json',
+                        },
+                    }
                 )
                 .then(function (response) {
                     if (response.data.error) {

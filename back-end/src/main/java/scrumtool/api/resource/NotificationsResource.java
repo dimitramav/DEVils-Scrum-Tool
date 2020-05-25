@@ -46,12 +46,12 @@ public class NotificationsResource extends ServerResource {
         Map<String, String> mapError = new HashMap<>();
 
         // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
 
         // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
@@ -63,18 +63,12 @@ public class NotificationsResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
-            // Get pending notifications
-            if(customAuth.userValidation(token, userId)) {
-                // Get project and its current sprint Information information
-                List<Notification> notifsList = dataAccess.getUserNotifications(user);
-                map.put("results", notifsList);
-                return new JsonMapRepresentation(map);
-            }
-            else {
-                mapError.put("error", "Unauthorized projects");
-                return new JsonMapRepresentation(mapError);
-            }
+        // Get pending notifications
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Get project and its current sprint Information information
+            List<Notification> notifsList = dataAccess.getUserNotifications(userId);
+            map.put("results", notifsList);
+            return new JsonMapRepresentation(map);
         }
         else {
             mapError.put("error", "Unauthorized user");
@@ -94,7 +88,7 @@ public class NotificationsResource extends ServerResource {
         // Get UserId
         String userIdStr = getRequestAttributes().get("userId").toString();
         if (userIdStr.equals("null")) {
-            mapError.put("error", "Unauthorized projects");
+            mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
         int userId = Integer.parseInt(userIdStr);
@@ -109,33 +103,26 @@ public class NotificationsResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
-            // Insert the invitation
-            if(customAuth.userValidation(token, userIdStr)) {
-                // Get the whole json body representation
-                try {
-                    String str = entity.getText();
-                    // Now Create from String the JAVA object
-                    Gson gson = new Gson();
-                    Notification invitation = gson.fromJson(str, Notification.class);
-                    // Check the type of notification (Mail is username in this case)
-                    if (invitation.getType().equals("Answer-Accept/Decline")) {
-                        User receiver = dataAccess.getUserProfile(invitation.getToUserEmail());
-                        invitation.setToUserEmail(receiver.getEmail());
-                    }
-                    // Insert
-                    Boolean response = dataAccess.insertNewNotification(invitation);
-                    // Set the response headers
-                    map.put("results", response);
-                    return new JsonMapRepresentation(map);
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Get the whole json body representation
+            try {
+                String str = entity.getText();
+                // Now Create from String the JAVA object
+                Gson gson = new Gson();
+                Notification invitation = gson.fromJson(str, Notification.class);
+                // Check the type of notification (Mail is username in this case)
+                if (invitation.getType().equals("Answer-Accept/Decline")) {
+                    User receiver = dataAccess.getUserProfile(invitation.getToUserEmail());
+                    invitation.setToUserEmail(receiver.getEmail());
                 }
-                catch(IOException e) {
-                    mapError.put("error", "System Exception");
-                    return new JsonMapRepresentation(mapError);
-                }
+                // Insert
+                Boolean response = dataAccess.insertNewNotification(invitation);
+                // Set the response headers
+                map.put("results", response);
+                return new JsonMapRepresentation(map);
             }
-            else {
-                mapError.put("error", "Unauthorized projects");
+            catch(IOException e) {
+                mapError.put("error", "System Exception");
                 return new JsonMapRepresentation(mapError);
             }
         }
@@ -155,12 +142,12 @@ public class NotificationsResource extends ServerResource {
         Map<String, String> mapError = new HashMap<>();
 
         // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
 
         // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
@@ -172,28 +159,21 @@ public class NotificationsResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
             // Delete this notification
-            if(customAuth.userValidation(token, userId)) {
-                // Get the whole json body representation
-                try {
-                    String str = entity.getText();
-                    // Now Create from String the JAVA object
-                    Gson gson = new Gson();
-                    Integer idNotification = gson.fromJson(str, Integer.class);
-                    // Delete notification
-                    int response = dataAccess.deleteUserNotification(idNotification);
-                    // Set the response headers
-                    map.put("results", response);
-                    return new JsonMapRepresentation(map);
-                }
-                catch(IOException e) {
-                    mapError.put("error", "System Exception");
-                    return new JsonMapRepresentation(mapError);
-                }
+            try {
+                String str = entity.getText();
+                // Now Create from String the JAVA object
+                Gson gson = new Gson();
+                Integer idNotification = gson.fromJson(str, Integer.class);
+                // Delete notification
+                int response = dataAccess.deleteUserNotification(idNotification);
+                // Set the response headers
+                map.put("results", response);
+                return new JsonMapRepresentation(map);
             }
-            else {
-                mapError.put("error", "Unauthorized notifications");
+            catch(IOException e) {
+                mapError.put("error", "System Exception");
                 return new JsonMapRepresentation(mapError);
             }
         }

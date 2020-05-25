@@ -22,7 +22,6 @@
 
 <script>
 import axios from 'axios'
-import config from '@/router/auth.js'
 
 export default {
     name: 'LoadEpics',
@@ -47,7 +46,12 @@ export default {
                         this.$route.params.id +
                         '/pbis?epicId=' +
                         idPBI,
-                    config
+                    {
+                        headers: {
+                            auth: localStorage.getItem('auth_token'),
+                            'Content-Type': 'application/json',
+                        },
+                    }
                 )
                 .then(function (response) {
                     if (response.data.error) {
@@ -86,7 +90,12 @@ export default {
                         '/projects/' +
                         this.$route.params.id +
                         '/pbis?isEpic=true',
-                    config
+                    {
+                        headers: {
+                            auth: localStorage.getItem('auth_token'),
+                            'Content-Type': 'application/json',
+                        },
+                    }
                 )
                 .then(function (response) {
                     if (response.data.error) {

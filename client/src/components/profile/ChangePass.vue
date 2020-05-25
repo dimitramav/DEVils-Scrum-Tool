@@ -76,7 +76,6 @@
 
 <script>
 import axios from 'axios'
-import config from '@/router/auth.js'
 
 export default {
     name: 'ChangePass',
@@ -154,7 +153,12 @@ export default {
                     {
                         password: this.newpass,
                     },
-                    config
+                    {
+                        headers: {
+                            auth: localStorage.getItem('auth_token'),
+                            'Content-Type': 'application/json',
+                        },
+                    }
                 )
                 .then(function (response) {
                     if (response.data.result === true) {
@@ -180,7 +184,12 @@ export default {
                     {
                         password: this.password,
                     },
-                    config
+                    {
+                        headers: {
+                            auth: localStorage.getItem('auth_token'),
+                            'Content-Type': 'application/json',
+                        },
+                    }
                 )
                 .then(function (response) {
                     if (response.data.exists) {

@@ -78,9 +78,9 @@ public class IssuesResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
             // Get issues for current task
-            if(customAuth.userValidation(token, userIdStr)) {
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Find the team members
                 boolean flag = false;
                 TeamDB teamDB = new TeamDB();
@@ -97,18 +97,15 @@ public class IssuesResource extends ServerResource {
                     map.put("results", issues);
                     // Set the response headers
                     return new JsonMapRepresentation(map);
-                }
-                else {
+                } else {
                     mapError.put("error", "Unauthorized sprint access");
                     return new JsonMapRepresentation(mapError);
                 }
-            }
-            else {
+            } else {
                 mapError.put("error", "Unauthorized issues");
                 return new JsonMapRepresentation(mapError);
             }
-        }
-        else {
+        } else {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
@@ -158,9 +155,9 @@ public class IssuesResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
-            // Insert a project only for the current user (Product Owner)
-            if(customAuth.userValidation(token, userIdStr)) {
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Insert the pbi given (either epic or story)
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Get the whole json body representation
                 try {
                     String str = entity.getText();
@@ -177,13 +174,11 @@ public class IssuesResource extends ServerResource {
                     mapError.put("error", "System Exception");
                     return new JsonMapRepresentation(mapError);
                 }
-            }
-            else {
+            } else {
                 mapError.put("error", "Unauthorized issues");
                 return new JsonMapRepresentation(mapError);
             }
-        }
-        else {
+        } else {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }

@@ -27,13 +27,13 @@
                 {{ notification.projectTitle }}.
                 <br />
                 <b-button
-                    variant="primary"
+                    variant="success"
                     class="btn"
                     v-on:click="watchedNotification('accept', notification)"
                     >Accept</b-button
                 >
                 <b-button
-                    variant="secondary"
+                    variant="danger"
                     v-on:click="watchedNotification('decline', notification)"
                     >Decline</b-button
                 >
@@ -53,7 +53,6 @@
 
 <script>
 import axios from 'axios'
-import config from '@/router/auth.js'
 
 export default {
     name: 'Notifications',
@@ -88,7 +87,12 @@ export default {
                         'users/' +
                         localStorage.getItem('userId') +
                         '/notifications',
-                    config
+                    {
+                        headers: {
+                            auth: localStorage.getItem('auth_token'),
+                            'Content-Type': 'application/json',
+                        },
+                    }
                 )
                 .then(function (response) {
                     if (response.data.error) {
@@ -113,7 +117,12 @@ export default {
                             localStorage.getItem('userId') +
                             '/notifications',
                         notificationItem.idNotification,
-                        config
+                        {
+                            headers: {
+                                auth: localStorage.getItem('auth_token'),
+                                'Content-Type': 'application/json',
+                            },
+                        }
                     )
                     .then(function (response) {
                         if (response.data.error) {
@@ -158,7 +167,12 @@ export default {
                                 notificationItem.Project_id +
                                 '/members',
                             data,
-                            config
+                            {
+                                headers: {
+                                    auth: localStorage.getItem('auth_token'),
+                                    'Content-Type': 'application/json',
+                                },
+                            }
                         )
                         .then(function (response) {
                             if (response.data.error) {
@@ -197,7 +211,12 @@ export default {
                             localStorage.getItem('userId') +
                             '/notifications',
                         self.notificationStruct,
-                        config
+                        {
+                            headers: {
+                                auth: localStorage.getItem('auth_token'),
+                                'Content-Type': 'application/json',
+                            },
+                        }
                     )
                     .then(function (response) {
                         if (response.data.error) {
@@ -211,7 +230,7 @@ export default {
                         console.log(error)
                     })
                 if (functionality === 'accept') {
-                    //location.reload(true);
+                    //location.reload()
                     this.$router.push({
                         path:
                             '/project/' +

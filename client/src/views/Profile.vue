@@ -61,7 +61,6 @@
 
 <script>
 import axios from 'axios'
-import config from '@/router/auth.js'
 import Navbar from '@/components/navbar/Navbar.vue'
 
 export default {
@@ -91,7 +90,12 @@ export default {
                         localStorage.getItem('userId') +
                         '/profile/' +
                         self.current_username,
-                    config
+                    {
+                        headers: {
+                            auth: localStorage.getItem('auth_token'),
+                            'Content-Type': 'application/json',
+                        },
+                    }
                 )
                 .then(function (response) {
                     if (response.data.error) {

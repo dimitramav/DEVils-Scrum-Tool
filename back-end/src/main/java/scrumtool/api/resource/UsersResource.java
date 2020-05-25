@@ -66,13 +66,12 @@ public class UsersResource extends ServerResource {
         Map<String, String> mapError = new HashMap<>();
 
         // Unauthorized access if user is not the product owner
-        // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
             mapError.put("error", "Unauthorized projects");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
         // Access the headers of the request !
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
         String token = requestHeaders.getFirstValue("auth");
@@ -83,19 +82,13 @@ public class UsersResource extends ServerResource {
         }
         String username = getRequestAttributes().get("username").toString();
         CustomAuth customAuth = new CustomAuth();
-        if(customAuth.checkAuthToken(token)) {
 
-            if(customAuth.userValidation(token, userId)) {
-                // Get all the user's information
-                User profile = dataAccess.getUserProfile(username);
-                map.put("results", profile);
-                // Set the response headers
-                return new JsonMapRepresentation(map);
-            }
-            else {
-                mapError.put("error", "Unauthorized projects");
-                return new JsonMapRepresentation(mapError);
-            }
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Get all the user's information
+            User profile = dataAccess.getUserProfile(username);
+            map.put("results", profile);
+            // Set the response headers
+            return new JsonMapRepresentation(map);
         }
         else {
             mapError.put("error", "Unauthorized user");
@@ -110,16 +103,15 @@ public class UsersResource extends ServerResource {
         Map<String, Object> map = new HashMap<>();
         Map<String, String> mapError = new HashMap<>();
 
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
 
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
         String token = requestHeaders.getFirstValue("auth");
-        String username = getRequestAttributes().get("username").toString();
 
         if (token == null) {
             mapError.put("error", "null");
@@ -127,24 +119,17 @@ public class UsersResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
-            // Update user's infoprmation
-            if(customAuth.userValidation(token, userId)) {
-                // Get the whole json body representation
-                try {
-                    String str = entity.getText();
-                    User profile = new Gson().fromJson(str, User.class);
-                    User response = dataAccess.updateUser(profile, user);
-                    map.put("result", response);
-                    return new JsonMapRepresentation(map);
-                }
-                catch(IOException e) {
-                    mapError.put("result", "System Exception");
-                    return new JsonMapRepresentation(mapError);
-                }
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Get the whole json body representation
+            try {
+                String str = entity.getText();
+                User profile = new Gson().fromJson(str, User.class);
+                User response = dataAccess.updateUser(profile, userId);
+                map.put("result", response);
+                return new JsonMapRepresentation(map);
             }
-            else {
-                mapError.put("error", "Unauthorized userId");
+            catch(IOException e) {
+                mapError.put("result", "System Exception");
                 return new JsonMapRepresentation(mapError);
             }
         }

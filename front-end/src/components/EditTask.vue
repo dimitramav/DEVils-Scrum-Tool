@@ -59,7 +59,7 @@ export default {
             };
             //console.log(data);
 
-            axios.put(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id + '/tasks', data, config)
+            axios.put(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.$route.params.id + '/tasks', data, config)
                 .then(function(response) {
                     //console.log(response);
                     if (response.data.error) {

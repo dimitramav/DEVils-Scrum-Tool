@@ -239,9 +239,10 @@ export default {
                 })
                 .then(function(response) {
                     if (response.data.error) {
-                        if (response.data.error === "Unauthorized user") {
-                            console.log("Unauthorized user");
-                        }
+                        console.log(response.data.error)
+                        self.$router.push({
+                            path: '/unauthorized',
+                        })
                     } else if (response.data.results) {
                         self.gotPBIS = true;
                         self.currentPbis = response.data.results;

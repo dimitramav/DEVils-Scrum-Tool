@@ -34,7 +34,6 @@
 
 <script>
 import axios from 'axios'
-import config from '@/router/auth.js'
 
 export default {
     name: 'NewSprintForm',
@@ -75,11 +74,19 @@ export default {
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id,
-                    config
+                    {
+                        headers: {
+                            auth: localStorage.getItem('auth_token'),
+                            'Content-Type': 'application/json',
+                        },
+                    }
                 )
                 .then(function (response) {
                     if (response.data.error) {
                         console.log(response.data.error)
+                        self.$router.push({
+                            path: '/unauthorized',
+                        })
                     }
                     if (response.data.results) {
                         self.projectOverview = response.data.results

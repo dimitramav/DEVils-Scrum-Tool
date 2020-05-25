@@ -27,21 +27,26 @@ public class TasksResource extends ServerResource {
     private final DataAccess dataAccess = Configuration.getInstance().getDataAccess();
 
     // Story has multiple tasks
-    // We want sprint id
+    @Override
     protected Representation get() throws ResourceException {
         Map<String, Object> map = new HashMap<>();
         Map<String, String> mapError = new HashMap<>();
 
         // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
-            mapError.put("error", "Unauthorized projects");
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
 
-        // Get ProjectId
-
+        // Get the projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        if (projectIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized project");
+            return new JsonMapRepresentation(mapError);
+        }
+        int projectId = Integer.parseInt(projectIdStr);
 
         // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
@@ -51,27 +56,18 @@ public class TasksResource extends ServerResource {
             mapError.put("error", "null");
             return new JsonMapRepresentation(mapError);
         }
-
         CustomAuth customAuth = new CustomAuth();
 
         // Check if the token is ok
-        if(customAuth.checkAuthToken(token)) {
-            // Insert a project only for the current user (Product Owner)
-            if(customAuth.userValidation(token, userId)) {
-                // Get the projectId
-                String projectId = getRequestAttributes().get("projectId").toString();
-
-                if (projectId.equals("null")) {
-                    mapError.put("error", "Unauthorized projects");
-                    return new JsonMapRepresentation(mapError);
-                }
-                int project = Integer.parseInt(projectId);
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Get tasks
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Find the team members
                 boolean flag = false;
                 TeamDB teamDB = new TeamDB();
-                List<Team> teamList = teamDB.getTeamMembers(project);
+                List<Team> teamList = teamDB.getTeamMembers(projectId);
                 for(Team member:teamList) {
-                    if(member.getIdUser() == user) {
+                    if(member.getIdUser() == userId) {
                         flag = true;
                     }
                 }
@@ -93,7 +89,7 @@ public class TasksResource extends ServerResource {
                         if(current) {
                             // Get the current sprint info !
                             SprintDB sprintDB = new SprintDB();
-                            Sprint currentSprint = sprintDB.getProjectCurrentSprint(project);
+                            Sprint currentSprint = sprintDB.getProjectCurrentSprint(projectId);
 
                             // find the id of the current sprint
                             int currentSprintId = currentSprint.getIdSprint();
@@ -104,20 +100,15 @@ public class TasksResource extends ServerResource {
                             return new JsonMapRepresentation(map);
                         }
                     }
-
-                }
-                else {
+                } else {
                     mapError.put("error", "Unauthorized sprint access");
                     return new JsonMapRepresentation(mapError);
                 }
-
-            }
-            else {
+            } else {
                 mapError.put("error", "Unauthorized projects");
                 return new JsonMapRepresentation(mapError);
             }
-        }
-        else {
+        } else {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
@@ -133,12 +124,20 @@ public class TasksResource extends ServerResource {
         //System.out.println("Inside post");
 
         // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
-            mapError.put("error", "Unauthorized projects");
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
+
+        // Get the projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        if (projectIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized project");
+            return new JsonMapRepresentation(mapError);
+        }
+        int projectId = Integer.parseInt(projectIdStr);
 
         // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
@@ -150,9 +149,9 @@ public class TasksResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
-            // Insert a project only for the current user (Product Owner)
-            if(customAuth.userValidation(token, userId)) {
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Insert tasks
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Get the whole json body representation
                 try {
                     String str = entity.getText();
@@ -171,13 +170,11 @@ public class TasksResource extends ServerResource {
                     mapError.put("error", "System Exception");
                     return new JsonMapRepresentation(mapError);
                 }
-            }
-            else {
-                mapError.put("error", "Unauthorized projects");
+            } else {
+                mapError.put("error", "Unauthorized project");
                 return new JsonMapRepresentation(mapError);
             }
-        }
-        else {
+        } else {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
@@ -194,11 +191,19 @@ public class TasksResource extends ServerResource {
         // Get UserId
         String userIdStr = getRequestAttributes().get("userId").toString();
         if (userIdStr.equals("null")) {
-            mapError.put("error", "Unauthorized projects");
+            mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
         int userId = Integer.parseInt(userIdStr);
         // Convert it to boolean
+
+        // Get the projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        if (projectIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized project");
+            return new JsonMapRepresentation(mapError);
+        }
+        int projectId = Integer.parseInt(projectIdStr);
 
         // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
@@ -210,9 +215,9 @@ public class TasksResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
             // Insert the pbi given (either epic or story)
-            if(customAuth.userValidation(token, userIdStr)) {
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Get the whole json body representation
                 try {
                     String str = entity.getText();
@@ -230,13 +235,11 @@ public class TasksResource extends ServerResource {
                     mapError.put("error", "System Exception");
                     return new JsonMapRepresentation(mapError);
                 }
-            }
-            else {
+            } else {
                 mapError.put("error", "Unauthorized projects");
                 return new JsonMapRepresentation(mapError);
             }
-        }
-        else {
+        } else {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }

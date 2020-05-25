@@ -13,7 +13,6 @@
 
 <script>
 import axios from 'axios'
-import config from '@/router/auth.js'
 
 export default {
     name: 'SubmitButton',
@@ -42,7 +41,12 @@ export default {
                         this.sprint.Project_id +
                         '/sprints',
                     this.sprint,
-                    config
+                    {
+                        headers: {
+                            auth: localStorage.getItem('auth_token'),
+                            'Content-Type': 'application/json',
+                        },
+                    }
                 )
                 .then(function (response) {
                     for (var i = 0; i < self.selected_stories.length; i++) {
@@ -62,7 +66,12 @@ export default {
                                 self.sprint.Project_id +
                                 '/pbis',
                             self.pbis_list,
-                            config
+                            {
+                                headers: {
+                                    auth: localStorage.getItem('auth_token'),
+                                    'Content-Type': 'application/json',
+                                },
+                            }
                         )
                         .then(function (response) {
                             console.log(response)

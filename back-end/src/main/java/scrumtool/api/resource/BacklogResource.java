@@ -40,12 +40,12 @@ public class BacklogResource extends ServerResource {
 
         // Unauthorized access if user is not the product owner
         // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
-            mapError.put("error", "Unauthorized projects");
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
 
         // Check if the user is Product Owner
 
@@ -54,25 +54,22 @@ public class BacklogResource extends ServerResource {
         Boolean isEpic;
         if (isEpicStr == null) {
             isEpic = false;
-        }
-        else {
+        } else {
             isEpic = Boolean.parseBoolean(isEpicStr);
         }
         // Convert it to boolean
 
         // Get projectId
-        String projectId = getRequestAttributes().get("projectId").toString();
-        int idProject = Integer.parseInt(projectId);
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        int projectId = Integer.parseInt(projectIdStr);
         // Get Epic_id
         String epicIdStr = getQuery().getValues("epicId");
         int epicId;
         if (epicIdStr == null) {
             epicId = 0;
-        }
-        else {
+        } else {
             epicId = Integer.parseInt(epicIdStr);
         }
-
         //int epicId = Integer.parseInt(epicIdStr);
 
         // Access the headers of the request !
@@ -85,22 +82,19 @@ public class BacklogResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
-            // Get Projects only for the current user
-            // Show them in the index page
-            if(customAuth.userValidation(token, userId)) {
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Check if user is a member of project
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Get all the pbis of this project (either Epics or Stories)
-                List<PBI> pbis = dataAccess.getProjectPBIs(idProject, isEpic, epicId);
+                List<PBI> pbis = dataAccess.getProjectPBIs(projectId, isEpic, epicId);
                 map.put("results", pbis);
                 // Set the response headers
                 return new JsonMapRepresentation(map);
-            }
-            else {
-                mapError.put("error", "Unauthorized projects");
+            } else {
+                mapError.put("error", "Unauthorized project");
                 return new JsonMapRepresentation(mapError);
             }
-        }
-        else {
+        } else {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
@@ -113,12 +107,16 @@ public class BacklogResource extends ServerResource {
         Map<String, Object> map = new HashMap<>();
         Map<String, String> mapError = new HashMap<>();
         // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
-            mapError.put("error", "Unauthorized projects");
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
+
+        // Get projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        int projectId = Integer.parseInt(projectIdStr);
 
         // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
@@ -130,9 +128,9 @@ public class BacklogResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
-            // Insert a project only for the current user (Product Owner)
-            if(customAuth.userValidation(token, userId)) {
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Check if user is a member of project
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Get the whole json body representation
                 try {
                     String str = entity.getText();
@@ -177,13 +175,11 @@ public class BacklogResource extends ServerResource {
                     mapError.put("result", "System Exception");
                     return new JsonMapRepresentation(mapError);
                 }
-            }
-            else {
-                mapError.put("error", "Unauthorized projects");
+            } else {
+                mapError.put("error", "Unauthorized project");
                 return new JsonMapRepresentation(mapError);
             }
-        }
-        else {
+        } else {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
@@ -202,7 +198,7 @@ public class BacklogResource extends ServerResource {
         // Get UserId
         String userIdStr = getRequestAttributes().get("userId").toString();
         if (userIdStr.equals("null")) {
-            mapError.put("error", "Unauthorized projects");
+            mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
         int userId = Integer.parseInt(userIdStr);
@@ -216,8 +212,8 @@ public class BacklogResource extends ServerResource {
         // Convert it to boolean
 
         // Get projectId
-        String projectId = getRequestAttributes().get("projectId").toString();
-        int idProject = Integer.parseInt(projectId);
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        int projectId = Integer.parseInt(projectIdStr);
 
         // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
@@ -229,9 +225,9 @@ public class BacklogResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
             // Insert the pbi given (either epic or story)
-            if(customAuth.userValidation(token, userIdStr)) {
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Get the whole json body representation
                 try {
                     String str = entity.getText();
@@ -249,13 +245,11 @@ public class BacklogResource extends ServerResource {
                     mapError.put("error", "System Exception");
                     return new JsonMapRepresentation(mapError);
                 }
-            }
-            else {
-                mapError.put("error", "Unauthorized projects");
+            } else {
+                mapError.put("error", "Unauthorized project");
                 return new JsonMapRepresentation(mapError);
             }
-        }
-        else {
+        } else {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
@@ -269,15 +263,19 @@ public class BacklogResource extends ServerResource {
         // New map string (which is the json name) and objects
         Map<String, Object> map = new HashMap<>();
         Map<String, String> mapError = new HashMap<>();
-        //System.out.println("Inside post");
+        //System.out.println("Inside put");
 
         // Get UserId
         String userIdStr = getRequestAttributes().get("userId").toString();
         if (userIdStr.equals("null")) {
-            mapError.put("error", "Unauthorized projects");
+            mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
         int userId = Integer.parseInt(userIdStr);
+
+        // Get projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        int projectId = Integer.parseInt(projectIdStr);
 
         // Check if is Epic
         String isEpicStr = getQuery().getValues("isEpic");
@@ -297,9 +295,9 @@ public class BacklogResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
             // Insert the pbi given (either epic or story)
-            if(customAuth.userValidation(token, userIdStr)) {
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Get the whole json body representation
                 try {
                     String str = entity.getText();
@@ -317,13 +315,11 @@ public class BacklogResource extends ServerResource {
                     mapError.put("error", "System Exception");
                     return new JsonMapRepresentation(mapError);
                 }
-            }
-            else {
-                mapError.put("error", "Unauthorized projects");
+            } else {
+                mapError.put("error", "Unauthorized project");
                 return new JsonMapRepresentation(mapError);
             }
-        }
-        else {
+        } else {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }

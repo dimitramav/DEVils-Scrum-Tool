@@ -28,8 +28,16 @@
             </div>
             <div v-else id="currentSprint">
                 <b-row style="margin-top: -5%;">
-                    <h2>
-                        Current sprint #{{ projectOverview.currentSprintNum }}
+                    <h2 v-if="(diffDays > -1)">
+                        Current sprint #{{
+                            projectOverview.currentSprintNum
+                        }}
+                        ({{ projectOverview.currentSprintGoal }})
+                    </h2>
+                    <h2 v-else>
+                        Last sprint #{{ projectOverview.currentSprintNum }} ({{
+                            projectOverview.currentSprintGoal
+                        }})
                     </h2>
                 </b-row>
                 <b-row style="margin-top: 20px;">
@@ -72,27 +80,41 @@
                         </p>
                     </b-col>
                     <b-col>
-                        <div v-if="(diffDays > -1)">
-                            <p style="font-weight: bold;">
-                                Days Remaining: {{ diffDays }}
-                            </p>
-                        </div>
+                        <p v-if="(diffDays > -1)" style="font-weight: bold;">
+                            Days Remaining: {{ diffDays }}
+                        </p>
+                        <p v-else style="font-weight: bold;">
+                            Sprint has Ended!
+                        </p>
                     </b-col>
                 </b-row>
                 <div v-if="(diffDays < 0)">
-                    <b-button
-                        variant="primary"
-                        :to="{
-                            name: 'NewSprint',
-                            params: {
-                                id: $route.params.id,
-                                newSprintNum:
-                                    projectOverview.currentSprintNum + 1,
-                            },
-                        }"
-                    >
-                        Create New Sprint!
-                    </b-button>
+                    <b-row align-h="center" style="margin-bottom: 20px;">
+                        <b-button
+                            variant="outline-secondary"
+                            :to="{
+                                name: 'SprintBacklog',
+                                params: { id: $route.params.id },
+                            }"
+                        >
+                            Go to Sprint Page
+                        </b-button>
+                    </b-row>
+                    <b-row align-h="center">
+                        <b-button
+                            variant="primary"
+                            :to="{
+                                name: 'NewSprint',
+                                params: {
+                                    id: $route.params.id,
+                                    newSprintNum:
+                                        projectOverview.currentSprintNum + 1,
+                                },
+                            }"
+                        >
+                            Create New Sprint!
+                        </b-button>
+                    </b-row>
                 </div>
                 <div v-else>
                     <b-button

@@ -46,13 +46,12 @@ public class TeamResource extends ServerResource {
         Map<String, String> mapError = new HashMap<>();
 
         // Unauthorized access if user is not the product owner
-        // Get UserId
-        String userId = getRequestAttributes().get("userId").toString();
-        if (userId.equals("null")) {
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-        int user = Integer.parseInt(userId);
+        int userId = Integer.parseInt(userIdStr);
 
         // Get projectId
         String projectIdStr = getRequestAttributes().get("projectId").toString();
@@ -72,9 +71,9 @@ public class TeamResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
-            // Get Project Team Members
-            if(customAuth.userValidation(token, userId)) {
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Check if user is a member of project
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
                 // Get project and its current sprint Information information
                 TeamDB teamDB = new TeamDB();
                 List<Team> teamList = teamDB.getTeamMembers(projectId);
@@ -132,29 +131,23 @@ public class TeamResource extends ServerResource {
         }
         CustomAuth customAuth = new CustomAuth();
 
-        if(customAuth.checkAuthToken(token)) {
-            // Insert the member
-            if(customAuth.userValidation(token, userIdStr)) {
-                // Get the whole json body representation
-                try {
-                    String str = entity.getText();
-                    // Now Create from String the JAVA object
-                    Gson gson = new Gson();
-                    Team member = gson.fromJson(str, Team.class);
-                    // Insert
-                    TeamDB teamDB = new TeamDB();
-                    Team response = teamDB.insertNewMember(member, projectId);
-                    // Set the response headers
-                    map.put("results", response);
-                    return new JsonMapRepresentation(map);
-                }
-                catch(IOException e) {
-                    mapError.put("error", "System Exception");
-                    return new JsonMapRepresentation(mapError);
-                }
+        // In project post, we do not check for project, as it will never insert
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Get the whole json body representation
+            try {
+                String str = entity.getText();
+                // Now Create from String the JAVA object
+                Gson gson = new Gson();
+                Team member = gson.fromJson(str, Team.class);
+                // Insert
+                TeamDB teamDB = new TeamDB();
+                Team response = teamDB.insertNewMember(member, projectId);
+                // Set the response headers
+                map.put("results", response);
+                return new JsonMapRepresentation(map);
             }
-            else {
-                mapError.put("error", "Unauthorized projects");
+            catch(IOException e) {
+                mapError.put("error", "System Exception");
                 return new JsonMapRepresentation(mapError);
             }
         }

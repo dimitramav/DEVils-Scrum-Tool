@@ -32,8 +32,36 @@ public class CustomAuth {
         return compactJws;
     }
 
+    // Checks if auth token is valid for current user
+    public boolean checkUserAuthToken(String token, String userId) {
+        try {
+            Configuration config = Configuration.getInstance();
+            Jwts.parser().setSigningKey(config.getKey()).parseClaimsJws(token);
+            // Extracts the data from the Auth Token
+            String subject = Jwts.parser().setSigningKey(config.getKey()).parseClaimsJws(token).getBody().getSubject();
+            //System.out.println(subject);
+            if (subject.equals(userId)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+            //OK, we can trust this JWT
+        } catch (SignatureException e) {
+            // Signature Exception
+            // It has not been signed by our API
+            return false;
+            //don't trust the JWT!
+        }
+        catch (MalformedJwtException e1) {
+            // Parser Exception
+            // It's not in token format with the double dots
+            return false;
+        }
+    }
+
     // Checks if auth token is valid
-    public boolean checkAuthToken(String token) {
+    /*public boolean checkAuthToken(String token) {
         try {
             Configuration config = Configuration.getInstance();
             Jwts.parser().setSigningKey(config.getKey()).parseClaimsJws(token);
@@ -73,6 +101,6 @@ public class CustomAuth {
         catch (MalformedJwtException el) {
             return false;
         }
-    }
+    }*/
     // Extracts the data from the Auth Token
 }

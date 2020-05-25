@@ -12,8 +12,8 @@ describe('SelectStories', () => {
     const wrapper = shallowMount(SelectStories, {
         localVue,
         propsData: {
-            stories_options: [{ 'value': 1, 'text': 'title!' }],
-        }
+            stories_options: [{ value: 1, text: 'title!' }],
+        },
     })
     // Make various tests
     it('SelectStories is Vue Instance', () => {

@@ -182,9 +182,10 @@ export default {
                 })
                 .then(function(response) {
                     if (response.data.error) {
-                        if (response.data.error === "Unauthorized user") {
-                            console.log("Unauthorized user");
-                        }
+                        console.log(response.data.error)
+                        self.$router.push({
+                            path: '/unauthorized',
+                        })
                     }
                     if (response.data.sprint) {
                         self.currentSprint = response.data.sprint;
@@ -274,7 +275,7 @@ export default {
                 PBI_id: storyId,
             };
             //console.log(data);
-            axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.idProject
+            axios.post(this.$url + 'users/' + localStorage.getItem('userId') + '/projects/' + this.currentProject_id
                     + '/tasks?isCurrent=true', data, config)
                 .then(function(response) {
                     if (response.data.error) {
