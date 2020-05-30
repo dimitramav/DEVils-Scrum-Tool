@@ -31,6 +31,7 @@
                 <b-button
                     type="submit"
                     :disabled="dateState === false"
+                    variant="success"
                     style="margin-top: 10px; width: 100%;"
                     >Save changes</b-button
                 >
