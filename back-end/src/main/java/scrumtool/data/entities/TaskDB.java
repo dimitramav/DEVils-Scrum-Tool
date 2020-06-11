@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -80,6 +81,54 @@ public class TaskDB implements TaskInterface {
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    @Override
+    public int delete(Task task) throws SQLException {
+        // Delete issue
+        DataAccess dataAccess = new DataAccess();
+        DataSource dataSource = dataAccess.getDataSource();
+
+        String query1 = "delete from Task where idTask = ?;";
+        String query2 = "delete from Issue where Task_id = ?;";
+        //return jdbcTemplate.update(query, new Object[]{task.getId()});
+
+        PreparedStatement statement1 = null;
+        PreparedStatement statement2 = null;
+        Connection dbConnection = null;
+        // For 2 or more queries, transactions must be placed
+        try {
+            dbConnection = dataSource.getConnection();
+            dbConnection.setAutoCommit(false);
+
+            statement1 = dbConnection.prepareStatement(query1);
+            statement1.setInt(1, task.getId());
+            statement1.executeUpdate();
+
+            // Delete issues that are connected to this task
+            statement2 = dbConnection.prepareStatement(query2);
+            statement2.setInt(1, task.getId());
+            statement2.executeUpdate();
+
+            dbConnection.commit();      //Commit manually for single transaction
+            return 1;
+        // Error in one of the insert statements
+        } catch (SQLException e) {
+            e.printStackTrace();
+            dbConnection.rollback();
+            return -1;
+        // Finally close statements and connection
+        } finally {
+            if (statement1 != null) {
+                statement1.close();
+            }
+            if (statement2 != null) {
+                statement2.close();
+            }
+            if (dbConnection != null) {
+                dbConnection.close();
+            }
         }
     }
 }

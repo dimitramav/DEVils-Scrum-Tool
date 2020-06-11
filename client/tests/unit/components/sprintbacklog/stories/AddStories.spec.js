@@ -1,7 +1,7 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import { BootstrapVue } from 'bootstrap-vue'
 import VueRouter from 'vue-router'
-import StoryCard from '@/components/backlog/card/StoryCard.vue'
+import AddStories from '@/components/sprintbacklog/stories/AddStories'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
@@ -13,6 +13,7 @@ const router = new VueRouter()
 const $route = {
     params: {
         id: 2,
+        sprintId: 15,
     },
 }
 // bug in vue-test-utils when mount mock object
@@ -20,32 +21,31 @@ if (!process || process.env.NODE_ENV !== 'test') {
     localVue.use(VueRouter)
 }
 
-describe('StoryCard', () => {
-    // Mount StoryCard on wrapper
-    const wrapper = shallowMount(StoryCard, {
+describe('AddStories', () => {
+    // Mount AddStories on wrapper
+    const wrapper = shallowMount(AddStories, {
         localVue,
         router,
         mocks: {
             $route,
         },
-        propsData: {
-            cur_us: {
-                idPBI: 1,
-            },
-        },
     })
     // Make various tests
-    it('StoryCard is Vue Instance', () => {
+    it('AddStories is Vue Instance', () => {
         expect(wrapper.isVueInstance).toBeTruthy()
     })
     it('Components included', () => {
-        //expect(wrapper.find({ name: 'EditPBI' }).exists()).toBeTruthy()
-        expect(wrapper.find({ name: 'PriorityFooter' }).exists()).toBeTruthy()
+        expect(wrapper.find({ name: 'LoadEpics' }).exists()).toBeTruthy()
+        expect(wrapper.find({ name: 'SelectStories' }).exists()).toBeTruthy()
     })
     it('Default values', () => {
-        expect(wrapper.vm.cur_us).toBeInstanceOf(Object)
-        //expect(wrapper.vm.currentUserStories).toBeInstanceOf(Array)
-        //expect(wrapper.vm.current_epic_idPBI).toBeInstanceOf(Number)
+        expect(wrapper.vm.ok).toBeFalsy()
+        expect(wrapper.vm.stories_options).toBeInstanceOf(Array)
+        expect(wrapper.vm.selected_stories).toBeInstanceOf(Array)
+        expect(wrapper.vm.pbis_list).toBeInstanceOf(Array)
+        expect(wrapper.vm.currentSprint_id).toBe(
+            wrapper.vm.$route.params.sprintId
+        )
         expect(wrapper.vm.currentProject_id).toBe(wrapper.vm.$route.params.id)
     })
 })

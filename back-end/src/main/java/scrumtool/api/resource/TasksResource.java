@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+import org.restlet.resource.Patch;
 import org.restlet.util.Series;
 
 import java.io.IOException;
@@ -245,4 +246,74 @@ public class TasksResource extends ServerResource {
         }
     }
 
+    // Delete task
+    @Patch
+    public Representation update(Representation entity) {
+        // New map string (which is the json name) and objects
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> mapError = new HashMap<>();
+
+        // Get UserId
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+        int userId = Integer.parseInt(userIdStr);
+        // Convert it to boolean
+
+        // Get the projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        if (projectIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized project");
+            return new JsonMapRepresentation(mapError);
+        }
+        int projectId = Integer.parseInt(projectIdStr);
+
+        // Access the headers of the request!
+        Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
+        String token = requestHeaders.getFirstValue("auth");
+
+        if (token == null) {
+            mapError.put("error", "null");
+            return new JsonMapRepresentation(mapError);
+        }
+        CustomAuth customAuth = new CustomAuth();
+
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Insert the pbi given (either epic or story)
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
+                // Get the whole json body representation
+                try {
+                    String str = entity.getText();
+                    // Now Create from String the JAVA object
+                    Gson gson = new Gson();
+                    Task task = gson.fromJson(str, Task.class);
+                    try {
+                        TaskDB taskDB = new TaskDB();
+                        // Update
+                        int response = taskDB.delete(task);
+                        // Set the response headers
+                        map.put("task", response);
+                        return new JsonMapRepresentation(map);
+                    }
+                    catch (SQLException e) {
+                        mapError.put("error", "System Exception");
+                        System.out.println("Transaction Error!1!1");
+                        return new JsonMapRepresentation(mapError);
+                    }
+                }
+                catch(IOException e) {
+                    mapError.put("error", "System Exception");
+                    return new JsonMapRepresentation(mapError);
+                }
+            } else {
+                mapError.put("error", "Unauthorized projects");
+                return new JsonMapRepresentation(mapError);
+            }
+        } else {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+    }
 }

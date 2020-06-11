@@ -68,7 +68,7 @@
                     </b-col>
                     <b-col md="4" class="py-4">
                         <b-btn id="exBtn1" variant="outline-danger">
-                            Issues</b-btn
+                            Issues ({{ issues }})</b-btn
                         >
                         <b-tooltip target="exBtn1"> {{ issues }} </b-tooltip>
                     </b-col>
@@ -94,7 +94,10 @@
                             variant="outline-secondary"
                             :to="{
                                 name: 'SprintBacklog',
-                                params: { id: $route.params.id },
+                                params: {
+                                    id: $route.params.id,
+                                    sprintId: projectOverview.currentSprintId,
+                                },
                             }"
                         >
                             Go to Sprint Page
@@ -121,7 +124,10 @@
                         variant="success"
                         :to="{
                             name: 'SprintBacklog',
-                            params: { id: $route.params.id },
+                            params: {
+                                id: $route.params.id,
+                                sprintId: projectOverview.currentSprintId,
+                            },
                         }"
                     >
                         Go to Sprint Page

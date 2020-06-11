@@ -25,6 +25,12 @@ import axios from 'axios'
 
 export default {
     name: 'LoadEpics',
+    props: {
+        updateBacklogProp: {
+            type: Boolean,
+            default: false,
+        },
+    },
     data() {
         return {
             selectedValue: '',
@@ -108,6 +114,17 @@ export default {
                 .catch(function (error) {
                     console.log(error)
                 })
+        },
+    },
+    watch: {
+        updateBacklogProp: function (newVal) {
+            if (newVal == true) {
+                this.selectedValue = ''
+                this.stories_options = []
+                this.epics = []
+            } else {
+                this.getEpics()
+            }
         },
     },
     mounted() {

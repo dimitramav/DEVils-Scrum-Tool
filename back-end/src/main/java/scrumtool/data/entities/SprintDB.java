@@ -53,6 +53,35 @@ public class SprintDB implements SprintInterface {
         return keyHolder.getKey().intValue();
     }
 
+    // Update current sprint's info
+    public Sprint updateCurrentSprint(Sprint sprint) {
+        // Update last current sprint
+        DataAccess dataAccess = new DataAccess();
+        JdbcTemplate jdbcTemplate = dataAccess.getInstance();
+
+        String query = "update Sprint set goal = ?, plan = ?, deadlineDate = ? where idSprint = ?;";
+
+        try {
+            jdbcTemplate.update(new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                    PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                    java.sql.Date sqlDate = new java.sql.Date(sprint.getDeadlineDate().getTime());
+                    statement.setString(1, sprint.getGoal());
+                    statement.setString(2, sprint.getPlan());
+                    statement.setDate(3, sqlDate);
+                    statement.setInt(4, sprint.getIdSprint());
+                    return statement;
+                }
+            });
+            return sprint;
+        // Error in update of jdbcTemplate
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public Sprint getProjectCurrentSprint(int projectId) {
 
         DataAccess dataAccess = new DataAccess();
@@ -84,7 +113,10 @@ public class SprintDB implements SprintInterface {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 PBI singlePbi = pbis.get(i);
-                ps.setInt(1, singlePbi.getSprint_id());
+                if (singlePbi.getSprint_id() == -1) {
+                    ps.setNull(1, java.sql.Types.INTEGER);
+                }
+                else ps.setInt(1, singlePbi.getSprint_id());
                 ps.setInt(2, singlePbi.getIdPBI());
             }
             @Override

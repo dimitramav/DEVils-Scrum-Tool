@@ -1,7 +1,7 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import { BootstrapVue } from 'bootstrap-vue'
 import VueRouter from 'vue-router'
-import StoryCard from '@/components/backlog/card/StoryCard.vue'
+import AddTask from '@/components/sprintbacklog/stories/modals/AddTask'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
@@ -13,6 +13,7 @@ const router = new VueRouter()
 const $route = {
     params: {
         id: 2,
+        sprintId: 15,
     },
 }
 // bug in vue-test-utils when mount mock object
@@ -20,32 +21,32 @@ if (!process || process.env.NODE_ENV !== 'test') {
     localVue.use(VueRouter)
 }
 
-describe('StoryCard', () => {
-    // Mount StoryCard on wrapper
-    const wrapper = shallowMount(StoryCard, {
+describe('AddTask', () => {
+    // Mount AddTask on wrapper
+    const wrapper = shallowMount(AddTask, {
         localVue,
         router,
         mocks: {
             $route,
         },
         propsData: {
-            cur_us: {
+            story: {
                 idPBI: 1,
             },
+            modalId: 'new_task',
         },
     })
     // Make various tests
-    it('StoryCard is Vue Instance', () => {
+    it('AddTask is Vue Instance', () => {
         expect(wrapper.isVueInstance).toBeTruthy()
     })
-    it('Components included', () => {
-        //expect(wrapper.find({ name: 'EditPBI' }).exists()).toBeTruthy()
-        expect(wrapper.find({ name: 'PriorityFooter' }).exists()).toBeTruthy()
+    it('Form attributes', () => {
+        let formId = '#addTask' + wrapper.vm.story.idPBI
+        expect(wrapper.find(formId).attributes().required).toBeTruthy()
+        expect(wrapper.find(formId).attributes().type).toBe('text')
     })
     it('Default values', () => {
-        expect(wrapper.vm.cur_us).toBeInstanceOf(Object)
-        //expect(wrapper.vm.currentUserStories).toBeInstanceOf(Array)
-        //expect(wrapper.vm.current_epic_idPBI).toBeInstanceOf(Number)
+        expect(wrapper.vm.newTask_desc).toBe('')
         expect(wrapper.vm.currentProject_id).toBe(wrapper.vm.$route.params.id)
     })
 })

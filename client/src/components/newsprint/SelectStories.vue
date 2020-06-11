@@ -9,7 +9,7 @@
         >
         </b-form-select>
         <h5 style="margin-top: 15px;">
-            User Stories for the new sprint: (click to remove)
+            User Stories selected for sprint: (click to remove)
         </h5>
         <b-form-select
             v-model="toremove"
@@ -25,6 +25,10 @@
 export default {
     name: 'SelectStories',
     props: {
+        updateBacklogProp: {
+            type: Boolean,
+            default: false,
+        },
         stories_options: Array,
     },
     data() {
@@ -74,6 +78,11 @@ export default {
         },
         toremove: function (value) {
             this.removeStory(value)
+        },
+        updateBacklogProp: function (newVal) {
+            if (newVal == true) {
+                this.selected_stories = []
+            }
         },
     },
 }

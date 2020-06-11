@@ -9,6 +9,7 @@ import EditProfile from '@/views/EditProfile'
 import ProjectPageOverview from '@/views/ProjectPageOverview'
 import NewSprint from '@/views/NewSprint'
 import Backlog from '@/views/Backlog'
+import SprintBacklog from '@/views/SprintBacklog'
 import Unauthorized from '@/views/Unauthorized'
 import PageNotFound from '@/views/PageNotFound'
 
@@ -95,6 +96,20 @@ const routes = [
         path: '/project/:id/backlog',
         name: 'Backlog',
         component: Backlog,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem('auth_token') === 'null') {
+                next({
+                    path: '/unauthorized',
+                })
+            } else {
+                next()
+            }
+        },
+    },
+    {
+        path: '/project/:id/sprintbacklog/:sprintId',
+        name: 'SprintBacklog',
+        component: SprintBacklog,
         beforeEnter: (to, from, next) => {
             if (localStorage.getItem('auth_token') === 'null') {
                 next({

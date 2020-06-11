@@ -168,7 +168,7 @@ public class BacklogResource extends ServerResource {
                     sprintDB.updateSprintId(pbis);
                     // Update the
                     // Set the response headers
-                    map.put("PBI Update", "result");
+                    map.put("results", "SprintId updated");
                     return new JsonMapRepresentation(map);
                 }
                 catch(IOException e) {

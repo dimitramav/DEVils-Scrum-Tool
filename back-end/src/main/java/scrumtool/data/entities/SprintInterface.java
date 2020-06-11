@@ -9,6 +9,7 @@ import java.util.List;
 public interface SprintInterface {
 
     public int createNewSprint(Sprint sprint);
+    public Sprint updateCurrentSprint(Sprint sprint);
     public Sprint getProjectCurrentSprint(int projectId);
     public void updateSprintId(List<PBI> pbis);
 }

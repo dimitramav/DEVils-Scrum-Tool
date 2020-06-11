@@ -12,6 +12,7 @@ import org.restlet.data.Status;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+import org.restlet.resource.Patch;
 import org.restlet.util.Series;
 
 import org.json.JSONObject;
@@ -111,8 +112,6 @@ public class IssuesResource extends ServerResource {
         }
     }
 
-
-
     @Override
     protected Representation post(Representation entity) throws ResourceException {
 
@@ -166,6 +165,148 @@ public class IssuesResource extends ServerResource {
                     Issue newIssue = gson.fromJson(str, Issue.class);
                     // Insert Issue in database
                     Issue response = dataAccess.insertTaskIssue(newIssue, taskId);
+                    // Set the response headers
+                    map.put("results", response);
+                    return new JsonMapRepresentation(map);
+                }
+                catch(IOException e) {
+                    mapError.put("error", "System Exception");
+                    return new JsonMapRepresentation(mapError);
+                }
+            } else {
+                mapError.put("error", "Unauthorized issues");
+                return new JsonMapRepresentation(mapError);
+            }
+        } else {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+    }
+
+    @Override
+    protected Representation put(Representation entity) throws ResourceException {
+
+        // New map string (which is the json name) and objects
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> mapError = new HashMap<>();
+        //System.out.println("Inside post");
+
+        // Get UserId
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized projects");
+            return new JsonMapRepresentation(mapError);
+        }
+        int userId = Integer.parseInt(userIdStr);
+
+        // Get projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        if (projectIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized project");
+            return new JsonMapRepresentation(mapError);
+        }
+        int projectId = Integer.parseInt(projectIdStr);
+
+        // Get taskId
+        String taskIdStr = getRequestAttributes().get("taskId").toString();
+        if (taskIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized project");
+            return new JsonMapRepresentation(mapError);
+        }
+        int taskId = Integer.parseInt(taskIdStr);
+
+        // Access the headers of the request!
+        Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
+        String token = requestHeaders.getFirstValue("auth");
+
+        if (token == null) {
+            mapError.put("error", "null");
+            return new JsonMapRepresentation(mapError);
+        }
+        CustomAuth customAuth = new CustomAuth();
+
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Insert the pbi given (either epic or story)
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
+                // Get the whole json body representation
+                try {
+                    String str = entity.getText();
+                    // Now Create from String the JAVA object
+                    Gson gson = new Gson();
+                    Issue editedIssue = gson.fromJson(str, Issue.class);
+                    // Insert Issue in database
+                    Issue response = dataAccess.updateTaskIssue(editedIssue);
+                    // Set the response headers
+                    map.put("results", response);
+                    return new JsonMapRepresentation(map);
+                }
+                catch(IOException e) {
+                    mapError.put("error", "System Exception");
+                    return new JsonMapRepresentation(mapError);
+                }
+            } else {
+                mapError.put("error", "Unauthorized issues");
+                return new JsonMapRepresentation(mapError);
+            }
+        } else {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+    }
+
+    @Patch
+    public Representation update(Representation entity) {
+
+        // New map string (which is the json name) and objects
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> mapError = new HashMap<>();
+        //System.out.println("Inside post");
+
+        // Get UserId
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized projects");
+            return new JsonMapRepresentation(mapError);
+        }
+        int userId = Integer.parseInt(userIdStr);
+
+        // Get projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        if (projectIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized project");
+            return new JsonMapRepresentation(mapError);
+        }
+        int projectId = Integer.parseInt(projectIdStr);
+
+        // Get taskId
+        String taskIdStr = getRequestAttributes().get("taskId").toString();
+        if (taskIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized project");
+            return new JsonMapRepresentation(mapError);
+        }
+        int taskId = Integer.parseInt(taskIdStr);
+
+        // Access the headers of the request!
+        Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
+        String token = requestHeaders.getFirstValue("auth");
+
+        if (token == null) {
+            mapError.put("error", "null");
+            return new JsonMapRepresentation(mapError);
+        }
+        CustomAuth customAuth = new CustomAuth();
+
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Insert the pbi given (either epic or story)
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
+                // Get the whole json body representation
+                try {
+                    String str = entity.getText();
+                    // Now Create from String the JAVA object
+                    Gson gson = new Gson();
+                    Issue issueToDelete = gson.fromJson(str, Issue.class);
+                    // Insert Issue in database
+                    int response = dataAccess.deleteTaskIssue(issueToDelete);
                     // Set the response headers
                     map.put("results", response);
                     return new JsonMapRepresentation(map);

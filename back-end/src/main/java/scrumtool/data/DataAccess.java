@@ -40,7 +40,7 @@ public class DataAccess {
     private static final int MAX_TOTAL_CONNECTIONS = 16;
     private static final int MAX_IDLE_CONNECTIONS = 8;
 
-    private DataSource dataSource;
+    private static DataSource dataSource;
     private static JdbcTemplate jdbcTemplate;
 
 
@@ -72,6 +72,10 @@ public class DataAccess {
 
     public static JdbcTemplate getInstance(){
         return jdbcTemplate;
+    }
+
+    public static DataSource getDataSource(){
+        return dataSource;
     }
 
     //@Transactional
@@ -319,7 +323,7 @@ public class DataAccess {
 
     public PBI updatePBI(PBI pbi) {
         // Update an existing PBI
-        String query = "update PBI set title=?, description=?, priority=?, isEpic=?, Project_id=?, Epic_id=?, Sprint_id=? where idPBI=?;";
+        String query = "update PBI set title=?, description=?, priority=?, isEpic=?, Project_id=?, Epic_id=? where idPBI=?;";
         jdbcTemplate = new JdbcTemplate(dataSource);
 
         try {
@@ -335,10 +339,7 @@ public class DataAccess {
                     if (pbi.getEpic_id() != null)
                         statement.setInt(6, pbi.getEpic_id());
                     else statement.setNull(6, java.sql.Types.INTEGER);
-                    if (pbi.getSprint_id() != null)
-                        statement.setInt(7, pbi.getSprint_id());
-                    else statement.setNull(7, java.sql.Types.INTEGER);
-                    statement.setInt(8, pbi.getIdPBI());
+                    statement.setInt(7, pbi.getIdPBI());
                     return statement;
                 }
             });
@@ -535,6 +536,39 @@ public class DataAccess {
         issue.setId(keyHolder.getKey().intValue());
         issue.setState(1);
         return issue;
+    }
+
+
+    // Update Issue
+    public Issue updateTaskIssue(Issue issue) {
+
+        DataAccess dataAccess = new DataAccess();
+        JdbcTemplate jdbcTemplate = dataAccess.getInstance();
+
+        String query = "update Issue set description=? where idIssue=?;";
+        try {
+            jdbcTemplate.update(new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                    PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                    statement.setString(1, issue.getDescription());
+                    statement.setInt(2, issue.getId());
+                    return statement;
+                }
+            });
+            return issue;
+            // Error in update of jdbcTemplate
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Delete issue
+    public int deleteTaskIssue(Issue issue) {
+        // Insert a notification (the invitation) in notification table
+        String query = "delete from Issue where idIssue = ?;";
+        return jdbcTemplate.update(query, new Object[]{issue.getId()});
     }
 
 

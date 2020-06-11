@@ -12,7 +12,7 @@ describe('PriorityFooter', () => {
     const wrapper = shallowMount(PriorityFooter, {
         localVue,
         propsData: {
-            cur_pbi_priority: 2
+            cur_pbi_priority: 2,
         },
     })
     // Make various tests

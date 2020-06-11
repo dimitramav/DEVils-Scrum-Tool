@@ -174,4 +174,66 @@ public class SprintResource extends ServerResource {
         return new JsonMapRepresentation(mapError);
     }
 
+    @Override
+    protected Representation put(Representation entity) throws ResourceException {
+
+        // New map string (which is the json name) and objects
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> mapError = new HashMap<>();
+        //System.out.println("Inside post");
+
+        // Get UserId
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+        int userId = Integer.parseInt(userIdStr);
+
+        // Get projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        int projectId = Integer.parseInt(projectIdStr);
+
+        // Access the headers of the request!
+        Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
+        String token = requestHeaders.getFirstValue("auth");
+
+        if (token == null) {
+            mapError.put("error", "null");
+            return new JsonMapRepresentation(mapError);
+        }
+        CustomAuth customAuth = new CustomAuth();
+
+        // Insert a project only for the current user (Product Owner)
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Check if user is a member of project
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
+                // Get the whole json body representation
+                try {
+                    String str = entity.getText();
+                    // Now Create from String the JAVA object
+                    Gson gson = new Gson();
+                    Sprint sprint = gson.fromJson(str, Sprint.class);
+                    // Insert
+                    SprintDB sprintDB = new SprintDB();
+                    sprint = sprintDB.updateCurrentSprint(sprint);
+                    // Set the response headers
+                    map.put("results", sprint);
+                    return new JsonMapRepresentation(map);
+                }
+                catch(IOException e) {
+                    mapError.put("result", "System Exception");
+                    return new JsonMapRepresentation(mapError);
+                }
+            }
+            else {
+                mapError.put("error", "Unauthorized project");
+                return new JsonMapRepresentation(mapError);
+            }
+        }
+        else {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+    }
 }
