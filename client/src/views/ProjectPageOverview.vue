@@ -13,17 +13,20 @@
                     v-if="
                         sprintDataLoaded === true &&
                         teamDataLoaded === true &&
-                        projectOverview.project.isDone === false &&
                         isProductOwner() === true
                     "
                     :Project_id="parseInt(this.$route.params.id)"
                     :Project_title="projectOverview.project.title"
+                    :isDone="projectOverview.project.isDone"
                     v-on:editProject="editProject"
                 />
             </b-col>
         </b-row>
         <b-row class="line">.</b-row>
-        <!--{{projectOverview}}-->
+        <ActivateProject
+            v-if="projectOverview.project.isDone === true"
+            :isProductOwner="isProductOwner()"
+        />
         <b-row>
             <b-col>
                 <SprintInfo
@@ -47,6 +50,7 @@
 import axios from 'axios'
 import Navbar from '@/components/navbar/Navbar.vue'
 import EditProjectForm from '@/components/projectPageOverview/EditProjectForm'
+import ActivateProject from '@/components/projectPageOverview/actions/ActivateProject'
 import SprintInfo from '@/components/projectPageOverview/SprintInfo'
 import Members from '@/components/projectPageOverview/Members'
 
@@ -55,6 +59,7 @@ export default {
     components: {
         Navbar,
         EditProjectForm,
+        ActivateProject,
         SprintInfo,
         Members,
     },

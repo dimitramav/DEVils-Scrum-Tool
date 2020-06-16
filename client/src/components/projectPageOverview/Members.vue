@@ -31,54 +31,50 @@
             </b-col>
         </b-row>
         <br />
-        <div v-if="(projectOverview.project.isDone === false)">
-            <b-form
-                class="text-font"
-                v-if="isProductOwner == true"
-                inline
-                @submit="addMembers"
+        <b-form
+            class="text-font"
+            v-if="isProductOwner == true"
+            inline
+            @submit="addMembers"
+        >
+            Add User
+            <b-form-group
+                id="emailForm"
+                label-for="email"
+                style="margin-left: 7px;"
+                :invalid-feedback="validEmail === false ? 'Invalid User' : ''"
             >
-                Add User
-                <b-form-group
-                    id="emailForm"
-                    label-for="email"
-                    style="margin-left: 7px;"
-                    :invalid-feedback="
-                        validEmail === false ? 'Invalid User' : ''
-                    "
-                >
-                    <b-form-input
-                        class="mb-2 mr-sm-2 mb-sm-0"
-                        id="emailInput"
-                        type="email"
-                        v-model="newMember.mail"
-                        @change="checkEmail"
-                        :state="validEmail"
-                        placeholder="email"
-                        required
-                    >
-                    </b-form-input>
-                </b-form-group>
-                as
-                <b-form-select
-                    v-model="newMember.role"
-                    :options="opts"
-                    style="margin-left: 7px;"
+                <b-form-input
                     class="mb-2 mr-sm-2 mb-sm-0"
-                    id="inlineFormCustomSelectPref"
+                    id="emailInput"
+                    type="email"
+                    v-model="newMember.mail"
+                    @change="checkEmail"
+                    :state="validEmail"
+                    placeholder="email"
+                    required
                 >
-                    <template slot="first">
-                        <option :value="null" disabled>- Select role -</option>
-                    </template>
-                </b-form-select>
-                <b-button
-                    type="submit"
-                    variant="primary"
-                    :disabled="validEmail === false"
-                    >Invite</b-button
-                >
-            </b-form>
-        </div>
+                </b-form-input>
+            </b-form-group>
+            as
+            <b-form-select
+                v-model="newMember.role"
+                :options="opts"
+                style="margin-left: 7px;"
+                class="mb-2 mr-sm-2 mb-sm-0"
+                id="inlineFormCustomSelectPref"
+            >
+                <template slot="first">
+                    <option :value="null" disabled>- Select role -</option>
+                </template>
+            </b-form-select>
+            <b-button
+                type="submit"
+                variant="primary"
+                :disabled="validEmail === false"
+                >Invite</b-button
+            >
+        </b-form>
         <b-row style="margin-top: 20px;">
             <b-col cols="11">
                 <b-alert variant="success" :show="showAlert" dismissible>

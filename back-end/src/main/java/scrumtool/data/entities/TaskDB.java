@@ -90,8 +90,8 @@ public class TaskDB implements TaskInterface {
         DataAccess dataAccess = new DataAccess();
         DataSource dataSource = dataAccess.getDataSource();
 
-        String query1 = "delete from Task where idTask = ?;";
-        String query2 = "delete from Issue where Task_id = ?;";
+        String query1 = "delete from Issue where Task_id = ?;";
+        String query2 = "delete from Task where idTask = ?;";
         //return jdbcTemplate.update(query, new Object[]{task.getId()});
 
         PreparedStatement statement1 = null;

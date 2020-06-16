@@ -2,6 +2,7 @@ package scrumtool.data;
 
 import scrumtool.data.rowmap.*;
 import scrumtool.model.*;
+import scrumtool.data.entities.TaskDB;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -243,6 +244,92 @@ public class DataAccess {
     }
 
 
+    public Boolean updateProjectIsDone(Boolean isDone, int idProject) {
+        // Archive or Activate a project
+        String query = "update Project set isDone = ? where idProject = ?;";
+        jdbcTemplate = new JdbcTemplate(dataSource);
+
+        try {
+            jdbcTemplate.update(new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                    PreparedStatement statement = con.prepareStatement(query);
+                    statement.setBoolean(1, isDone);
+                    statement.setInt(2, idProject);
+                    return statement;
+                }
+            });
+            return true;
+        // Error in update of jdbcTemplate
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public boolean deleteProject(int projectId) throws SQLException {
+        // Firstly delete all epics, stories, tasks and issues for this project
+        List<PBI> pbis = getProjectPBIs(projectId, true, 0);
+        for (int i = 0; i < pbis.size(); i++) {
+            boolean deleted = deletePBI(pbis.get(i));
+            if (deleted == false) return false;
+        }
+        // Delete project
+        String query1 = "delete from Sprint where Project_id = ?;";
+        String query2 = "delete from Project_has_User where Project_id = ?;";
+        String query3 = "delete from Project where idProject = ?;";
+        //return jdbcTemplate.update(query, new Object[]{task.getId()});
+
+        PreparedStatement statement1 = null;
+        PreparedStatement statement2 = null;
+        PreparedStatement statement3 = null;
+        Connection dbConnection = null;
+        // For 2 or more queries, transactions must be placed
+        try {
+            dbConnection = dataSource.getConnection();
+            dbConnection.setAutoCommit(false);
+
+            // Delete all the sprints of this project
+            statement1 = dbConnection.prepareStatement(query1);
+            statement1.setInt(1, projectId);
+            statement1.executeUpdate();
+
+            // Now delete the users from project
+            statement2 = dbConnection.prepareStatement(query2);
+            statement2.setInt(1, projectId);
+            statement2.executeUpdate();
+
+            // The delete the project itself
+            statement3 = dbConnection.prepareStatement(query3);
+            statement3.setInt(1, projectId);
+            statement3.executeUpdate();
+
+            dbConnection.commit();      //Commit manually for single transaction
+        // Error in one of the insert statements
+        } catch (SQLException e) {
+            e.printStackTrace();
+            dbConnection.rollback();
+            return false;
+        // Finally close statements and connection
+        } finally {
+            if (statement1 != null) {
+                statement1.close();
+            }
+            if (statement2 != null) {
+                statement2.close();
+            }
+            if (statement3 != null) {
+                statement3.close();
+            }
+            if (dbConnection != null) {
+                dbConnection.close();
+            }
+        }
+        return true;
+    }
+
+
 
     // Find the PBIs (Epics or Stories)
     public List<PBI> getProjectPBIs(int idProject, Boolean isEpic, int epicId) {
@@ -274,7 +361,6 @@ public class DataAccess {
                 return pbis;
             }
         }
-
     }
 
 
@@ -351,6 +437,65 @@ public class DataAccess {
             return null;
         }
     }
+
+
+    // Delete pbi (along with its tasks and issues)
+    public boolean deletePBI(PBI pbi) {
+        // Delete a PBI from table
+        jdbcTemplate = new JdbcTemplate(dataSource);
+
+        // Delete tasks and issues attaching to this story
+        String query = "select * from Task where PBI_id = ?;";
+        try {
+            List<Task> list = jdbcTemplate.query(query, new Object[]{pbi.getIdPBI()}, new TaskRowMapper());
+            for (int i = 0; i < list.size(); i++) {
+                try {
+                    TaskDB taskDB = new TaskDB();
+                    // Delete tasks and issues
+                    int response = taskDB.delete(list.get(i));
+                }
+                catch (SQLException e) {
+                    return false;
+                }
+            }
+        } catch (EmptyResultDataAccessException e) {
+            System.out.println("No task or issue for this pbi found");
+        }
+        if (pbi.getIsEpic() == true) {
+            // find epic's stories
+            query = "select * from PBI where Epic_id = ?;";
+            List<PBI> stories = jdbcTemplate.query(query, new Object[]{pbi.getIdPBI()}, new PBIRowMapper());
+            // Now do the same deletions of tasks and issues as above
+            for (int i = 0; i < stories.size(); i++) {
+                // Delete tasks and issues attaching to this story
+                query = "select * from Task where PBI_id = ?;";
+                try {
+                    List<Task> list = jdbcTemplate.query(query, new Object[]{stories.get(i).getIdPBI()}, new TaskRowMapper());
+                    for (int j = 0; j < list.size(); j++) {
+                        try {
+                            TaskDB taskDB = new TaskDB();
+                            //Task task = new Task();
+                            //task.setId(idTask);
+                            int response = taskDB.delete(list.get(j));
+                        }
+                        catch (SQLException e) {
+                            return false;
+                        }
+                    }
+                } catch (EmptyResultDataAccessException e) {
+                    System.out.println("No task or issue for this pbi found");
+                }
+            } // Now delete these epic's stories
+            query = "delete from PBI where Epic_id = ?;";
+            jdbcTemplate.update(query, new Object[]{pbi.getEpic_id()});
+        }
+        // Finally delete this product backlog item (epic or story)
+        query = "delete from PBI where idPBI = ?;";
+        jdbcTemplate.update(query, new Object[]{pbi.getIdPBI()});
+
+        return true;
+    }
+
 
     // Check if User exists into the database (either checking email or username)
     public boolean userExists(String mail) {

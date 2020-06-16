@@ -26,6 +26,9 @@ describe('EditProjectForm', () => {
         let imgUrl = wrapper.find('img').attributes().src
         expect(imgUrl).toBe('@/assets/edit.png')
     })
+    it('Components included', () => {
+        expect(wrapper.find({ name: 'ArchiveProject' }).exists()).toBeTruthy()
+    })
     it('Form attributes', () => {
         expect(wrapper.find('#newTitle').attributes().required).toBeTruthy()
         expect(wrapper.find('#newTitle').attributes().type).toBe('text')

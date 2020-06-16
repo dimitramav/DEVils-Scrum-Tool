@@ -13,6 +13,7 @@
         <b-col>
             <EditPBI
                 v-on:edit_pbi="editEpic"
+                v-on:delete_pbi="deleteEpic"
                 :idPBI="current_epic.idPBI"
                 :idProject="currentProject_id"
                 :title="current_epic.title"
@@ -61,6 +62,11 @@ export default {
             this.currentPbis[i].title = title
             this.currentPbis[i].description = desc
             this.currentPbis[i].priority = priority
+            this.$emit('editEpic', this.currentPbis)
+        },
+        deleteEpic(idPBI) {
+            let i = this.currentPbis.findIndex((o) => o.idPBI === idPBI)
+            if (i != -1) this.currentPbis.splice(i, 1)
             this.$emit('editEpic', this.currentPbis)
         },
     },

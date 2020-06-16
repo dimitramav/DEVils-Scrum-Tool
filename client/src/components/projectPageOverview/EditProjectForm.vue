@@ -35,6 +35,14 @@
                     style="margin-top: 10px; width: 100%;"
                     >Save changes</b-button
                 >
+                <ArchiveProject v-if="isDone === false" />
+                <b-button
+                    v-b-modal="'rm_project'"
+                    variant="danger"
+                    style="margin-top: 10px; width: 100%;"
+                    >Delete Project</b-button
+                >
+                <DeleteProject :Project_id="Project_id" />
             </b-form>
         </template>
     </b-dropdown>
@@ -42,9 +50,15 @@
 
 <script>
 import axios from 'axios'
+import ArchiveProject from '@/components/projectPageOverview/actions/ArchiveProject'
+import DeleteProject from '@/components/projectPageOverview/actions/DeleteProject'
 
 export default {
     name: 'EditProjectForm',
+    components: {
+        ArchiveProject,
+        DeleteProject,
+    },
     props: {
         Project_id: {
             type: Number,
@@ -54,6 +68,10 @@ export default {
             type: String,
             default: '',
         },
+        isDone: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
@@ -61,7 +79,6 @@ export default {
                 idProject: this.Project_id,
                 newTitle: this.Project_title,
                 deadlineDate: '',
-                isDone: false,
             },
         }
     },
@@ -83,7 +100,7 @@ export default {
             let data = {
                 idProject: this.Project_id,
                 title: this.form.newTitle,
-                isDone: this.form.isDone,
+                isDone: this.isDone,
                 deadlineDate: this.form.deadlineDate,
             }
             axios

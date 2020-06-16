@@ -1,19 +1,9 @@
 <template>
     <b-jumbotron style="background-color: #f7f7f7;" class="text-font">
-        <div v-if="projectOverview.project.isDone === true">
-            <b-row>
-                <p class="text-font done">
-                    This Project has finished... Go back home and create a new
-                    one!
-                </p>
-            </b-row>
-            <b-button class="text-font" href="/">
-                Home Page
-            </b-button>
-        </div>
-        <div v-else id="currentProject">
+        <div id="currentProject">
             <div v-if="(projectOverview.currentSprintNum === 0)">
                 <b-button
+                    v-if="projectOverview.project.isDone === false"
                     variant="primary"
                     :to="{
                         name: 'NewSprint',
@@ -105,6 +95,7 @@
                     </b-row>
                     <b-row align-h="center">
                         <b-button
+                            v-if="projectOverview.project.isDone === false"
                             variant="primary"
                             :to="{
                                 name: 'NewSprint',
@@ -189,12 +180,6 @@ export default {
 
 .text-font {
     font-family: Quicksand;
-}
-
-.done {
-    text-align: center;
-    font-size: 180%;
-    color: #264d73;
 }
 
 .row {

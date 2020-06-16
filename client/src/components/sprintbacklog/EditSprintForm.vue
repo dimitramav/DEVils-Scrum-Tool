@@ -42,6 +42,13 @@
                     style="margin-top: 10px; width: 100%;"
                     >Save changes</b-button
                 >
+                <b-button
+                    v-b-modal="'rm_sprint'"
+                    variant="danger"
+                    style="margin-top: 10px; width: 100%;"
+                    >Delete Sprint</b-button
+                >
+                <DeleteSprint :currentSprint="currentSprint" />
             </b-form>
         </template>
     </b-dropdown>
@@ -49,9 +56,13 @@
 
 <script>
 import axios from 'axios'
+import DeleteSprint from '@/components/sprintbacklog/DeleteSprint.vue'
 
 export default {
     name: 'EditSprintForm',
+    components: {
+        DeleteSprint,
+    },
     props: {
         currentSprint: Object,
     },

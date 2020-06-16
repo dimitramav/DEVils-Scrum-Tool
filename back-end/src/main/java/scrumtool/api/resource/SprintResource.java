@@ -15,8 +15,10 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Resource;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+import org.restlet.resource.Patch;
 import org.restlet.util.Series;
 
+import java.sql.SQLException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -158,8 +160,7 @@ public class SprintResource extends ServerResource {
                             return new JsonMapRepresentation(map);
                         }
                     }
-                }
-                else {
+                } else {
                     mapError.put("error", "Unauthorized sprint access");
                     return new JsonMapRepresentation(mapError);
                 }
@@ -214,7 +215,7 @@ public class SprintResource extends ServerResource {
                     // Now Create from String the JAVA object
                     Gson gson = new Gson();
                     Sprint sprint = gson.fromJson(str, Sprint.class);
-                    // Insert
+                    // update sprint
                     SprintDB sprintDB = new SprintDB();
                     sprint = sprintDB.updateCurrentSprint(sprint);
                     // Set the response headers
@@ -222,16 +223,83 @@ public class SprintResource extends ServerResource {
                     return new JsonMapRepresentation(map);
                 }
                 catch(IOException e) {
-                    mapError.put("result", "System Exception");
+                    mapError.put("error", "System Exception");
                     return new JsonMapRepresentation(mapError);
                 }
-            }
-            else {
+            } else {
                 mapError.put("error", "Unauthorized project");
                 return new JsonMapRepresentation(mapError);
             }
+        } else {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
         }
-        else {
+    }
+
+
+    @Patch
+    public Representation update(Representation entity) {
+        // Delete sprint from project
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> mapError = new HashMap<>();
+
+        // Get UserId
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+        int userId = Integer.parseInt(userIdStr);
+
+        // Get projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        int projectId = Integer.parseInt(projectIdStr);
+
+        // Access the headers of the request!
+        Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
+        String token = requestHeaders.getFirstValue("auth");
+
+        if (token == null) {
+            mapError.put("error", "null");
+            return new JsonMapRepresentation(mapError);
+        }
+        CustomAuth customAuth = new CustomAuth();
+
+        // Insert a project only for the current user (Product Owner)
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Check if user is a member of project
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
+                // Get the whole json body representation
+                try {
+                    String str = entity.getText();
+                    // Now Create from String the JAVA object
+                    Gson gson = new Gson();
+                    Sprint sprint = gson.fromJson(str, Sprint.class);
+                    try {
+                        SprintDB sprintDB = new SprintDB();
+                        sprint = sprintDB.deleteCurrentSprint(sprint);
+                        if (sprint == null) {
+                            mapError.put("error", "System Exception");
+                            return new JsonMapRepresentation(mapError);
+                        }
+                        map.put("results", sprint);
+                        return new JsonMapRepresentation(map);
+                    }
+                    catch (SQLException e) {
+                        mapError.put("error", "System Exception");
+                        System.out.println("Transaction Error!1!1");
+                        return new JsonMapRepresentation(mapError);
+                    }
+                }
+                catch(IOException e) {
+                    mapError.put("result", "System Exception");
+                    return new JsonMapRepresentation(mapError);
+                }
+            } else {
+                mapError.put("error", "Unauthorized project");
+                return new JsonMapRepresentation(mapError);
+            }
+        } else {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }

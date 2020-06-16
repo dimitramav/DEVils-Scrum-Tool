@@ -33,15 +33,37 @@
                     </b-form-radio-group>
                 </b-form-group>
             </b-form>
+            <template v-slot:modal-footer="{ remove, cancel, ok }">
+                <b-btn class="mr-auto" variant="danger" v-b-modal="'del_pbi'">
+                    Delete PBI</b-btn
+                >
+                <DeletePBI
+                    v-on:delete_pbi="deletePBI"
+                    :modalId="'del_pbi'"
+                    :epicId="epicId"
+                    :idPBI="idPBI"
+                    :idProject="idProject"
+                    :title="title"
+                    :desc="desc"
+                    :priority="priority"
+                    :isEpic="isEpic"
+                />
+                <b-btn variant="secondary" @click="cancel()">Cancel</b-btn>
+                <b-button variant="primary" @click="ok()">OK</b-button>
+            </template>
         </b-modal>
     </div>
 </template>
 
 <script>
 import axios from 'axios'
+import DeletePBI from '@/components/backlog/modals/DeletePBI.vue'
 
 export default {
-    name: 'EditEpic',
+    name: 'EditPBI',
+    components: {
+        DeletePBI,
+    },
     props: {
         idPBI: Number,
         epicId: Number,
@@ -129,6 +151,10 @@ export default {
                 .catch(function (error) {
                     console.log(error)
                 })
+        },
+        deletePBI(idPBI) {
+            this.modalShow = false
+            this.$emit('delete_pbi', idPBI)
         },
     },
 }

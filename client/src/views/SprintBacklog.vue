@@ -123,28 +123,37 @@ export default {
                                     console.log('Unknown value', element.state)
                             }
                         })
-                        let emptyData = [
-                            {
-                                state: 1,
-                                idTask: -1,
-                            },
-                        ]
                         if (tempTodo.length > 0) {
                             self.$set(self.tasks, 1, tempTodo)
                         } else {
-                            emptyData[0].state = 1
+                            let emptyData = [
+                                {
+                                    state: 1,
+                                    idTask: -1,
+                                },
+                            ]
                             self.$set(self.tasks, 1, emptyData)
                         }
                         if (tempDoing.length > 0) {
                             self.$set(self.tasks, 2, tempDoing)
                         } else {
-                            emptyData[0].state = 2
+                            let emptyData = [
+                                {
+                                    state: 2,
+                                    idTask: -1,
+                                },
+                            ]
                             self.$set(self.tasks, 2, emptyData)
                         }
                         if (tempDone.length > 0) {
                             self.$set(self.tasks, 3, tempDone)
                         } else {
-                            emptyData[0].state = 3
+                            let emptyData = [
+                                {
+                                    state: 3,
+                                    idTask: -1,
+                                },
+                            ]
                             self.$set(self.tasks, 3, emptyData)
                         }
                         console.log(self.tasks)

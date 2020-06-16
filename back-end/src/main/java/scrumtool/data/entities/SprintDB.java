@@ -12,7 +12,9 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -124,5 +126,90 @@ public class SprintDB implements SprintInterface {
                 return pbis.size();
             }
         });
+    }
+
+    // Delete current sprint
+    public Sprint deleteCurrentSprint(Sprint sprint) throws SQLException {
+
+        DataAccess dataAccess = new DataAccess();
+        JdbcTemplate jdbcTemplate = dataAccess.getInstance();
+        DataSource dataSource = dataAccess.getDataSource();
+
+        // Update pbis attached to this sprint
+        String sql = "UPDATE PBI SET Sprint_id = ? WHERE Sprint_id = ?";
+        try {
+            jdbcTemplate.update(new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                    PreparedStatement statement = con.prepareStatement(sql);
+                    statement.setNull(1, java.sql.Types.INTEGER);
+                    statement.setInt(2, sprint.getIdSprint());
+                    return statement;
+                }
+            });
+            // Check how many sprints exist in this project
+            String query = "select count(*) from Sprint where Project_id = ?;";
+            int numOfSprintsInProject = jdbcTemplate.queryForObject(query, new Object[]{sprint.getProject_id()}, Integer.class);
+            System.out.println(numOfSprintsInProject);
+            // Delete project
+            String query1 = "delete from Sprint where idSprint = ?;";
+            String query2 = "select max(numSprint) from Sprint where Project_id = ?;";
+            String query3 = "update Sprint set isCurrent = TRUE where numSprint = ? and Project_id = ?;";
+
+            PreparedStatement statement1 = null;
+            PreparedStatement statement2 = null;
+            PreparedStatement statement3 = null;
+            Connection dbConnection = null;
+            // For 2 or more queries, transactions must be placed
+            try {
+                dbConnection = dataSource.getConnection();
+                dbConnection.setAutoCommit(false);
+                // First delete the current sprint
+                statement1 = dbConnection.prepareStatement(query1);
+                statement1.setInt(1, sprint.getIdSprint());
+                statement1.executeUpdate();
+                // If there are more sprints, check which is the latest
+                if (numOfSprintsInProject > 1) {
+                    statement2 = dbConnection.prepareStatement(query2);
+                    statement2.setInt(1, sprint.getProject_id());
+                    ResultSet rs = statement2.executeQuery();
+                    int maxNumSprint = -1;
+                    while (rs.next()) {
+                        maxNumSprint = rs.getInt("max(numSprint)");
+                    }
+                    rs.close();
+                    System.out.println(maxNumSprint);
+                    if (maxNumSprint == -1) return null;
+                    // Set the latest sprint as current
+                    statement3 = dbConnection.prepareStatement(query3);
+                    statement3.setInt(1, maxNumSprint);
+                    statement3.setInt(2, sprint.getProject_id());
+                    statement3.executeUpdate();
+                }
+                dbConnection.commit();      //Commit manually for single transaction
+            // Error in one of the insert statements
+            } catch (SQLException e) {
+                e.printStackTrace();
+                dbConnection.rollback();
+                return null;
+            // Finally close statements and connection
+            } finally {
+                if (statement1 != null) {
+                    statement1.close();
+                }
+                if (statement2 != null) {
+                    statement2.close();
+                }
+                if (dbConnection != null) {
+                    dbConnection.close();
+                }
+            }
+            // Return sprint
+            return sprint;
+        // Error in update of jdbcTemplate
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

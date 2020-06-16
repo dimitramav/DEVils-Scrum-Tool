@@ -11,6 +11,7 @@ import org.restlet.data.Status;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+import org.restlet.resource.Patch;
 import org.restlet.util.Series;
 
 import org.json.JSONObject;
@@ -87,7 +88,6 @@ public class ProjectsResource extends ServerResource {
     }
 
 
-
     @Override
     protected Representation post(Representation entity) throws ResourceException {
 
@@ -145,6 +145,67 @@ public class ProjectsResource extends ServerResource {
             }
         }
         else {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+    }
+
+
+    @Patch
+    public Representation update(Representation entity) {
+
+        // New map string (which is the json name) and objects
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> mapError = new HashMap<>();
+        //System.out.println("Inside post");
+
+        // Get UserId
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized projects");
+            return new JsonMapRepresentation(mapError);
+        }
+        int userId = Integer.parseInt(userIdStr);
+
+        // Access the headers of the request!
+        Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
+        String token = requestHeaders.getFirstValue("auth");
+
+        if (token == null) {
+            mapError.put("error", "null");
+            return new JsonMapRepresentation(mapError);
+        }
+        CustomAuth customAuth = new CustomAuth();
+
+        // In project post, we do not check for project, as it will never insert
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Get the whole json body representation
+            try {
+                String str = entity.getText();
+                // Now Create from String the JAVA object
+                Gson gson = new Gson();
+                int projectId = gson.fromJson(str, Integer.class);
+                try {
+                    Boolean response = dataAccess.deleteProject(projectId);
+                    // Set the response headers
+                    if (response == false) {
+                        mapError.put("error", "System Exception");
+                        System.out.println("Transaction Error!!!");
+                        return new JsonMapRepresentation(mapError);
+                    }
+                    map.put("results", response);
+                    return new JsonMapRepresentation(map);
+                }
+                catch (SQLException e) {
+                    mapError.put("error", "System Exception");
+                    System.out.println("Transaction Error!1!1");
+                    return new JsonMapRepresentation(mapError);
+                }
+            } catch(IOException e) {
+                mapError.put("error", "System Exception");
+                return new JsonMapRepresentation(mapError);
+            }
+        } else {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }

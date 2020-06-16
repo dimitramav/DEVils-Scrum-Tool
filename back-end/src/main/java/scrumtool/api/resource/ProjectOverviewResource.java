@@ -19,6 +19,7 @@ import org.restlet.representation.BufferingRepresentation;
 //import org.restlet.engine.header.Header;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+import org.restlet.resource.Patch;
 import org.restlet.resource.Post;
 import org.restlet.ext.json.JsonRepresentation;
 
@@ -166,11 +167,82 @@ public class ProjectOverviewResource extends ServerResource {
                     String str = entity.getText();
                     // Now Create from String the JAVA object
                     Gson gson = new Gson();
+                    String isDone = getQuery().getValues("isDone");
+                    if (isDone == null) {
+                        Project projectItem = gson.fromJson(str, Project.class);
+                        Project response = dataAccess.updateCurrentProject(projectItem);
+                        map.put("results", response);
+                    }   // Update isDone value only
+                    else {
+                        Boolean isDoneBool = gson.fromJson(str, Boolean.class);
+                        Boolean response = dataAccess.updateProjectIsDone(isDoneBool, projectId);
+                        map.put("results", response);
+                    }
+                    return new JsonMapRepresentation(map);
+                }
+                catch(IOException e) {
+                    mapError.put("error", "System Exception");
+                    return new JsonMapRepresentation(mapError);
+                }
+            }
+            else {
+                mapError.put("error", "Unauthorized projects");
+                return new JsonMapRepresentation(mapError);
+            }
+        }
+        else {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+    }
+
+
+    // Delete project
+    @Patch
+    protected Representation update(Representation entity) throws ResourceException {
+
+       // New map string (which is the json name) and objects
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> mapError = new HashMap<>();
+
+        // Unauthorized access if user is not the product owner
+        String userIdStr = getRequestAttributes().get("userId").toString();
+        if (userIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized user");
+            return new JsonMapRepresentation(mapError);
+        }
+        int userId = Integer.parseInt(userIdStr);
+
+        // Get projectId
+        String projectIdStr = getRequestAttributes().get("projectId").toString();
+        if (projectIdStr.equals("null")) {
+            mapError.put("error", "Unauthorized project");
+            return new JsonMapRepresentation(mapError);
+        }
+        int projectId = Integer.parseInt(projectIdStr);
+
+        // Access the headers of the request !
+        Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
+        String token = requestHeaders.getFirstValue("auth");
+
+        if (token == null) {
+            mapError.put("error", "null");
+            return new JsonMapRepresentation(mapError);
+        }
+        CustomAuth customAuth = new CustomAuth();
+
+        if (customAuth.checkUserAuthToken(token, userIdStr)) {
+            // Get Project Overview Information
+            if (dataAccess.userMemberOfProject(userId, projectId)) {
+                // Update project information
+                try {
+                    String str = entity.getText();
+                    // Now Create from String the JAVA object
+                    Gson gson = new Gson();
                     Project projectItem = gson.fromJson(str, Project.class);
-                    // Update
-                    Project response = dataAccess.updateCurrentProject(projectItem);
-                    // Set the response headers
-                    map.put("results", response);
+                    //Project response = dataAccess.updateCurrentProject(projectItem);
+                    System.out.println(projectId);
+                    map.put("results", projectId);
                     return new JsonMapRepresentation(map);
                 }
                 catch(IOException e) {

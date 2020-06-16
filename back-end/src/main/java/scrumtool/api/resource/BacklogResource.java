@@ -100,7 +100,7 @@ public class BacklogResource extends ServerResource {
         }
     }
 
-    // Update PBI's Sprint_id
+    // Update PBI's Sprint_id or delete pbi
     @Patch
     public Representation update(Representation entity) {
         // New map string (which is the json name) and objects
@@ -117,6 +117,13 @@ public class BacklogResource extends ServerResource {
         // Get projectId
         String projectIdStr = getRequestAttributes().get("projectId").toString();
         int projectId = Integer.parseInt(projectIdStr);
+
+        // Check if is Epic
+        String isEpicStr = getQuery().getValues("isEpic");
+        Boolean isEpic;
+        if (isEpicStr == null)
+            isEpic = null;
+        else isEpic = Boolean.parseBoolean(isEpicStr);
 
         // Access the headers of the request!
         Series requestHeaders = (Series)getRequest().getAttributes().get("org.restlet.http.headers");
@@ -135,7 +142,6 @@ public class BacklogResource extends ServerResource {
                 try {
                     String str = entity.getText();
                     // Now Create from String the JAVA object
-                    System.out.println(str);
                     // Convert it to JSON
                     // Deserialize a JSON array
                     // https://stackoverflow.com/questions/5554217/google-gson-deserialize-listclass-object-generic-type
@@ -160,19 +166,28 @@ public class BacklogResource extends ServerResource {
                         return new JsonMapRepresentation(map);
                     }
                     */
-                    Type listType = new TypeToken<ArrayList<PBI>>(){}.getType();
-                    List<PBI> pbis = new Gson().fromJson(str, listType);
-                    //System.out.println(pbis.get(0).getIdPBI());
-                    System.out.println("lolo");
-                    SprintDB sprintDB = new SprintDB();
-                    sprintDB.updateSprintId(pbis);
-                    // Update the
-                    // Set the response headers
-                    map.put("results", "SprintId updated");
+                    if (isEpic == null) {
+                        Type listType = new TypeToken<ArrayList<PBI>>(){}.getType();
+                        List<PBI> pbis = new Gson().fromJson(str, listType);
+                        //System.out.println(pbis.get(0).getIdPBI());
+                        System.out.println(str + " lolo");
+                        SprintDB sprintDB = new SprintDB();
+                        sprintDB.updateSprintId(pbis);
+                        // Set the response headers
+                        map.put("results", "SprintId updated");
+                    } else {
+                        PBI pbi = new Gson().fromJson(str, PBI.class);
+                        boolean response = dataAccess.deletePBI(pbi);
+                        if (response == false) {
+                            mapError.put("error", "System Exception");
+                            return new JsonMapRepresentation(mapError);
+                        }
+                        else map.put("results", response);
+                    }
                     return new JsonMapRepresentation(map);
                 }
                 catch(IOException e) {
-                    mapError.put("result", "System Exception");
+                    mapError.put("error", "System Exception");
                     return new JsonMapRepresentation(mapError);
                 }
             } else {

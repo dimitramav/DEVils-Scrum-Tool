@@ -14,6 +14,7 @@
             </b-card-body>
             <EditPBI
                 v-on:edit_pbi="editStory"
+                v-on:delete_pbi="deleteStory"
                 :epicId="current_epic_idPBI"
                 :idPBI="cur_us.idPBI"
                 :idProject="currentProject_id"
@@ -53,6 +54,22 @@ export default {
             this.currentUserStories[epicId][i].title = title
             this.currentUserStories[epicId][i].description = desc
             this.currentUserStories[epicId][i].priority = priority
+            this.$emit('editStory', this.currentUserStories)
+        },
+        deleteStory(idPBI) {
+            let i = this.currentUserStories[this.current_epic_idPBI].findIndex(
+                (o) => o.idPBI === idPBI
+            )
+            this.currentUserStories[this.current_epic_idPBI].splice(i, 1)
+            if (this.currentUserStories[this.current_epic_idPBI].length === 0) {
+                let val = [
+                    {
+                        Epic_id: this.current_epic_idPBI, // Same practice
+                        idPBI: -1, // Update its stories array
+                    },
+                ]
+                this.$set(this.currentUserStories, this.current_epic_idPBI, val)
+            }
             this.$emit('editStory', this.currentUserStories)
         },
     },

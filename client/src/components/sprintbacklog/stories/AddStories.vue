@@ -10,7 +10,7 @@
                 variant="primary"
                 @click="emptyDropdownVars"
             >
-                Add User Stories in Backlog
+                Add User Stories in Sprint Backlog
             </b-button>
         </b-row>
         <b-collapse id="addStory" class="mt-2" v-if="ok === false">

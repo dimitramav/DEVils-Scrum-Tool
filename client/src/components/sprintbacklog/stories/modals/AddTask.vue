@@ -42,7 +42,7 @@ export default {
             const self = this
             let data = {
                 description: this.newTask_desc,
-                Project_id: this.currentProject_id,
+                state: 1,
                 PBI_id: storyId,
             }
             axios
