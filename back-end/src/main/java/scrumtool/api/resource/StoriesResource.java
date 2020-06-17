@@ -72,28 +72,18 @@ public class StoriesResource extends ServerResource {
                     // If id is in the team members' list
                     // Return sprints data
 
-                    // Check if is Epic
-                    String isCurrent = getQuery().getValues("isCurrent");
-                    Boolean current;
-                    if (isCurrent == null) {
-                        current = false;
-                        mapError.put("error", "Missing isCurrent Query Parameter");
+                    // Check sprint id
+                    String sprintIdStr = getQuery().getValues("sprintId");
+                    if (sprintIdStr == null) {
+                        mapError.put("error", "Missing sprintId Query Parameter");
                         return new JsonMapRepresentation(mapError);
                     }
                     else {
-                        // Get the current sprint's stories
-                        current = Boolean.parseBoolean(isCurrent);
-                        if(current) {
-                            // Get the current sprint info !
-                            SprintDB sprintDB = new SprintDB();
-                            Sprint currentSprint = sprintDB.getProjectCurrentSprint(projectId);
-                            // find the id of the current sprint
-                            int currentSprintId = currentSprint.getIdSprint();
-                            // Find the pbi's
-                            List<PBI> stories = dataAccess.getOnlySprintStories(currentSprintId);
-                            map.put("stories", stories);
-                            return new JsonMapRepresentation(map);
-                        }
+                        int sprintId = Integer.parseInt(sprintIdStr);
+                        // Find sprint's pbis
+                        List<PBI> stories = dataAccess.getOnlySprintStories(sprintId);
+                        map.put("stories", stories);
+                        return new JsonMapRepresentation(map);
                     }
                 } else {
                     mapError.put("error", "Unauthorized sprint access");
@@ -107,6 +97,5 @@ public class StoriesResource extends ServerResource {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-        return new JsonMapRepresentation(mapError);
     }
 }

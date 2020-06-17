@@ -24,17 +24,6 @@
                 <NewPBI v-on:new_pbi="newEpic" :idProject="currentProject_id" />
             </b-col>
         </b-row>
-        <b-row>
-            <b-col md="6" offset-md="3">
-                <b-alert
-                    variant="success"
-                    align-h="center"
-                    :show="newEpicAlert"
-                    dismissible
-                    >Epic created successfully!</b-alert
-                >
-            </b-col>
-        </b-row>
     </div>
 </template>
 
@@ -52,13 +41,11 @@ export default {
     data() {
         return {
             currentProject_id: -1,
-            newEpicAlert: false,
         }
     },
     methods: {
         newEpic(data) {
             //console.log(data);
-            this.newEpicAlert = true
             this.$emit('newEpic', data)
         },
     },

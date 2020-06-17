@@ -62,7 +62,8 @@ export default {
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
-                        '/sprints?isCurrent=true',
+                        '/sprints?sprintId=' +
+                        this.routeSprintId,
                     {
                         headers: {
                             auth: localStorage.getItem('auth_token'),
@@ -79,11 +80,6 @@ export default {
                     }
                     if (response.data.sprint) {
                         self.currentSprint = response.data.sprint
-                        if (self.currentSprint.idSprint != self.routeSprintId) {
-                            self.$router.push({
-                                path: '/unauthorized',
-                            })
-                        }
                     }
                 })
                 .catch(function (error) {

@@ -16,6 +16,15 @@
         <b-navbar-nav v-if="logout_prop === false" class="mx-auto">
             <b-nav-item
                 :to="{
+                    name: 'OldSprints',
+                    params: { id: $route.params.id },
+                }"
+            >
+                <p class="anchors">Sprints</p>
+            </b-nav-item>
+            <b-col></b-col>
+            <b-nav-item
+                :to="{
                     name: 'ProjectPageOverview',
                     params: { id: $route.params.id },
                 }"

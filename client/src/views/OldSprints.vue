@@ -1,0 +1,136 @@
+<template>
+    <b-container>
+        <Navbar :dashboard="true" :logout_prop="false" />
+        <b-jumbotron v-if="sprints.length === 0" class="text-font">
+            <h1>No Sprints in this Project</h1>
+            <b>Start a new sprint!</b><br /><br />
+            <b-button
+                size="lg"
+                variant="success"
+                class="m-md-3"
+                :to="{
+                    name: 'NewSprint',
+                    params: { id: $route.params.id },
+                }"
+                >Create New Sprint</b-button
+            >
+        </b-jumbotron>
+        <b-row class="line">.</b-row>
+        <b-list-group
+            v-for="sprint in sprints"
+            v-bind:data="sprint"
+            v-bind:key="sprint.idSprint"
+        >
+            <b-list-group-item
+                button
+                @click="gotoSprintBacklog(sprint.idSprint)"
+            >
+                <b-row class="text-font">
+                    <b-col class="text-left">
+                        <b>
+                            #{{ sprint.numSprint }}
+                            <b v-if="sprint.isCurrent == true">(Current)</b>
+                        </b>
+                    </b-col>
+                    <b-col class="text-left">
+                        <b>Goal: </b>{{ sprint.goal }}
+                    </b-col>
+                    <b-col class="text-left">
+                        <b>Deadline: </b>{{ sprint.deadlineDate }}
+                    </b-col>
+                    <b-col class="text-right">
+                        <BadgeInfo :sprintId="sprint.idSprint" />
+                    </b-col>
+                </b-row>
+            </b-list-group-item>
+        </b-list-group>
+    </b-container>
+</template>
+
+<script>
+import axios from 'axios'
+import Navbar from '@/components/navbar/Navbar.vue'
+import BadgeInfo from '@/components/oldsprints/BadgeInfo.vue'
+
+export default {
+    name: 'OldSprints',
+    components: {
+        Navbar,
+        BadgeInfo,
+    },
+    data() {
+        return {
+            sprints: [],
+        }
+    },
+    methods: {
+        getSprints() {
+            const self = this
+            axios
+                .get(
+                    this.$url +
+                        'users/' +
+                        localStorage.getItem('userId') +
+                        '/projects/' +
+                        this.$route.params.id +
+                        '/sprints',
+                    {
+                        headers: {
+                            auth: localStorage.getItem('auth_token'),
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+                .then(function (response) {
+                    if (response.data.error) {
+                        console.log(response.data.error)
+                        self.$router.push({
+                            path: '/unauthorized',
+                        })
+                    }
+                    if (response.data.sprint) {
+                        self.sprints = response.data.sprint
+                        console.log(self.sprints)
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+        },
+        gotoSprintBacklog(idSprint) {
+            this.$router.push({
+                path:
+                    '/project/' +
+                    this.$route.params.id +
+                    '/sprintbacklog/' +
+                    idSprint,
+            })
+        },
+    },
+    mounted() {
+        this.getSprints()
+    },
+}
+</script>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+.text-font {
+    font-family: Quicksand;
+}
+
+.line {
+    font-size: 1px;
+    line-height: 2px;
+    background-color: #e6edf2;
+    margin-top: 40px;
+    margin-bottom: 15px;
+}
+
+.list-group-item {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 20px;
+}
+</style>

@@ -7,10 +7,7 @@
                     variant="primary"
                     :to="{
                         name: 'NewSprint',
-                        params: {
-                            id: $route.params.id,
-                            newSprintNum: 1,
-                        },
+                        params: { id: $route.params.id },
                     }"
                 >
                     Create New Sprint
@@ -18,16 +15,11 @@
             </div>
             <div v-else id="currentSprint">
                 <b-row style="margin-top: -5%;">
-                    <h2 v-if="(diffDays > -1)">
+                    <h2>
                         Current sprint #{{
                             projectOverview.currentSprintNum
                         }}
                         ({{ projectOverview.currentSprintGoal }})
-                    </h2>
-                    <h2 v-else>
-                        Last sprint #{{ projectOverview.currentSprintNum }} ({{
-                            projectOverview.currentSprintGoal
-                        }})
                     </h2>
                 </b-row>
                 <b-row style="margin-top: 20px;">
@@ -99,11 +91,7 @@
                             variant="primary"
                             :to="{
                                 name: 'NewSprint',
-                                params: {
-                                    id: $route.params.id,
-                                    newSprintNum:
-                                        projectOverview.currentSprintNum + 1,
-                                },
+                                params: { id: $route.params.id },
                             }"
                         >
                             Create New Sprint!

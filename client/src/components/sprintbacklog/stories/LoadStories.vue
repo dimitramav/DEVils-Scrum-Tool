@@ -30,7 +30,8 @@ export default {
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
-                        '/stories?isCurrent=true',
+                        '/stories?sprintId=' +
+                        this.$route.params.sprintId,
                     {
                         headers: {
                             auth: localStorage.getItem('auth_token'),

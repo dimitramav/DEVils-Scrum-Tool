@@ -77,29 +77,18 @@ public class TasksResource extends ServerResource {
                     // If id is in the team members' list
                     // Return sprints data
 
-                    // Check if is Epic
-                    String isCurrent = getQuery().getValues("isCurrent");
-                    Boolean current;
-                    if (isCurrent == null) {
-                        current = false;
-                        mapError.put("error", "Missing isCurrent Query Parameter");
+                    // Check sprint id
+                    String sprintIdStr = getQuery().getValues("sprintId");
+                    if (sprintIdStr == null) {
+                        mapError.put("error", "Missing sprintId Query Parameter");
                         return new JsonMapRepresentation(mapError);
                     }
                     else {
-                        current = Boolean.parseBoolean(isCurrent);
-                        if(current) {
-                            // Get the current sprint info !
-                            SprintDB sprintDB = new SprintDB();
-                            Sprint currentSprint = sprintDB.getProjectCurrentSprint(projectId);
-
-                            // find the id of the current sprint
-                            int currentSprintId = currentSprint.getIdSprint();
-                            System.out.println(currentSprintId);
-                            // Find the tasks of the current sprint
-                            List<Task> tasks = dataAccess.getSprintTasks(currentSprintId);
-                            map.put("tasks", tasks);
-                            return new JsonMapRepresentation(map);
-                        }
+                        int sprintId = Integer.parseInt(sprintIdStr);
+                        // Find the tasks of the current sprint
+                        List<Task> tasks = dataAccess.getSprintTasks(sprintId);
+                        map.put("tasks", tasks);
+                        return new JsonMapRepresentation(map);
                     }
                 } else {
                     mapError.put("error", "Unauthorized sprint access");
@@ -113,7 +102,6 @@ public class TasksResource extends ServerResource {
             mapError.put("error", "Unauthorized user");
             return new JsonMapRepresentation(mapError);
         }
-        return new JsonMapRepresentation(mapError);
     }
 
     @Override

@@ -80,7 +80,14 @@ public class ProjectOverviewResource extends ServerResource {
                 // Get project and its current sprint Information information
                 Project project = dataAccess.getCurrentProject(projectId);
                 SprintDB sprintDB = new SprintDB();
-                Sprint sprint = sprintDB.getProjectCurrentSprint(projectId);
+                Sprint sprint = null;
+                String sprintIdStr = getQuery().getValues("sprintId");
+                if (sprintIdStr != null) {
+                    int sprintId = Integer.parseInt(sprintIdStr);
+                    sprint = sprintDB.getProjectSprint(projectId, sprintId);
+                }
+                else sprint = sprintDB.getProjectCurrentSprint(projectId);
+
                 // Create a ProjectOverview item to store the data needed for overview page
                 ProjectOverview projectOverviewItem = new ProjectOverview();
                 projectOverviewItem.project = project;

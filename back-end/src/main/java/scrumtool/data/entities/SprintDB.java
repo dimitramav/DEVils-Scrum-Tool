@@ -30,8 +30,19 @@ public class SprintDB implements SprintInterface {
         DataAccess dataAccess = new DataAccess();
         JdbcTemplate jdbcTemplate = dataAccess.getInstance();
 
-        String query1 = "UPDATE Sprint SET isCurrent = FALSE WHERE Project_id = ? AND isCurrent = TRUE";
-        jdbcTemplate.update(query1, new Object[]{sprint.getProject_id()});
+        // Check how many sprints exist in this project
+        String query1 = "select count(*) from Sprint where Project_id = ?;";
+        int maxNumSprint = jdbcTemplate.queryForObject(query1, new Object[]{sprint.getProject_id()}, Integer.class);
+        System.out.println(maxNumSprint);
+
+        if (maxNumSprint > 0) {
+            String query2 = "select max(numSprint) from Sprint where Project_id = ?;";
+            maxNumSprint = jdbcTemplate.queryForObject(query2, new Object[]{sprint.getProject_id()}, Integer.class);
+        }
+        int newMaxNumSprint = maxNumSprint + 1;
+
+        String query3 = "UPDATE Sprint SET isCurrent = FALSE WHERE Project_id = ? AND isCurrent = TRUE";
+        jdbcTemplate.update(query3, new Object[]{sprint.getProject_id()});
 
         String query = "INSERT INTO Sprint(deadlineDate, goal, plan, isCurrent, numSprint, Project_id) VALUES (?, ?, ?, ?, ?, ?);";
 
@@ -45,8 +56,8 @@ public class SprintDB implements SprintInterface {
                 statement.setDate(1, sqlDate);
                 statement.setString(2, sprint.getGoal());
                 statement.setString(3, sprint.getPlan());
-                statement.setBoolean(4, sprint.getCurrent());
-                statement.setInt(5, sprint.getNumSprint());
+                statement.setBoolean(4, true);
+                statement.setInt(5, newMaxNumSprint);
                 statement.setInt(6, sprint.getProject_id());
                 return statement;
             }
@@ -84,10 +95,36 @@ public class SprintDB implements SprintInterface {
         }
     }
 
-    public Sprint getProjectCurrentSprint(int projectId) {
 
+    public List<Sprint> getAllProjectSprints(int projectId) {
+        // get the all sprints of this project
         DataAccess dataAccess = new DataAccess();
+        JdbcTemplate jdbcTemplate = dataAccess.getInstance();
 
+        String query = "select * from Sprint where Project_id = ? order by deadlineDate desc;";
+        return jdbcTemplate.query(query, new Object[]{projectId}, new SprintRowMapper());
+    }
+
+
+    public Sprint getProjectSprint(int projectId, int sprintId) {
+        // get the requested sprint
+        DataAccess dataAccess = new DataAccess();
+        JdbcTemplate jdbcTemplate = dataAccess.getInstance();
+        // Get the current sprint of a project
+        String query = "select * from Sprint where Project_id = ? and idSprint = ?;";
+        try {
+            Sprint sprintItem = jdbcTemplate.queryForObject(query, new Object[]{projectId, sprintId}, new SprintRowMapper());
+            return sprintItem;
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public Sprint getProjectCurrentSprint(int projectId) {
+        // retrieve only the current sprint
+        DataAccess dataAccess = new DataAccess();
         JdbcTemplate jdbcTemplate = dataAccess.getInstance();
         // Get the current sprint of a project
         String query = "select * from Sprint where Project_id = ? and isCurrent = TRUE;";

@@ -1,8 +1,5 @@
 <template>
     <b-container class="text-font btn-margin">
-        <b-alert show variant="success" v-if="ok === true" dismissible>
-            The chosen user stories are inserted in the sprint backlog!
-        </b-alert>
         <b-row align-h="center" style="margin-top: 20px;">
             <b-button
                 v-b-toggle.addStory

@@ -91,7 +91,8 @@ export default {
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
-                        '/tasks?isCurrent=true',
+                        '/tasks?sprintId=' +
+                        this.$route.params.sprintId,
                     {
                         headers: {
                             auth: localStorage.getItem('auth_token'),

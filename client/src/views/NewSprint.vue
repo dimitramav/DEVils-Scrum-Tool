@@ -89,7 +89,6 @@ export default {
     },
     mounted() {
         this.sprint.Project_id = this.$route.params.id
-        this.sprint.numSprint = this.$route.params.newSprintNum
     },
 }
 </script>

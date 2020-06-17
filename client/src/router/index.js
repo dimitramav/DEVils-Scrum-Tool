@@ -8,6 +8,7 @@ import Profile from '@/views/Profile'
 import EditProfile from '@/views/EditProfile'
 import ProjectPageOverview from '@/views/ProjectPageOverview'
 import NewSprint from '@/views/NewSprint'
+import OldSprints from '@/views/OldSprints'
 import Backlog from '@/views/Backlog'
 import SprintBacklog from '@/views/SprintBacklog'
 import Unauthorized from '@/views/Unauthorized'
@@ -79,9 +80,23 @@ const routes = [
         },
     },
     {
-        path: '/project/:id/newsprint/:newSprintNum',
+        path: '/project/:id/newsprint',
         name: 'NewSprint',
         component: NewSprint,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem('auth_token') === 'null') {
+                next({
+                    path: '/unauthorized',
+                })
+            } else {
+                next()
+            }
+        },
+    },
+    {
+        path: '/project/:id/sprints',
+        name: 'OldSprints',
+        component: OldSprints,
         beforeEnter: (to, from, next) => {
             if (localStorage.getItem('auth_token') === 'null') {
                 next({
