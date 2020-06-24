@@ -64,6 +64,7 @@ dependencies {
     //providedRuntime "javax.servlet:javax.servlet-api:3.1.0"        //provided by the servlet container at runtime
     runtimeOnly "org.restlet.jee:org.restlet.ext.servlet:2.4.2"    //Servlet adapter for Restlet framework
     runtimeOnly "mysql:mysql-connector-java:8.0.18"                //the MySQL JDBC driver
+    //runtimeOnly "org.postgresql:postgresql:42.2.12"                //the PostgreSQL JDBC driver
 
     //gretty "mysql:mysql-connector-java:8.0.18"                 //make sure it is also available to the grety plugin
 }

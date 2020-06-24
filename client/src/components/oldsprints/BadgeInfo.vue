@@ -59,10 +59,7 @@ export default {
                 this.projectOverview.todo +
                 this.projectOverview.doing +
                 this.projectOverview.done
-            this.issues =
-                this.projectOverview.todoIssues +
-                this.projectOverview.doingIssues +
-                this.projectOverview.doneIssues
+            this.issues = this.projectOverview.issues
         },
     },
     mounted() {

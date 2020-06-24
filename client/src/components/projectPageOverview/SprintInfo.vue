@@ -140,10 +140,7 @@ export default {
                 this.projectOverview.doing +
                 this.projectOverview.done
             this.donePercentage = (this.projectOverview.done / totalTasks) * 100
-            this.issues =
-                this.projectOverview.todoIssues +
-                this.projectOverview.doingIssues +
-                this.projectOverview.doneIssues
+            this.issues = this.projectOverview.issues
             this.calcDeadline()
         },
         calcDeadline() {
