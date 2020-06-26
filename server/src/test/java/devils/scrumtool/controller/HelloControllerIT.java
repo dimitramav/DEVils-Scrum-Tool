@@ -1,4 +1,4 @@
-package devils.scrumtool;
+package devils.scrumtool.controller;
 
 import static org.assertj.core.api.Assertions.*;
 
