@@ -43,11 +43,13 @@ export default {
                 return false
             }
             axios
-                .post(this.$url + 'exists', {
-                    mail: this.email,
-                })
+                .get(this.$url + 'users/exists/email/' + this.email)
                 .then(function (response) {
-                    self.validEmail = response.data.exists === 0
+                    // If email not found in db, then it can be used
+                    self.validEmail = !response.data
+                    if (self.validEmail == false) {
+                        console.log('Email: ' + self.email + ' is used')
+                    }
                     self.$emit('email', self.email, self.validEmail)
                 })
                 .catch(function (error) {

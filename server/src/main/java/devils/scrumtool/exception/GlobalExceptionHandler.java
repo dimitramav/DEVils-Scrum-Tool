@@ -14,7 +14,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> returnMapError(Exception ex) {
-        errorResponse.put("error", ex.getMessage());
+        // Return a map with error message
+        errorResponse.put("serverErrorMessage", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<?> returnMapError(CustomException ex) {
+        // Return a map with error message
+        errorResponse.put("serverErrorMessage", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.OK);
     }
 }

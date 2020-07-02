@@ -96,32 +96,22 @@ export default {
         },
         onSubmit(evt) {
             evt.preventDefault()
-            const self = this
+            //const self = this
             axios
-                .post(this.$url + 'users', {
-                    mail: this.form.email,
-                    username: this.form.username,
-                    firstname: this.form.firstname,
-                    lastname: this.form.lastname,
-                    password: this.form.password,
-                })
+                .post(this.$url + 'users/signup', this.form)
                 .then(function (response) {
-                    if (response.data.results) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         localStorage.setItem(
                             'auth_token',
-                            response.data.results.auth_token
+                            response.data.auth_token
                         )
-                        localStorage.setItem(
-                            'username',
-                            response.data.results.username
-                        )
-                        localStorage.setItem(
-                            'userId',
-                            response.data.results.userId
-                        )
-                        self.$router.push({
-                            path: '/',
-                        })
+                        localStorage.setItem('username', response.data.username)
+                        localStorage.setItem('userId', response.data.id)
+                        //self.$router.push({
+                        //    path: '/',
+                        //})
                     }
                 })
                 .catch(function (error) {

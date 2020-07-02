@@ -43,11 +43,13 @@ export default {
                 return false
             }
             axios
-                .post(this.$url + 'exists', {
-                    mail: this.username,
-                })
+                .get(this.$url + 'users/exists/username/' + this.username)
                 .then(function (response) {
-                    self.validUsername = response.data.exists === 0
+                    // If username not found in db, then it can be used
+                    self.validUsername = !response.data
+                    if (self.validUsername == false) {
+                        console.log('Username: ' + self.username + ' is used')
+                    }
                     self.$emit('username', self.username, self.validUsername)
                 })
                 .catch(function (error) {

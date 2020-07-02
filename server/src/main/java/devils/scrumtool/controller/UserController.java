@@ -4,10 +4,12 @@ package devils.scrumtool.controller;
 import devils.scrumtool.model.User;
 import devils.scrumtool.repository.UserRepository;
 // Java libraries
+import java.security.SecureRandom;
 import java.util.List;
+import java.util.Optional;
 // Spring libraries
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 // import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,17 +32,25 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id) throws Exception {
-        User user =
-                userRepository
-                        .findById(id)
-                        .orElseThrow(() -> new Exception("User not found for id :: " + id));
-        return ResponseEntity.ok().body(user);
+    public Optional<User> getUserById(@PathVariable Integer id) throws Exception {
+        return userRepository.findById(id);
     }
 
-    @PostMapping("")
-    public User createEmployee(@RequestBody User user) {
-        return userRepository.save(user);
+    @GetMapping("/exists/username/{username}")
+    public boolean existsUsername(@PathVariable String username) throws Exception {
+        return userRepository.existsByUsername(username);
+    }
+
+    @GetMapping("/exists/email/{email}")
+    public boolean existsEmail(@PathVariable String email) throws Exception {
+        return userRepository.existsByEmail(email);
+    }
+
+    @PostMapping("/signup")
+    public User insertUser(@RequestBody User newUser) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12, new SecureRandom());
+        newUser.setPassword(encoder.encode(newUser.getPassword()));
+        return userRepository.save(newUser);
     }
 
     /*@PutMapping("/employees/{id}")
