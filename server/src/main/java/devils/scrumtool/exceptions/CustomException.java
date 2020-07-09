@@ -1,4 +1,4 @@
-package devils.scrumtool.exception;
+package devils.scrumtool.exceptions;
 
 public class CustomException extends RuntimeException {
 

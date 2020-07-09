@@ -1,15 +1,14 @@
-package devils.scrumtool.controller;
+package devils.scrumtool.controllers;
 
 // Project's custom classes
-import devils.scrumtool.model.User;
-import devils.scrumtool.repository.UserRepository;
+import devils.scrumtool.models.User;
+import devils.scrumtool.repositories.UserRepository;
+import devils.scrumtool.services.UserService;
 // Java libraries
-import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
 // Spring libraries
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 // import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// Controller
+// User API
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    // userRepository
+
     @Autowired private UserRepository userRepository;
+
+    @Autowired private UserService userService;
 
     @GetMapping("")
     public List<User> getAllUsers() {
@@ -48,9 +49,7 @@ public class UserController {
 
     @PostMapping("/signup")
     public User insertUser(@RequestBody User newUser) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12, new SecureRandom());
-        newUser.setPassword(encoder.encode(newUser.getPassword()));
-        return userRepository.save(newUser);
+        return userService.createUser(newUser);
     }
 
     /*@PutMapping("/employees/{id}")

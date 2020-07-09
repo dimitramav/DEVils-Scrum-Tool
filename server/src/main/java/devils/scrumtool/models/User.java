@@ -1,4 +1,4 @@
-package devils.scrumtool.model;
+package devils.scrumtool.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

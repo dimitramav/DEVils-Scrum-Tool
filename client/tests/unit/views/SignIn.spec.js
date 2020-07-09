@@ -27,13 +27,13 @@ describe('SignIn', () => {
         expect(imgUrl).toBe('@/assets/kanban.png')
     })
     it('Form attributes', () => {
-        expect(wrapper.find('#mail').attributes().required).toBeTruthy()
-        expect(wrapper.find('#mail').attributes().type).toBe('email')
+        expect(wrapper.find('#email').attributes().required).toBeTruthy()
+        expect(wrapper.find('#email').attributes().type).toBe('email')
         expect(wrapper.find('#password').attributes().required).toBeTruthy()
         expect(wrapper.find('#password').attributes().type).toBe('password')
     })
     it('Default values', () => {
-        expect(wrapper.vm.form.mail).toBe('')
+        expect(wrapper.vm.form.email).toBe('')
         expect(wrapper.vm.form.password).toBe('')
         expect(wrapper.vm.wrongLogin).toBe(false)
     })

@@ -96,22 +96,46 @@ export default {
         },
         onSubmit(evt) {
             evt.preventDefault()
-            //const self = this
+            const self = this
             axios
-                .post(this.$url + 'users/signup', this.form)
+                .post(this.$url + '/users/signup', this.form)
                 .then(function (response) {
                     if (response.data.serverErrorMessage) {
                         console.log(response.data.serverErrorMessage)
                     } else {
-                        localStorage.setItem(
-                            'auth_token',
-                            response.data.auth_token
-                        )
-                        localStorage.setItem('username', response.data.username)
-                        localStorage.setItem('userId', response.data.id)
-                        //self.$router.push({
-                        //    path: '/',
-                        //})
+                        //console.log(response.data)
+                        axios
+                            .post(self.$url + '/authenticate', {
+                                username: self.form.email,
+                                password: self.form.password,
+                            })
+                            .then(function (response) {
+                                if (response.data.serverErrorMessage) {
+                                    console.log(
+                                        response.data.serverErrorMessage
+                                    )
+                                } else {
+                                    //console.log(response.data)
+                                    localStorage.setItem(
+                                        'auth_token',
+                                        response.data.jwt
+                                    )
+                                    localStorage.setItem(
+                                        'username',
+                                        response.data.username
+                                    )
+                                    localStorage.setItem(
+                                        'userId',
+                                        response.data.id
+                                    )
+                                    self.$router.push({
+                                        path: '/',
+                                    })
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error)
+                            })
                     }
                 })
                 .catch(function (error) {

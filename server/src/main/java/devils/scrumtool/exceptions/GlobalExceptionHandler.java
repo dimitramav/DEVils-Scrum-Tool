@@ -1,4 +1,4 @@
-package devils.scrumtool.exception;
+package devils.scrumtool.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,13 +16,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> returnMapError(Exception ex) {
         // Return a map with error message
         errorResponse.put("serverErrorMessage", ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(errorResponse, HttpStatus.OK);
     }
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<?> returnMapError(CustomException ex) {
         // Return a map with error message
         errorResponse.put("serverErrorMessage", ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.OK);
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -11,11 +11,11 @@
                     <b-alert show variant="warning" v-if="wrongLogin === true">
                         Invalid email or password
                     </b-alert>
-                    <b-form-group id="mail_group">
+                    <b-form-group id="email_group">
                         <b-form-input
-                            id="mail"
+                            id="email"
                             type="email"
-                            v-model="form.mail"
+                            v-model="form.email"
                             placeholder="Enter email"
                             required
                         >
@@ -61,7 +61,7 @@ export default {
     data() {
         return {
             form: {
-                mail: '',
+                email: '',
                 password: '',
             },
             wrongLogin: false,
@@ -72,34 +72,23 @@ export default {
             evt.preventDefault()
             const self = this
             axios
-                .post(this.$url + 'signin', {
-                    mail: this.form.mail,
+                .post(this.$url + '/authenticate', {
+                    username: this.form.email,
                     password: this.form.password,
                 })
                 .then(function (response) {
-                    if (response.data.results) {
-                        localStorage.setItem(
-                            'auth_token',
-                            response.data.results.auth_token
-                        )
-                        localStorage.setItem(
-                            'username',
-                            response.data.results.username
-                        )
-                        localStorage.setItem(
-                            'userId',
-                            response.data.results.userId
-                        )
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                        self.wrongLogin = true
+                        self.form.password = ''
+                    } else {
+                        //console.log(response.data)
+                        localStorage.setItem('auth_token', response.data.jwt)
+                        localStorage.setItem('username', response.data.username)
+                        localStorage.setItem('userId', response.data.id)
                         self.$router.push({
                             path: '/',
                         })
-                    } else if (response.data.Message) {
-                        if (
-                            response.data.Message === 'Wrong Email or Password'
-                        ) {
-                            self.wrongLogin = true
-                            self.form.password = ''
-                        }
                     }
                 })
                 .catch(function (error) {

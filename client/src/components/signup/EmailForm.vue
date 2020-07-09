@@ -43,7 +43,7 @@ export default {
                 return false
             }
             axios
-                .get(this.$url + 'users/exists/email/' + this.email)
+                .get(this.$url + '/users/exists/email/' + this.email)
                 .then(function (response) {
                     // If email not found in db, then it can be used
                     self.validEmail = !response.data

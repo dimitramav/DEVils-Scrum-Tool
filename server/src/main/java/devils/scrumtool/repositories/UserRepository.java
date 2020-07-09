@@ -1,6 +1,6 @@
-package devils.scrumtool.repository;
+package devils.scrumtool.repositories;
 
-import devils.scrumtool.model.User;
+import devils.scrumtool.models.User;
 // Java libraries
 import java.util.Optional;
 // Spring libraries
@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-    // Custom Query Methods
+    // Query Methods
+    Optional<User> findByEmail(String email);
+
     Optional<User> getUserById(Integer id);
 
     boolean existsByUsername(String username);

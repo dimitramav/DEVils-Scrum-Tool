@@ -43,7 +43,7 @@ export default {
                 return false
             }
             axios
-                .get(this.$url + 'users/exists/username/' + this.username)
+                .get(this.$url + '/users/exists/username/' + this.username)
                 .then(function (response) {
                     // If username not found in db, then it can be used
                     self.validUsername = !response.data

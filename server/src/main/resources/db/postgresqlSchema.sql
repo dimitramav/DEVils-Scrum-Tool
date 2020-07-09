@@ -14,17 +14,17 @@ DROP TABLE IF EXISTS users;
 /* Users */
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    email CHAR(45) NOT NULL UNIQUE,
-    username CHAR(45) NOT NULL UNIQUE,
-    firstname CHAR(45) NOT NULL,
-    lastname CHAR(45) NOT NULL,
-    password CHAR(300) NOT NULL,
-    country CHAR(45) DEFAULT NULL,
-    job CHAR(45) DEFAULT NULL,
-    company CHAR(45) DEFAULT NULL,
-    description CHAR(500) DEFAULT NULL,
-    bio CHAR(1000) DEFAULT NULL,
-    photo CHAR(200) DEFAULT NULL,
+    email VARCHAR NOT NULL UNIQUE,
+    username VARCHAR NOT NULL UNIQUE,
+    firstname VARCHAR NOT NULL,
+    lastname VARCHAR NOT NULL,
+    password VARCHAR NOT NULL,
+    country VARCHAR DEFAULT NULL,
+    job VARCHAR DEFAULT NULL,
+    company VARCHAR DEFAULT NULL,
+    description TEXT DEFAULT NULL,
+    bio TEXT DEFAULT NULL,
+    photo TEXT DEFAULT NULL,
     is_admin BOOLEAN NOT NULL,
     num_projects INT NOT NULL
 );
@@ -33,7 +33,7 @@ CREATE TABLE users (
 /* Projects */
 CREATE TABLE projects (
     id SERIAL PRIMARY KEY,
-    title CHAR(45) NOT NULL,
+    title VARCHAR NOT NULL,
     is_done BOOLEAN NOT NULL,
     deadline_date DATE DEFAULT NULL
 );
@@ -43,7 +43,7 @@ CREATE TABLE projects (
 CREATE TABLE project_has_user (
     project_id INT NOT NULL REFERENCES projects(id),
     user_id INT NOT NULL REFERENCES users(id),
-    role CHAR(20) NOT NULL
+    role VARCHAR NOT NULL
 );
 
 
@@ -51,12 +51,12 @@ CREATE TABLE project_has_user (
 CREATE TABLE notifications (
     id SERIAL PRIMARY KEY,
     project_id INT DEFAULT NULL REFERENCES projects(id),
-    project_title CHAR(45) DEFAULT NULL,
-    role CHAR(20) DEFAULT NULL,
-    from_username CHAR(45) DEFAULT NULL REFERENCES users(username),
-    to_user_email CHAR(45) NOT NULL REFERENCES users(email),
-    type CHAR(45) NOT NULL,
-    message CHAR(400) DEFAULT NULL
+    project_title VARCHAR DEFAULT NULL,
+    role VARCHAR DEFAULT NULL,
+    from_username VARCHAR DEFAULT NULL REFERENCES users(username),
+    to_user_email VARCHAR NOT NULL REFERENCES users(email),
+    type VARCHAR NOT NULL,
+    message TEXT DEFAULT NULL
 );
 
 
@@ -64,8 +64,8 @@ CREATE TABLE notifications (
 CREATE TABLE sprints (
     id SERIAL PRIMARY KEY,
     deadline_date DATE NOT NULL,
-    goal CHAR(200) DEFAULT NULL,
-    plan CHAR(500) DEFAULT NULL,
+    goal TEXT DEFAULT NULL,
+    plan TEXT DEFAULT NULL,
     is_current BOOLEAN NOT NULL,
     num_sprint INT DEFAULT NULL,
     project_id INT NOT NULL REFERENCES projects(id)
@@ -75,8 +75,8 @@ CREATE TABLE sprints (
 /* Product Backlog Items (epics and stories) */
 CREATE TABLE pbis (
     id SERIAL PRIMARY KEY,
-    title CHAR(45) NOT NULL,
-    description CHAR(500) DEFAULT NULL,
+    title VARCHAR NOT NULL,
+    description VARCHAR DEFAULT NULL,
     priority INT NOT NULL,
     is_epic BOOLEAN NOT NULL,
     project_id INT NOT NULL REFERENCES projects(id),
@@ -88,7 +88,7 @@ CREATE TABLE pbis (
 /* Tasks */
 CREATE TABLE tasks (
     id SERIAL PRIMARY KEY,
-    description CHAR(500) NOT NULL,
+    description VARCHAR NOT NULL,
     state INT NOT NULL,
     pbi_id INT NOT NULL REFERENCES pbis(id)
 );
@@ -98,6 +98,6 @@ COMMENT ON COLUMN tasks.state IS '0: todo - 1: doing - 2: done.';
 /* Issues */
 CREATE TABLE issues (
     id SERIAL PRIMARY KEY,
-    description CHAR(500) DEFAULT NULL,
+    description VARCHAR DEFAULT NULL,
     task_id INT DEFAULT NULL REFERENCES tasks(id)
 );
