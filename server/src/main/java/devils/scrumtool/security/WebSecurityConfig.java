@@ -26,11 +26,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // Exclude signin/up pages and their respective components from authorization
-        http.csrf()
+        http.cors()
+                .and()
+                .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/users/exists/**", "/users", "/users/signup", "/authenticate")
+                .antMatchers("/users/exists/**", "/users/signup", "/authenticate")
                 .permitAll()
+                .antMatchers("/users")
+                .hasAuthority("USER") // admin
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -16,11 +16,11 @@
                             </p>
                         </b-col>
                     </b-row>
-                    <b-form-group id="mail_group" class="text">
+                    <b-form-group id="email_group" class="text">
                         <b-form-input
-                            id="mail"
+                            id="email"
                             type="email"
-                            v-model="form.mail"
+                            v-model="form.email"
                             autocomplete="off"
                             placeholder="Enter email"
                             required
@@ -51,7 +51,7 @@ export default {
     data() {
         return {
             form: {
-                mail: '',
+                email: '',
             },
         }
     },

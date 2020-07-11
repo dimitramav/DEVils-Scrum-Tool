@@ -148,22 +148,29 @@ export default {
         updatePass() {
             const self = this
             axios
-                .patch(
-                    this.$url + 'matches/' + localStorage.getItem('userId'),
+                .put(
+                    this.$url +
+                        '/users/password/' +
+                        localStorage.getItem('userId') +
+                        '/update',
                     {
                         password: this.newpass,
                     },
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.result === true) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         console.log('pass updated')
                         self.ok = true
+                        self.$emit('updatedPassword', response.data)
                     }
                 })
                 .catch(function (error) {
@@ -180,22 +187,26 @@ export default {
             this.ok = false
             axios
                 .post(
-                    this.$url + 'matches/' + localStorage.getItem('userId'),
+                    this.$url +
+                        '/users/password/' +
+                        localStorage.getItem('userId') +
+                        '/matches',
                     {
                         password: this.password,
                     },
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.exists) {
-                        self.currentPassword = true
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
                     } else {
-                        self.currentPassword = false
+                        self.currentPassword = response.data
                     }
                 })
                 .catch(function (error) {

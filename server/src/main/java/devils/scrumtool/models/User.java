@@ -49,10 +49,10 @@ public class User {
     private String photo;
 
     @Column(name = "is_admin", nullable = false)
-    private boolean is_admin;
+    private boolean isAdmin;
 
     @Column(name = "num_projects", nullable = false)
-    private int num_projects;
+    private int numProjects;
 
     // Default Constructor
     public User() {}
@@ -86,11 +86,11 @@ public class User {
         return email;
     }
 
-    public String getFirstName() {
+    public String getFirstname() {
         return firstname;
     }
 
-    public String getLastName() {
+    public String getLastname() {
         return lastname;
     }
 
@@ -123,11 +123,11 @@ public class User {
     }
 
     public boolean getIsAdmin() {
-        return is_admin;
+        return isAdmin;
     }
 
     public int getNumProjects() {
-        return num_projects;
+        return numProjects;
     }
 
     // Setters
@@ -179,12 +179,12 @@ public class User {
         this.photo = photo;
     }
 
-    public void setIsAdmin(boolean is_admin) {
-        this.is_admin = is_admin;
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
-    public void setNumProjects(int num_projects) {
-        this.num_projects = num_projects;
+    public void setNumProjects(int numProjects) {
+        this.numProjects = numProjects;
     }
 
     @Override
@@ -212,9 +212,9 @@ public class User {
                 + ", photo="
                 + photo
                 + ", is_admin="
-                + is_admin
+                + isAdmin
                 + ", num_projects="
-                + num_projects
+                + numProjects
                 + "]";
     }
 }

@@ -1,6 +1,7 @@
 package devils.scrumtool.controllers;
 
 // Project's custom classes
+import devils.scrumtool.models.AuthenticationRequest;
 import devils.scrumtool.models.User;
 import devils.scrumtool.repositories.UserRepository;
 import devils.scrumtool.services.UserService;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,11 +33,6 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Optional<User> getUserById(@PathVariable Integer id) throws Exception {
-        return userRepository.findById(id);
-    }
-
     @GetMapping("/exists/username/{username}")
     public boolean existsUsername(@PathVariable String username) throws Exception {
         return userRepository.existsByUsername(username);
@@ -50,6 +46,30 @@ public class UserController {
     @PostMapping("/signup")
     public User insertUser(@RequestBody User newUser) {
         return userService.createUser(newUser);
+    }
+
+    @GetMapping("/profile/{username}")
+    public Optional<User> getUserByUsername(@PathVariable String username) throws Exception {
+        return userRepository.findByUsername(username);
+    }
+
+    @PutMapping("/profile/{username}")
+    public User updateUser(@RequestBody User userToUpdate) {
+        return userRepository.save(userToUpdate);
+    }
+
+    @PostMapping("/password/{id}/matches")
+    public boolean passwordMatches(
+            @PathVariable Integer id, @RequestBody AuthenticationRequest plainPassword)
+            throws Exception {
+        return userService.passwordOfUserIdMatches(id, plainPassword.getPassword());
+    }
+
+    @PutMapping("/password/{id}/update")
+    public String passwordUpdate(
+            @PathVariable Integer id, @RequestBody AuthenticationRequest plainPassword)
+            throws Exception {
+        return userService.passwordOfUserIdUpdate(id, plainPassword.getPassword());
     }
 
     /*@PutMapping("/employees/{id}")

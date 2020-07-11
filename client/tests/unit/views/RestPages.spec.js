@@ -29,11 +29,11 @@ describe('ForgotPass', () => {
         expect(imgUrl).toBe('@/assets/kanban.png')
     })
     it('Form attributes', () => {
-        expect(wrapper.find('#mail').attributes().required).toBeTruthy()
-        expect(wrapper.find('#mail').attributes().type).toBe('email')
+        expect(wrapper.find('#email').attributes().required).toBeTruthy()
+        expect(wrapper.find('#email').attributes().type).toBe('email')
     })
     it('Default values', () => {
-        expect(wrapper.vm.form.mail).toBe('')
+        expect(wrapper.vm.form.email).toBe('')
     })
 })
 

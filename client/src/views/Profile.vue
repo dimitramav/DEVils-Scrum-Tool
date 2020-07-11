@@ -2,7 +2,7 @@
     <b-container fluid>
         <Navbar :logout_prop="false" :dashboard="false" />
         <b-card
-            v-if="userInfos.mail != null"
+            v-if="userInfos.email != null"
             class="mb-2 image"
             img-src="https://picsum.photos/600/300?image=445"
             img-alt="Image"
@@ -16,7 +16,7 @@
                     Username: <b>{{ userInfos.username }}</b>
                 </p>
                 <p class="text-font">
-                    Email : <b>{{ userInfos.mail }}</b
+                    Email : <b>{{ userInfos.email }}</b
                     ><br />
                 </p>
                 <p class="text-font" v-if="userInfos.country != null">
@@ -40,7 +40,7 @@
             <b-button
                 class="text-font"
                 variant="primary"
-                v-show="loggedin_userId === userInfos.idUser"
+                v-show="loggedin_userId === userInfos.id"
                 @click="gotoEdit"
                 >Edit Profile</b-button
             >
@@ -84,25 +84,18 @@ export default {
         getProfile() {
             const self = this
             axios
-                .get(
-                    this.$url +
-                        'users/' +
-                        localStorage.getItem('userId') +
-                        '/profile/' +
-                        self.current_username,
-                    {
-                        headers: {
-                            auth: localStorage.getItem('auth_token'),
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                )
+                .get(this.$url + '/users/profile/' + this.current_username, {
+                    headers: {
+                        Authorization:
+                            'Bearer ' + localStorage.getItem('auth_token'),
+                        'Content-Type': 'application/json',
+                    },
+                })
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
-                        self.userInfos = response.data.results
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.userInfos = response.data
                     }
                 })
                 .catch(function (error) {

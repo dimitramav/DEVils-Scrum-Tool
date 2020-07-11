@@ -25,7 +25,7 @@
                         <b-form-input
                             id="email"
                             type="email"
-                            v-model="userInfos.mail"
+                            v-model="userInfos.email"
                         >
                         </b-form-input>
                     </b-form-group>
@@ -63,7 +63,7 @@
                         >
                         </b-form-textarea>
                     </b-form-group>
-                    <ChangePass />
+                    <ChangePass v-on:updatedPassword="editPassword" />
                     <br />
                     <b-button variant="success" size="lg" type="info"
                         >Submit changes</b-button
@@ -98,23 +98,21 @@ export default {
             axios
                 .get(
                     this.$url +
-                        'users/' +
-                        localStorage.getItem('userId') +
-                        '/profile/' +
+                        '/users/profile/' +
                         localStorage.getItem('username'),
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
-                        self.userInfos = response.data.results
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.userInfos = response.data
                     }
                 })
                 .catch(function (error) {
@@ -127,24 +125,22 @@ export default {
             axios
                 .put(
                     this.$url +
-                        'users/' +
-                        localStorage.getItem('userId') +
-                        '/profile/' +
+                        '/users/profile/' +
                         localStorage.getItem('username'),
                     self.userInfos,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.result) {
-                        self.userInfos = response.data.result
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.userInfos = response.data
                         console.log('info updated')
                         self.$router.push({
                             path: '/users/' + localStorage.getItem('username'),
@@ -154,6 +150,9 @@ export default {
                 .catch(function (error) {
                     console.log(error)
                 })
+        },
+        editPassword(newPassword) {
+            this.userInfos.password = newPassword
         },
     },
     mounted() {
