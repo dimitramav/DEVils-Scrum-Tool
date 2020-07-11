@@ -1,6 +1,6 @@
 package devils.scrumtool.security;
 
-import devils.scrumtool.models.User;
+import devils.scrumtool.entities.User;
 import devils.scrumtool.repositories.UserRepository;
 // Java libraries
 import java.util.Optional;

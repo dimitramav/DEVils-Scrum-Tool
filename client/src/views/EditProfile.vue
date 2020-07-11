@@ -63,7 +63,7 @@
                         >
                         </b-form-textarea>
                     </b-form-group>
-                    <ChangePass v-on:updatedPassword="editPassword" />
+                    <ChangePass />
                     <br />
                     <b-button variant="success" size="lg" type="info"
                         >Submit changes</b-button
@@ -97,9 +97,7 @@ export default {
             const self = this
             axios
                 .get(
-                    this.$url +
-                        '/users/profile/' +
-                        localStorage.getItem('username'),
+                    this.$url + '/profile/' + localStorage.getItem('username'),
                     {
                         headers: {
                             Authorization:
@@ -124,9 +122,7 @@ export default {
             const self = this
             axios
                 .put(
-                    this.$url +
-                        '/users/profile/' +
-                        localStorage.getItem('username'),
+                    this.$url + '/profile/' + localStorage.getItem('username'),
                     self.userInfos,
                     {
                         headers: {
@@ -150,9 +146,6 @@ export default {
                 .catch(function (error) {
                     console.log(error)
                 })
-        },
-        editPassword(newPassword) {
-            this.userInfos.password = newPassword
         },
     },
     mounted() {

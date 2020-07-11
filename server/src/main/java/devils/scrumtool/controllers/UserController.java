@@ -1,13 +1,13 @@
 package devils.scrumtool.controllers;
 
 // Project's custom classes
+import devils.scrumtool.entities.User;
 import devils.scrumtool.models.AuthenticationRequest;
-import devils.scrumtool.models.User;
+import devils.scrumtool.models.Profile;
 import devils.scrumtool.repositories.UserRepository;
 import devils.scrumtool.services.UserService;
 // Java libraries
 import java.util.List;
-import java.util.Optional;
 // Spring libraries
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,19 +16,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+// import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 // User API
 @RestController
-@RequestMapping("/users")
+// @RequestMapping("/users")
 public class UserController {
 
     @Autowired private UserRepository userRepository;
 
     @Autowired private UserService userService;
 
-    @GetMapping("")
+    @GetMapping("/users")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -49,13 +49,14 @@ public class UserController {
     }
 
     @GetMapping("/profile/{username}")
-    public Optional<User> getUserByUsername(@PathVariable String username) throws Exception {
-        return userRepository.findByUsername(username);
+    public Profile getUserProfile(@PathVariable String username) {
+        return userService.getProfileByUsername(username);
     }
 
     @PutMapping("/profile/{username}")
-    public User updateUser(@RequestBody User userToUpdate) {
-        return userRepository.save(userToUpdate);
+    public Profile updateUserProfile(
+            @PathVariable String username, @RequestBody Profile updatedProfile) throws Exception {
+        return userService.updateProfileByUsername(username, updatedProfile);
     }
 
     @PostMapping("/password/{id}/matches")

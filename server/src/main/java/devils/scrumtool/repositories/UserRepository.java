@@ -1,6 +1,6 @@
 package devils.scrumtool.repositories;
 
-import devils.scrumtool.models.User;
+import devils.scrumtool.entities.User;
 // Java libraries
 import java.util.Optional;
 // Spring libraries

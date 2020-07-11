@@ -1,6 +1,6 @@
 package devils.scrumtool.security;
 
-import devils.scrumtool.models.User;
+import devils.scrumtool.entities.User;
 // Java libraries
 import java.util.Arrays;
 import java.util.Collection;

@@ -98,7 +98,7 @@ export default {
             evt.preventDefault()
             const self = this
             axios
-                .post(this.$url + '/users/signup', this.form)
+                .post(this.$url + '/signup', this.form)
                 .then(function (response) {
                     if (response.data.serverErrorMessage) {
                         console.log(response.data.serverErrorMessage)

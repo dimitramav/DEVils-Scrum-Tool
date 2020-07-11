@@ -1,9 +1,13 @@
-package devils.scrumtool.models;
+package devils.scrumtool.entities;
 
+import devils.scrumtool.models.Profile;
+// Java libraries
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -54,6 +58,9 @@ public class User {
     @Column(name = "num_projects", nullable = false)
     private int numProjects;
 
+    @OneToMany(mappedBy = "user")
+    Set<User_has_Project> relations;
+
     // Default Constructor
     public User() {}
 
@@ -71,6 +78,20 @@ public class User {
         this.firstname = firstname;
         this.lastname = lastname;
         this.password = password;
+    }
+
+    // Insert profile changes to a user
+    public void updateUserProfile(Profile profile) {
+        this.username = profile.getUsername();
+        this.email = profile.getEmail();
+        this.firstname = profile.getFirstname();
+        this.lastname = profile.getLastname();
+        this.country = profile.getCountry();
+        this.job = profile.getJob();
+        this.company = profile.getCompany();
+        this.description = profile.getDescription();
+        this.bio = profile.getBio();
+        this.photo = profile.getPhoto();
     }
 
     // Getters
@@ -130,6 +151,10 @@ public class User {
         return numProjects;
     }
 
+    public Set<User_has_Project> getRelations() {
+        return relations;
+    }
+
     // Setters
     public void setId(int id) {
         this.id = id;
@@ -187,6 +212,10 @@ public class User {
         this.numProjects = numProjects;
     }
 
+    public void setRelations(Set<User_has_Project> relations) {
+        this.relations = relations;
+    }
+
     @Override
     public String toString() {
         return "User [id="
@@ -199,6 +228,8 @@ public class User {
                 + firstname
                 + ", lastname="
                 + lastname
+                + ", password="
+                + password
                 + ", country="
                 + country
                 + ", job="

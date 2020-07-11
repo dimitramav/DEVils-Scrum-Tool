@@ -150,7 +150,7 @@ export default {
             axios
                 .put(
                     this.$url +
-                        '/users/password/' +
+                        '/password/' +
                         localStorage.getItem('userId') +
                         '/update',
                     {
@@ -170,7 +170,6 @@ export default {
                     } else {
                         console.log('pass updated')
                         self.ok = true
-                        self.$emit('updatedPassword', response.data)
                     }
                 })
                 .catch(function (error) {
@@ -188,7 +187,7 @@ export default {
             axios
                 .post(
                     this.$url +
-                        '/users/password/' +
+                        '/password/' +
                         localStorage.getItem('userId') +
                         '/matches',
                     {

@@ -1,6 +1,7 @@
 package devils.scrumtool.services;
 
-import devils.scrumtool.models.User;
+import devils.scrumtool.entities.User;
+import devils.scrumtool.models.Profile;
 import devils.scrumtool.repositories.UserRepository;
 // Java libraries
 import java.util.Optional;
@@ -23,6 +24,23 @@ public class UserService {
         newUser.setIsAdmin(false);
         newUser.setNumProjects(0);
         return userRepository.save(newUser);
+    }
+
+    public Profile getProfileByUsername(String username) {
+        Optional<User> dbUser = userRepository.findByUsername(username);
+        return new Profile(dbUser.get());
+    }
+
+    @Transactional
+    public Profile updateProfileByUsername(String username, Profile profile) throws Exception {
+        Optional<User> dbUser = userRepository.findByUsername(username);
+        if (!dbUser.isPresent()) {
+            throw new Exception("User with username: " + username + " not found!");
+        }
+        User userToUpdate = dbUser.get();
+        userToUpdate.updateUserProfile(profile);
+        userRepository.save(userToUpdate);
+        return profile;
     }
 
     public boolean passwordOfUserIdMatches(Integer id, String plainPassword) throws Exception {

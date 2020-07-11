@@ -1,8 +1,8 @@
 package devils.scrumtool.controllers;
 
+import devils.scrumtool.entities.User;
 import devils.scrumtool.models.AuthenticationRequest;
 import devils.scrumtool.models.AuthenticationResponse;
-import devils.scrumtool.models.User;
 import devils.scrumtool.repositories.UserRepository;
 import devils.scrumtool.security.CustomUserDetailsService;
 import devils.scrumtool.security.JwtUtilService;

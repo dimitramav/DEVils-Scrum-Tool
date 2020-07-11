@@ -40,7 +40,7 @@
             <b-button
                 class="text-font"
                 variant="primary"
-                v-show="loggedin_userId === userInfos.id"
+                v-show="loggedin_username === userInfos.username"
                 @click="gotoEdit"
                 >Edit Profile</b-button
             >
@@ -71,7 +71,7 @@ export default {
     data() {
         return {
             userInfos: [],
-            loggedin_userId: 0,
+            loggedin_username: '',
             current_username: '',
         }
     },
@@ -84,7 +84,7 @@ export default {
         getProfile() {
             const self = this
             axios
-                .get(this.$url + '/users/profile/' + this.current_username, {
+                .get(this.$url + '/profile/' + this.current_username, {
                     headers: {
                         Authorization:
                             'Bearer ' + localStorage.getItem('auth_token'),
@@ -110,7 +110,7 @@ export default {
         )
             return
         this.current_username = this.$route.params.id
-        this.loggedin_userId = parseInt(localStorage.getItem('userId'))
+        this.loggedin_username = localStorage.getItem('username')
         this.getProfile()
     },
 }

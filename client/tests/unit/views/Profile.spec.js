@@ -27,6 +27,6 @@ describe('Profile', () => {
     })
     it('Default values', () => {
         expect(wrapper.vm.userInfos).toBeInstanceOf(Array)
-        expect(wrapper.vm.loggedin_userId).toBeNaN()
+        expect(wrapper.vm.loggedin_username).toBeNull()
     })
 })
