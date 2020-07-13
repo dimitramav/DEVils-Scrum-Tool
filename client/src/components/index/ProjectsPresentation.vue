@@ -18,7 +18,7 @@
         <b-row>
             <b-card-group
                 v-for="project in Projects"
-                :key="project.idProject"
+                :key="project.id"
                 class="mb-2 presentation text-font"
             >
                 <b-card
@@ -35,7 +35,7 @@
                         :to="{
                             name: 'ProjectPageOverview',
                             params: {
-                                id: project.idProject,
+                                id: project.id,
                             },
                         }"
                         >Proceed
@@ -79,7 +79,7 @@ export default {
             Projects: [],
             totalNumOfProjects: 0,
             currentPage: 1,
-            recordsPerPage: this.$recordsPerPage,
+            recordsPerPage: 4,
         }
     },
     methods: {
@@ -92,25 +92,27 @@ export default {
             axios
                 .get(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects?isDone=' +
                         self.isDone.toString() +
+                        '&recordsPerPage=' +
+                        self.recordsPerPage +
                         '&currentPage=' +
                         self.currentPage,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
-                        self.Projects = response.data.results
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.Projects = response.data
                     }
                 })
                 .catch(function (error) {
@@ -122,25 +124,25 @@ export default {
             axios
                 .get(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
-                        '/projects?isDone=' +
+                        '/numOfProjects?isDone=' +
                         self.isDone.toString(),
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
-                        self.totalNumOfProjects = response.data.results
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.totalNumOfProjects = response.data
                         //console.log(self.totalNumOfProjects)
-                        self.$emit('total', response.data.results, self.isDone)
+                        self.$emit('total', response.data, self.isDone)
                     }
                 })
                 .catch(function (error) {

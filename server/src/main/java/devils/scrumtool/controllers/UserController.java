@@ -7,7 +7,7 @@ import devils.scrumtool.models.Profile;
 import devils.scrumtool.repositories.UserRepository;
 import devils.scrumtool.services.UserService;
 // Java libraries
-import java.util.List;
+// import java.util.List;
 // Spring libraries
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,7 +29,7 @@ public class UserController {
     @Autowired private UserService userService;
 
     @GetMapping("/users")
-    public List<User> getAllUsers() {
+    public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
 
@@ -59,18 +59,18 @@ public class UserController {
         return userService.updateProfileByUsername(username, updatedProfile);
     }
 
-    @PostMapping("/password/{id}/matches")
+    @PostMapping("/password/{userId}/matches")
     public boolean passwordMatches(
-            @PathVariable Integer id, @RequestBody AuthenticationRequest plainPassword)
+            @PathVariable Integer userId, @RequestBody AuthenticationRequest plainPassword)
             throws Exception {
-        return userService.passwordOfUserIdMatches(id, plainPassword.getPassword());
+        return userService.passwordOfUserIdMatches(userId, plainPassword.getPassword());
     }
 
-    @PutMapping("/password/{id}/update")
+    @PutMapping("/password/{userId}/update")
     public String passwordUpdate(
-            @PathVariable Integer id, @RequestBody AuthenticationRequest plainPassword)
+            @PathVariable Integer userId, @RequestBody AuthenticationRequest plainPassword)
             throws Exception {
-        return userService.passwordOfUserIdUpdate(id, plainPassword.getPassword());
+        return userService.passwordOfUserIdUpdate(userId, plainPassword.getPassword());
     }
 
     /*@PutMapping("/employees/{id}")

@@ -1,5 +1,6 @@
 package devils.scrumtool.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import devils.scrumtool.models.Profile;
 // Java libraries
 import java.util.Set;
@@ -16,7 +17,7 @@ public class User {
 
     @Id
     @GeneratedValue
-    @Column(name = "id")
+    @Column(name = "id", columnDefinition = "serial")
     private int id;
 
     @Column(name = "username", nullable = false, unique = true)
@@ -58,8 +59,9 @@ public class User {
     @Column(name = "num_projects", nullable = false)
     private int numProjects;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
-    Set<User_has_Project> relations;
+    private Set<User_has_Project> projects;
 
     // Default Constructor
     public User() {}
@@ -151,8 +153,10 @@ public class User {
         return numProjects;
     }
 
-    public Set<User_has_Project> getRelations() {
-        return relations;
+    // By returning relational objects, it produces an infinite loop
+    // So use @JsonManagedReference and @JsonBackReference annotations
+    public Set<User_has_Project> getProjects() {
+        return projects;
     }
 
     // Setters
@@ -212,8 +216,8 @@ public class User {
         this.numProjects = numProjects;
     }
 
-    public void setRelations(Set<User_has_Project> relations) {
-        this.relations = relations;
+    public void setProjects(Set<User_has_Project> projects) {
+        this.projects = projects;
     }
 
     @Override

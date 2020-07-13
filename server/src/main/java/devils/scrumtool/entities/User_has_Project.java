@@ -1,45 +1,47 @@
 package devils.scrumtool.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+// import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_has_project")
 public class User_has_Project {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    private int id;
+    @EmbeddedId private UserHasProjectId id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id")
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("project_id")
     private Project project;
 
     @Column(name = "role", nullable = false)
     private String role;
 
-    // Defa Constructor
+    // Default Constructor
     public User_has_Project() {}
 
-    public User_has_Project(int id, User user, Project project, String role) {
+    public User_has_Project(UserHasProjectId id, String role) {
         this.id = id;
-        this.user = user;
-        this.project = project;
         this.role = role;
     }
 
     // Getters
-    public int getId() {
+    public UserHasProjectId getId() {
         return id;
     }
 
@@ -56,7 +58,7 @@ public class User_has_Project {
     }
 
     // Setters
-    public void setId(int id) {
+    public void setId(UserHasProjectId id) {
         this.id = id;
     }
 
@@ -74,14 +76,62 @@ public class User_has_Project {
 
     @Override
     public String toString() {
-        return "User_has_Project [id="
-                + id
-                + ", user_id="
-                + user.getId()
+        return "User_has_Project [user_id="
+                + id.getUserId()
                 + ", project_id="
-                + project.getId()
+                + id.getProjectId()
                 + ", role="
                 + role
                 + "]";
+    }
+
+    // Embedded class for id
+    @Embeddable
+    public static class UserHasProjectId implements Serializable {
+
+        @Column(name = "user_id")
+        private int userId;
+
+        @Column(name = "project_id")
+        private int projectId;
+
+        // Default Constructor
+        public UserHasProjectId() {}
+
+        public UserHasProjectId(int userId, int projectId) {
+            this.userId = userId;
+            this.projectId = projectId;
+        }
+
+        // Getters
+        public int getUserId() {
+            return userId;
+        }
+
+        public int getProjectId() {
+            return projectId;
+        }
+
+        // Setters
+        public void setUserId(int userId) {
+            this.userId = userId;
+        }
+
+        public void setProjectId(int projectId) {
+            this.projectId = projectId;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            UserHasProjectId that = (UserHasProjectId) o;
+            return Objects.equals(userId, that.userId) && Objects.equals(projectId, that.projectId);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(userId, projectId);
+        }
     }
 }

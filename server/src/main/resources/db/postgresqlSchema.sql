@@ -6,9 +6,9 @@ DROP TABLE IF EXISTS tasks;
 DROP TABLE IF EXISTS pbis;
 DROP TABLE IF EXISTS sprints;
 DROP TABLE IF EXISTS notifications;
-DROP TABLE IF EXISTS user_has_project;
+/*DROP TABLE IF EXISTS user_has_project;
 DROP TABLE IF EXISTS projects;
-/*DROP TABLE IF EXISTS users;*/
+DROP TABLE IF EXISTS users;*/
 
 
 /* Users */
@@ -41,7 +41,6 @@ CREATE TABLE projects (
 
 /* Intermediate table for n2n relation between Users and Projects */
 CREATE TABLE user_has_project (
-    id SERIAL PRIMARY KEY,
     user_id INT NOT NULL REFERENCES users(id),
     project_id INT NOT NULL REFERENCES projects(id),
     role VARCHAR NOT NULL

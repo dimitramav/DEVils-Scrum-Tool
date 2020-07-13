@@ -76,26 +76,24 @@ export default {
             axios
                 .post(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects',
                     data,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
                     }
-                    if (response.data.results) {
-                        console.log(response.data.results)
-                        self.$emit('newProject', response.data.results)
-                        //self.currentProjects.push(response.data.results)
-                        //self.getNumOfCurProjects()
+                    if (response.data) {
+                        self.$emit('newProject', response.data)
                     }
                 })
                 .catch(function (error) {

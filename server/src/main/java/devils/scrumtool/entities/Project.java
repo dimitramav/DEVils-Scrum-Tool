@@ -1,6 +1,7 @@
 package devils.scrumtool.entities;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.sql.Date;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +16,7 @@ public class Project {
 
     @Id
     @GeneratedValue
-    @Column(name = "id")
+    @Column(name = "id", columnDefinition = "serial")
     private int id;
 
     @Column(name = "title", nullable = false)
@@ -27,8 +28,9 @@ public class Project {
     @Column(name = "deadline_date")
     private Date deadlineDate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "project")
-    Set<User_has_Project> relations;
+    private Set<User_has_Project> users;
 
     // Default Constructor
     public Project() {}
@@ -57,8 +59,8 @@ public class Project {
         return deadlineDate;
     }
 
-    public Set<User_has_Project> getRelations() {
-        return relations;
+    public Set<User_has_Project> getUsers() {
+        return users;
     }
 
     // Setters
@@ -78,8 +80,8 @@ public class Project {
         this.deadlineDate = deadlineDate;
     }
 
-    public void setRelations(Set<User_has_Project> relations) {
-        this.relations = relations;
+    public void setUsers(Set<User_has_Project> users) {
+        this.users = users;
     }
 
     @Override
