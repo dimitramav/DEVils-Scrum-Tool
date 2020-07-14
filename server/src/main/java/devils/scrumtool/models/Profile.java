@@ -3,6 +3,7 @@ package devils.scrumtool.models;
 import devils.scrumtool.entities.User;
 import java.io.Serializable;
 
+// User's profile (no id, password, isAdmin)
 public class Profile implements Serializable {
 
     private String username;

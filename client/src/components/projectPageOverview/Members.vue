@@ -10,7 +10,7 @@
                     <b-list-group
                         v-for="teamMember in Team"
                         v-bind:data="teamMember"
-                        v-bind:key="teamMember.mail"
+                        v-bind:key="teamMember.email"
                     >
                         <b-list-group-item>
                             <div class="d-flex">
@@ -23,7 +23,7 @@
                                 {{ teamMember.lastname }}
                                 {{ teamMember.firstname }}
                                 <br />
-                                Email: {{ teamMember.mail }}
+                                Email: {{ teamMember.email }}
                             </p>
                         </b-list-group-item>
                     </b-list-group>
@@ -48,7 +48,7 @@
                     class="mb-2 mr-sm-2 mb-sm-0"
                     id="emailInput"
                     type="email"
-                    v-model="newMember.mail"
+                    v-model="newMember.email"
                     @change="checkEmail"
                     :state="validEmail"
                     placeholder="email"
@@ -111,16 +111,16 @@ export default {
                 },
             ],
             newMember: {
-                mail: '',
+                email: '',
                 role: null,
             },
             invitation: {
-                idNotification: null,
-                Project_id: 0,
+                id: null,
+                projectId: 0,
                 projectTitle: null,
                 role: null,
-                FromUsername: null,
-                ToUserEmail: '',
+                fromUsername: null,
+                toUserEmail: '',
                 type: '',
             },
             showAlert: false,
@@ -136,32 +136,32 @@ export default {
             } else if (self.newMember.role === '2') {
                 self.invitation.role = 'Developer'
             }
-            self.invitation.Project_id = this.$route.params.id
+            self.invitation.projectId = this.$route.params.id
             self.invitation.projectTitle = self.projectOverview.project.title
-            self.invitation.FromUsername = localStorage.getItem('username')
-            self.invitation.ToUserEmail = self.newMember.mail
+            self.invitation.fromUsername = localStorage.getItem('username')
+            self.invitation.toUserEmail = self.newMember.email
             self.invitation.type = 'Accept/Decline'
             axios
                 .post(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/notifications',
                     self.invitation,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         console.log('Invitation send')
-                        self.newMember.mail = ''
+                        self.newMember.email = ''
                         self.validEmail = null
                     }
                 })
@@ -172,20 +172,20 @@ export default {
         },
         checkEmail() {
             const self = this
-            if (this.newMember.mail === '') {
+            if (this.newMember.email === '') {
                 this.validEmail = null
                 return
             } // Check if the user is among the members already in project
             let i
             for (i = 0; i < this.Team.length; i++) {
-                if (this.Team[i].mail === this.newMember.mail) {
+                if (this.Team[i].email === this.newMember.email) {
                     this.validEmail = false
                     return
                 }
             }
             axios
                 .post(this.$url + 'exists', {
-                    mail: self.newMember.mail,
+                    mail: self.newMember.email,
                 })
                 .then(function (response) {
                     self.validEmail = response.data.exists === 1

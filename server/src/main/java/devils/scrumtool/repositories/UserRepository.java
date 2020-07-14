@@ -2,6 +2,7 @@ package devils.scrumtool.repositories;
 
 import devils.scrumtool.entities.User;
 // Java libraries
+import java.util.List;
 import java.util.Optional;
 // Spring libraries
 import org.springframework.data.repository.CrudRepository;
@@ -17,4 +18,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
+
+    List<User> findByProjects_ProjectId(Integer projectId);
 }

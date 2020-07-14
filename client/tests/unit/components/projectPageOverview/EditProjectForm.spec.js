@@ -36,7 +36,7 @@ describe('EditProjectForm', () => {
         expect(wrapper.find('#dateInput').attributes().type).toBe('date')
     })
     it('Default values', () => {
-        expect(wrapper.vm.form.idProject).toBe(0)
+        expect(wrapper.vm.form.id).toBe(0)
         expect(wrapper.vm.form.newTitle).toBe('')
         expect(wrapper.vm.form.deadlineDate).toBe('')
         expect(wrapper.vm.form.isDone).toBeFalsy()

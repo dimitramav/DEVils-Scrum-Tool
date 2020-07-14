@@ -66,40 +66,4 @@ public class UserService {
         }
         return newPassword;
     }
-
-    /*@Override
-    public boolean findUser(String username) {
-    	return dao.findByUsername(username) != null ? true : false;
-    }
-
-    @Override
-    public UserDTO findUserByUsername(String username) {
-    	return dao.findByUsername(username);
-    }
-
-    @Override
-    public void updateUser(Long id, String firstname, String lastname, String email, String company, String role,
-    		String summary) {
-    	UserDTO userToUpdate = dao.getOne(id);
-    	userToUpdate.setFirstname(firstname);
-    	userToUpdate.setLastname(lastname);
-    	userToUpdate.setEmail(email);
-    	userToUpdate.setCompany(company);
-    	userToUpdate.setProfession(role);
-    	userToUpdate.setSummary(summary);
-    	dao.save(userToUpdate);
-    }
-
-    @Override
-    public boolean updatePassword(Long id, String oldPassword, String newPassword) {
-    	UserDTO userToUpdate = dao.findById(id).get();
-    	if (userToUpdate == null)
-    		return false;
-    	if (passwordEncoder.matches(oldPassword, userToUpdate.getPassword())) {
-    		userToUpdate.setPassword(passwordEncoder.encode(newPassword));
-    		dao.save(userToUpdate);
-    		return true;
-    	}
-    	return false;
-    }*/
 }

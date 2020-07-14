@@ -76,7 +76,7 @@ export default {
     data() {
         return {
             form: {
-                idProject: this.Project_id,
+                id: this.Project_id,
                 newTitle: this.Project_title,
                 deadlineDate: '',
             },
@@ -98,7 +98,7 @@ export default {
             evt.preventDefault()
             const self = this
             let data = {
-                idProject: this.Project_id,
+                id: this.Project_id,
                 title: this.form.newTitle,
                 isDone: this.isDone,
                 deadlineDate: this.form.deadlineDate,
@@ -106,25 +106,24 @@ export default {
             axios
                 .put(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id,
                     data,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
-                        //self.projectOverview.project = response.data.results
-                        self.$emit('editProject', response.data.results)
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.$emit('editProject', response.data)
                     }
                 })
                 .catch(function (error) {

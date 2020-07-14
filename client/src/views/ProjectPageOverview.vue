@@ -67,7 +67,7 @@ export default {
         return {
             projectOverview: {
                 project: {
-                    idProject: 0,
+                    id: 0,
                     title: '',
                     isDone: false,
                     deadlineDate: '',
@@ -80,7 +80,6 @@ export default {
                 doing: 0,
                 done: 0,
                 issues: 0,
-                showAlert: false,
             },
             sprintDataLoaded: false,
             teamDataLoaded: false,
@@ -94,28 +93,27 @@ export default {
             axios
                 .get(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                        self.$router.push({
-                            path: '/unauthorized',
-                        })
-                    }
-                    if (response.data.results) {
-                        self.projectOverview = response.data.results
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                        //self.$router.push({
+                        //    path: '/unauthorized',
+                        //})
+                    } else {
+                        self.projectOverview = response.data
                         self.sprintDataLoaded = true
-                        console.log('Got the results')
                     }
                 })
                 .catch(function (error) {
@@ -127,29 +125,28 @@ export default {
             axios
                 .get(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
                         '/members',
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
                         /*self.$router.push({
                             path: '/unauthorized',
                         })*/
-                    }
-                    if (response.data.results) {
-                        self.Team = response.data.results
+                    } else {
+                        self.Team = response.data
                         self.teamDataLoaded = true
-                        console.log('Got the members')
                     }
                 })
                 .catch(function (error) {

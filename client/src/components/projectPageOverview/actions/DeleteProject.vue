@@ -24,25 +24,24 @@ export default {
         deleteProject() {
             const self = this
             axios
-                .patch(
+                .delete(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
-                        '/projects',
-                    this.Project_id,
+                        '/projects/' +
+                        this.Project_id,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
-                        console.log(response)
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         self.$router.push({
                             path: '/',
                         })
