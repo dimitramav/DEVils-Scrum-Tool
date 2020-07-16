@@ -12,7 +12,7 @@
 ### Run your unit tests
     npm run test:unit
 
-### Run your end-to-end tests
+### Run your end-to-end tests (not implemented)
     npm run test:e2e
 
 ### Lints and fixes files

@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import SecondNavbar from '@/components/navbar/SecondNavbar.vue'
 import Notifications from '@/components/navbar/Notifications.vue'
 
@@ -56,13 +57,23 @@ export default {
         SecondNavbar,
         Notifications,
     },
+    props: {
+        logout_prop: {
+            type: Boolean,
+            default: true,
+        },
+        dashboard: {
+            type: Boolean,
+            default: true,
+        },
+    },
     methods: {
         profile() {
             if (this.$router.currentRoute.name == 'Profile') {
                 this.$router.push({
                     name: 'Profile',
                     params: {
-                        id: localStorage.getItem('username'),
+                        username: localStorage.getItem('username'),
                     },
                 })
                 location.reload()
@@ -70,7 +81,7 @@ export default {
                 this.$router.push({
                     name: 'Profile',
                     params: {
-                        id: localStorage.getItem('username'),
+                        username: localStorage.getItem('username'),
                     },
                 })
             }
@@ -87,16 +98,44 @@ export default {
                 })
             }
         },
+        projectAuthorization() {
+            const self = this
+            axios
+                .get(
+                    this.$url +
+                        '/users/' +
+                        localStorage.getItem('userId') +
+                        '/projects/' +
+                        this.$route.params.id +
+                        '/projectAuthorization',
+                    {
+                        headers: {
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+                .then(function (response) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        if (response.data == false) {
+                            self.$router.push({
+                                path: '/unauthorized',
+                            })
+                        }
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+        },
     },
-    props: {
-        logout_prop: {
-            type: Boolean,
-            default: true,
-        },
-        dashboard: {
-            type: Boolean,
-            default: true,
-        },
+    mounted() {
+        if (this.$route.params.id != null) {
+            this.projectAuthorization()
+        }
     },
 }
 </script>

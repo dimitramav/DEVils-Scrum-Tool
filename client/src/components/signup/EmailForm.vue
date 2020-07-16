@@ -4,7 +4,7 @@
         label="Email address"
         label-for="email"
         :invalid-feedback="validEmail === false ? 'Invalid email' : ''"
-        description="We'll never share your email with anyone else."
+        description="As this is a github project, add a fake email if you like"
     >
         <b-form-input
             id="emailInput"

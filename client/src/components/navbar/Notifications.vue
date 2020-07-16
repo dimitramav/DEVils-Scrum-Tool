@@ -19,9 +19,9 @@
             <div v-if="notification.type === 'Accept/Decline'">
                 User
                 <a
-                    v-on:click="goToProfile(notification.FromUsername)"
+                    v-on:click="goToProfile(notification.sender.username)"
                     href="#"
-                    >{{ notification.FromUsername }}</a
+                    >{{ notification.sender.username }}</a
                 >
                 invited you as {{ notification.role }} in
                 {{ notification.projectTitle }}.
@@ -39,7 +39,7 @@
                 >
             </div>
             <div v-else>
-                {{ notification.text }}
+                {{ notification.message }}
                 <br />
                 <b-button
                     variant="primary"
@@ -59,12 +59,21 @@ export default {
     data() {
         return {
             notificationStruct: {
-                idNotification: null,
-                Project_id: 0,
+                id: null,
+                project: {
+                    id: 0,
+                    title: '',
+                    isDone: false,
+                    deadlineDate: '',
+                },
                 projectTitle: null,
                 role: null,
-                FromUsername: null,
-                ToUserEmail: '',
+                sender: {
+                    username: null,
+                },
+                receiver: {
+                    email: '',
+                },
                 type: '',
             },
             Notifications: [],
@@ -75,7 +84,7 @@ export default {
             this.$router.push({
                 name: 'Profile',
                 params: {
-                    id: name,
+                    username: name,
                 },
             })
         },
@@ -84,68 +93,67 @@ export default {
             axios
                 .get(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/notifications',
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
-                        self.Notifications = response.data.results
-                        console.log('Got the notifications')
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.Notifications = response.data
+                        // console.log('Got the notifications')
                     }
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
         },
-        watchedNotification(functionality, notificationItem) {
+        watchedNotification: async function (functionality, notificationItem) {
             const self = this
             if (functionality === 'accept' || functionality === 'decline') {
-                axios
-                    .put(
+                await axios
+                    .delete(
                         this.$url +
-                            'users/' +
+                            '/users/' +
                             localStorage.getItem('userId') +
-                            '/notifications',
-                        notificationItem.idNotification,
+                            '/notifications/' +
+                            notificationItem.id,
                         {
                             headers: {
-                                auth: localStorage.getItem('auth_token'),
+                                Authorization:
+                                    'Bearer ' +
+                                    localStorage.getItem('auth_token'),
                                 'Content-Type': 'application/json',
                             },
                         }
                     )
                     .then(function (response) {
-                        if (response.data.error) {
-                            console.log(response.data.error)
-                        }
-                        if (response.data.results) {
-                            if (response.data.results === 1) {
-                                let index = -1
-                                for (let x in self.Notifications) {
-                                    if (
-                                        self.Notifications[x].idNotification ===
-                                        notificationItem.idNotification
-                                    ) {
-                                        index = x
-                                        break
-                                    }
+                        if (response.data.serverErrorMessage) {
+                            console.log(response.data.serverErrorMessage)
+                        } else {
+                            let index = -1
+                            for (let x in self.Notifications) {
+                                if (
+                                    self.Notifications[x].id ===
+                                    notificationItem.id
+                                ) {
+                                    index = x
+                                    break
                                 }
-                                if (index >= 0) {
-                                    self.Notifications.splice(index, 1)
-                                    console.log('Notification removed')
-                                }
+                            }
+                            if (index >= 0) {
+                                self.Notifications.splice(index, 1)
+                                console.log('Notification removed')
                             } else {
-                                console.log('Notification did not delete')
+                                console.log('Notif. deleted in db, not client')
                             }
                         }
                     })
@@ -154,31 +162,28 @@ export default {
                     })
                 // Add user in project
                 if (functionality === 'accept') {
-                    let data = {
-                        mail: notificationItem.ToUserEmail,
-                        role: notificationItem.role,
-                    }
-                    axios
+                    await axios
                         .post(
                             this.$url +
-                                'users/' +
+                                '/users/' +
                                 localStorage.getItem('userId') +
                                 '/projects/' +
-                                notificationItem.Project_id +
+                                notificationItem.project.id +
                                 '/members',
-                            data,
+                            notificationItem.role,
                             {
                                 headers: {
-                                    auth: localStorage.getItem('auth_token'),
+                                    Authorization:
+                                        'Bearer ' +
+                                        localStorage.getItem('auth_token'),
                                     'Content-Type': 'application/json',
                                 },
                             }
                         )
                         .then(function (response) {
-                            if (response.data.error) {
-                                console.log(response.data.error)
-                            }
-                            if (response.data.results) {
+                            if (response.data.serverErrorMessage) {
+                                console.log(response.data.serverErrorMessage)
+                            } else {
                                 console.log('User inserts as member in project')
                             }
                         })
@@ -192,37 +197,38 @@ export default {
             if (notificationItem.type === 'Accept/Decline') {
                 let answer
                 if (functionality === 'accept') {
-                    answer = notificationItem.ToUserEmail + ' accepted'
+                    answer = notificationItem.receiver.email + ' accepted'
                 } else if (functionality === 'decline') {
-                    answer = notificationItem.ToUserEmail + ' declined (!!!)'
+                    answer = notificationItem.receiver.email + ' declined (!!!)'
                 }
-                self.notificationStruct.ToUserEmail =
-                    notificationItem.FromUsername
+                self.notificationStruct.receiver.username =
+                    notificationItem.sender.username
                 self.notificationStruct.type = 'Answer-Accept/Decline'
-                self.notificationStruct.text =
+                self.notificationStruct.message =
                     'User ' +
                     answer +
                     ' invitation to ' +
                     notificationItem.projectTitle
-                axios
+                await axios
                     .post(
                         this.$url +
-                            'users/' +
+                            '/users/' +
                             localStorage.getItem('userId') +
                             '/notifications',
                         self.notificationStruct,
                         {
                             headers: {
-                                auth: localStorage.getItem('auth_token'),
+                                Authorization:
+                                    'Bearer ' +
+                                    localStorage.getItem('auth_token'),
                                 'Content-Type': 'application/json',
                             },
                         }
                     )
                     .then(function (response) {
-                        if (response.data.error) {
-                            console.log(response.data.error)
-                        }
-                        if (response.data.results) {
+                        if (response.data.serverErrorMessage) {
+                            console.log(response.data.serverErrorMessage)
+                        } else {
                             console.log('Response Invitation send')
                         }
                     })
@@ -234,7 +240,7 @@ export default {
                     this.$router.push({
                         path:
                             '/project/' +
-                            notificationItem.Project_id +
+                            notificationItem.project.id +
                             '/overview',
                     })
                 }

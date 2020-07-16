@@ -109,7 +109,7 @@ export default {
             localStorage.getItem('userId') === 'null'
         )
             return
-        this.current_username = this.$route.params.id
+        this.current_username = this.$route.params.username
         this.loggedin_username = localStorage.getItem('username')
         this.getProfile()
     },

@@ -38,7 +38,7 @@ const routes = [
         component: ForgotPass,
     },
     {
-        path: '/users/:id',
+        path: '/users/:username',
         name: 'Profile',
         component: Profile,
         beforeEnter: (to, from, next) => {

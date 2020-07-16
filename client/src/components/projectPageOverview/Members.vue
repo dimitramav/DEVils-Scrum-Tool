@@ -116,11 +116,20 @@ export default {
             },
             invitation: {
                 id: null,
-                projectId: 0,
+                project: {
+                    id: 0,
+                    title: '',
+                    isDone: false,
+                    deadlineDate: '',
+                },
                 projectTitle: null,
                 role: null,
-                fromUsername: null,
-                toUserEmail: '',
+                sender: {
+                    username: null,
+                },
+                receiver: {
+                    email: '',
+                },
                 type: '',
             },
             showAlert: false,
@@ -136,10 +145,10 @@ export default {
             } else if (self.newMember.role === '2') {
                 self.invitation.role = 'Developer'
             }
-            self.invitation.projectId = this.$route.params.id
+            self.invitation.project.id = this.$route.params.id
             self.invitation.projectTitle = self.projectOverview.project.title
-            self.invitation.fromUsername = localStorage.getItem('username')
-            self.invitation.toUserEmail = self.newMember.email
+            self.invitation.sender.username = localStorage.getItem('username')
+            self.invitation.receiver.email = self.newMember.email
             self.invitation.type = 'Accept/Decline'
             axios
                 .post(
@@ -184,11 +193,9 @@ export default {
                 }
             }
             axios
-                .post(this.$url + 'exists', {
-                    mail: self.newMember.email,
-                })
+                .get(this.$url + '/exists/email/' + this.newMember.email)
                 .then(function (response) {
-                    self.validEmail = response.data.exists === 1
+                    self.validEmail = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
