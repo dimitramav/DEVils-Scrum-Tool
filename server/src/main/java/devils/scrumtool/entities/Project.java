@@ -1,8 +1,10 @@
 package devils.scrumtool.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "projects")
-public class Project {
+public class Project implements Serializable {
 
     @Id
     @GeneratedValue
@@ -31,6 +33,10 @@ public class Project {
     @JsonIgnore
     @OneToMany(mappedBy = "project")
     private Set<User_has_Project> users;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private Set<Notification> notifications;
 
     // Default Constructor
     public Project() {}
@@ -63,6 +69,10 @@ public class Project {
         return users;
     }
 
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
+
     // Setters
     public void setId(int id) {
         this.id = id;
@@ -82,6 +92,10 @@ public class Project {
 
     public void setUsers(Set<User_has_Project> users) {
         this.users = users;
+    }
+
+    public void setNotifications(Set<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     @Override

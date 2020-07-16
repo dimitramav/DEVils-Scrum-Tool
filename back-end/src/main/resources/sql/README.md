@@ -12,10 +12,3 @@
     GRANT ALL ON scrumtool.* TO 'scrumtool'@'localhost';
     USE scrumtool;
     source ./src/main/resources/sql/schema.sql; (from bash, else import file using workbench)
-
-## Existing Users
-- Emails / Passwords for existing Users (Log in, passwords encrypted in database):
-  - orestis@gmail.com / orestis7#
-  - kostas@gmail.com  / kostas7#
-  - markos@gmail.com  / markos7#
-  - dimitra@gmail.com / dimitra7#

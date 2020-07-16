@@ -1,6 +1,7 @@
 package devils.scrumtool.controllers;
 
 import devils.scrumtool.entities.User;
+import devils.scrumtool.exceptions.CustomException;
 import devils.scrumtool.models.AuthenticationRequest;
 import devils.scrumtool.models.AuthenticationResponse;
 import devils.scrumtool.repositories.UserRepository;
@@ -42,7 +43,7 @@ public class AuthenticationController {
                             authenticationRequest.getUsername(),
                             authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
+            throw new BadCredentialsException("Incorrect username or password", e);
         }
 
         final UserDetails userDetails =
@@ -58,7 +59,7 @@ public class AuthenticationController {
                     new AuthenticationResponse(
                             jwt, existingUser.getId(), existingUser.getUsername()));
         } else {
-            throw new Exception("User with this email not found!");
+            throw new CustomException("User with this email not found!");
         }
     }
 }

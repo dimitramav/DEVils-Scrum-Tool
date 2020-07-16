@@ -1,7 +1,7 @@
 package devils.scrumtool.controllers;
 
-// Project's custom classes
 import devils.scrumtool.entities.User;
+import devils.scrumtool.exceptions.CustomException;
 import devils.scrumtool.models.AuthenticationRequest;
 import devils.scrumtool.models.Profile;
 import devils.scrumtool.repositories.UserRepository;
@@ -34,12 +34,12 @@ public class UserController {
     }
 
     @GetMapping("/exists/username/{username}")
-    public boolean existsUsername(@PathVariable String username) throws Exception {
+    public boolean existsUsername(@PathVariable String username) throws CustomException {
         return userRepository.existsByUsername(username);
     }
 
     @GetMapping("/exists/email/{email}")
-    public boolean existsEmail(@PathVariable String email) throws Exception {
+    public boolean existsEmail(@PathVariable String email) throws CustomException {
         return userRepository.existsByEmail(email);
     }
 

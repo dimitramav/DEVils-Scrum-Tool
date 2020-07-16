@@ -4,6 +4,7 @@ import devils.scrumtool.entities.User;
 import devils.scrumtool.repositories.UserRepository;
 // Java libraries
 import java.util.Optional;
+// Spring libraries
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

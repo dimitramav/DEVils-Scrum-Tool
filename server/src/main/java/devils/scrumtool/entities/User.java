@@ -3,6 +3,7 @@ package devils.scrumtool.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import devils.scrumtool.models.Profile;
 // Java libraries
+import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue
@@ -62,6 +63,14 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<User_has_Project> projects;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "sender")
+    private Set<Notification> senderNotifications;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "receiver")
+    private Set<Notification> receiverNotifications;
 
     // Default Constructor
     public User() {}
@@ -153,10 +162,18 @@ public class User {
         return numProjects;
     }
 
-    // By returning relational objects, it produces an infinite loop
-    // So use @JsonManagedReference and @JsonBackReference annotations
+    // By returning relational objects, we get an infinite loop
+    // So use @JsonIgnore annotations to avoid them
     public Set<User_has_Project> getProjects() {
         return projects;
+    }
+
+    public Set<Notification> getSenderNotifications() {
+        return senderNotifications;
+    }
+
+    public Set<Notification> getReceiverNotifications() {
+        return receiverNotifications;
     }
 
     // Setters
@@ -218,6 +235,14 @@ public class User {
 
     public void setProjects(Set<User_has_Project> projects) {
         this.projects = projects;
+    }
+
+    public void setSenderNotifications(Set<Notification> senderNotifications) {
+        this.senderNotifications = senderNotifications;
+    }
+
+    public void setReceiverNotifications(Set<Notification> receiverNotifications) {
+        this.receiverNotifications = receiverNotifications;
     }
 
     @Override

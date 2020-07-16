@@ -50,7 +50,7 @@ CREATE TABLE user_has_project (
 /* Notifications */
 CREATE TABLE notifications (
     id SERIAL PRIMARY KEY,
-    project_id INT DEFAULT NULL REFERENCES projects(id),
+    project_id INT DEFAULT NULL REFERENCES projects(id) ON DELETE CASCADE,
     project_title VARCHAR DEFAULT NULL,
     role VARCHAR DEFAULT NULL,
     from_username VARCHAR DEFAULT NULL REFERENCES users(username),

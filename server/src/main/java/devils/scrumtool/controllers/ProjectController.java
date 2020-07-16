@@ -1,9 +1,7 @@
 package devils.scrumtool.controllers;
 
-// Project's custom classes
 import devils.scrumtool.entities.Project;
 import devils.scrumtool.models.ProjectOverview;
-import devils.scrumtool.models.TeamMember;
 import devils.scrumtool.repositories.ProjectRepository;
 import devils.scrumtool.services.ProjectService;
 // Java libraries
@@ -59,12 +57,6 @@ public class ProjectController {
         return projectService.getProjectCurrentSprintOverview(projectId);
     }
 
-    @GetMapping("/users/{userId}/projects/{projectId}/members")
-    public List<TeamMember> getProjectMembers(
-            @PathVariable Integer userId, @PathVariable Integer projectId) throws Exception {
-        return projectService.getProjectTeam(projectId);
-    }
-
     @PutMapping("/users/{userId}/projects/{projectId}")
     public Project updateProject(
             @PathVariable Integer projectId, @RequestBody Project updatedProject) {
@@ -80,6 +72,12 @@ public class ProjectController {
 
     @DeleteMapping("/users/{userId}/projects/{projectId}")
     public void deleteProject(@PathVariable Integer projectId) {
-        projectService.deleteProjectFull(projectId);
+        projectService.deleteProjectAndRelations(projectId);
+    }
+
+    @GetMapping("/users/{userId}/projects/{projectId}/projectAuthorization")
+    public Boolean projectAuthorization(
+            @PathVariable Integer userId, @PathVariable Integer projectId) {
+        return projectService.checkIfUserMemberOfProject(userId, projectId);
     }
 }
