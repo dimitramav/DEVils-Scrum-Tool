@@ -16,8 +16,8 @@
         </p>
         <!--Get User Stories of each epic-->
         <b-btn
-            v-b-toggle="'collapse' + cur_pbi.idPBI"
-            v-on:click="getEpicUserStories(cur_pbi.idPBI)"
+            v-b-toggle="'collapse' + cur_pbi.id"
+            v-on:click="getEpicUserStories(cur_pbi.id)"
             variant="info"
         >
             User Stories
@@ -60,7 +60,7 @@ export default {
             axios
                 .get(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
@@ -68,28 +68,30 @@ export default {
                         epicId,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         // For empty epic add a special entry in stories array
-                        if (response.data.results.length > 0) {
+                        if (response.data.length > 0) {
                             self.$set(
                                 self.currentUserStories,
                                 epicId,
-                                response.data.results
+                                response.data
                             )
                         } else {
                             let data = [
                                 {
-                                    Epic_id: epicId,
-                                    idPBI: -1,
+                                    epic: {
+                                        id: epicId,
+                                    },
+                                    id: -1,
                                 },
                             ]
                             self.$set(self.currentUserStories, epicId, data)

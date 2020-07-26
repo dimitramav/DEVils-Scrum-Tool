@@ -38,6 +38,10 @@ public class Project implements Serializable {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<Notification> notifications;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private Set<PBI> pbis;
+
     // Default Constructor
     public Project() {}
 
@@ -73,6 +77,10 @@ public class Project implements Serializable {
         return notifications;
     }
 
+    public Set<PBI> getPbis() {
+        return pbis;
+    }
+
     // Setters
     public void setId(int id) {
         this.id = id;
@@ -96,6 +104,10 @@ public class Project implements Serializable {
 
     public void setNotifications(Set<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public void setPbis(Set<PBI> pbis) {
+        this.pbis = pbis;
     }
 
     @Override

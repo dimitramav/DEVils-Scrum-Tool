@@ -46,7 +46,7 @@ export default {
             axios
                 .get(
                     self.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
@@ -54,18 +54,18 @@ export default {
                         idPBI,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         //self.stories_options = []
-                        let stories = response.data.results
+                        let stories = response.data
                         // Create an array of object
                         for (let i = 0; i < stories.length; i++) {
                             // Check if this story has already been loaded
@@ -91,24 +91,24 @@ export default {
             axios
                 .get(
                     self.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
                         '/pbis?isEpic=true',
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
-                        self.epics = response.data.results
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.epics = response.data
                     }
                 })
                 .catch(function (error) {

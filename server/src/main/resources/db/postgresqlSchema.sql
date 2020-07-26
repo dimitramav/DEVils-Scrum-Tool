@@ -5,8 +5,8 @@ DROP TABLE IF EXISTS issues;
 DROP TABLE IF EXISTS tasks;
 DROP TABLE IF EXISTS pbis;
 DROP TABLE IF EXISTS sprints;
-DROP TABLE IF EXISTS notifications;
-/*DROP TABLE IF EXISTS user_has_project;
+/*DROP TABLE IF EXISTS notifications;
+DROP TABLE IF EXISTS user_has_project;
 DROP TABLE IF EXISTS projects;
 DROP TABLE IF EXISTS users;*/
 
@@ -80,8 +80,8 @@ CREATE TABLE pbis (
     priority INT NOT NULL,
     is_epic BOOLEAN NOT NULL,
     project_id INT NOT NULL REFERENCES projects(id),
-    epic_id INT DEFAULT NULL REFERENCES pbis(id) ON DELETE CASCADE,
-    sprint_id INT DEFAULT NULL REFERENCES sprints(id)
+    sprint_id INT DEFAULT NULL REFERENCES sprints(id),
+    epic_id INT DEFAULT NULL REFERENCES pbis(id)
 );
 
 

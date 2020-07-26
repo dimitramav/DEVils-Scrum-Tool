@@ -71,35 +71,36 @@ export default {
                 title: this.newPBI_form.title,
                 description: this.newPBI_form.desc,
                 priority: this.newPBI_form.selected,
-                Project_id: this.idProject,
-                Epic_id: this.Epic_id,
+                isEpic: this.isEpic,
+                epic: {
+                    id: this.Epic_id,
+                },
             }
             axios
                 .post(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.idProject +
-                        '/pbis?isEpic=' +
-                        this.isEpic,
+                        '/pbis',
                     data,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         self.newPBI_form.selected = ''
                         self.newPBI_form.desc = ''
                         self.newPBI_form.title = ''
-                        self.$emit('new_pbi', response.data.results)
+                        self.$emit('new_pbi', response.data)
                     }
                 })
                 .catch(function (error) {

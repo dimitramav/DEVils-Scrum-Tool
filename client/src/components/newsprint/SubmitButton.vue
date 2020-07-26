@@ -35,15 +35,16 @@ export default {
             axios
                 .post(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
-                        this.sprint.Project_id +
+                        this.sprint.project_id +
                         '/sprints',
                     this.sprint,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
@@ -68,7 +69,9 @@ export default {
                             self.pbis_list,
                             {
                                 headers: {
-                                    auth: localStorage.getItem('auth_token'),
+                                    Authorization:
+                                        'Bearer ' +
+                                        localStorage.getItem('auth_token'),
                                     'Content-Type': 'application/json',
                                 },
                             }
@@ -78,7 +81,7 @@ export default {
                             self.$router.push({
                                 path:
                                     '/project/' +
-                                    self.sprint.Project_id +
+                                    self.sprint.project_id +
                                     '/overview/',
                             })
                         })

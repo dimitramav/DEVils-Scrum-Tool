@@ -46,6 +46,6 @@ describe('NewSprint', () => {
         expect(wrapper.vm.validDate).toBeFalsy()
     })
     it('Assign values correctly when mounting', () => {
-        expect(wrapper.vm.sprint.Project_id).toBe(wrapper.vm.$route.params.id)
+        expect(wrapper.vm.sprint.project_id).toBe(wrapper.vm.$route.params.id)
     })
 })

@@ -6,7 +6,7 @@
         <b-row>
             <b-card-group
                 v-for="cur_pbi in currentPbis"
-                :key="cur_pbi.idPBI"
+                :key="cur_pbi.id"
                 class="card-style text-font"
             >
                 <EpicCard
@@ -50,27 +50,24 @@ export default {
             axios
                 .get(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
                         '/pbis?isEpic=true',
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                        self.$router.push({
-                            path: '/unauthorized',
-                        })
-                    }
-                    if (response.data.results) {
-                        self.currentPbis = response.data.results
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.currentPbis = response.data
                     }
                 })
                 .catch(function (error) {

@@ -40,13 +40,7 @@
                 <DeletePBI
                     v-on:delete_pbi="deletePBI"
                     :modalId="'del_pbi'"
-                    :epicId="epicId"
                     :idPBI="idPBI"
-                    :idProject="idProject"
-                    :title="title"
-                    :desc="desc"
-                    :priority="priority"
-                    :isEpic="isEpic"
                 />
                 <b-btn variant="secondary" @click="cancel()">Cancel</b-btn>
                 <b-button variant="primary" @click="ok()">OK</b-button>
@@ -112,38 +106,42 @@ export default {
                 title: this.updateEpic_form.title,
                 description: this.updateEpic_form.desc,
                 priority: this.updateEpic_form.selected,
-                Project_id: this.idProject,
-                idPBI: this.idPBI,
-                Epic_id: this.epicId,
+                isEpic: this.isEpic,
+                project: {
+                    id: this.idProject,
+                },
+                epic: {
+                    id: this.epicId,
+                },
+                id: this.idPBI,
             }
             axios
                 .put(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
-                        this.$route.params.id +
-                        '/pbis?isEpic=' +
-                        this.isEpic,
+                        this.idProject +
+                        '/pbis',
                     data,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         self.$emit(
                             'edit_pbi',
                             self.idPBI,
-                            response.data.results.title,
-                            response.data.results.description,
-                            response.data.results.priority,
+                            response.data.title,
+                            response.data.description,
+                            response.data.priority,
                             self.epicId
                         )
                     }

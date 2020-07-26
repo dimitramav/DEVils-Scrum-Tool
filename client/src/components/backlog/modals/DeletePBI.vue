@@ -20,47 +20,31 @@ export default {
     props: {
         modalId: String,
         idPBI: Number,
-        epicId: Number,
-        idProject: Number,
-        title: String,
-        desc: String,
-        priority: Number,
-        isEpic: Boolean,
     },
     methods: {
         deletePBI() {
             const self = this
-            let data = {
-                title: this.title,
-                description: this.desc,
-                priority: this.priority,
-                Project_id: this.idProject,
-                idPBI: this.idPBI,
-                Epic_id: this.epicId,
-                isEpic: this.isEpic,
-            }
             axios
-                .patch(
+                .delete(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
-                        '/pbis?isEpic=' +
-                        this.isEpic,
-                    data,
+                        '/pbis/' +
+                        this.idPBI,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         self.$emit('delete_pbi', self.idPBI)
                     }
                 })

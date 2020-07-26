@@ -1,11 +1,11 @@
 <template>
-    <b-card v-if="cur_us.idPBI > 0" class="mb-1">
+    <b-card v-if="cur_us.id > 0" class="mb-1">
         <b-card-header class="p-1" role="tab">
-            <b-btn block v-b-toggle="'collapse' + cur_us.idPBI">
+            <b-btn block v-b-toggle="'collapse' + cur_us.id">
                 {{ cur_us.title }}
             </b-btn>
         </b-card-header>
-        <b-collapse :id="'collapse' + cur_us.idPBI">
+        <b-collapse :id="'collapse' + cur_us.id">
             <b-card-body>
                 <p class="card-text">{{ cur_us.description }}</p>
                 <b-row class="card-text">
@@ -15,8 +15,8 @@
             <EditPBI
                 v-on:edit_pbi="editStory"
                 v-on:delete_pbi="deleteStory"
-                :epicId="current_epic_idPBI"
-                :idPBI="cur_us.idPBI"
+                :epicId="current_epic_id"
+                :idPBI="cur_us.id"
                 :idProject="currentProject_id"
                 :title="cur_us.title"
                 :desc="cur_us.description"
@@ -34,7 +34,7 @@ export default {
     name: 'StoryCard',
     props: {
         cur_us: Object,
-        current_epic_idPBI: Number,
+        current_epic_id: Number,
         currentUserStories: Array,
     },
     components: {
@@ -47,28 +47,30 @@ export default {
         }
     },
     methods: {
-        editStory(idPBI, title, desc, priority, epicId) {
+        editStory(id, title, desc, priority, epicId) {
             let i = this.currentUserStories[epicId].findIndex(
-                (o) => o.idPBI === idPBI
+                (o) => o.id === id
             )
             this.currentUserStories[epicId][i].title = title
             this.currentUserStories[epicId][i].description = desc
             this.currentUserStories[epicId][i].priority = priority
             this.$emit('editStory', this.currentUserStories)
         },
-        deleteStory(idPBI) {
-            let i = this.currentUserStories[this.current_epic_idPBI].findIndex(
-                (o) => o.idPBI === idPBI
+        deleteStory(id) {
+            let i = this.currentUserStories[this.current_epic_id].findIndex(
+                (o) => o.id === id
             )
-            this.currentUserStories[this.current_epic_idPBI].splice(i, 1)
-            if (this.currentUserStories[this.current_epic_idPBI].length === 0) {
+            this.currentUserStories[this.current_epic_id].splice(i, 1)
+            if (this.currentUserStories[this.current_epic_id].length === 0) {
                 let val = [
                     {
-                        Epic_id: this.current_epic_idPBI, // Same practice
-                        idPBI: -1, // Update its stories array
+                        epic: {
+                            id: this.current_epic_id, // Same practice
+                        },
+                        id: -1, // Update its stories array
                     },
                 ]
-                this.$set(this.currentUserStories, this.current_epic_idPBI, val)
+                this.$set(this.currentUserStories, this.current_epic_id, val)
             }
             this.$emit('editStory', this.currentUserStories)
         },

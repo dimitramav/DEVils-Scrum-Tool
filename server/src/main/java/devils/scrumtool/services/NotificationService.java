@@ -22,6 +22,13 @@ public class NotificationService {
     @Autowired private UserRepository userRepository;
 
     public void createNotification(Notification newNotification, Integer userId) throws Exception {
+        // Now find the project into which the receiver is invited
+        Integer projectId = newNotification.getProject().getId();
+        Optional<Project> dbProject = projectRepository.findById(projectId);
+        if (!dbProject.isPresent()) {
+            throw new Exception("Project with id: " + projectId + " not found!");
+        }
+        newNotification.setProject(dbProject.get());
         // Find the sender by userId
         Optional<User> dbUser = userRepository.findById(userId);
         if (!dbUser.isPresent()) {
@@ -46,13 +53,6 @@ public class NotificationService {
                 throw new Exception("User with Email: " + receiverEmail + " not found!");
             }
             newNotification.setReceiver(dbUser.get());
-            // Now find the project into which the receiver is invited
-            Integer projectId = newNotification.getProject().getId();
-            Optional<Project> dbProject = projectRepository.findById(projectId);
-            if (!dbProject.isPresent()) {
-                throw new Exception("Project with id: " + projectId + " not found!");
-            }
-            newNotification.setProject(dbProject.get());
         }
         notificationRepository.save(newNotification);
     }

@@ -118,14 +118,57 @@ export default {
         },
         watchedNotification: async function (functionality, notificationItem) {
             const self = this
-            if (functionality === 'accept' || functionality === 'decline') {
+            // Delete the notification
+            await axios
+                .delete(
+                    this.$url +
+                        '/users/' +
+                        localStorage.getItem('userId') +
+                        '/notifications/' +
+                        notificationItem.id,
+                    {
+                        headers: {
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+                .then(function (response) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        let index = -1
+                        for (let x in self.Notifications) {
+                            if (
+                                self.Notifications[x].id === notificationItem.id
+                            ) {
+                                index = x
+                                break
+                            }
+                        }
+                        if (index >= 0) {
+                            self.Notifications.splice(index, 1)
+                            console.log('Notification removed')
+                        } else {
+                            console.log('Notif. deleted in db, not client')
+                        }
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+            // Add user in project
+            if (functionality === 'accept') {
                 await axios
-                    .delete(
+                    .post(
                         this.$url +
                             '/users/' +
                             localStorage.getItem('userId') +
-                            '/notifications/' +
-                            notificationItem.id,
+                            '/projects/' +
+                            notificationItem.project.id +
+                            '/members',
+                        notificationItem.role,
                         {
                             headers: {
                                 Authorization:
@@ -139,59 +182,13 @@ export default {
                         if (response.data.serverErrorMessage) {
                             console.log(response.data.serverErrorMessage)
                         } else {
-                            let index = -1
-                            for (let x in self.Notifications) {
-                                if (
-                                    self.Notifications[x].id ===
-                                    notificationItem.id
-                                ) {
-                                    index = x
-                                    break
-                                }
-                            }
-                            if (index >= 0) {
-                                self.Notifications.splice(index, 1)
-                                console.log('Notification removed')
-                            } else {
-                                console.log('Notif. deleted in db, not client')
-                            }
+                            console.log('User inserts as member in project')
                         }
                     })
                     .catch(function (error) {
                         console.log(error)
                     })
-                // Add user in project
-                if (functionality === 'accept') {
-                    await axios
-                        .post(
-                            this.$url +
-                                '/users/' +
-                                localStorage.getItem('userId') +
-                                '/projects/' +
-                                notificationItem.project.id +
-                                '/members',
-                            notificationItem.role,
-                            {
-                                headers: {
-                                    Authorization:
-                                        'Bearer ' +
-                                        localStorage.getItem('auth_token'),
-                                    'Content-Type': 'application/json',
-                                },
-                            }
-                        )
-                        .then(function (response) {
-                            if (response.data.serverErrorMessage) {
-                                console.log(response.data.serverErrorMessage)
-                            } else {
-                                console.log('User inserts as member in project')
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(error)
-                        })
-                    console.log(functionality)
-                }
+                console.log(functionality)
             }
             // Send a notification back to product owner
             if (notificationItem.type === 'Accept/Decline') {
@@ -201,10 +198,10 @@ export default {
                 } else if (functionality === 'decline') {
                     answer = notificationItem.receiver.email + ' declined (!!!)'
                 }
-                self.notificationStruct.receiver.username =
+                notificationItem.receiver.username =
                     notificationItem.sender.username
-                self.notificationStruct.type = 'Answer-Accept/Decline'
-                self.notificationStruct.message =
+                notificationItem.type = 'Answer-Accept/Decline'
+                notificationItem.message =
                     'User ' +
                     answer +
                     ' invitation to ' +
@@ -215,7 +212,7 @@ export default {
                             '/users/' +
                             localStorage.getItem('userId') +
                             '/notifications',
-                        self.notificationStruct,
+                        notificationItem,
                         {
                             headers: {
                                 Authorization:
