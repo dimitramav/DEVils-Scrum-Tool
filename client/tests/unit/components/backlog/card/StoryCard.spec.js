@@ -38,10 +38,10 @@ describe('StoryCard', () => {
     it('StoryCard is Vue Instance', () => {
         expect(wrapper.isVueInstance).toBeTruthy()
     })
-    it('Components included', () => {
+    /*it('Components included', () => {
         //expect(wrapper.find({ name: 'EditPBI' }).exists()).toBeTruthy()
         expect(wrapper.find({ name: 'PriorityFooter' }).exists()).toBeTruthy()
-    })
+    })*/
     it('Default values', () => {
         expect(wrapper.vm.cur_us).toBeInstanceOf(Object)
         //expect(wrapper.vm.currentUserStories).toBeInstanceOf(Array)

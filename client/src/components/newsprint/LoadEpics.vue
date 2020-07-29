@@ -5,7 +5,7 @@
             <select
                 id="selectEpics"
                 v-model="selectedValue"
-                @change="loadStories(selectedValue.idPBI)"
+                @change="loadStories(selectedValue.id)"
             >
                 <option value="" disabled>Click to add epics</option>
                 <option
@@ -50,7 +50,7 @@ export default {
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
-                        '/pbis?epicId=' +
+                        '/pbis?isEpic=false&epicId=' +
                         idPBI,
                     {
                         headers: {
@@ -70,11 +70,11 @@ export default {
                         for (let i = 0; i < stories.length; i++) {
                             // Check if this story has already been loaded
                             var storyFound = self.stories_options.some(
-                                (story) => story.value == stories[i].idPBI
+                                (story) => story.value == stories[i].id
                             )
                             if (storyFound === false) {
                                 self.stories_options.push({
-                                    value: stories[i].idPBI,
+                                    value: stories[i].id,
                                     text: stories[i].title,
                                 })
                             } else console.log('Story already loaded')

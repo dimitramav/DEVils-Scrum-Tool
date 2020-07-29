@@ -19,12 +19,9 @@
         <b-list-group
             v-for="sprint in sprints"
             v-bind:data="sprint"
-            v-bind:key="sprint.idSprint"
+            v-bind:key="sprint.id"
         >
-            <b-list-group-item
-                button
-                @click="gotoSprintBacklog(sprint.idSprint)"
-            >
+            <b-list-group-item button @click="gotoSprintBacklog(sprint.id)">
                 <b-row class="text-font">
                     <b-col class="text-left">
                         <b>
@@ -39,7 +36,7 @@
                         <b>Deadline: </b>{{ sprint.deadlineDate }}
                     </b-col>
                     <b-col class="text-right">
-                        <BadgeInfo :sprintId="sprint.idSprint" />
+                        <BadgeInfo :sprintId="sprint.id" />
                     </b-col>
                 </b-row>
             </b-list-group-item>
@@ -69,28 +66,25 @@ export default {
             axios
                 .get(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
                         '/sprints',
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                        self.$router.push({
-                            path: '/unauthorized',
-                        })
-                    }
-                    if (response.data.sprint) {
-                        self.sprints = response.data.sprint
-                        console.log(self.sprints)
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.sprints = response.data
+                        //console.log(self.sprints)
                     }
                 })
                 .catch(function (error) {

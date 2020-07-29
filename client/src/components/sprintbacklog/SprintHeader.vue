@@ -58,28 +58,25 @@ export default {
             axios
                 .get(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
-                        '/sprints?sprintId=' +
+                        '/sprints/' +
                         this.routeSprintId,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                        self.$router.push({
-                            path: '/unauthorized',
-                        })
-                    }
-                    if (response.data.sprint) {
-                        self.currentSprint = response.data.sprint
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.currentSprint = response.data
                     }
                 })
                 .catch(function (error) {

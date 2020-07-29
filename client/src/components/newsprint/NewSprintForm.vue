@@ -85,9 +85,9 @@ export default {
                 .then(function (response) {
                     if (response.data.serverErrorMessage) {
                         console.log(response.data.serverErrorMessage)
-                        self.$router.push({
-                            path: '/unauthorized',
-                        })
+                        /*self.$router.push({
+                            path: '/unauthorized', // Check on Navbar
+                        })*/
                     } else {
                         self.projectOverview = response.data
                         let d = self.projectOverview.project.deadlineDate

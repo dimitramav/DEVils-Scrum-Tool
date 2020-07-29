@@ -1,7 +1,7 @@
 <template>
     <b-modal
-        @ok="removeStoryAndTasks(story.idPBI)"
-        :id="modalId + story.idPBI"
+        @ok="removeStoryAndTasks(story.id)"
+        :id="modalId + story.id"
         title="Remove User Story from Sprint Backlog"
     >
         <p class="alert alert-danger">
@@ -36,31 +36,30 @@ export default {
             let pbis_list = []
             pbis_list.push({
                 idPBI: storyId,
-                Sprint_id: -1, // insert null on database
-                Project_id: this.currentProject_id,
+                sprintId: -1, // insert null on database
+                projectId: this.currentProject_id,
             })
             axios
-                .patch(
+                .put(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.currentProject_id +
-                        '/pbis',
+                        '/pbis/sprintUpdate',
                     pbis_list,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
-                        console.log(response)
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         self.$emit('removeStoryAndTasks', storyId)
                     }
                 })

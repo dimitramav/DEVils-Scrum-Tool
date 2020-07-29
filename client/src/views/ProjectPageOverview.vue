@@ -108,9 +108,6 @@ export default {
                 .then(function (response) {
                     if (response.data.serverErrorMessage) {
                         console.log(response.data.serverErrorMessage)
-                        //self.$router.push({
-                        //    path: '/unauthorized',
-                        //})
                     } else {
                         self.projectOverview = response.data
                         self.sprintDataLoaded = true

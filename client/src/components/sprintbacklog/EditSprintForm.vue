@@ -70,7 +70,7 @@ export default {
         return {
             projectOverview: {
                 project: {
-                    idProject: 0,
+                    id: 0,
                     deadlineDate: '',
                 },
             },
@@ -97,23 +97,23 @@ export default {
             axios
                 .get(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
-                        self.projectOverview = response.data.results
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.projectOverview = response.data
                         let d = self.projectOverview.project.deadlineDate
                         let prodate = new Date(d)
                         let dd = ('0' + prodate.getDate()).slice(-2)
@@ -134,25 +134,26 @@ export default {
             axios
                 .put(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
-                        '/sprints?isCurrent=true',
+                        '/sprints/' +
+                        this.$route.params.sprintId,
                     this.currentSprint,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
-                        self.$emit('editSprint', response.data.results)
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.$emit('editSprint', response.data)
                     }
                 })
                 .catch(function (error) {

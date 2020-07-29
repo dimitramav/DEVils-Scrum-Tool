@@ -15,6 +15,8 @@ public interface PBIRepository extends CrudRepository<PBI, Integer> {
 
     List<PBI> findByProject_IdAndEpicId(Integer userId, Integer epicId);
 
+    List<PBI> findBySprint_Id(Integer sprintId);
+
     @Transactional
     void deleteById(Integer pbiId);
 }

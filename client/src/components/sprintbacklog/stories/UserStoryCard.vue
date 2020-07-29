@@ -2,7 +2,7 @@
     <b-card :title="story.title" class="mb-2 text-font">
         <b-row slot="header" style="padding-left: 15px;">
             <b-col>
-                <b-btn v-b-modal="'new_task' + story.idPBI" variant="info"
+                <b-btn v-b-modal="'new_task' + story.id" variant="info"
                     >Add Task</b-btn
                 >
                 <AddTask
@@ -12,7 +12,7 @@
                 />
             </b-col>
             <b-col>
-                <b-btn v-b-modal="'remove_story' + story.idPBI" variant="danger"
+                <b-btn v-b-modal="'remove_story' + story.id" variant="danger"
                     >Remove Story</b-btn
                 >
                 <RemoveStory

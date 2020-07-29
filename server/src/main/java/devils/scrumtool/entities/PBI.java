@@ -1,6 +1,7 @@
 package devils.scrumtool.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -40,7 +41,8 @@ public class PBI implements Serializable {
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "sprint_id", referencedColumnName = "id")
     private Sprint sprint;
 

@@ -6,7 +6,7 @@
         <!--board-->
         <LoadStories v-on:getSprintStories="getSprintStories" ref="stories" />
         <hr />
-        <div v-for="cur_story in currentStories" :key="cur_story.idPBI" deck>
+        <div v-for="cur_story in currentStories" :key="cur_story.id" deck>
             <b-row>
                 <b-col>
                     <UserStoryCard
@@ -19,7 +19,7 @@
                     <TaskGroup
                         v-on:newCurrentTaskState="newCurrentTaskState"
                         v-on:editTask="editTask"
-                        :currentStoryId="cur_story.idPBI"
+                        :currentStoryId="cur_story.id"
                         :tasks="tasks"
                         :typeofTasks="1"
                         :currentTaskState="currentTaskState"
@@ -29,7 +29,7 @@
                     <TaskGroup
                         v-on:newCurrentTaskState="newCurrentTaskState"
                         v-on:editTask="editTask"
-                        :currentStoryId="cur_story.idPBI"
+                        :currentStoryId="cur_story.id"
                         :tasks="tasks"
                         :typeofTasks="2"
                         :currentTaskState="currentTaskState"
@@ -39,7 +39,7 @@
                     <TaskGroup
                         v-on:newCurrentTaskState="newCurrentTaskState"
                         v-on:editTask="editTask"
-                        :currentStoryId="cur_story.idPBI"
+                        :currentStoryId="cur_story.id"
                         :tasks="tasks"
                         :typeofTasks="3"
                         :currentTaskState="currentTaskState"
@@ -87,7 +87,7 @@ export default {
             axios
                 .get(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
@@ -95,21 +95,21 @@ export default {
                         this.$route.params.sprintId,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.tasks) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         //self.tasks = response.data.tasks
                         let tempTodo = []
                         let tempDoing = []
                         let tempDone = []
-                        response.data.tasks.forEach(function (element) {
+                        response.data.forEach(function (element) {
                             switch (element.state) {
                                 case 1:
                                     tempTodo.push(element)
@@ -176,7 +176,7 @@ export default {
             }
         },
         removeStoryAndTasks(storyId) {
-            let i = this.currentStories.findIndex((o) => o.idPBI === storyId)
+            let i = this.currentStories.findIndex((o) => o.id === storyId)
             if (i != -1) this.currentStories.splice(i, 1)
             this.tasks = [[], []]
             this.getTasks()

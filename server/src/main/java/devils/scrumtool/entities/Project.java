@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -37,6 +38,10 @@ public class Project implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<Notification> notifications;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Sprint> sprints;
 
     @JsonIgnore
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
@@ -77,6 +82,10 @@ public class Project implements Serializable {
         return notifications;
     }
 
+    public Set<Sprint> getSprints() {
+        return sprints;
+    }
+
     public Set<PBI> getPbis() {
         return pbis;
     }
@@ -104,6 +113,10 @@ public class Project implements Serializable {
 
     public void setNotifications(Set<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public void setSprints(Set<Sprint> sprints) {
+        this.sprints = sprints;
     }
 
     public void setPbis(Set<PBI> pbis) {

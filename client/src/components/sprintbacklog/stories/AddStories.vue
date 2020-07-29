@@ -83,37 +83,37 @@ export default {
             for (var i = 0; i < this.selected_stories.length; i++) {
                 if (
                     this.currentStories.findIndex(
-                        (o) => o.idPBI === this.selected_stories[i].value
+                        (o) => o.id === this.selected_stories[i].value
                     ) === -1
                 ) {
                     this.pbis_list.push({
                         idPBI: this.selected_stories[i].value,
-                        Sprint_id: this.currentSprint_id,
-                        Project_id: this.currentProject_id,
+                        sprintId: this.currentSprint_id,
+                        projectId: this.currentProject_id,
                     })
                 }
             }
             axios
-                .patch(
+                .put(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.currentProject_id +
-                        '/pbis',
+                        '/pbis/sprintUpdate',
                     this.pbis_list,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         //location.reload()
                         console.log(self.currentStories)
                         self.ok = true

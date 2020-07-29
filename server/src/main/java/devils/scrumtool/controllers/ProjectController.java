@@ -6,6 +6,7 @@ import devils.scrumtool.repositories.ProjectRepository;
 import devils.scrumtool.services.ProjectService;
 // Java libraries
 import java.util.List;
+import java.util.Optional;
 // Spring libraries
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,8 +54,9 @@ public class ProjectController {
 
     @GetMapping("/users/{userId}/projects/{projectId}")
     public ProjectOverview getProjectOverview(
-            @PathVariable Integer userId, @PathVariable Integer projectId) throws Exception {
-        return projectService.getProjectCurrentSprintOverview(projectId);
+            @PathVariable Integer projectId, @RequestParam Optional<Integer> sprintId)
+            throws Exception {
+        return projectService.getProjectSprintOverview(projectId, sprintId);
     }
 
     @PutMapping("/users/{userId}/projects/{projectId}")

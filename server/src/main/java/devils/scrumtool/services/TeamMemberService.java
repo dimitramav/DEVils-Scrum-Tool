@@ -22,6 +22,8 @@ public class TeamMemberService {
 
     @Autowired private UserRepository userRepository;
 
+    @Autowired private UserService userService;
+
     public List<TeamMember> getProjectTeam(Integer projectId) throws Exception {
         // Retrieve team members
         List<User> teamUsers = userRepository.findByProjects_ProjectId(projectId);
@@ -49,11 +51,7 @@ public class TeamMemberService {
         User_has_Project relation = new User_has_Project(relationId, role);
         userHasProjectRepository.save(relation);
         // Update the user's num_projects
-        Optional<User> dbUser = userRepository.findById(userId);
-        if (!dbUser.isPresent()) {
-            throw new Exception("User with id: " + userId + " not found!");
-        }
-        User userToUpdate = dbUser.get();
+        User userToUpdate = userService.getUserById(userId);
         userToUpdate.setNumProjects(userToUpdate.getNumProjects() + 1);
         userRepository.save(userToUpdate);
     }

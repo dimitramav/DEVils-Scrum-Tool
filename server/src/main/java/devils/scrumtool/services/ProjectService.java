@@ -1,6 +1,7 @@
 package devils.scrumtool.services;
 
 import devils.scrumtool.entities.Project;
+import devils.scrumtool.entities.Sprint;
 import devils.scrumtool.entities.User;
 import devils.scrumtool.entities.User_has_Project;
 import devils.scrumtool.models.ProjectOverview;
@@ -23,11 +24,22 @@ public class ProjectService {
 
     @Autowired private ProjectRepository projectRepository;
 
-    @Autowired private TeamMemberService teamMemberService;
-
     @Autowired private User_has_ProjectRepository userHasProjectRepository;
 
     @Autowired private UserRepository userRepository;
+
+    @Autowired private TeamMemberService teamMemberService;
+
+    @Autowired private SprintService sprintService;
+
+    // Methods
+    public Project getProjectById(Integer projectId) throws Exception {
+        Optional<Project> dbProject = projectRepository.findById(projectId);
+        if (!dbProject.isPresent()) {
+            throw new Exception("Project with id: " + projectId + " not found!");
+        }
+        return dbProject.get();
+    }
 
     public List<Project> getLimitedUserProjects(
             Integer userId, Boolean isDone, Integer recordsPerPage, Integer currentPage) {
@@ -46,16 +58,29 @@ public class ProjectService {
         return insertedProject;
     }
 
-    public ProjectOverview getProjectCurrentSprintOverview(Integer projectId) throws Exception {
+    public ProjectOverview getProjectSprintOverview(Integer projectId, Optional<Integer> sprintId)
+            throws Exception {
         // Retrieve current project
-        Optional<Project> dbProject = projectRepository.findById(projectId);
-        if (!dbProject.isPresent()) {
-            throw new Exception("Project with id: " + projectId + " not found!");
-        }
-        Project projectItem = dbProject.get();
-        // Create the projectOverview item and return it
-        ProjectOverview projectOverviewItem = new ProjectOverview();
-        projectOverviewItem.setProject(projectItem);
+        Project projectItem = this.getProjectById(projectId);
+        // FInd the requested sprint (if any)
+        Sprint sprintItem = new Sprint();
+        if (!sprintId.isPresent()) {
+            sprintItem = sprintService.getProjectCurrentSprint(projectId);
+        } else { // If there is a sprintId parameter, then find sprint by its id
+            sprintItem = sprintService.getSprintById(sprintId.get());
+        } // Create the projectOverview item with the values needed
+        ProjectOverview projectOverviewItem =
+                new ProjectOverview(
+                        projectItem,
+                        sprintItem.getId(),
+                        sprintItem.getNumSprint(),
+                        sprintItem.getDeadlineDate(),
+                        sprintItem.getGoal(),
+                        0,
+                        0,
+                        0,
+                        0);
+        // Finally return the project overview item
         return projectOverviewItem;
     }
 

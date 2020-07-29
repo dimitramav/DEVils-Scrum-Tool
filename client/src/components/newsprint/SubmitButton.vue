@@ -27,6 +27,7 @@ export default {
     data() {
         return {
             pbis_list: [],
+            newSprintId: -1,
         }
     },
     methods: {
@@ -38,7 +39,7 @@ export default {
                         '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
-                        this.sprint.project_id +
+                        this.sprint.project.id +
                         '/sprints',
                     this.sprint,
                     {
@@ -50,22 +51,24 @@ export default {
                     }
                 )
                 .then(function (response) {
+                    self.newSprintId = response.data.id
+                    // Store all stories selected to update their sprintId
                     for (var i = 0; i < self.selected_stories.length; i++) {
                         self.pbis_list.push({
                             idPBI: self.selected_stories[i].value,
-                            Sprint_id: response.data.Sprint_id,
-                            Project_id: self.sprint.Project_id,
+                            sprintId: self.newSprintId,
+                            projectId: self.sprint.project.id,
                         })
                     }
                     console.log(self.pbis_list)
                     axios
-                        .patch(
+                        .put(
                             self.$url +
-                                'users/' +
+                                '/users/' +
                                 localStorage.getItem('userId') +
                                 '/projects/' +
-                                self.sprint.Project_id +
-                                '/pbis',
+                                self.sprint.project.id +
+                                '/pbis/sprintUpdate',
                             self.pbis_list,
                             {
                                 headers: {
@@ -77,13 +80,17 @@ export default {
                             }
                         )
                         .then(function (response) {
-                            console.log(response)
-                            self.$router.push({
-                                path:
-                                    '/project/' +
-                                    self.sprint.project_id +
-                                    '/overview/',
-                            })
+                            if (response.data.serverErrorMessage) {
+                                console.log(response.data.serverErrorMessage)
+                            } else {
+                                self.$router.push({
+                                    path:
+                                        '/project/' +
+                                        self.sprint.project.id +
+                                        '/sprintbacklog/' +
+                                        self.newSprintId,
+                                })
+                            }
                         })
                         .catch(function (error) {
                             console.log(error)

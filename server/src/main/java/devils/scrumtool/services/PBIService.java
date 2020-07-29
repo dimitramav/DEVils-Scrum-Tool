@@ -1,10 +1,10 @@
 package devils.scrumtool.services;
 
 import devils.scrumtool.entities.PBI;
-import devils.scrumtool.entities.Project;
+import devils.scrumtool.models.SprintStory;
 import devils.scrumtool.repositories.PBIRepository;
-import devils.scrumtool.repositories.ProjectRepository;
 // Java libraries
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 // Spring libraries
@@ -16,7 +16,18 @@ public class PBIService {
 
     @Autowired private PBIRepository pbiRepository;
 
-    @Autowired private ProjectRepository projectRepository;
+    @Autowired private ProjectService projectService;
+
+    @Autowired private SprintService sprintService;
+
+    // Methods
+    public PBI getPBIById(Integer pbiId) throws Exception {
+        Optional<PBI> dbPBI = pbiRepository.findById(pbiId);
+        if (!dbPBI.isPresent()) {
+            throw new Exception("PBI with id: " + pbiId + " not found!");
+        }
+        return dbPBI.get();
+    }
 
     public List<PBI> getEpicsOrStories(
             Integer projectId, Boolean isEpic, Optional<Integer> epicId) {
@@ -30,22 +41,43 @@ public class PBIService {
 
     public PBI createOrEditPBI(PBI newPBI, Integer projectId) throws Exception {
         // First get the project of this pbi
-        Optional<Project> dbProject = projectRepository.findById(projectId);
-        if (!dbProject.isPresent()) {
-            throw new Exception("Project with id: " + projectId + " not found!");
-        }
-        newPBI.setProject(dbProject.get());
+        newPBI.setProject(projectService.getProjectById(projectId));
         // If this is a story, find its epic
         if (newPBI.getIsEpic() == false) {
-            Optional<PBI> dbEpic = pbiRepository.findById(newPBI.getEpic().getId());
-            if (!dbEpic.isPresent()) {
-                throw new Exception("Epic with id: " + newPBI.getEpic().getId() + " not found!");
-            }
-            newPBI.setEpic(dbEpic.get());
+            newPBI.setEpic(this.getPBIById(newPBI.getEpic().getId()));
         } else { // If this is an epic, then no epic_id as foreign key
             newPBI.setEpic(null);
         } // Now save the PBI
         PBI insertedPBI = pbiRepository.save(newPBI);
         return insertedPBI;
+    }
+
+    // Get the pbis by sprintId and create for each one a SprintStories java class
+    public List<SprintStory> getPBIsBySprintIdAsSprintStories(Integer sprintId) {
+        // Firstly get all the pbis with this sprintId
+        List<PBI> dbPbis = pbiRepository.findBySprint_Id(sprintId);
+        // Then for each pbi create a equivalent sprintStory item
+        List<SprintStory> storiesWithSprintId = new ArrayList<SprintStory>();
+        for (int i = 0; i < dbPbis.size(); i++) {
+            storiesWithSprintId.add(new SprintStory(dbPbis.get(i)));
+        }
+        return storiesWithSprintId;
+    }
+
+    // On new Sprint or on delete, set story's sprintId as the new sprintId or null
+    public void editPBIsOnSprintUpdate(List<SprintStory> sprintPbis) throws Exception {
+        // Update all selected stories' sprint_ids
+        for (int i = 0; i < sprintPbis.size(); i++) {
+            // Firstly find the current pbi in database
+            PBI editedPBI = this.getPBIById(sprintPbis.get(i).getIdPBI());
+            // Set the new sprint_id on current story (or epic)
+            if (sprintPbis.get(i).getSprintId() == -1) {
+                editedPBI.setSprint(null); // On delete
+            } else {
+                int sprintId = sprintPbis.get(i).getSprintId();
+                editedPBI.setSprint(sprintService.getSprintById(sprintId));
+            }
+            pbiRepository.save(editedPBI);
+        }
     }
 }

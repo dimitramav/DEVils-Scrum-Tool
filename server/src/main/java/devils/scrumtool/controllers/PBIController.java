@@ -1,6 +1,7 @@
 package devils.scrumtool.controllers;
 
 import devils.scrumtool.entities.PBI;
+import devils.scrumtool.models.SprintStory;
 import devils.scrumtool.repositories.PBIRepository;
 import devils.scrumtool.services.PBIService;
 // Java libraries
@@ -50,8 +51,18 @@ public class PBIController {
         return pbiService.createOrEditPBI(editedPBI, projectId);
     }
 
+    @PutMapping("/users/{userId}/projects/{projectId}/pbis/sprintUpdate")
+    public void sprintUpdatePBI(@RequestBody List<SprintStory> sprintPbis) throws Exception {
+        pbiService.editPBIsOnSprintUpdate(sprintPbis);
+    }
+
     @DeleteMapping("/users/{userId}/projects/{projectId}/pbis/{pbiId}")
     public void deletePBI(@PathVariable Integer pbiId) {
         pbiRepository.deleteById(pbiId);
+    }
+
+    @GetMapping("/users/{userId}/projects/{projectId}/sprintStories")
+    public List<PBI> getProjectPBIs(@RequestParam Integer sprintId) {
+        return pbiRepository.findBySprint_Id(sprintId);
     }
 }

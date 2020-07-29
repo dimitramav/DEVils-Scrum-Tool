@@ -26,26 +26,25 @@ export default {
             axios
                 .get(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
-                        '/stories?sprintId=' +
+                        '/sprintStories?sprintId=' +
                         this.$route.params.sprintId,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.stories) {
-                        //self.currentStories = response.data.stories
-                        self.$emit('getSprintStories', response.data.stories)
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.$emit('getSprintStories', response.data)
                     }
                 })
                 .catch(function (error) {

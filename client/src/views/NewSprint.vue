@@ -60,7 +60,9 @@ export default {
                 plan: '',
                 isCurrent: true,
                 numSprint: 0,
-                project_id: 0,
+                project: {
+                    id: 0,
+                },
             },
             validDate: false,
             stories_options: [],
@@ -88,7 +90,7 @@ export default {
         },
     },
     mounted() {
-        this.sprint.project_id = this.$route.params.id
+        this.sprint.project.id = parseInt(this.$route.params.id)
     },
 }
 </script>

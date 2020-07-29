@@ -18,6 +18,31 @@ public class UserService {
 
     @Autowired private PasswordEncoder passwordEncoder;
 
+    // Methods
+    public User getUserById(Integer userId) throws Exception {
+        Optional<User> dbUser = userRepository.findById(userId);
+        if (!dbUser.isPresent()) {
+            throw new Exception("User with id: " + userId + " not found!");
+        }
+        return dbUser.get();
+    }
+
+    public User getUserByUsername(String username) throws Exception {
+        Optional<User> dbUser = userRepository.findByUsername(username);
+        if (!dbUser.isPresent()) {
+            throw new Exception("User with username: " + username + " not found!");
+        }
+        return dbUser.get();
+    }
+
+    public User getUserByEmail(String email) throws Exception {
+        Optional<User> dbUser = userRepository.findByEmail(email);
+        if (!dbUser.isPresent()) {
+            throw new Exception("User with email: " + email + " not found!");
+        }
+        return dbUser.get();
+    }
+
     @Transactional
     public User createUser(User newUser) {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
@@ -33,32 +58,20 @@ public class UserService {
 
     @Transactional
     public Profile updateProfileByUsername(String username, Profile profile) throws Exception {
-        Optional<User> dbUser = userRepository.findByUsername(username);
-        if (!dbUser.isPresent()) {
-            throw new Exception("User with username: " + username + " not found!");
-        }
-        User userToUpdate = dbUser.get();
+        User userToUpdate = this.getUserByUsername(username);
         userToUpdate.updateUserProfile(profile);
         userRepository.save(userToUpdate);
         return profile;
     }
 
     public boolean passwordOfUserIdMatches(Integer userId, String plainPassword) throws Exception {
-        Optional<User> dbUser = userRepository.findById(userId);
-        if (!dbUser.isPresent()) {
-            throw new Exception("User with id: " + userId + " not found!");
-        }
-        String dbPassword = dbUser.get().getPassword();
+        String dbPassword = this.getUserById(userId).getPassword();
         return passwordEncoder.matches(plainPassword, dbPassword);
     }
 
     public String passwordOfUserIdUpdate(Integer userId, String plainPassword) throws Exception {
-        Optional<User> dbUser = userRepository.findById(userId);
-        if (!dbUser.isPresent()) {
-            throw new Exception("User with id: " + userId + " not found!");
-        }
         String newPassword = passwordEncoder.encode(plainPassword);
-        User updatedUser = dbUser.get();
+        User updatedUser = this.getUserById(userId);
         updatedUser.setPassword(newPassword);
         updatedUser = userRepository.save(updatedUser);
         if (updatedUser == null) {
