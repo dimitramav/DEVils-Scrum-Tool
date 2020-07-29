@@ -42,7 +42,7 @@ public class SprintStory implements Serializable {
         return projectId;
     }
 
-    public Integer getepicId() {
+    public Integer getEpicId() {
         return epicId;
     }
 

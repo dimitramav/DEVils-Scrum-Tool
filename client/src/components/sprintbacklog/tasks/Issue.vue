@@ -17,7 +17,7 @@
                     >
                         <b-list-group-item
                             button
-                            v-b-modal="'edit_issue' + issue.idIssue"
+                            v-b-modal="'edit_issue' + issue.id"
                         >
                             <h5 class="text-font">
                                 {{ issue.description }}
@@ -25,13 +25,19 @@
                             <EditIssue
                                 v-on:editIssue="editIssue"
                                 v-on:deleteIssue="deleteIssue"
+                                :PBI_id="PBI_id"
                                 :idTask="idTask"
                                 :issue="issue"
                             />
                         </b-list-group-item>
                     </b-list-group>
                 </div>
-                <AddIssue v-on:addIssue="addIssue" :idTask="idTask" ref="add" />
+                <AddIssue
+                    v-on:addIssue="addIssue"
+                    :PBI_id="PBI_id"
+                    :idTask="idTask"
+                    ref="add"
+                />
             </div>
         </b-modal>
     </div>
@@ -49,6 +55,7 @@ export default {
         AddIssue,
     },
     props: {
+        PBI_id: Number,
         idTask: Number,
     },
     data: function () {
@@ -70,27 +77,29 @@ export default {
             axios
                 .get(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
+                        '/pbis/' +
+                        this.PBI_id +
                         '/tasks/' +
                         this.idTask +
                         '/issues',
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
-                        self.Issues = response.data.results
-                        console.log('Got the issues')
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.Issues = response.data
+                        //console.log('Got the issues')
                     }
                 })
                 .catch(function (error) {
@@ -101,11 +110,11 @@ export default {
             this.Issues.push(newIssue)
         },
         editIssue(issue) {
-            let i = this.Issues.findIndex((o) => o.idIssue == issue.idIssue)
+            let i = this.Issues.findIndex((o) => o.id == issue.id)
             this.Issues[i].description = issue.description
         },
         deleteIssue(issueId) {
-            let i = this.Issues.findIndex((o) => o.idIssue == issueId)
+            let i = this.Issues.findIndex((o) => o.id == issueId)
             if (i != -1) this.Issues.splice(i, 1)
         },
     },

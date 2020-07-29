@@ -3,9 +3,9 @@
 /* Drop tables if exist */
 DROP TABLE IF EXISTS issues;
 DROP TABLE IF EXISTS tasks;
-DROP TABLE IF EXISTS pbis;
+/*DROP TABLE IF EXISTS pbis;
 DROP TABLE IF EXISTS sprints;
-/*DROP TABLE IF EXISTS notifications;
+DROP TABLE IF EXISTS notifications;
 DROP TABLE IF EXISTS user_has_project;
 DROP TABLE IF EXISTS projects;
 DROP TABLE IF EXISTS users;*/

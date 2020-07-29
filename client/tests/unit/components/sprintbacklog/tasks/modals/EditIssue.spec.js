@@ -18,7 +18,7 @@ describe('EditIssue', () => {
         router,
         propsData: {
             issue: {
-                idIssue: 25,
+                id: 25,
                 description: 'bla',
             },
             idTask: 17,
@@ -29,7 +29,7 @@ describe('EditIssue', () => {
         expect(wrapper.isVueInstance).toBeTruthy()
     })
     it('Form attributes', () => {
-        let formId = '#editIssue' + wrapper.vm.issue.idIssue
+        let formId = '#editIssue' + wrapper.vm.issue.id
         expect(wrapper.find(formId).attributes().required).toBeTruthy()
         expect(wrapper.find(formId).attributes().type).toBe('text')
     })

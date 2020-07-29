@@ -41,7 +41,7 @@ describe('AddTask', () => {
         expect(wrapper.isVueInstance).toBeTruthy()
     })
     it('Form attributes', () => {
-        let formId = '#addTask' + wrapper.vm.story.idPBI
+        let formId = '#addTask' + wrapper.vm.storyId
         expect(wrapper.find(formId).attributes().required).toBeTruthy()
         expect(wrapper.find(formId).attributes().type).toBe('text')
     })

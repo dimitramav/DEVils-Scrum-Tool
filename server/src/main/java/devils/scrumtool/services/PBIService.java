@@ -39,7 +39,7 @@ public class PBIService {
         }
     }
 
-    public PBI createOrEditPBI(PBI newPBI, Integer projectId) throws Exception {
+    public PBI createPBI(PBI newPBI, Integer projectId) throws Exception {
         // First get the project of this pbi
         newPBI.setProject(projectService.getProjectById(projectId));
         // If this is a story, find its epic
@@ -48,8 +48,21 @@ public class PBIService {
         } else { // If this is an epic, then no epic_id as foreign key
             newPBI.setEpic(null);
         } // Now save the PBI
-        PBI insertedPBI = pbiRepository.save(newPBI);
-        return insertedPBI;
+        return pbiRepository.save(newPBI);
+    }
+
+    public PBI editPBI(PBI editedPBI) throws Exception {
+        // Find the pbi to be updated
+        PBI pbiToUpdate = this.getPBIById(editedPBI.getId());
+        // Update the fields
+        pbiToUpdate.setTitle(editedPBI.getTitle());
+        pbiToUpdate.setDescription(editedPBI.getDescription());
+        pbiToUpdate.setPriority(editedPBI.getPriority());
+        if (editedPBI.getIsEpic() == false) {
+            pbiToUpdate.setEpic(this.getPBIById(editedPBI.getEpic().getId()));
+        }
+        // Now save the PBI
+        return pbiRepository.save(pbiToUpdate);
     }
 
     // Get the pbis by sprintId and create for each one a SprintStories java class

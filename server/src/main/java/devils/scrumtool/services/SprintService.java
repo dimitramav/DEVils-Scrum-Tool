@@ -54,6 +54,12 @@ public class SprintService {
         return dbSprint.get();
     }
 
+    public Sprint getSprintOfStory(Integer pbiId) throws Exception {
+        // Find the story
+        int sprintId = pbiService.getPBIById(pbiId).getSprint().getId();
+        return this.getSprintById(sprintId);
+    }
+
     @Transactional
     public Sprint updateSprintById(Sprint editedSprint, Integer sprintId) throws Exception {
         // Find this sprint and update only the proper parts

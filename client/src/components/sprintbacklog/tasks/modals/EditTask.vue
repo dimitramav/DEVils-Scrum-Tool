@@ -56,34 +56,35 @@ export default {
         updateTask() {
             const self = this
             let data = {
-                PBI_id: this.PBI_id,
+                storyId: this.PBI_id,
                 description: this.updateTask_desc,
                 state: this.state,
-                idTask: this.Task_id,
+                id: this.Task_id,
             }
             axios
                 .put(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
+                        '/pbis/' +
+                        this.PBI_id +
                         '/tasks',
                     data,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.task) {
-                        console.log(response.data.task)
-                        self.$emit('editTask', response.data.task)
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.$emit('editTask', response.data)
                     }
                 })
                 .catch(function (error) {
@@ -92,33 +93,29 @@ export default {
         },
         deleteTask() {
             const self = this
-            let data = {
-                PBI_id: this.PBI_id,
-                description: this.desc,
-                state: this.state,
-                idTask: this.Task_id,
-            }
             axios
-                .patch(
+                .delete(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
-                        '/tasks',
-                    data,
+                        '/pbis/' +
+                        this.PBI_id +
+                        '/tasks/' +
+                        this.Task_id,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.task) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         console.log('Task and its Issues deleted')
                         self.modalShow = false
                         self.$emit('deleteTask', self.Task_id)

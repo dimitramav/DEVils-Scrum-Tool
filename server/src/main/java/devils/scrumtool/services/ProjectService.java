@@ -2,6 +2,7 @@ package devils.scrumtool.services;
 
 import devils.scrumtool.entities.Project;
 import devils.scrumtool.entities.Sprint;
+import devils.scrumtool.entities.Task;
 import devils.scrumtool.entities.User;
 import devils.scrumtool.entities.User_has_Project;
 import devils.scrumtool.models.ProjectOverview;
@@ -31,6 +32,10 @@ public class ProjectService {
     @Autowired private TeamMemberService teamMemberService;
 
     @Autowired private SprintService sprintService;
+
+    @Autowired private TaskService taskService;
+
+    @Autowired private IssueService issueService;
 
     // Methods
     public Project getProjectById(Integer projectId) throws Exception {
@@ -68,18 +73,24 @@ public class ProjectService {
             sprintItem = sprintService.getProjectCurrentSprint(projectId);
         } else { // If there is a sprintId parameter, then find sprint by its id
             sprintItem = sprintService.getSprintById(sprintId.get());
-        } // Create the projectOverview item with the values needed
+        }
+        // Create the projectOverview item with the values needed
         ProjectOverview projectOverviewItem =
-                new ProjectOverview(
-                        projectItem,
-                        sprintItem.getId(),
-                        sprintItem.getNumSprint(),
-                        sprintItem.getDeadlineDate(),
-                        sprintItem.getGoal(),
-                        0,
-                        0,
-                        0,
-                        0);
+                new ProjectOverview(projectItem, sprintItem, 0, 0, 0, 0);
+        // Find the tasks and issues belong to this sprint
+        List<Task> sprintTasks = taskService.getTasksByStoryIdWithSprintId(sprintItem.getId());
+        // Find how many tasks and issues are in state of todo, doing or done
+        for (int i = 0; i < sprintTasks.size(); i++) {
+            if (sprintTasks.get(i).getState() == 1) {
+                projectOverviewItem.setTodo(projectOverviewItem.getTodo() + 1);
+            } else if (sprintTasks.get(i).getState() == 2) {
+                projectOverviewItem.setDoing(projectOverviewItem.getDoing() + 1);
+            } else if (sprintTasks.get(i).getState() == 3) {
+                projectOverviewItem.setDone(projectOverviewItem.getDone() + 1);
+            }
+            int numOfTaskIssues = issueService.getNumberOfTaskIssues(sprintTasks.get(i).getId());
+            projectOverviewItem.addIssues(numOfTaskIssues);
+        }
         // Finally return the project overview item
         return projectOverviewItem;
     }

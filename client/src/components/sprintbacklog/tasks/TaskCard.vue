@@ -6,11 +6,11 @@
                     v-on:editTask="editTask"
                     v-on:deleteTask="deleteTask"
                     :desc="cur_task.description"
-                    :PBI_id="cur_task.PBI_id"
+                    :PBI_id="cur_task.storyId"
                     :state="cur_task.state"
-                    :Task_id="cur_task.idTask"
+                    :Task_id="cur_task.id"
                 />
-                <Issue :idTask="cur_task.idTask" />
+                <Issue :PBI_id="cur_task.storyId" :idTask="cur_task.id" />
             </b-row>
         </div>
         <p class="card-text">
@@ -37,14 +37,14 @@ export default {
     methods: {
         editTask(taskItem) {
             let i = this.tasks[this.typeofTasks].findIndex(
-                (o) => o.idTask === taskItem.idTask
+                (o) => o.id === taskItem.id
             )
             this.tasks[this.typeofTasks][i].description = taskItem.description
             this.$emit('editTask', this.tasks)
         },
         deleteTask(taskId) {
             let i = this.tasks[this.typeofTasks].findIndex(
-                (o) => o.idTask === taskId
+                (o) => o.id === taskId
             )
             if (i != -1) this.tasks[this.typeofTasks].splice(i, 1)
             // Special manipulation if this was the only task of this type
@@ -52,7 +52,7 @@ export default {
                 let emptyData = [
                     {
                         state: this.typeofTasks, // If now task category is empty
-                        idTask: -1, // Update its typeofDo task array
+                        id: -1, // Update its typeofDo task array
                     },
                 ]
                 this.$set(this.tasks, this.typeofTasks, emptyData)

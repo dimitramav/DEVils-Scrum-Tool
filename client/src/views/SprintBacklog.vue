@@ -130,7 +130,7 @@ export default {
                             let emptyData = [
                                 {
                                     state: 1,
-                                    idTask: -1,
+                                    id: -1,
                                 },
                             ]
                             self.$set(self.tasks, 1, emptyData)
@@ -141,7 +141,7 @@ export default {
                             let emptyData = [
                                 {
                                     state: 2,
-                                    idTask: -1,
+                                    id: -1,
                                 },
                             ]
                             self.$set(self.tasks, 2, emptyData)
@@ -152,7 +152,7 @@ export default {
                             let emptyData = [
                                 {
                                     state: 3,
-                                    idTask: -1,
+                                    id: -1,
                                 },
                             ]
                             self.$set(self.tasks, 3, emptyData)
@@ -169,7 +169,7 @@ export default {
             if (this.tasks[data.state]) {
                 if (
                     this.tasks[data.state].length === 1 &&
-                    this.tasks[data.state][0].idTask === -1
+                    this.tasks[data.state][0].id === -1
                 ) {
                     this.tasks[data.state].splice(0, 1, data)
                 } else this.tasks[data.state].push(data)

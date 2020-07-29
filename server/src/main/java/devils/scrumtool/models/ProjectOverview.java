@@ -1,6 +1,7 @@
 package devils.scrumtool.models;
 
 import devils.scrumtool.entities.Project;
+import devils.scrumtool.entities.Sprint;
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -22,20 +23,12 @@ public class ProjectOverview implements Serializable {
     public ProjectOverview() {}
 
     public ProjectOverview(
-            Project project,
-            int currentSprintId,
-            int currentSprintNum,
-            Date currentSprintExpDate,
-            String currentSprintGoal,
-            int todo,
-            int doing,
-            int done,
-            int issues) {
+            Project project, Sprint sprint, int todo, int doing, int done, int issues) {
         this.project = project;
-        this.currentSprintId = currentSprintId;
-        this.currentSprintNum = currentSprintNum;
-        this.currentSprintExpDate = currentSprintExpDate;
-        this.currentSprintGoal = currentSprintGoal;
+        this.currentSprintId = sprint.getId();
+        this.currentSprintNum = sprint.getNumSprint();
+        this.currentSprintExpDate = sprint.getDeadlineDate();
+        this.currentSprintGoal = sprint.getGoal();
         this.todo = todo;
         this.doing = doing;
         this.done = done;
@@ -114,6 +107,10 @@ public class ProjectOverview implements Serializable {
 
     public void setIssues(int issues) {
         this.issues = issues;
+    }
+
+    public void addIssues(int addedIssues) {
+        this.issues += addedIssues;
     }
 
     @Override

@@ -155,6 +155,7 @@ export default {
             //console.log(loggedUserID);
             for (let teamMember of this.Team) {
                 if (teamMember.idUser == loggedUserID) {
+                    localStorage.setItem('projectRole', teamMember.role)
                     if (teamMember.role === 'Product Owner') {
                         return true
                     } else {

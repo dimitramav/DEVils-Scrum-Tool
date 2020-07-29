@@ -54,6 +54,10 @@ public class PBI implements Serializable {
     @OneToMany(mappedBy = "epic", cascade = CascadeType.ALL)
     private Set<PBI> stories;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
+    private Set<Task> tasks;
+
     // Default Constructor
     public PBI() {}
 
@@ -102,6 +106,10 @@ public class PBI implements Serializable {
         return stories;
     }
 
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
     // Setters
     public void setId(int id) {
         this.id = id;
@@ -137,6 +145,10 @@ public class PBI implements Serializable {
 
     public void setStories(Set<PBI> stories) {
         this.stories = stories;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
     }
 
     @Override

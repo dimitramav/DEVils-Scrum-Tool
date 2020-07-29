@@ -146,6 +146,7 @@ export default {
         calcDeadline() {
             let today = new Date()
             let d = new Date(this.projectOverview.currentSprintExpDate)
+            d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000)
             //console.log(this.projectOverview.currentSprintExpDate);
             let oneDay = 24 * 60 * 60 * 1000
             this.diffDays = Math.floor((d.getTime() - today.getTime()) / oneDay)

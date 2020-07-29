@@ -24,6 +24,7 @@
                     :id="'new_story_radio' + Epic_id"
                     v-model="newPBI_form.selected"
                     :options="options"
+                    required
                 >
                 </b-form-radio-group>
             </b-form-group>
@@ -67,6 +68,13 @@ export default {
     methods: {
         newStory() {
             const self = this
+            if (
+                this.newPBI_form.selected == -1 ||
+                this.newPBI_form.title == ''
+            ) {
+                console.log('Title and priority cannot be empty')
+                return
+            }
             let data = {
                 title: this.newPBI_form.title,
                 description: this.newPBI_form.desc,

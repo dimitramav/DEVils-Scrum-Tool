@@ -8,11 +8,11 @@
         <transition-group name="taskCards" class="list-group tasks-field">
             <b-card-group
                 v-for="cur_task in tasks[typeofTasks]"
-                :key="cur_task.idTask"
+                :key="cur_task.id"
                 class="tasks-card-group text-font"
                 deck
             >
-                <div v-if="cur_task.PBI_id === currentStoryId">
+                <div v-if="cur_task.storyId === currentStoryId">
                     <TaskCard
                         v-on:editTask="editTask"
                         :cur_task="cur_task"
@@ -64,9 +64,9 @@ export default {
             if (dragged.added) {
                 let taskItem = this.tasks[this.currentTaskState]
                 if (taskItem.length === 2) {
-                    if (taskItem[0].idTask === -1) {
+                    if (taskItem[0].id === -1) {
                         taskItem.splice(0, 1)
-                    } else if (taskItem[1].idTask === -1) {
+                    } else if (taskItem[1].id === -1) {
                         taskItem.splice(1, 1)
                     }
                 }
@@ -74,25 +74,30 @@ export default {
                 axios
                     .put(
                         this.$url +
-                            'users/' +
+                            '/users/' +
                             localStorage.getItem('userId') +
                             '/projects/' +
                             this.$route.params.id +
+                            '/pbis/' +
+                            this.currentStoryId +
                             '/tasks',
                         dragged.added.element,
                         {
                             headers: {
-                                auth: localStorage.getItem('auth_token'),
+                                Authorization:
+                                    'Bearer ' +
+                                    localStorage.getItem('auth_token'),
                                 'Content-Type': 'application/json',
                             },
                         }
                     )
                     .then(function (response) {
-                        if (response.data.error) {
-                            console.log(response.data.error)
-                        }
-                        if (response.data.task) {
-                            /*self.tasks[self.currentTaskState][dragged.added.newIndex].state = self.currentTaskState*/
+                        if (response.data.serverErrorMessage) {
+                            console.log(response.data.serverErrorMessage)
+                        } else {
+                            /*self.tasks[self.currentTaskState][
+                                dragged.added.newIndex
+                            ].state = self.currentTaskState*/
                             //self.$emit('dragTask', response.data.task)
                         }
                     })
@@ -107,7 +112,7 @@ export default {
                     let emptyData = [
                         {
                             state: this.typeofTasks, // If now task category is empty
-                            idTask: -1, // Update its typeofDo task array
+                            id: -1, // Update its typeofDo task array
                         },
                     ]
                     this.$set(this.tasks, this.typeofTasks, emptyData)

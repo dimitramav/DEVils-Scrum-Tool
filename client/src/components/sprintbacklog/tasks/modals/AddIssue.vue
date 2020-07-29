@@ -17,6 +17,7 @@ import axios from 'axios'
 export default {
     name: 'AddIssue',
     props: {
+        PBI_id: Number,
         idTask: Number,
     },
     data: function () {
@@ -24,7 +25,9 @@ export default {
             newIssue: '',
             issueToAdd: {
                 description: '',
-                Task_id: 0,
+                task: {
+                    id: 0,
+                },
             },
         }
     },
@@ -33,32 +36,34 @@ export default {
             const self = this
             if (this.newIssue === '') return
             this.issueToAdd.description = this.newIssue
-            this.issueToAdd.Task_id = this.idTask
+            this.issueToAdd.task.id = this.idTask
             axios
                 .post(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
+                        '/pbis/' +
+                        this.PBI_id +
                         '/tasks/' +
                         this.idTask +
                         '/issues',
                     this.issueToAdd,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         self.newIssue = ''
-                        self.$emit('addIssue', response.data.results)
+                        self.$emit('addIssue', response.data)
                     }
                 })
                 .catch(function (error) {

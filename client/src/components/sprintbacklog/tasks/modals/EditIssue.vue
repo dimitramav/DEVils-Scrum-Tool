@@ -1,16 +1,13 @@
 <template>
     <b-modal
         class="text-left"
-        :id="'edit_issue' + issue.idIssue"
+        :id="'edit_issue' + issue.id"
         title="Edit Issue"
         @ok="editIssue()"
     >
-        <b-form-group
-            label="Description:"
-            :label-for="'editIssue' + issue.idIssue"
-        >
+        <b-form-group label="Description:" :label-for="'editIssue' + issue.id">
             <b-form-input
-                :id="'editIssue' + issue.idIssue"
+                :id="'editIssue' + issue.id"
                 type="text"
                 v-model="issue_desc"
                 required
@@ -33,6 +30,7 @@ import axios from 'axios'
 export default {
     name: 'EditIssue',
     props: {
+        PBI_id: Number,
         idTask: Number,
         issue: Object,
     },
@@ -48,28 +46,30 @@ export default {
             axios
                 .put(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
+                        '/pbis/' +
+                        this.PBI_id +
                         '/tasks/' +
                         this.idTask +
                         '/issues',
                     this.issue,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
                         console.log('Edit Issue')
-                        self.$emit('editIssue', response.data.results)
+                        self.$emit('editIssue', response.data)
                     }
                 })
                 .catch(function (error) {
@@ -79,29 +79,31 @@ export default {
         deleteIssue() {
             const self = this
             axios
-                .patch(
+                .delete(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.$route.params.id +
+                        '/pbis/' +
+                        this.PBI_id +
                         '/tasks/' +
                         this.idTask +
-                        '/issues',
-                    this.issue,
+                        '/issues/' +
+                        this.issue.id,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.results) {
-                        self.$emit('deleteIssue', self.issue.idIssue)
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.$emit('deleteIssue', self.issue.id)
                     }
                 })
                 .catch(function (error) {

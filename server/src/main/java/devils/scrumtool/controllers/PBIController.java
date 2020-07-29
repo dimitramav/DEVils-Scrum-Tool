@@ -42,13 +42,12 @@ public class PBIController {
     @PostMapping("/users/{userId}/projects/{projectId}/pbis")
     public PBI insertPBI(@RequestBody PBI newPBI, @PathVariable Integer projectId)
             throws Exception {
-        return pbiService.createOrEditPBI(newPBI, projectId);
+        return pbiService.createPBI(newPBI, projectId);
     }
 
     @PutMapping("/users/{userId}/projects/{projectId}/pbis")
-    public PBI updatePBI(@RequestBody PBI editedPBI, @PathVariable Integer projectId)
-            throws Exception {
-        return pbiService.createOrEditPBI(editedPBI, projectId);
+    public PBI updatePBI(@RequestBody PBI editedPBI) throws Exception {
+        return pbiService.editPBI(editedPBI);
     }
 
     @PutMapping("/users/{userId}/projects/{projectId}/pbis/sprintUpdate")

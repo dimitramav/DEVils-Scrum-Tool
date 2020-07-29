@@ -1,17 +1,17 @@
 <template>
     <b-modal
-        @ok="addTask(story.idPBI)"
+        @ok="addTask(story.id)"
         class="text-left"
-        :id="modalId + story.idPBI"
+        :id="modalId + story.id"
         title="Add new task"
     >
         <b-form>
             <b-form-group
                 label="Description:"
-                :label-for="'addTask' + story.idPBI"
+                :label-for="'addTask' + story.id"
             >
                 <b-form-input
-                    :id="'addTask' + story.idPBI"
+                    :id="'addTask' + story.id"
                     type="text"
                     v-model="newTask_desc"
                     required
@@ -43,30 +43,31 @@ export default {
             let data = {
                 description: this.newTask_desc,
                 state: 1,
-                PBI_id: storyId,
             }
             axios
                 .post(
                     this.$url +
-                        'users/' +
+                        '/users/' +
                         localStorage.getItem('userId') +
                         '/projects/' +
                         this.currentProject_id +
-                        '/tasks?isCurrent=true',
+                        '/pbis/' +
+                        storyId +
+                        '/tasks',
                     data,
                     {
                         headers: {
-                            auth: localStorage.getItem('auth_token'),
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('auth_token'),
                             'Content-Type': 'application/json',
                         },
                     }
                 )
                 .then(function (response) {
-                    if (response.data.error) {
-                        console.log(response.data.error)
-                    }
-                    if (response.data.task) {
-                        self.$emit('addTask', response.data.task)
+                    if (response.data.serverErrorMessage) {
+                        console.log(response.data.serverErrorMessage)
+                    } else {
+                        self.$emit('addTask', response.data)
                         self.newTask_desc = ''
                     }
                 })

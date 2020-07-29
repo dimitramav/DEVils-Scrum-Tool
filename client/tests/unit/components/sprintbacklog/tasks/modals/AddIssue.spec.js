@@ -27,6 +27,6 @@ describe('AddIssue', () => {
     it('Default values', () => {
         expect(wrapper.vm.newIssue).toBe('')
         expect(wrapper.vm.issueToAdd.description).toBe('')
-        expect(wrapper.vm.issueToAdd.Task_id).toBe(0)
+        expect(wrapper.vm.issueToAdd.task.id).toBe(0)
     })
 })
