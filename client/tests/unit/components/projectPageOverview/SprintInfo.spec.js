@@ -29,6 +29,7 @@ describe('SprintInfo', () => {
                 issues: 3,
                 currentSprintExpDate: '10-11-2022',
             },
+            teamRole: 'Developer',
         },
     })
     // Make various tests

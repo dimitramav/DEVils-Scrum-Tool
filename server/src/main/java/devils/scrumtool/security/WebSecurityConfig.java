@@ -41,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/pbis",
                         "/tasks",
                         "/issues")
-                .hasAuthority("USER") // admin
+                .hasAuthority("ADMIN") // admin
                 .anyRequest()
                 .authenticated()
                 .and()

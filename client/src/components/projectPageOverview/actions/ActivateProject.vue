@@ -13,7 +13,7 @@
             </b-col>
             <b-col style="margin-right: 35%;">
                 <b-button
-                    :disabled="isProductOwner === false"
+                    :disabled="teamRole != 'Product Owner'"
                     size="lg"
                     variant="info"
                     @click="activateProject()"
@@ -31,7 +31,7 @@ import axios from 'axios'
 export default {
     name: 'ActivateProject',
     props: {
-        isProductOwner: Boolean,
+        teamRole: String,
     },
     data() {
         return {

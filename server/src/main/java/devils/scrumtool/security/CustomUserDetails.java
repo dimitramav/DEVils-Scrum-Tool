@@ -26,7 +26,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // System.out.println(this.isAdmin);
         if (this.isAdmin) {
             return Arrays.asList(new SimpleGrantedAuthority("ADMIN"));
         } else {
@@ -36,13 +35,11 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        // System.out.println(username);
         return this.username;
     }
 
     @Override
     public String getPassword() {
-        // System.out.println(password);
         return this.password;
     }
 

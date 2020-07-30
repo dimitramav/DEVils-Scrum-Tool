@@ -6,17 +6,14 @@ import devils.scrumtool.models.AuthenticationRequest;
 import devils.scrumtool.models.Profile;
 import devils.scrumtool.repositories.UserRepository;
 import devils.scrumtool.services.UserService;
-// Java libraries
-// import java.util.List;
 // Spring libraries
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-// import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 // User API
@@ -71,5 +68,10 @@ public class UserController {
             @PathVariable Integer userId, @RequestBody AuthenticationRequest plainPassword)
             throws Exception {
         return userService.passwordOfUserIdUpdate(userId, plainPassword.getPassword());
+    }
+
+    @DeleteMapping("users/{userId}")
+    public void deleteUserAccount(@PathVariable Integer userId) throws Exception {
+        userService.deleteUserAndRelations(userId);
     }
 }

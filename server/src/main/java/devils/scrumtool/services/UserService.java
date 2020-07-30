@@ -1,9 +1,11 @@
 package devils.scrumtool.services;
 
 import devils.scrumtool.entities.User;
+import devils.scrumtool.entities.User_has_Project;
 import devils.scrumtool.models.Profile;
 import devils.scrumtool.repositories.UserRepository;
 // Java libraries
+import java.util.List;
 import java.util.Optional;
 // Spring libraries
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,10 @@ public class UserService {
     @Autowired private UserRepository userRepository;
 
     @Autowired private PasswordEncoder passwordEncoder;
+
+    @Autowired private TeamMemberService teamMemberService;
+
+    @Autowired private ProjectService projectService;
 
     // Methods
     public User getUserById(Integer userId) throws Exception {
@@ -78,5 +84,21 @@ public class UserService {
             throw new Exception("User with id: " + userId + " not updated!");
         }
         return newPassword;
+    }
+
+    @Transactional
+    public void deleteUserAndRelations(Integer userId) throws Exception {
+        // First get all the relations that current user has with projects
+        List<User_has_Project> userRelations = teamMemberService.getRelationsByUserId(userId);
+        // Delete all user's relation with projects
+        for (int i = 0; i < userRelations.size(); i++) {
+            int projectId = userRelations.get(i).getProject().getId();
+            // Delete all projects in which current user was Product Owner
+            if (userRelations.get(i).getRole().equals("Product Owner")) {
+                projectService.deleteProjectAndRelations(projectId);
+            } // Else just delete the relation (just like leaving the project)
+            teamMemberService.deleteMemberFromProject(userId, projectId);
+        } // Finally delete the user
+        userRepository.deleteById(userId);
     }
 }

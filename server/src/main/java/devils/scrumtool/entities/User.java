@@ -5,6 +5,7 @@ import devils.scrumtool.models.Profile;
 // Java libraries
 import java.io.Serializable;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -65,11 +66,11 @@ public class User implements Serializable {
     private Set<User_has_Project> projects;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "sender")
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     private Set<Notification> senderNotifications;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "receiver")
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private Set<Notification> receiverNotifications;
 
     // Default Constructor

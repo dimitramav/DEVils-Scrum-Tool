@@ -63,12 +63,14 @@
                         >
                         </b-form-textarea>
                     </b-form-group>
-                    <ChangePass />
-                    <br />
-                    <b-button variant="success" size="lg" type="info"
-                        >Submit changes</b-button
-                    >
+                    <b-row align-h="center" style="margin-top: 30px;">
+                        <b-button variant="success" size="lg" type="info"
+                            >Submit changes</b-button
+                        >
+                    </b-row>
                 </b-form>
+                <ChangePass class="changePass-button" />
+                <DeleteAccount />
             </b-col>
             <b-col></b-col>
         </b-row>
@@ -80,12 +82,14 @@
 import axios from 'axios'
 import Navbar from '@/components/navbar/Navbar.vue'
 import ChangePass from '@/components/profile/ChangePass.vue'
+import DeleteAccount from '@/components/profile/DeleteAccount.vue'
 
 export default {
     name: 'EditProfile',
     components: {
         Navbar,
         ChangePass,
+        DeleteAccount,
     },
     data() {
         return {
@@ -165,5 +169,10 @@ export default {
 .text-font {
     font-family: Quicksand;
     text-align: left;
+}
+
+.changePass-button {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 </style>

@@ -13,7 +13,7 @@
                     v-if="
                         sprintDataLoaded === true &&
                         teamDataLoaded === true &&
-                        isProductOwner() === true
+                        teamRole() === 'Product Owner'
                     "
                     :Project_id="parseInt(this.$route.params.id)"
                     :Project_title="projectOverview.project.title"
@@ -24,14 +24,15 @@
         </b-row>
         <b-row class="line">.</b-row>
         <ActivateProject
-            v-if="projectOverview.project.isDone === true"
-            :isProductOwner="isProductOwner()"
+            v-if="projectOverview.project.isDone === true && sprintDataLoaded"
+            :teamRole="teamRole()"
         />
         <b-row>
             <b-col>
                 <SprintInfo
                     v-if="sprintDataLoaded === true"
                     :projectOverview="projectOverview"
+                    :teamRole="teamRole()"
                 />
             </b-col>
             <b-col>
@@ -39,7 +40,7 @@
                     v-if="sprintDataLoaded === true && teamDataLoaded === true"
                     :projectOverview="projectOverview"
                     :Team="Team"
-                    :isProductOwner="isProductOwner()"
+                    :teamRole="teamRole()"
                 />
             </b-col>
         </b-row>
@@ -143,6 +144,14 @@ export default {
                         })*/
                     } else {
                         self.Team = response.data
+                        // Find the role loggedIn user has on the project team
+                        let loggedUserID = localStorage.getItem('userId')
+                        for (let teamMember of self.Team) {
+                            if (teamMember.idUser == loggedUserID) {
+                                let role = teamMember.role
+                                localStorage.setItem('teamRole', role)
+                            }
+                        }
                         self.teamDataLoaded = true
                     }
                 })
@@ -150,20 +159,8 @@ export default {
                     console.log(error)
                 })
         },
-        isProductOwner() {
-            let loggedUserID = localStorage.getItem('userId')
-            //console.log(loggedUserID);
-            for (let teamMember of this.Team) {
-                if (teamMember.idUser == loggedUserID) {
-                    localStorage.setItem('projectRole', teamMember.role)
-                    if (teamMember.role === 'Product Owner') {
-                        return true
-                    } else {
-                        return false
-                    }
-                }
-            }
-            return false
+        teamRole() {
+            return localStorage.getItem('teamRole')
         },
         editProject(updatedProject) {
             this.projectOverview.project = updatedProject

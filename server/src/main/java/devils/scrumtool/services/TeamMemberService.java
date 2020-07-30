@@ -24,6 +24,21 @@ public class TeamMemberService {
 
     @Autowired private UserService userService;
 
+    // Methods
+    public User_has_Project getRelationByIds(Integer userId, Integer projectId) throws Exception {
+        Optional<User_has_Project> relation =
+                userHasProjectRepository.findByUserIdAndProjectId(userId, projectId);
+        if (!relation.isPresent()) {
+            throw new Exception(
+                    "Project with id: " + projectId + " has no user with id: " + userId);
+        }
+        return relation.get();
+    }
+
+    public List<User_has_Project> getRelationsByUserId(Integer userId) {
+        return userHasProjectRepository.findByUserId(userId);
+    }
+
     public List<TeamMember> getProjectTeam(Integer projectId) throws Exception {
         // Retrieve team members
         List<User> teamUsers = userRepository.findByProjects_ProjectId(projectId);
@@ -31,14 +46,8 @@ public class TeamMemberService {
         List<TeamMember> teamMembers = new ArrayList<TeamMember>();
         for (int i = 0; i < teamUsers.size(); i++) {
             // Find each member's role in project
-            int currentUserId = teamUsers.get(i).getId();
-            Optional<User_has_Project> relation =
-                    userHasProjectRepository.findByUserIdAndProjectId(currentUserId, projectId);
-            if (!relation.isPresent()) {
-                throw new Exception(
-                        "Project with id: " + projectId + " has no user with id: " + currentUserId);
-            }
-            teamMembers.add(new TeamMember(teamUsers.get(i), projectId, relation.get().getRole()));
+            User_has_Project relation = this.getRelationByIds(teamUsers.get(i).getId(), projectId);
+            teamMembers.add(new TeamMember(teamUsers.get(i), projectId, relation.getRole()));
         }
         return teamMembers;
     }
@@ -53,6 +62,16 @@ public class TeamMemberService {
         // Update the user's num_projects
         User userToUpdate = userService.getUserById(userId);
         userToUpdate.setNumProjects(userToUpdate.getNumProjects() + 1);
+        userRepository.save(userToUpdate);
+    }
+
+    @Transactional
+    public void deleteMemberFromProject(Integer userId, Integer projectId) throws Exception {
+        // Delete relation by both user and project ids
+        userHasProjectRepository.deleteByUserIdAndProjectId(userId, projectId);
+        // Update the user's num_projects (remove 1)
+        User userToUpdate = userService.getUserById(userId);
+        userToUpdate.setNumProjects(userToUpdate.getNumProjects() - 1);
         userRepository.save(userToUpdate);
     }
 }

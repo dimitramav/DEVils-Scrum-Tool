@@ -23,23 +23,15 @@ describe('Members', () => {
                     isDone: false,
                 },
             },
+            teamRole: 'Product Owner',
         },
     })
     // Make various tests
     it('Members is Vue Instance', () => {
         expect(wrapper.isVueInstance).toBeTruthy()
     })
-    it('Default values', () => {
-        expect(wrapper.vm.showAlert).toBeFalsy()
-        expect(wrapper.vm.validEmail).toBeNull()
-        expect(wrapper.vm.newMember.email).toBe('')
-        expect(wrapper.vm.newMember.role).toBeNull()
-        expect(wrapper.vm.invitation.id).toBeNull()
-        expect(wrapper.vm.invitation.project.id).toBe(0)
-        expect(wrapper.vm.invitation.projectTitle).toBeNull()
-        expect(wrapper.vm.invitation.role).toBeNull()
-        expect(wrapper.vm.invitation.sender.username).toBeNull()
-        expect(wrapper.vm.invitation.receiver.email).toBe('')
-        expect(wrapper.vm.invitation.type).toBe('')
+    it('Components included', () => {
+        //expect(wrapper.find({ name: 'LeaveProject' }).exists()).toBeTruthy()
+        expect(wrapper.find({ name: 'AddMembers' }).exists()).toBeTruthy()
     })
 })

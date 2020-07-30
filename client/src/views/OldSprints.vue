@@ -3,17 +3,19 @@
         <Navbar :dashboard="true" :logout_prop="false" />
         <b-jumbotron v-if="sprints.length === 0" class="text-font">
             <h1>No Sprints in this Project</h1>
-            <b>Start a new sprint!</b><br /><br />
-            <b-button
-                size="lg"
-                variant="success"
-                class="m-md-3"
-                :to="{
-                    name: 'NewSprint',
-                    params: { id: $route.params.id },
-                }"
-                >Create New Sprint</b-button
-            >
+            <div v-if="teamRole() != 'Developer'">
+                <b>Start a new sprint!</b><br /><br />
+                <b-button
+                    size="lg"
+                    variant="success"
+                    class="m-md-3"
+                    :to="{
+                        name: 'NewSprint',
+                        params: { id: $route.params.id },
+                    }"
+                    >Create New Sprint</b-button
+                >
+            </div>
         </b-jumbotron>
         <b-row class="line">.</b-row>
         <b-list-group
@@ -99,6 +101,9 @@ export default {
                     '/sprintbacklog/' +
                     idSprint,
             })
+        },
+        teamRole() {
+            return localStorage.getItem('teamRole')
         },
     },
     mounted() {

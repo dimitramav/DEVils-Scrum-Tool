@@ -8,6 +8,7 @@ public class TeamMember implements Serializable {
 
     private int idUser;
     private int idProject;
+    private String username;
     private String email;
     private String firstname;
     private String lastname;
@@ -20,6 +21,7 @@ public class TeamMember implements Serializable {
     public TeamMember(
             int idUser,
             int idProject,
+            String username,
             String email,
             String firstname,
             String lastname,
@@ -27,6 +29,7 @@ public class TeamMember implements Serializable {
             String role) {
         this.idUser = idUser;
         this.idProject = idProject;
+        this.username = username;
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -38,6 +41,7 @@ public class TeamMember implements Serializable {
     public TeamMember(User user, int projectId, String role) {
         this.idUser = user.getId();
         this.idProject = projectId;
+        this.username = user.getUsername();
         this.email = user.getEmail();
         this.firstname = user.getFirstname();
         this.lastname = user.getLastname();
@@ -52,6 +56,10 @@ public class TeamMember implements Serializable {
 
     public int getIdProject() {
         return idProject;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getEmail() {
@@ -83,6 +91,10 @@ public class TeamMember implements Serializable {
         this.idProject = idProject;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -109,6 +121,8 @@ public class TeamMember implements Serializable {
                 + idUser
                 + ", idProject="
                 + idProject
+                + ", username="
+                + username
                 + ", email="
                 + email
                 + ", firstname="

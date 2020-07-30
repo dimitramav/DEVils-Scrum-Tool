@@ -3,7 +3,10 @@
         <div id="currentProject">
             <div v-if="(projectOverview.currentSprintNum === 0)">
                 <b-button
-                    v-if="projectOverview.project.isDone === false"
+                    v-if="
+                        projectOverview.project.isDone === false &&
+                        teamRole != 'Developer'
+                    "
                     variant="primary"
                     :to="{
                         name: 'NewSprint',
@@ -49,7 +52,7 @@
                         ></b-progress>
                     </b-col>
                     <b-col md="4" class="py-4">
-                        <b-btn id="exBtn1" variant="outline-danger">
+                        <b-btn id="exBtn1" variant="outline-warning">
                             Issues ({{ issues }})</b-btn
                         >
                         <b-tooltip target="exBtn1"> {{ issues }} </b-tooltip>
@@ -87,7 +90,10 @@
                     </b-row>
                     <b-row align-h="center">
                         <b-button
-                            v-if="projectOverview.project.isDone === false"
+                            v-if="
+                                projectOverview.project.isDone === false &&
+                                teamRole != 'Developer'
+                            "
                             variant="primary"
                             :to="{
                                 name: 'NewSprint',
@@ -122,6 +128,7 @@ export default {
     name: 'SprintInfo',
     props: {
         projectOverview: Object,
+        teamRole: String,
     },
     data() {
         return {

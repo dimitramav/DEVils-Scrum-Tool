@@ -1,6 +1,5 @@
 package devils.scrumtool.entities;
 
-// import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

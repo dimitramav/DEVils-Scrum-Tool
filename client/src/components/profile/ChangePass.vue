@@ -1,7 +1,7 @@
 <template>
     <div>
-        <b-row align-h="end">
-            <b-btn v-b-toggle.changepass class="m-2 text-font"
+        <b-row align-h="start">
+            <b-btn v-b-toggle.changepass class="text-font"
                 >Change Password</b-btn
             >
         </b-row>

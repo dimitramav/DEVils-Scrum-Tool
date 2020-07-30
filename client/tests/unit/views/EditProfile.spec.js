@@ -25,6 +25,7 @@ describe('EditProfile', () => {
     it('Components included', () => {
         expect(wrapper.find({ name: 'Navbar' }).exists()).toBeTruthy()
         expect(wrapper.find({ name: 'ChangePass' }).exists()).toBeTruthy()
+        expect(wrapper.find({ name: 'DeleteAccount' }).exists()).toBeTruthy()
     })
     it('Default values', () => {
         expect(wrapper.vm.userInfos).toBeInstanceOf(Array)
