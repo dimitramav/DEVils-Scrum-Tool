@@ -42,6 +42,7 @@
                     style="margin-top: 10px; width: 100%;"
                     >Save changes</b-button
                 >
+                <CurrentSprint :currentSprint="currentSprint" />
                 <b-button
                     v-b-modal="'rm_sprint'"
                     variant="danger"
@@ -56,11 +57,13 @@
 
 <script>
 import axios from 'axios'
-import DeleteSprint from '@/components/sprintbacklog/DeleteSprint.vue'
+import CurrentSprint from '@/components/sprintbacklog/editsprint/CurrentSprint.vue'
+import DeleteSprint from '@/components/sprintbacklog/editsprint/DeleteSprint.vue'
 
 export default {
     name: 'EditSprintForm',
     components: {
+        CurrentSprint,
         DeleteSprint,
     },
     props: {

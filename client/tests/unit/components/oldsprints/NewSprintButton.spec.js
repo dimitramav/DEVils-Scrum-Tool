@@ -1,7 +1,7 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import { BootstrapVue } from 'bootstrap-vue'
 import VueRouter from 'vue-router'
-import OldSprints from '@/views/OldSprints.vue'
+import NewSprintButton from '@/components/oldsprints/NewSprintButton.vue'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
@@ -20,9 +20,9 @@ if (!process || process.env.NODE_ENV !== 'test') {
     localVue.use(VueRouter)
 }
 
-describe('OldSprints', () => {
-    // Mount OldSprints on wrapper
-    const wrapper = shallowMount(OldSprints, {
+describe('NewSprintButton', () => {
+    // Mount NewSprintButton on wrapper
+    const wrapper = shallowMount(NewSprintButton, {
         localVue,
         router,
         mocks: {
@@ -30,15 +30,11 @@ describe('OldSprints', () => {
         },
     })
     // Make various tests
-    it('OldSprints is Vue Instance', () => {
+    it('NewSprintButton is Vue Instance', () => {
         expect(wrapper.isVueInstance).toBeTruthy()
     })
-    it('Components included', () => {
-        expect(wrapper.find({ name: 'Navbar' }).exists()).toBeTruthy()
-        //expect(wrapper.find({ name: 'BadgeInfo' }).exists()).toBeTruthy()
-        expect(wrapper.find({ name: 'NewSprintButton' }).exists()).toBeTruthy()
-    })
     it('Default values', () => {
-        expect(wrapper.vm.sprints).toBeInstanceOf(Array)
+        expect(wrapper.vm.projectOverview.project.id).toBe(0)
+        expect(wrapper.vm.projectOverview.project.isCurrent).toBeFalsy()
     })
 })

@@ -141,7 +141,6 @@ export default {
     },
     methods: {
         calcSprintParameters() {
-            //console.log(this.projectOverview.project.title)
             let totalTasks =
                 this.projectOverview.todo +
                 this.projectOverview.doing +

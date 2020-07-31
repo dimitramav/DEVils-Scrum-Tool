@@ -1,7 +1,7 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import { BootstrapVue } from 'bootstrap-vue'
 import VueRouter from 'vue-router'
-import DeleteSprint from '@/components/sprintbacklog/DeleteSprint.vue'
+import DeleteSprint from '@/components/sprintbacklog/editsprint/DeleteSprint.vue'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()

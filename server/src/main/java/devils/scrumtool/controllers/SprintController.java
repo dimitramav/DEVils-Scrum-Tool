@@ -50,6 +50,15 @@ public class SprintController {
         return sprintService.updateSprintById(editedSprint, sprintId);
     }
 
+    @PutMapping("/users/{userId}/projects/{projectId}/sprints/{sprintId}/makeSprintCurrent")
+    public Sprint updateSprintToCurrent(
+            @RequestBody Sprint editedSprint,
+            @PathVariable Integer projectId,
+            @PathVariable Integer sprintId)
+            throws Exception {
+        return sprintService.updateSprintByIdToCurrent(editedSprint, projectId, sprintId);
+    }
+
     @DeleteMapping("/users/{userId}/projects/{projectId}/sprints/{sprintId}")
     public void deleteSprint(@PathVariable Integer projectId, @PathVariable Integer sprintId)
             throws Exception {

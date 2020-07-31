@@ -168,7 +168,6 @@ export default {
                     if (response.data.serverErrorMessage) {
                         console.log(response.data.serverErrorMessage)
                     } else {
-                        console.log('pass updated')
                         self.ok = true
                     }
                 })

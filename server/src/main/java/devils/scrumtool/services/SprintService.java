@@ -72,6 +72,19 @@ public class SprintService {
     }
 
     @Transactional
+    public Sprint updateSprintByIdToCurrent(
+            Sprint editedSprint, Integer projectId, Integer sprintId) throws Exception {
+        // Find the sprint that is current and convert it to non-current
+        Sprint oldCurrentSprint = this.getProjectCurrentSprint(projectId);
+        oldCurrentSprint.setIsCurrent(false);
+        sprintRepository.save(oldCurrentSprint);
+        // Make this sprint to current
+        Sprint updatedSprint = this.getSprintById(sprintId);
+        updatedSprint.setIsCurrent(editedSprint.getIsCurrent());
+        return sprintRepository.save(updatedSprint);
+    }
+
+    @Transactional
     public void deleteSprintAndUpdateRelations(Integer projectId, Integer sprintId)
             throws Exception {
         // Find the stories attached to this sprint and set sprintId to null

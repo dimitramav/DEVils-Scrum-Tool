@@ -149,7 +149,7 @@ export default {
                         }
                         if (index >= 0) {
                             self.Notifications.splice(index, 1)
-                            console.log('Notification removed')
+                            //console.log('Notification removed')
                         } else {
                             console.log('Notif. deleted in db, not client')
                         }
@@ -182,13 +182,13 @@ export default {
                         if (response.data.serverErrorMessage) {
                             console.log(response.data.serverErrorMessage)
                         } else {
-                            console.log('User inserts as member in project')
+                            //console.log('User inserts as member in project')
                         }
                     })
                     .catch(function (error) {
                         console.log(error)
                     })
-                console.log(functionality)
+                //console.log(functionality)
             }
             // Send a notification back to product owner
             if (notificationItem.type === 'Accept/Decline') {
@@ -226,7 +226,7 @@ export default {
                         if (response.data.serverErrorMessage) {
                             console.log(response.data.serverErrorMessage)
                         } else {
-                            console.log('Response Invitation send')
+                            //console.log('Response Invitation send')
                         }
                     })
                     .catch(function (error) {

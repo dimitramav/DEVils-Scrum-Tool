@@ -1,22 +1,7 @@
 <template>
     <b-container>
         <Navbar :dashboard="true" :logout_prop="false" />
-        <b-jumbotron v-if="sprints.length === 0" class="text-font">
-            <h1>No Sprints in this Project</h1>
-            <div v-if="teamRole() != 'Developer'">
-                <b>Start a new sprint!</b><br /><br />
-                <b-button
-                    size="lg"
-                    variant="success"
-                    class="m-md-3"
-                    :to="{
-                        name: 'NewSprint',
-                        params: { id: $route.params.id },
-                    }"
-                    >Create New Sprint</b-button
-                >
-            </div>
-        </b-jumbotron>
+        <NewSprintButton :numOfSprints="sprints.length" />
         <b-row class="line">.</b-row>
         <b-list-group
             v-for="sprint in sprints"
@@ -49,12 +34,14 @@
 <script>
 import axios from 'axios'
 import Navbar from '@/components/navbar/Navbar.vue'
+import NewSprintButton from '@/components/oldsprints/NewSprintButton.vue'
 import BadgeInfo from '@/components/oldsprints/BadgeInfo.vue'
 
 export default {
     name: 'OldSprints',
     components: {
         Navbar,
+        NewSprintButton,
         BadgeInfo,
     },
     data() {
@@ -86,7 +73,6 @@ export default {
                         console.log(response.data.serverErrorMessage)
                     } else {
                         self.sprints = response.data
-                        //console.log(self.sprints)
                     }
                 })
                 .catch(function (error) {
@@ -101,9 +87,6 @@ export default {
                     '/sprintbacklog/' +
                     idSprint,
             })
-        },
-        teamRole() {
-            return localStorage.getItem('teamRole')
         },
     },
     mounted() {
@@ -123,7 +106,7 @@ export default {
     font-size: 1px;
     line-height: 2px;
     background-color: #e6edf2;
-    margin-top: 40px;
+    /*margin-top: 40px;*/
     margin-bottom: 15px;
 }
 

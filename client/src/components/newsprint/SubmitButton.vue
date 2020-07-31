@@ -60,7 +60,7 @@ export default {
                             projectId: self.sprint.project.id,
                         })
                     }
-                    console.log(self.pbis_list)
+                    //console.log(self.pbis_list)
                     axios
                         .put(
                             self.$url +

@@ -9,15 +9,16 @@
                 size="lg"
                 :to="{ name: 'SignUp' }"
                 style="font-family: Quicksand;"
-                >Join Free Now</b-button
+                >Join ScrumTool</b-button
             >
             <br /><br /><br />
         </b-container>
         <b-container id="features" fluid>
-            <b-row><p></p></b-row>
+            <br /><br />
             <b-row align-h="center">
                 <h2 style="font-family: Courier New;">Features</h2>
             </b-row>
+            <b-row><p></p></b-row>
             <b-row>
                 <b-col cols="1"></b-col>
                 <b-col cols="4">
@@ -81,14 +82,17 @@
                     project, implementing a web cooperative platform for
                     software management. This platform helps teams to implement
                     software projects based on agile methodology (SCRUM) via
-                    backlogs, issues, epics and sprints.
+                    backlogs, tasks, issues and sprints.
                 </p>
             </b-row>
             <b-container id="footer" class="bottom" fluid>
                 <b-row><p></p></b-row>
-                <b-row class="justify-content-md-center">
-                    <p style="color: white;">&copy; Under MIT Lisence</p>
+                <b-row align-h="center">
+                    <b-link style="color: white;" @click="gotoGithub(repoLink)"
+                        >&copy; GitHub Repository (source code)
+                    </b-link>
                 </b-row>
+                <b-row><p></p></b-row>
             </b-container>
         </b-container>
     </b-container>
@@ -104,11 +108,12 @@ export default {
         return {
             teamData: teamJson.team,
             featuresData: featuresJson.features,
+            repoLink: 'https://github.com/ogarmpis/DEVils-Scrum-Tool',
         }
     },
     methods: {
         gotoGithub(github) {
-            console.log(github)
+            //console.log(github)
             var win = window.open(github, '_blank')
             win.focus()
         },

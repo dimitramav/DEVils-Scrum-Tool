@@ -157,7 +157,7 @@ export default {
                             ]
                             self.$set(self.tasks, 3, emptyData)
                         }
-                        console.log(self.tasks)
+                        //console.log(self.tasks)
                     }
                 })
                 .catch(function (error) {

@@ -130,7 +130,7 @@ export default {
                     if (response.data.serverErrorMessage) {
                         console.log(response.data.serverErrorMessage)
                     } else {
-                        console.log('Invitation send')
+                        //console.log('Invitation send')
                         self.newMember.email = ''
                         self.validEmail = null
                     }

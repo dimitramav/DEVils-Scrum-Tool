@@ -141,7 +141,6 @@ export default {
                         console.log(response.data.serverErrorMessage)
                     } else {
                         self.userInfos = response.data
-                        console.log('info updated')
                         self.$router.push({
                             path: '/users/' + localStorage.getItem('username'),
                         })

@@ -99,7 +99,6 @@ export default {
                         console.log(response.data.serverErrorMessage)
                     } else {
                         self.Issues = response.data
-                        //console.log('Got the issues')
                     }
                 })
                 .catch(function (error) {

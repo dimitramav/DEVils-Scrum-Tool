@@ -115,7 +115,6 @@ export default {
                         console.log(response.data.serverErrorMessage)
                     } else {
                         //location.reload()
-                        console.log(self.currentStories)
                         self.ok = true
                         self.$emit('addStories')
                     }

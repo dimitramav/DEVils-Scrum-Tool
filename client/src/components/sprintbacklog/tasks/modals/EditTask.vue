@@ -116,7 +116,6 @@ export default {
                     if (response.data.serverErrorMessage) {
                         console.log(response.data.serverErrorMessage)
                     } else {
-                        console.log('Task and its Issues deleted')
                         self.modalShow = false
                         self.$emit('deleteTask', self.Task_id)
                     }

@@ -57,4 +57,8 @@ describe('IndexDefault', () => {
         let iframeUrl = wrapper.find('iframe').attributes().src
         expect(iframeUrl).toBe('https://www.youtube.com/embed/9leSPphzYeI')
     })
+    it('Repository source code link', () => {
+        let repoLink = wrapper.vm.repoLink
+        expect(repoLink).toBe('https://github.com/ogarmpis/DEVils-Scrum-Tool')
+    })
 })
