@@ -12,8 +12,13 @@ to connect with the PostgreSQL database. It runs on an embedded Tomcat server.
 ## Build and Run Server
 	./gradlew bootRun
 
-## Build and format on changes
+## Build (without time consuming tests)
 	./gradlew build -x test
+
+## Spring Boot Testing (JUnit5 & Mockito)
+	./gradlew test
+
+## Format the code
 	./gradlew spotlessApply
 
 ## Up and Running!
