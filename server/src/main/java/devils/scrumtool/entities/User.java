@@ -77,19 +77,14 @@ public class User implements Serializable {
     public User() {}
 
     // Constructor for Sign Up
-    public User(
-            int id,
-            String username,
-            String email,
-            String firstname,
-            String lastname,
-            String password) {
-        this.id = id;
+    public User(String username, String email, String firstname, String lastname, String password) {
         this.username = username;
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
         this.password = password;
+        this.isAdmin = false;
+        this.numProjects = 0;
     }
 
     // Insert profile changes to a user

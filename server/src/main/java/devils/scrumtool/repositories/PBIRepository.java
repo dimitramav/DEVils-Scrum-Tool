@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface PBIRepository extends CrudRepository<PBI, Integer> {
     // Query Methods
-    List<PBI> findByProject_IdAndIsEpic(Integer userId, Boolean isEpic);
+    List<PBI> findByProject_IdAndIsEpic(Integer projectId, Boolean isEpic);
 
-    List<PBI> findByProject_IdAndEpicId(Integer userId, Integer epicId);
+    List<PBI> findByProject_IdAndEpicId(Integer projectId, Integer epicId);
 
     List<PBI> findBySprint_Id(Integer sprintId);
 

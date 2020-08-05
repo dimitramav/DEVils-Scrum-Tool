@@ -50,8 +50,7 @@ public class Project implements Serializable {
     // Default Constructor
     public Project() {}
 
-    public Project(int id, String title, boolean isDone, Date deadlineDate) {
-        this.id = id;
+    public Project(String title, boolean isDone, Date deadlineDate) {
         this.title = title;
         this.isDone = isDone;
         this.deadlineDate = deadlineDate;

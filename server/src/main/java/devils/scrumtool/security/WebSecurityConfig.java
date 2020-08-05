@@ -55,6 +55,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         // User authentication (with BCrypt encryption)
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        // User in memory for spring testing only
+        PasswordEncoder encoder = passwordEncoder();
+        auth.inMemoryAuthentication()
+                .passwordEncoder(encoder)
+                .withUser("spring")
+                .password(encoder.encode("secret"))
+                .roles("USER");
     }
 
     @Bean

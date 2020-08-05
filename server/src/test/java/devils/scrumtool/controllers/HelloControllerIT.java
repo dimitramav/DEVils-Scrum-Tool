@@ -39,8 +39,8 @@ public class HelloControllerIT {
 
     @Test
     public void loadTestProperties() throws Exception {
-        assertThat(env.getProperty("spring.datasource.username")).isEqualTo("testuser");
-        assertThat(env.getProperty("spring.datasource.password")).isEqualTo("testpass");
+        assertThat(env.getProperty("spring.datasource.username")).isEqualTo("sa");
+        assertThat(env.getProperty("spring.datasource.password")).isEqualTo("");
         assertThat(contextPath).isEqualTo("/api");
     }
 
