@@ -18,7 +18,7 @@ public class User_has_ProjectRepositoryTest {
     @Autowired private User_has_ProjectRepository repository;
     // given
     private int userId = 2;
-    private int projectId = 4;
+    private int projectId = 1;
 
     @Test
     void findByUserIdAndProjectId() throws Exception {

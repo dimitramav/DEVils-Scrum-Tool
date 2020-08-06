@@ -18,8 +18,8 @@ public class SprintRepositoryTest {
 
     @Autowired private SprintRepository repository;
     // given
-    private int projectId = 5;
-    private int sprintId = 6;
+    private int projectId = 2;
+    private int sprintId = 1;
     private String sprintPlan = "Test Sprint";
     private int sprintNumSprint = 1;
 

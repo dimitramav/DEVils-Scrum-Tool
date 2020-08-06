@@ -60,7 +60,7 @@ public class UserRepositoryTest {
     @Test
     void findUsersByProjectId() throws Exception {
         // given
-        int projectId = 5;
+        int projectId = 2;
         // when
         List<User> usersInProject = this.repository.findByProjects_ProjectId(projectId);
         // then

@@ -17,8 +17,8 @@ public class IssueRepositoryTest {
 
     @Autowired private IssueRepository repository;
     // given
-    private int issueId = 12;
-    private int taskId = 10;
+    private int issueId = 1;
+    private int taskId = 1;
 
     @Test
     void findIssuesOfTaskId() throws Exception {

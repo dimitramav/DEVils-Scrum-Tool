@@ -24,7 +24,7 @@ public class ProjectRepositoryTest {
 
     @Autowired private ProjectRepository repository;
     // given
-    private int projectId = 4;
+    private int projectId = 1;
     private int userId = 2;
 
     @Test

@@ -17,7 +17,7 @@ public class TaskRepositoryTest {
 
     @Autowired private TaskRepository repository;
     // given
-    private int taskId = 10;
+    private int taskId = 1;
 
     @Test
     void findTasksOfStoryId() throws Exception {

@@ -17,10 +17,10 @@ public class PBIRepositoryTest {
 
     @Autowired private PBIRepository repository;
     // given
-    private int projectId = 5;
-    private int sprintId = 6;
-    private int epicId = 7;
-    private int storyId = 8;
+    private int projectId = 2;
+    private int sprintId = 1;
+    private int epicId = 1;
+    private int storyId = 2;
 
     @Test
     void findEpicsByProjectId() throws Exception {
