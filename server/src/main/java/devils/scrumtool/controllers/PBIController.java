@@ -61,7 +61,7 @@ public class PBIController {
     }
 
     @GetMapping("/users/{userId}/projects/{projectId}/sprintStories")
-    public List<PBI> getProjectPBIs(@RequestParam Integer sprintId) {
+    public List<PBI> getProjectSprintStories(@RequestParam Integer sprintId) {
         return pbiRepository.findBySprint_Id(sprintId);
     }
 }

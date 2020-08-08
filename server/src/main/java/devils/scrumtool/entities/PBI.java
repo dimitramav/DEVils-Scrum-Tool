@@ -62,8 +62,7 @@ public class PBI implements Serializable {
     // Default Constructor
     public PBI() {}
 
-    public PBI(int id, String title, String description, int priority, boolean isEpic) {
-        this.id = id;
+    public PBI(String title, String description, int priority, boolean isEpic) {
         this.title = title;
         this.description = description;
         this.priority = priority;

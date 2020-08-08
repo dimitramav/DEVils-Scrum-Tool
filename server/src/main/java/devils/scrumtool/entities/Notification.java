@@ -51,8 +51,7 @@ public class Notification implements Serializable {
     // Default Constructor
     public Notification() {}
 
-    public Notification(int id, String projectTitle, String role, String type, String message) {
-        this.id = id;
+    public Notification(String projectTitle, String role, String type, String message) {
         this.projectTitle = projectTitle;
         this.role = role;
         this.type = type;

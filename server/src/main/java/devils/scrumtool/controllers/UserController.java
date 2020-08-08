@@ -70,7 +70,7 @@ public class UserController {
         return userService.passwordOfUserIdUpdate(userId, plainPassword.getPassword());
     }
 
-    @DeleteMapping("users/{userId}")
+    @DeleteMapping("/users/{userId}")
     public void deleteUserAccount(@PathVariable Integer userId) throws Exception {
         userService.deleteUserAndRelations(userId);
     }

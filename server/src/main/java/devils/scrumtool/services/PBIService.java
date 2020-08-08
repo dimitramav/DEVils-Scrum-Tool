@@ -60,8 +60,7 @@ public class PBIService {
         pbiToUpdate.setPriority(editedPBI.getPriority());
         if (editedPBI.getIsEpic() == false) {
             pbiToUpdate.setEpic(this.getPBIById(editedPBI.getEpic().getId()));
-        }
-        // Now save the PBI
+        } // Now save the PBI
         return pbiRepository.save(pbiToUpdate);
     }
 

@@ -3,7 +3,7 @@ Web cooperative platform for software management. This platform helps teams to i
 agile methodology (SCRUM) via sprints, epics, user stories, tasks and issues.
 
 ## Environment
-This web application is created using Spring Boot and Gradle for build in the backend, while the frontend is implemented on Vue framework. For dependencies, check the respective README.md files in both files.
+This web application is created using Spring Boot and Gradle for build in the back-end, while the front-end is implemented on Vue framework. Unit and integration tests have been implemented on client and server respectively. For dependencies, check the README.md files in each directory.
 
 ## Build and Run Server
 - In server directory, follow the instructions given on [Server ReadMe](./server/README.md) in order to install

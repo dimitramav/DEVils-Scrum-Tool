@@ -51,14 +51,11 @@ public class Sprint implements Serializable {
     // Default Constructor
     public Sprint() {}
 
-    public Sprint(
-            int id, Date deadlineDate, String goal, String plan, boolean isCurrent, int numSprint) {
-        this.id = id;
+    public Sprint(Date deadlineDate, String goal, String plan, boolean isCurrent) {
         this.deadlineDate = deadlineDate;
         this.goal = goal;
         this.plan = plan;
         this.isCurrent = isCurrent;
-        this.numSprint = numSprint;
     }
 
     // Getters

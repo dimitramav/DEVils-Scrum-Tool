@@ -40,8 +40,7 @@ public class Task implements Serializable {
     // Default Constructor
     public Task() {}
 
-    public Task(int id, String description, int state) {
-        this.id = id;
+    public Task(String description, int state) {
         this.description = description;
         this.state = state;
     }

@@ -30,8 +30,7 @@ public class Issue implements Serializable {
     // Default Constructor
     public Issue() {}
 
-    public Issue(int id, String description) {
-        this.id = id;
+    public Issue(String description) {
         this.description = description;
     }
 
