@@ -6,7 +6,7 @@
             </b-col>
             <b-col>
                 <EditSprintForm
-                    v-if="teamRole() != 'Developer'"
+                    v-if="isDeveloper() == false"
                     v-on:editSprint="editSprint"
                     :currentSprint="currentSprint"
                 />
@@ -87,8 +87,12 @@ export default {
         editSprint(updatedSprintInfo) {
             this.currentSprint = updatedSprintInfo
         },
-        teamRole() {
-            return localStorage.getItem('teamRole')
+        isDeveloper() {
+            if (localStorage.getItem('teamRole') == 'Developer') {
+                return true
+            } else {
+                return false
+            }
         },
     },
     mounted() {

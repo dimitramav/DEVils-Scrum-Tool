@@ -1,6 +1,10 @@
 <template>
     <div class="text-right">
-        <b-button @click="openModal()" variant="outline-secondary">
+        <b-button
+            :disabled="isDeveloper()"
+            @click="openModal()"
+            variant="outline-secondary"
+        >
             <img src="@/assets/edit.png" class="btn-img" />
             Edit
         </b-button>
@@ -153,6 +157,13 @@ export default {
         deletePBI(idPBI) {
             this.modalShow = false
             this.$emit('delete_pbi', idPBI)
+        },
+        isDeveloper() {
+            if (localStorage.getItem('teamRole') == 'Developer') {
+                return true
+            } else {
+                return false
+            }
         },
     },
 }

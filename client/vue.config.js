@@ -1,7 +1,6 @@
 // vue configuration file
 module.exports = {
-    //mode: "production",
-    // Proxy does not work for axios (bug)
+    // back-end url on main.js
     devServer: {
         /*proxy: {
             '^/api/': {

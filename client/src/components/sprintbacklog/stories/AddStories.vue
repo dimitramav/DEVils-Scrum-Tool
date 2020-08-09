@@ -1,5 +1,5 @@
 <template>
-    <b-container class="text-font btn-margin">
+    <b-container class="text-font btn-margin" v-if="!isDeveloper()">
         <b-row align-h="center" style="margin-top: 20px;">
             <b-button
                 v-b-toggle.addStory
@@ -122,6 +122,13 @@ export default {
                 .catch(function (error) {
                     console.log(error)
                 })
+        },
+        isDeveloper() {
+            if (localStorage.getItem('teamRole') == 'Developer') {
+                return true
+            } else {
+                return false
+            }
         },
     },
     mounted() {

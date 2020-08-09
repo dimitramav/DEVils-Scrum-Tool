@@ -12,8 +12,11 @@
                 />
             </b-col>
             <b-col>
-                <b-btn v-b-modal="'remove_story' + story.id" variant="danger"
-                    >Remove Story</b-btn
+                <b-button
+                    :disabled="isDeveloper()"
+                    v-b-modal="'remove_story' + story.id"
+                    variant="danger"
+                    >Remove Story</b-button
                 >
                 <RemoveStory
                     v-on:removeStoryAndTasks="removeStoryAndTasks"
@@ -44,6 +47,13 @@ export default {
         },
         removeStoryAndTasks(storyId) {
             this.$emit('removeStoryAndTasks', storyId)
+        },
+        isDeveloper() {
+            if (localStorage.getItem('teamRole') == 'Developer') {
+                return true
+            } else {
+                return false
+            }
         },
     },
 }

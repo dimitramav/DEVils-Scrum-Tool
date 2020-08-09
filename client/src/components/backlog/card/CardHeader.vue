@@ -1,7 +1,9 @@
 <template>
     <b-row align-v="center">
         <b-col>
-            <b-btn v-b-modal="'new_story' + current_epic.id"
+            <b-btn
+                :disabled="isDeveloper()"
+                v-b-modal="'new_story' + current_epic.id"
                 >Add User Story</b-btn
             >
             <NewPBI
@@ -68,6 +70,13 @@ export default {
             let i = this.currentPbis.findIndex((o) => o.id === id)
             if (i != -1) this.currentPbis.splice(i, 1)
             this.$emit('editEpic', this.currentPbis)
+        },
+        isDeveloper() {
+            if (localStorage.getItem('teamRole') == 'Developer') {
+                return true
+            } else {
+                return false
+            }
         },
     },
     mounted() {

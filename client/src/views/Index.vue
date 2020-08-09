@@ -61,8 +61,8 @@ export default {
     methods: {
         notLoggedIn() {
             return (
-                localStorage.getItem('auth_token') === 'null' ||
-                localStorage.getItem('userId') === 'null'
+                localStorage.getItem('auth_token') === null ||
+                localStorage.getItem('auth_token') === 'null'
             )
         },
         firstProjectCreated() {

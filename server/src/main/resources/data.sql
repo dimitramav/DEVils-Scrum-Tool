@@ -15,6 +15,7 @@ insert into users (email, username, firstname, lastname, password, is_admin, num
 insert into projects (title, is_done, deadline_date) values ('test project 1', false, '2020-08-16');
 insert into projects (title, is_done, deadline_date) values ('test project 2', false, '2020-08-17');
 
+/* users - projects relation (project team members) */
 insert into user_has_project (user_id, project_id, role) values (2, 1, 'Product Owner');
 insert into user_has_project (user_id, project_id, role) values (1, 2, 'Product Owner');
 insert into user_has_project (user_id, project_id, role) values (2, 2, 'Scrum Master');

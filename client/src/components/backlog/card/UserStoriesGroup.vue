@@ -5,6 +5,7 @@
     >
         <draggable
             v-model="currentUserStories[current_epic.id]"
+            :disabled="isDeveloper()"
             :move="onUserStoryMove"
             @change="onUserStoryChange"
             group="UserStories"
@@ -127,6 +128,13 @@ export default {
         editCurrentUserStories(updatedCurrentUserStories) {
             this.currentUserStories = updatedCurrentUserStories
             this.$emit('editCurrentUserStories', this.currentUserStories)
+        },
+        isDeveloper() {
+            if (localStorage.getItem('teamRole') == 'Developer') {
+                return true
+            } else {
+                return false
+            }
         },
     },
 }

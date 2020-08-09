@@ -67,12 +67,13 @@ public class NotificationControllerTest {
                 .andExpect(jsonPath("$.[0].message").value("test notification"));
     }
 
+    // On delete request, http response "Accepted" is send from server
     @WithMockUser("spring")
     @Test
     @Order(3)
     public void deleteNotification() throws Exception {
         // /users/{userId}/notifications/{notificationId}
         String url = "/users/1/notifications/1";
-        mvc.perform(MockMvcRequestBuilders.delete(url)).andExpect(status().isOk());
+        mvc.perform(MockMvcRequestBuilders.delete(url)).andExpect(status().isAccepted());
     }
 }

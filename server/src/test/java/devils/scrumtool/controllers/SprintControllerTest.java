@@ -123,4 +123,13 @@ public class SprintControllerTest {
                 .andExpect(jsonPath("$.isCurrent").value(true))
                 .andExpect(jsonPath("$.numSprint").value(1));
     }
+
+    @WithMockUser("spring")
+    @Test
+    @Order(6)
+    public void deleteSprint() throws Exception {
+        // /users/{userId}/projects/{projectId}/sprints/{sprintId}
+        String url = "/users/2/projects/2/sprints/2";
+        mvc.perform(MockMvcRequestBuilders.delete(url)).andExpect(status().isOk());
+    }
 }

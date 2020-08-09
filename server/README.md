@@ -1,10 +1,10 @@
 # Server Implementation
-The back end of DEVils-Scrum-Tool is created with Spring Boot, using Gradle as build tool and Hibernate
+The back-end of DEVils-Scrum-Tool is created with Spring Boot, using Gradle as build tool and Hibernate
 to connect with the PostgreSQL database. It runs on an embedded Tomcat server.
 
-## Testing - In-Memory Database
+## Demo with In-Memory Database
 
-### Build and Run Server with an Embedded H2 In-Memory Database (for testing)
+### Build and Run Server with an Embedded H2 In-Memory Database
 	./gradlew bootRun --args='--spring.profiles.active=test'
 
 #### Default imported users on test-profile for login (email / password)
@@ -18,7 +18,7 @@ to connect with the PostgreSQL database. It runs on an embedded Tomcat server.
 1. Install postgresql
 2. Create a new database with name `scrumtool`:
 	`psql> CREATE DATABASE scrumtool;`
-3. Then log in (with root privileges):
+3. Then log in (may need root privileges):
 	`sudo -u postgres psql -d scrumtool`
 3. Import the database (./src/main/resources/schema.sql)
 	`psql> \i /absolute/path/to/schema.sql`
@@ -26,7 +26,7 @@ to connect with the PostgreSQL database. It runs on an embedded Tomcat server.
 ### Build and Run Server
 	./gradlew bootRun
 
-### Build (without time consuming tests)
+### Build (without time-consuming tests)
 	./gradlew build -x test
 
 ### Spring Boot Integration Testing (JUnit5 & Mockito)
@@ -36,7 +36,7 @@ to connect with the PostgreSQL database. It runs on an embedded Tomcat server.
 	./gradlew spotlessApply
 
 ## Up and Running!
-Your server runs on http://localhost:8765/api
+Check it on http://localhost:8765/api/hello (Message: "Greetings from Spring Boot!")
 - Credentials (such as ports) for server and database are defined in `application.properties` file
 - For testing purposes, `application-test.properties` is loaded (spring.profiles.active=test)
 - On integration tests, an embedded h2 database is used (created by `schema.sql`, populated by `data.sql`)

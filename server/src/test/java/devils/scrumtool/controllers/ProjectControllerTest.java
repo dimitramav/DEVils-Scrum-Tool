@@ -72,7 +72,7 @@ public class ProjectControllerTest {
     public void insertProject() throws Exception {
         // /users/{userId}/projects
         String url = "/users/2/projects";
-        // Create the user object and map it as json string
+        // Create the project object and map it as json string
         Date date = new Date(System.currentTimeMillis());
         Project newProject = new Project("springProject", false, date);
         String json = mapper.writeValueAsString(newProject);
@@ -82,6 +82,7 @@ public class ProjectControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(3))
                 .andExpect(jsonPath("$.title").value("springProject"))
                 .andExpect(jsonPath("$.isDone").value("false"));
     }
@@ -112,10 +113,10 @@ public class ProjectControllerTest {
     @Order(5)
     public void updateProject() throws Exception {
         // /users/{userId}/projects/{projectId}
-        String url = "/users/1/projects/2";
-        // Get the user object from db, edit it and map it as json string
-        Project editProject = this.repository.findById(2).get();
-        editProject.setTitle("test project 222");
+        String url = "/users/1/projects/3";
+        // Get the project object from db, edit it and map it as json string
+        Project editProject = this.repository.findById(3).get();
+        editProject.setTitle("springProject123");
         String json = mapper.writeValueAsString(editProject);
         mvc.perform(
                         MockMvcRequestBuilders.put(url)
@@ -123,7 +124,7 @@ public class ProjectControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("test project 222"))
+                .andExpect(jsonPath("$.title").value("springProject123"))
                 .andExpect(jsonPath("$.isDone").value("false"));
     }
 
@@ -132,7 +133,7 @@ public class ProjectControllerTest {
     @Order(6)
     public void archiveActivateProject() throws Exception {
         // /users/{userId}/projects/{projectId}/changeIsDone
-        String url = "/users/1/projects/2/changeIsDone";
+        String url = "/users/1/projects/3/changeIsDone";
         // Request body is a boolean (true -> archive project)
         String json = "true";
         mvc.perform(

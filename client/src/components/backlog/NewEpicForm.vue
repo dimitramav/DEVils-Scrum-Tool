@@ -2,8 +2,8 @@
     <div class="text-font">
         <b-jumbotron v-if="numOfPbis === 0">
             <h1>No Epics in Product Backlog</h1>
-            <b>Start creating!</b><br /><br />
             <b-btn
+                v-if="isDeveloper() == false"
                 v-b-modal="'new_storyundefined'"
                 size="lg"
                 variant="success"
@@ -12,7 +12,7 @@
             >
             <NewPBI v-on:new_pbi="newEpic" :idProject="currentProject_id" />
         </b-jumbotron>
-        <b-row v-if="numOfPbis > 0">
+        <b-row v-if="numOfPbis > 0 && !isDeveloper()">
             <b-col class="text-right">
                 <b-btn
                     v-b-modal="'new_storyundefined'"
@@ -47,6 +47,13 @@ export default {
         newEpic(data) {
             //console.log(data);
             this.$emit('newEpic', data)
+        },
+        isDeveloper() {
+            if (localStorage.getItem('teamRole') == 'Developer') {
+                return true
+            } else {
+                return false
+            }
         },
     },
     mounted() {
