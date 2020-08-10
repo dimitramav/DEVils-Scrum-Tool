@@ -19,12 +19,4 @@ describe('Index', () => {
     it('Default values', () => {
         expect(wrapper.vm.totalNumOfCurProjects).toBe(0)
     })
-    it('Components included', () => {
-        expect(wrapper.find({ name: 'Navbar' }).exists()).toBeTruthy()
-        //expect(wrapper.find({ name: 'IndexDefault' }).exists()).toBeTruthy()
-        expect(wrapper.find({ name: 'NewProjectForm' }).exists()).toBeTruthy()
-        expect(
-            wrapper.find({ name: 'ProjectsPresentation' }).exists()
-        ).toBeTruthy()
-    })
 })

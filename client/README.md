@@ -12,6 +12,7 @@ The project was developed using Vue CLI (@vue/cli). Open a new bash instance to 
 Your client runs on http://localhost:9000/
 
 ## More configuration (optional)
+
 ### Compiles and minifies for production
     npm run build
 
@@ -20,3 +21,10 @@ Your client runs on http://localhost:9000/
 
 ### Lints (code format) and fixes files
     npm run lint
+
+
+## Other Deployment options
+
+### Docker (on nginx server)
+    docker build -t scrumtool-client .
+    docker run -it -p 9000:80 --rm scrumtool-client

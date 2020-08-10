@@ -86,8 +86,7 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value("abcd@efg"))
                 .andExpect(jsonPath("$.firstname").value("abcd"))
-                .andExpect(jsonPath("$.lastname").value("efg"))
-                .andExpect(jsonPath("$.numProjects").value(1));
+                .andExpect(jsonPath("$.lastname").value("efg"));
     }
 
     @WithMockUser("spring")
@@ -110,8 +109,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.email").value("abcd@efg"))
                 .andExpect(jsonPath("$.firstname").value("abcd"))
                 .andExpect(jsonPath("$.lastname").value("ef1"))
-                .andExpect(jsonPath("$.country").value("Greece"))
-                .andExpect(jsonPath("$.numProjects").value(1));
+                .andExpect(jsonPath("$.country").value("Greece"));
     }
 
     @WithMockUser("spring")

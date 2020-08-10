@@ -35,9 +35,20 @@ to connect with the PostgreSQL database. It runs on an embedded Tomcat server.
 ### Format the code
 	./gradlew spotlessApply
 
+## Other Deployment options
+
+### Docker
+1. Install `docker-compose`
+2. Build server and database images together with docker-compose
+	`docker-compose up --no-start`
+3. Start the server and database containers
+	`docker-compose start`
+4. Stop them with `docker-compose stop`
+
 ## Up and Running!
 Check it on http://localhost:8765/api/hello (Message: "Greetings from Spring Boot!")
 - Credentials (such as ports) for server and database are defined in `application.properties` file
 - For testing purposes, `application-test.properties` is loaded (spring.profiles.active=test)
 - On integration tests, an embedded h2 database is used (created by `schema.sql`, populated by `data.sql`)
+- Use of docker-compose in order to create associated containers for server and database
 - Spring Dependencies can be found on build.gradle

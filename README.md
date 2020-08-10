@@ -6,7 +6,8 @@ agile methodology (SCRUM) via sprints, epics, user stories, tasks and issues.
 This web application is created using Spring Boot and Gradle for build in the back-end, while the front-end is implemented on Vue framework. Unit and integration tests have been implemented on client and server respectively. For dependencies, check the README.md files in each directory.
 
 ### Prerequisites
-- You need to install `nodejs` (for client) and `java 11` (for server)
+- You need to install `nodejs` (for client), `java 11` (for server) and `postgresql` (for database)
+- Another option is to install `docker`, so as to run client, server and database as containers
 
 ## Build and Run Server
 - In server directory, follow the instructions given on [Server ReadMe](./server/README.md) in order to install

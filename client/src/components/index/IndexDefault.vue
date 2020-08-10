@@ -59,7 +59,7 @@
                         <h5 style="font-family: Courier New; font-size: 18px;">
                             {{ teamMember.name }} <br /><br />
                         </h5>
-                        <p class="lang">{{ teamMember.dev }}</p>
+                        <!--<p class="lang">{{ teamMember.dev }}</p>-->
                         <p>
                             <i style="font-size: 13px;">
                                 '{{ teamMember.phrase }}'</i
