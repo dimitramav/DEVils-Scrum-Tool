@@ -21,3 +21,4 @@ services:
             - "8765:8765"
         environment:
             - SPRING_DATASOURCE_URL=jdbc:postgresql://dockerdb:5432/scrumtool
+            - SPRING_PROFILES_ACTIVE=dev

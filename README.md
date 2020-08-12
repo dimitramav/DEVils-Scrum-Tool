@@ -1,21 +1,21 @@
 # DEVils-Scrum-Tool
 Web cooperative platform for software management. This platform helps teams to implement software projects based on
-agile methodology (SCRUM) via sprints, epics, user stories, tasks and issues.
+agile methodology (SCRUM) via sprints, epics, user stories, tasks and issues. Deploying DEVils-Scrumtool on cloud platforms like Heroku (check instructions), makes it a perfect free application for teams to work with on their own projects! You may try it online, on https://devils-scrumtool.herokuapp.com
 
 ## Environment
-This web application is created using Spring Boot and Gradle for build in the back-end, while the front-end is implemented on Vue framework. Unit and integration tests have been implemented on client and server respectively. For dependencies, check the README.md files in each directory.
+This web application is created using Spring Boot and Gradle for build in the back-end, while the front-end is implemented on Vue framework. Both implementations are fully independenent. Unit and integration tests have been implemented on client and server respectively. For dependencies, check the README.md files in each directory.
 
 ### Prerequisites
 - You need to install `nodejs` (for client), `java 11` (for server) and `postgresql` (for database)
 - Another option is to install `docker`, so as to run client, server and database as containers
+- For production, a heroku account is recommended, where both front-end and back-end can be deployed
 
 ## Build and Run Server
 - In server directory, follow the instructions given on [Server ReadMe](./server/README.md) in order to install
-the database and then build and run the back-end. Your server is up and running!
+the database and also test, build and run the back-end, both locally and online. Your server is up and running!
 
 ## Build and Run Client
-- Just as above, move onto client folder, open a new bash instance and run `npm install` to install dependencies and
-then `npm run serve` to run the front end. Read the [Client ReadMe](./client/README.md) for more.
+- Just as above, move onto client folder, open a new bash instance and follow the instructions, depending on what kind of deployment you want (local, docker, heroku). Read the [Client ReadMe](./client/README.md) for more.
 
 
 ## Your localhost links!

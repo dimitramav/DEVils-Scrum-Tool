@@ -60,10 +60,16 @@ export default {
     },
     methods: {
         notLoggedIn() {
-            return (
+            if (
                 localStorage.getItem('auth_token') === null ||
                 localStorage.getItem('auth_token') === 'null'
-            )
+            ) {
+                localStorage.setItem('userId', 'null')
+                localStorage.setItem('username', 'null')
+                localStorage.setItem('auth_token', 'null')
+                return true
+            }
+            return false
         },
         firstProjectCreated() {
             location.reload()

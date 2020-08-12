@@ -2,19 +2,22 @@
 The back-end of DEVils-Scrum-Tool is created with Spring Boot, using Gradle as build tool and Hibernate
 to connect with the PostgreSQL database. It runs on an embedded Tomcat server.
 
-## Demo with In-Memory Database
+## Testing - Demo with In-Memory Database
 
 ### Build and Run Server with an Embedded H2 In-Memory Database
 	./gradlew bootRun --args='--spring.profiles.active=test'
+
+### Up and Running!
+Check it on http://localhost:8765/api/hello (Message: "Greetings from Spring Boot!")
 
 #### Default imported users on test-profile for login (email / password)
 	- abcd@ef.com   / abcd1234!
 	- abcd@efg.com  / abcd1234!
 	- abcd@efgh.com / abcd1234!
 
-## Production - Local Development steps
+## Development - Local installation steps
 
-### Install locally a PostgreSQL Database (for production)
+### Install locally a PostgreSQL Database
 1. Install postgresql
 2. Create a new database with name `scrumtool`:
 	`psql> CREATE DATABASE scrumtool;`
@@ -24,7 +27,7 @@ to connect with the PostgreSQL database. It runs on an embedded Tomcat server.
 	`psql> \i /absolute/path/to/schema.sql`
 
 ### Build and Run Server
-	./gradlew bootRun
+	./gradlew bootRun --args='--spring.profiles.active=dev'
 
 ### Build (without time-consuming tests)
 	./gradlew build -x test
@@ -45,10 +48,9 @@ to connect with the PostgreSQL database. It runs on an embedded Tomcat server.
 	`docker-compose start`
 4. Stop them with `docker-compose stop`
 
-## Up and Running!
-Check it on http://localhost:8765/api/hello (Message: "Greetings from Spring Boot!")
-- Credentials (such as ports) for server and database are defined in `application.properties` file
-- For testing purposes, `application-test.properties` is loaded (spring.profiles.active=test)
-- On integration tests, an embedded h2 database is used (created by `schema.sql`, populated by `data.sql`)
-- Use of docker-compose in order to create associated containers for server and database
-- Spring Dependencies can be found on build.gradle
+### Heroku (for production)
+1. Login to heroku and create a new project
+2. Add postgresql add-on: `heroku addons:create heroku-postgresql`
+3. On `./src/main/resources/application-heroku.properties` apply `originRequestUrl` as `https://your-frontend.herokuapp.com`
+4. Git add, commit and push to heroku master
+5. Import schema to database: `heroku pg:psql YOUR-DATABASE-NAME < ./src/main/resources/schema.sql`

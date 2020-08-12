@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'devils.scrumtool'
-version = '0.0.1-SNAPSHOT'
+version = '1.4'
 sourceCompatibility = '11'
 
 wrapper {
@@ -44,7 +44,7 @@ test {
 
 spotless {
 	format 'misc', {
-		target '**/*.gradle', '**/*.md', '**/.gitignore'
+		target '**/*.gradle', '**/.gitignore'//, '**/*.md'
 		trimTrailingWhitespace()
 		indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
 		endWithNewline()
