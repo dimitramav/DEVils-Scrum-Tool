@@ -25,13 +25,13 @@ Your client runs on http://localhost:9000/
 
 ## Other Deployment options
 
-### Docker (on nginx server)
+### Docker
     docker build -t client_vuejsapp .
     docker run -it -p 9000:80 --rm client_vuejsapp
 
-### Heroku (recommended for production - not development)
+### Heroku (for production)
 1. Remove `/dist` directory from .gitignore
 2. On `./src/main.js` apply `Vue.prototype.$url` as `https://your-backend.herokuapp.com/api`
-3. Login to heroku and create a project
-4. Build the project, running `npm run build`
+3. Login to heroku and create a new project
+4. Build locally, running `npm run build`
 5. Git add, commit and push to heroku master

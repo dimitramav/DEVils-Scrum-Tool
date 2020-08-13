@@ -1,4 +1,4 @@
-./docs# DEVils-Scrum-Tool
+# DEVils-Scrum-Tool
 
 ## Users
 
@@ -61,56 +61,56 @@
 ## Scrum Tool Wireframes
 ### Navigation flow
 
- ![Navigation Flow](./docs/wireframes/Navigation%20Flow.png)
+![Navigation Flow](./wireframes/Navigation%20Flow.png)
 
 ### Index Page
- ![Index Wireframe](./docs/wireframes/Index%20Page.png)
+![Index Wireframe](./wireframes/Index%20Page.png)
 
- ### Sign Up Page
- ![Sign up Wireframe](./docs/wireframes/Sign%20up%20page.png)
+### Sign Up Page
+![Sign up Wireframe](./wireframes/Sign%20up%20page.png)
 
-  ### Sign In Page
- ![Sign in Wireframe](./docs/wireframes/Sign%20In%20Page.png)
+### Sign In Page
+![Sign in Wireframe](./wireframes/Sign%20In%20Page.png)
 
- ### Forgot Password Page
- ![Forgot Password Wireframe](./docs/wireframes/Forgot%20Password%20page.png)
+### Forgot Password Page
+![Forgot Password Wireframe](./wireframes/Forgot%20Password%20page.png)
 
- ### Change Password Page
- ![Change Password Wireframe](./docs/wireframes/Change%20Password%20Page.png)
+### Change Password Page
+![Change Password Wireframe](./wireframes/Change%20Password%20Page.png)
 
- ### User Homepage
- ![User Homepage](./docs/wireframes/User%20Homepage.png)
+### User Homepage
+![User Homepage](./wireframes/User%20Homepage.png)
 
- ### Profile Page
- ![Profile Wireframe](./docs/wireframes/Profile%20Page.png)
+### Profile Page
+![Profile Wireframe](./wireframes/Profile%20Page.png)
 
- ### Edit Profile Page
- ![Edit Profile Wireframe](./docs/wireframes/Edit%20Profile%20Page.png)
+### Edit Profile Page
+![Edit Profile Wireframe](./wireframes/Edit%20Profile%20Page.png)
 
-  ### Project Page - Overview Current Sprint
- ![Project Page - Overview](./docs/wireframes/Project%20Page%20-%20Overview.png)
+### Project Page - Overview Current Sprint
+![Project Page - Overview](./wireframes/Project%20Page%20-%20Overview.png)
 
-  ### Project Page - Overview Finished Sprint
- ![Project Page - Finished Sprint](./docs/wireframes/Project%20Page%20-%20Finished%20sprint.png)
+### Project Page - Overview Finished Sprint
+![Project Page - Finished Sprint](./wireframes/Project%20Page%20-%20Finished%20sprint.png)
 
-   ### Create New Sprint
- ![Create New Sprint](./docs/wireframes/Project%20Page%20-%20Create%20new%20sprint.png)
+### Create New Sprint
+![Create New Sprint](./wireframes/Project%20Page%20-%20Create%20new%20sprint.png)
 
-   ### Project Page - Product Backlog
- ![Product Backlog](./docs/wireframes/Project%20Page%20-%20Backlog.png)
+### Project Page - Product Backlog
+![Product Backlog](./wireframes/Project%20Page%20-%20Backlog.png)
 
-   ### Project Page - Previous Sprints' Page
- ![Previous Sprints' Page](./docs/wireframes/Project%20Page%20-%20Previous%20Sprints.png)
+### Project Page - Previous Sprints' Page
+![Previous Sprints' Page](./wireframes/Project%20Page%20-%20Previous%20Sprints.png)
 
-  ### Sprint Page Overview
- ![Sprint Page Overview](./docs/wireframes/Sprint%20Page%20Overview.png)
+### Sprint Page Overview
+![Sprint Page Overview](./wireframes/Sprint%20Page%20Overview.png)
 
 
 ## Database
-![Database_schema](./docs/Database/Database_schema.png)
+![Database_schema](./database/Database_PostgreSQL_ER_Diagram.png)
 
 ## UML
-![UML schema](./docs/UML/UMLphoto.jpg)
+![UML schema](./uml/UMLphoto.jpg)
 
 ### RESTful Endpoints
 
@@ -135,10 +135,9 @@
 | POST        | TeamResource          | app/api/users/{userId}/projects/{projectId}/members                           | Adds new member to the  project team                                                          |                                                                                                                                                                                                                                                                                                                                                           |        | firstname,  lastname,  mail,  role                                                           |                                                                                 |
 | GET         | SprintResource        | app/api/users/{userId}/projects/{projectId}/sprints                           | Retrieves an array with all the sprints for a project                                         | json object: results:[{"idSprint":int, "deadline": Date, "goal":String, "plan": String, "isCurrent":boolean,  "numSprint": int}]                                                                                                                                                                                                                                          |        |                                                                                              |                                                                                 |
 | POST        | SprintResource        | app/api/users/{userId}/projects/{projectId}/sprints                         | Add new sprint to the current project                                                         |                                                                                                                                                                                                                                                                                                                                                           |        | deadline, goal, plan                                                                         | ?isCurrent={isCurrent}&numSprint={numSprint}  isCurrent: boolean numSprint: int |
-|                                                                                 |
 | PUT         | SprintResource  | app/api/users/{userId}/projects/{projectId}/sprints        | Update sprint backlog (only available for scrum master)                                       | json object: results:[{"idPbi": int, "title": String, "description": String,  "order": int, "isEpic": int}]                                                                                                                                                                                                                                               |        | idPbi                                                                                        |                                                                                 |
-| GET         | SprintBacklogResource | app/api/sprints/{sprintId}                                      | Retrieves sprint's backlog                                                                    | json object: results:[{"idPbi": int, "title": String, "description": String,  "order": int, "isEpic": int}]                                                                                                                                                                                                                                               |        |                                                                                              
+| GET         | SprintBacklogResource | app/api/sprints/{sprintId}                                      | Retrieves sprint's backlog                                                                    | json object: results:[{"idPbi": int, "title": String, "description": String,  "order": int, "isEpic": int}]                                                                                                                                                                                                                                               |        |
 | GET         | TasksResource          | app/api/users/{userId}/projects/{projectId}/tasks                | Retrieve an array with all projects of the current sprint                                     | json object: results:[{"idTask": int, "description": String, "state":int}]                                                                                                                                                                                                                                                                                               |        |                                                                                              |                                                                                 |
 | POST        | TasksResource          | app/api/users/{userId}/projects/{projectId}/tasks                 | Add a new task to a pbi                                                                       |                                                                                                                                                                                                                                                                                                                                                           |        | description                                                                                  | ?state={state} state: int                                                       |
 | GET         | IssuesResource         | app/api/users/{userId}/projects/{projectId}/tasks/{taskId}/issues | Retrieve issues of specific task                                                              | json object: results:[{"idIssue": int, description": String}]                                                                                                                                                                                                                                                                                                            |        |                                                                                              |                                                                                 |
-| POST        | IssuesResource         | app/api/users/{userId}/projects/{projectId}/tasks/{taskId}/issues | Add an issue to a task                                                                        |                                                                                                                                                                                                                                                                                                                                                           |        | description                                                                                  |                                                                                 |                       |                                                                                                                                                                                                                                                                                                               
+| POST        | IssuesResource         | app/api/users/{userId}/projects/{projectId}/tasks/{taskId}/issues | Add an issue to a task                                                                        |                                                                                                                                                                                                                                                                                                                                                           |        | description                                                                                  |                                                                                 |                       |

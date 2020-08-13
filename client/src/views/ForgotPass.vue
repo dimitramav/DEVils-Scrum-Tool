@@ -12,7 +12,7 @@
                         <b-col cols="15">
                             <p class="text">
                                 Well it happens, type your email and we will
-                                send you a retrieval link!
+                                send you a retrieval link! (NOT WORKING)
                             </p>
                         </b-col>
                     </b-row>
@@ -22,7 +22,7 @@
                             type="email"
                             v-model="form.email"
                             autocomplete="off"
-                            placeholder="Enter email"
+                            placeholder="Enter email (NOT WORKING)"
                             required
                         >
                         </b-form-input>

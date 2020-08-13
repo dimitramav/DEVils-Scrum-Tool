@@ -17,14 +17,9 @@ RUN npm run build
 
 # use the nginx server (stable alpine) docker image
 FROM nginx:stable-alpine as production-stage
-# copy from build stage the artifact (dist) to the default nginx serving path
-#COPY --from=build-stage /app/dist /usr/share/nginx/html
-# port to expose for localhost
-#EXPOSE 80
-# nginx running each time we start the container (daemon off)
-#CMD ["nginx", "-g", "daemon off;"]
-
-# Use custom nginx configuration (instead of default, as above -in comments-)
+# app is container's working dir
 RUN mkdir /app
+# copy from build stage the artifact (dist) to wroking directory
 COPY --from=build-stage /app/dist /app
+# copy the custom nginx configuration on its default directory
 COPY nginx.conf /etc/nginx/nginx.conf

@@ -1,6 +1,6 @@
 # Server Implementation
 The back-end of DEVils-Scrum-Tool is created with Spring Boot, using Gradle as build tool and Hibernate
-to connect with the PostgreSQL database. It runs on an embedded Tomcat server.
+to connect with the PostgreSQL database. Java 11 is required. Open a new bash instance to run server:
 
 ## Testing - Demo with In-Memory Database
 
@@ -53,4 +53,4 @@ Check it on http://localhost:8765/api/hello (Message: "Greetings from Spring Boo
 2. Add postgresql add-on: `heroku addons:create heroku-postgresql`
 3. On `./src/main/resources/application-heroku.properties` apply `originRequestUrl` as `https://your-frontend.herokuapp.com`
 4. Git add, commit and push to heroku master
-5. Import schema to database: `heroku pg:psql YOUR-DATABASE-NAME < ./src/main/resources/schema.sql`
+5. Import schema to database: `heroku pg:psql YOUR-HEROKU-DATABASE-NAME < ./src/main/resources/schema.sql`

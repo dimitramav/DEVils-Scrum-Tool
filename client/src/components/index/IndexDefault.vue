@@ -59,7 +59,6 @@
                         <h5 style="font-family: Courier New; font-size: 18px;">
                             {{ teamMember.name }} <br /><br />
                         </h5>
-                        <!--<p class="lang">{{ teamMember.dev }}</p>-->
                         <p>
                             <i style="font-size: 13px;">
                                 '{{ teamMember.phrase }}'</i
@@ -166,10 +165,5 @@ export default {
     text-indent: 50px;
     text-align: justify;
     letter-spacing: 3px;
-}
-
-.lang {
-    font-family: VT323;
-    font-size: 25px;
 }
 </style>
