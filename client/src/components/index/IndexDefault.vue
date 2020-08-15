@@ -88,7 +88,7 @@
                 <b-row><p></p></b-row>
                 <b-row align-h="center">
                     <b-link style="color: white;" @click="gotoGithub(repoLink)"
-                        >&copy; GitHub Repository (source code)
+                        >&copy; Source code - Documentation (Github Repository)
                     </b-link>
                 </b-row>
                 <b-row><p></p></b-row>
@@ -107,7 +107,7 @@ export default {
         return {
             teamData: teamJson.team,
             featuresData: featuresJson.features,
-            repoLink: 'https://github.com/ogarmpis/DEVils-Scrum-Tool',
+            repoLink: 'https://github.com/dimitramav/DEVils-Scrum-Tool',
         }
     },
     methods: {

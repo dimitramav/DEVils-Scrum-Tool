@@ -1,9 +1,6 @@
 ## ScrumTool Wireframes
 These wireframes show the platform's pages as originally designed by our team. Even though some changes have been made during development, more or less are the same both visually and functionally.
 
-### Navigation flow
-![Navigation Flow](./Navigation%20Flow.png)
-
 ### Index Page
 ![Index Wireframe](./Index%20Page.png)
 

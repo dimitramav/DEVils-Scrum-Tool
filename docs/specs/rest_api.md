@@ -1,9 +1,9 @@
 # ScrumTool REST API
 
 ## Some facts about our API:
-- No admin user has been assigned in the database, nor a front-end interface has been implemented for administrators
-- Most of the objects that are being transfered are entities (with proper JSONIgnore annotations on some of their attributes, like most foreign keys). The rest are custom models objects (DTOs), created just for this purpose. All these Java objects are located in entities and models directories respectively.
-- All successful HTTP Response Statuses are set to 2OO (except from Notification DELETE operation that is set to return a 202 -Accepted- status, for testing purposes)
+- No admin user has been assigned in the database, nor a front-end interface has been implemented for administrators (the endpoints just for administrators are included only for theory)
+- Most of the objects that are being transfered are entities (with proper JSON Ignore annotations on some of their attributes, like most foreign keys). The rest are custom model objects (DTOs), created just for this purpose. All these Java objects are located in entities and models directories respectively.
+- All successful HTTP Response Status are set to 200 (except from Notification DELETE operation that is set to return a 202 -Accepted- status, for testing purposes)
 - Custom Error HTTP Responses are set to return a JSON payload with identifier "serverErrorMessage", followed by the respective error message
 - Passwords are encrypted by BCrypt Encoder, while we use an Authorization Bearer Token
 - CORS allows REST requests only from our client's server (e.g. `localhost:9000` on development mode)

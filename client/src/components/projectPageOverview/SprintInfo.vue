@@ -85,7 +85,7 @@
                                 },
                             }"
                         >
-                            Go to Sprint Page
+                            Go to Sprint Backlog Page
                         </b-button>
                     </b-row>
                     <b-row align-h="center">
@@ -115,7 +115,7 @@
                             },
                         }"
                     >
-                        Go to Sprint Page
+                        Go to Sprint Backlog Page
                     </b-button>
                 </div>
             </div>
