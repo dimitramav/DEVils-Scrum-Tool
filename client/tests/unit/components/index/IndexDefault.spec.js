@@ -41,7 +41,6 @@ describe('IndexDefault', () => {
         expect(wrapper.vm.featuresData).toHaveProperty('item1')
         expect(wrapper.vm.teamData).toHaveProperty('member1.img')
         expect(wrapper.vm.teamData).toHaveProperty('member1.name')
-        expect(wrapper.vm.teamData).toHaveProperty('member1.dev')
         expect(wrapper.vm.teamData).toHaveProperty('member1.phrase')
     })
     it('Join button exists', () => {
@@ -59,6 +58,6 @@ describe('IndexDefault', () => {
     })
     it('Repository source code link', () => {
         let repoLink = wrapper.vm.repoLink
-        expect(repoLink).toBe('https://github.com/ogarmpis/DEVils-Scrum-Tool')
+        expect(repoLink).toBe('https://github.com/dimitramav/DEVils-Scrum-Tool')
     })
 })

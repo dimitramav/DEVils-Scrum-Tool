@@ -9,7 +9,7 @@
                 size="lg"
                 :to="{ name: 'SignUp' }"
                 style="font-family: Quicksand;"
-                >Join ScrumTool</b-button
+                >Join DEVils-Scrum-Tool</b-button
             >
             <br /><br /><br />
         </b-container>

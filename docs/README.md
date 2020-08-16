@@ -1,7 +1,7 @@
-# Documentation
+# DEVils-Scrum-Tool Documentation
 
 ## Software Analysis
-- [Requirements Specification](./specs/analysis.md)
+- [Requirements Specification](./specs/requirements_specification.md)
 - [Site Map](./specs/site_map.md)
 - [REST API](./specs/rest_api.md)
 

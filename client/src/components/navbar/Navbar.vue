@@ -13,7 +13,7 @@
                     </router-link>
                 </b-navbar-brand>
                 <router-link :to="{ name: 'Index' }" class="logo-enhancement">
-                    ScrumTool
+                    DEVils-Scrum-Tool
                 </router-link>
             </b-navbar>
             <b-navbar-nav class="ml-auto" v-if="logout_prop === false">
