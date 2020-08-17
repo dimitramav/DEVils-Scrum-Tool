@@ -32,7 +32,7 @@ Check it on http://localhost:8765/api/hello (Message: "Greetings from Spring Boo
 ### Build (without time-consuming tests)
 	./gradlew build -x test
 
-### Spring Boot Integration Testing (JUnit5 & Mockito)
+### Spring Boot Integration Testing (AssertJ & Mockito)
 	./gradlew test
 
 ### Format the code
