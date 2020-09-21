@@ -1,6 +1,5 @@
 # DEVils-Scrum-Tool
-Web cooperative platform for software management. This platform helps teams to implement software projects based on
-agile methodology (Scrum) via sprints, epics, user stories, tasks and issues. Deploying DEVils-Scrum-Tool on cloud platforms like Heroku (check instructions) is very easy, making it a perfect free and private application for teams to work with on their own projects! You may try it online, on https://devils-scrumtool.herokuapp.com
+Web Application for Software Project Management based on Scrum Methodology. This platform helps teams to implement software projects based on agile methodology (Scrum) via sprints, epics, user stories, tasks and issues. Deploying DEVils-Scrum-Tool on cloud platforms like Heroku (check instructions) is very easy, making it a perfect free and private application for teams to work with on their own projects! You may try it online, on https://devils-scrumtool.herokuapp.com
 
 ## Environment
 This web application is created using Spring Boot and Gradle for build in the back-end, while the front-end is implemented on Vuejs framework. Both implementations are fully independenent. Unit and integration tests have been implemented on client and server respectively. For dependencies, check the README.md files in each directory.

@@ -1,7 +1,7 @@
 # DEVils-Scrum-Tool REST API
 
 ## Some facts about our API:
-- No admin user has been assigned in the database, nor a front-end interface has been implemented for administrators (the endpoints just for administrators are included only for theory)
+- No admin user has been assigned in the database, nor a front-end interface has been implemented for administrators (the endpoints just for administrators are included only for theory).
 - Most of the objects that are being transferred are entities (with proper JSON Ignore annotations on some of their attributes, like most foreign keys). The rest are custom model objects (DTOs), created just for this purpose. All these Java objects are located in entities and models directories respectively.
 - All successful HTTP Response Status are set to 200 (except from Notification DELETE operation that is set to return a 202 -Accepted- status, for testing purposes)
 - Custom Error HTTP Responses are set to return a JSON payload with identifier "serverErrorMessage", followed by the respective error message
