@@ -1,0 +1,24 @@
+version: '3'
+services:
+    dockerdb:
+        build:
+            context: ./src/main/resources
+            dockerfile: db.Dockerfile
+        ports:
+            - "5555:5432"
+        environment:
+            POSTGRES_DB: scrumtool
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+
+    springapp:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        depends_on:
+            - dockerdb
+        ports:
+            - "8765:8765"
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://dockerdb:5432/scrumtool
+            - SPRING_PROFILES_ACTIVE=dev

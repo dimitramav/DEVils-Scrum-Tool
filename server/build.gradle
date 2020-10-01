@@ -1,0 +1,53 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.1.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id "com.diffplug.gradle.spotless" version "4.4.0"	// Formatting plugin
+}
+
+group = 'devils.scrumtool'
+version = '1.4'
+sourceCompatibility = '11'
+
+wrapper {
+	distributionType = Wrapper.DistributionType.ALL
+	gradleVersion = "6.3"
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly 'com.h2database:h2'
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.apache.httpcomponents:httpclient'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+spotless {
+	format 'misc', {
+		target '**/*.gradle', '**/.gitignore'//, '**/*.md'
+		trimTrailingWhitespace()
+		indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
+		endWithNewline()
+	}
+	java {
+		googleJavaFormat("1.8").aosp() // specific code formatter
+	}
+}

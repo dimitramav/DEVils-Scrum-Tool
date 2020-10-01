@@ -1,0 +1,46 @@
+{
+    "team": {
+        "member1": {
+            "name": "Yolanda K",
+            "img": "https://avatars1.githubusercontent.com/u/14249562?s=400&u=4803453733d144359d7c629c94b4c5adf6bf0feb&v=4",
+            "phrase": "Ah, it's gonna be really baaad!",
+            "github": "https://github.com/YolandaKok"
+        },
+        "member2": {
+            "name": "Orestis G",
+            "img": "https://avatars2.githubusercontent.com/u/37930690?s=400&u=9c047b0a85c9e3805d9cafb863cbca0a53163b7d&v=4",
+            "phrase": "Until 6:00 AM it's gonna be ready!",
+            "github": "https://github.com/ogarmpis"
+        },
+        "member3": {
+            "name": "Dimitra M",
+            "img": "https://avatars0.githubusercontent.com/u/34238381?s=400&u=b8dbad7e37a368fd897bd0989b6afbc40704cf53&v=4",
+            "phrase": "Oh come on, not that error again!",
+            "github": "https://github.com/dimitramav"
+        },
+        "member4": {
+            "name": "Markos V",
+            "img": "https://avatars1.githubusercontent.com/u/25739375?s=400&u=a48750e62e229b01e5e1b2c428c562c840af2d94&v=4",
+            "phrase": "Netflix does it the same way!!",
+            "github": "https://github.com/markosvarv"
+        },
+        "member5": {
+            "name": "Vagelis G",
+            "img": "https://avatars3.githubusercontent.com/u/37627268?s=400&u=a4d5df308079549066475f4704678a95420677e8&v=4",
+            "phrase": "Dude, check out how I think of it",
+            "github": "https://github.com/VangelisGara"
+        },
+        "member6": {
+            "name": "Kostas K",
+            "img": "https://avatars0.githubusercontent.com/u/37848914?s=400&u=2afc3005c6a467a91025ed95e2c4bbf29e110a85&v=4",
+            "phrase": "Take your time mate!",
+            "github": "https://github.com/KostasKotronis"
+        },
+        "member7": {
+            "name": "Vagelis K",
+            "img": "https://avatars3.githubusercontent.com/u/37930907?s=400&v=4",
+            "phrase": "After all, will we meet up?",
+            "github": "https://github.com/vag-klits"
+        }
+    }
+}
