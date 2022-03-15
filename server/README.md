@@ -11,9 +11,9 @@ to connect with the PostgreSQL database. Java 11 is required. Open a new bash in
 Check it on http://localhost:8765/api/hello (Message: "Greetings from Spring Boot!")
 
 #### Default imported users on test-profile for login (email / password)
-	- abcd@ef.com   / abcd1234!
-	- abcd@efg.com  / abcd1234!
-	- abcd@efgh.com / abcd1234!
+	- abcd@ef   / abcd1234!
+	- abcd@efg  / abcd1234!
+	- abcd@efgh / abcd1234!
 
 ## Development - Local installation steps
 

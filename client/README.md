@@ -1,6 +1,7 @@
 # Client Implementation
 The front-end of DEVils-Scrum-Tool is created with Vue.js, so it requires an installation of nodejs.
-The project was developed using Vue CLI (@vue/cli). Open a new bash instance to run client:
+The project was developed using Vue CLI (@vue/cli). Do not run `npm audit fix`, because will probably lead to conflicts.
+Open a new bash instance to run client:
 
 ## Project setup
     npm install
